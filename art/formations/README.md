@@ -43,3 +43,13 @@ In GDevelop, set the global variable `Tuning > TestFormation` to the index of yo
 ## Placeholder examples
 
 `placeholder_ruin.png` (with `placeholder_ruin_material.png`) and `placeholder_boulder.png` are **code-drawn placeholders** that show the pipeline. Replace them with your own, or delete them, then run the importer again.
+
+## Templates
+
+`art/templates/` has guide images. Import one into your drawing app as the bottom layer, draw on layers above it, and hide that layer before exporting.
+
+- `obstacle_grid_*.png`: the 12 px cell grid, counted from the ground. The red dotted line is the tower's 84 px clearance: anything below it blocks the tower.
+- `tower_guide_60x96.png`: the red box is the chassis collision box, the blue dot is the turret mount, and the green mark is the origin (bottom centre).
+- `turret_guide_44x16.png`: the blue dot is the pivot, the red dot is the muzzle, and the barrel points right.
+
+Regenerate them with `python3 tools/make_templates.py`.

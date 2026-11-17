@@ -1,0 +1,6108 @@
+{
+ "firstLayout": "Game",
+ "gdVersion": {
+  "build": 285,
+  "major": 5,
+  "minor": 6,
+  "revision": 0
+ },
+ "properties": {
+  "adaptGameResolutionAtRuntime": false,
+  "antialiasingMode": "none",
+  "antialisingEnabledOnMobile": false,
+  "folderProject": false,
+  "orientation": "portrait",
+  "packageName": "com.lonewolfproduction.towerrush",
+  "pixelsRounding": true,
+  "projectUuid": "d177970b-7472-56c8-9c07-813ba06b382a",
+  "scaleMode": "nearest",
+  "sizeOnStartupMode": "",
+  "templateSlug": "",
+  "useDeprecatedZeroAsDefaultStringVariable": false,
+  "version": "0.1.0",
+  "name": "Tower Rush",
+  "description": "Blast a path through stone with your tracked tower before the gas cloud catches you.",
+  "author": "",
+  "windowWidth": 540,
+  "windowHeight": 960,
+  "latestCompilationDirectory": "",
+  "maxFPS": 60,
+  "minFPS": 20,
+  "verticalSync": false,
+  "platformSpecificAssets": {},
+  "loadingScreen": {
+   "backgroundColor": 0,
+   "backgroundFadeInDuration": 0.2,
+   "backgroundImageResourceName": "",
+   "gdevelopLogoStyle": "light",
+   "logoAndProgressFadeInDuration": 0.2,
+   "logoAndProgressLogoFadeInDelay": 0.2,
+   "minDuration": 0,
+   "progressBarColor": 16777215,
+   "progressBarHeight": 16,
+   "progressBarMaxWidth": 300,
+   "progressBarMinWidth": 40,
+   "progressBarWidthPercent": 40,
+   "showGDevelopSplash": false,
+   "showProgressBar": true
+  },
+  "watermark": {
+   "placement": "bottom-left",
+   "showWatermark": false
+  },
+  "authorIds": [],
+  "authorUsernames": [],
+  "categories": [
+   "action"
+  ],
+  "playableDevices": [
+   "mobile",
+   "keyboard"
+  ],
+  "extensionProperties": [],
+  "platforms": [
+   {
+    "name": "GDevelop JS platform"
+   }
+  ],
+  "currentPlatform": "GDevelop JS platform"
+ },
+ "resources": {
+  "resources": [
+   {
+    "file": "assets/bullet.png",
+    "kind": "image",
+    "metadata": "",
+    "name": "bullet.png",
+    "smoothed": false,
+    "userAdded": true
+   },
+   {
+    "file": "assets/button.png",
+    "kind": "image",
+    "metadata": "",
+    "name": "button.png",
+    "smoothed": false,
+    "userAdded": true
+   },
+   {
+    "file": "assets/button_small.png",
+    "kind": "image",
+    "metadata": "",
+    "name": "button_small.png",
+    "smoothed": false,
+    "userAdded": true
+   },
+   {
+    "file": "assets/cell_hard_0.png",
+    "kind": "image",
+    "metadata": "",
+    "name": "cell_hard_0.png",
+    "smoothed": false,
+    "userAdded": true
+   },
+   {
+    "file": "assets/cell_hard_1.png",
+    "kind": "image",
+    "metadata": "",
+    "name": "cell_hard_1.png",
+    "smoothed": false,
+    "userAdded": true
+   },
+   {
+    "file": "assets/cell_hard_2.png",
+    "kind": "image",
+    "metadata": "",
+    "name": "cell_hard_2.png",
+    "smoothed": false,
+    "userAdded": true
+   },
+   {
+    "file": "assets/cell_stone_0.png",
+    "kind": "image",
+    "metadata": "",
+    "name": "cell_stone_0.png",
+    "smoothed": false,
+    "userAdded": true
+   },
+   {
+    "file": "assets/cell_stone_1.png",
+    "kind": "image",
+    "metadata": "",
+    "name": "cell_stone_1.png",
+    "smoothed": false,
+    "userAdded": true
+   },
+   {
+    "file": "assets/cell_stone_2.png",
+    "kind": "image",
+    "metadata": "",
+    "name": "cell_stone_2.png",
+    "smoothed": false,
+    "userAdded": true
+   },
+   {
+    "file": "assets/cloud_0.png",
+    "kind": "image",
+    "metadata": "",
+    "name": "cloud_0.png",
+    "smoothed": false,
+    "userAdded": true
+   },
+   {
+    "file": "assets/cloud_1.png",
+    "kind": "image",
+    "metadata": "",
+    "name": "cloud_1.png",
+    "smoothed": false,
+    "userAdded": true
+   },
+   {
+    "file": "assets/cloud_2.png",
+    "kind": "image",
+    "metadata": "",
+    "name": "cloud_2.png",
+    "smoothed": false,
+    "userAdded": true
+   },
+   {
+    "file": "assets/crosshair.png",
+    "kind": "image",
+    "metadata": "",
+    "name": "crosshair.png",
+    "smoothed": false,
+    "userAdded": true
+   },
+   {
+    "file": "assets/debris.png",
+    "kind": "image",
+    "metadata": "",
+    "name": "debris.png",
+    "smoothed": false,
+    "userAdded": true
+   },
+   {
+    "file": "assets/ground.png",
+    "kind": "image",
+    "metadata": "",
+    "name": "ground.png",
+    "smoothed": false,
+    "userAdded": true
+   },
+   {
+    "file": "assets/hills.png",
+    "kind": "image",
+    "metadata": "",
+    "name": "hills.png",
+    "smoothed": false,
+    "userAdded": true
+   },
+   {
+    "file": "assets/muzzle_flash.png",
+    "kind": "image",
+    "metadata": "",
+    "name": "muzzle_flash.png",
+    "smoothed": false,
+    "userAdded": true
+   },
+   {
+    "file": "assets/panel.png",
+    "kind": "image",
+    "metadata": "",
+    "name": "panel.png",
+    "smoothed": false,
+    "userAdded": true
+   },
+   {
+    "file": "assets/spark.png",
+    "kind": "image",
+    "metadata": "",
+    "name": "spark.png",
+    "smoothed": false,
+    "userAdded": true
+   },
+   {
+    "file": "assets/tower_0.png",
+    "kind": "image",
+    "metadata": "",
+    "name": "tower_0.png",
+    "smoothed": false,
+    "userAdded": true
+   },
+   {
+    "file": "assets/tower_1.png",
+    "kind": "image",
+    "metadata": "",
+    "name": "tower_1.png",
+    "smoothed": false,
+    "userAdded": true
+   },
+   {
+    "file": "assets/turret.png",
+    "kind": "image",
+    "metadata": "",
+    "name": "turret.png",
+    "smoothed": false,
+    "userAdded": true
+   },
+   {
+    "file": "assets/warning_edge.png",
+    "kind": "image",
+    "metadata": "",
+    "name": "warning_edge.png",
+    "smoothed": false,
+    "userAdded": true
+   }
+  ]
+ },
+ "objects": [],
+ "objectsFolderStructure": {
+  "folderName": "__ROOT",
+  "children": []
+ },
+ "objectsGroups": [],
+ "variables": [
+  {
+   "name": "Tuning",
+   "type": "structure",
+   "children": [
+    {
+     "name": "GroundY",
+     "type": "number",
+     "value": 800
+    },
+    {
+     "name": "CellSize",
+     "type": "number",
+     "value": 12
+    },
+    {
+     "name": "TowerStartX",
+     "type": "number",
+     "value": 150
+    },
+    {
+     "name": "TowerSpeed",
+     "type": "number",
+     "value": 85
+    },
+    {
+     "name": "CloudSpeed",
+     "type": "number",
+     "value": 60
+    },
+    {
+     "name": "CloudStartGap",
+     "type": "number",
+     "value": 450
+    },
+    {
+     "name": "WarningDistance",
+     "type": "number",
+     "value": 170
+    },
+    {
+     "name": "FireRate",
+     "type": "number",
+     "value": 6
+    },
+    {
+     "name": "BulletDamage",
+     "type": "number",
+     "value": 1
+    },
+    {
+     "name": "BulletSpeed",
+     "type": "number",
+     "value": 900
+    },
+    {
+     "name": "BarrelLength",
+     "type": "number",
+     "value": 34
+    },
+    {
+     "name": "TurretTurnSpeed",
+     "type": "number",
+     "value": 900
+    },
+    {
+     "name": "TurretMaxDown",
+     "type": "number",
+     "value": 88
+    },
+    {
+     "name": "AimOffsetDefault",
+     "type": "number",
+     "value": 80
+    },
+    {
+     "name": "AimOffsetStep",
+     "type": "number",
+     "value": 40
+    },
+    {
+     "name": "AimOffsetMax",
+     "type": "number",
+     "value": 160
+    },
+    {
+     "name": "CameraLead",
+     "type": "number",
+     "value": 140
+    },
+    {
+     "name": "SpawnAhead",
+     "type": "number",
+     "value": 320
+    },
+    {
+     "name": "FirstFormationAt",
+     "type": "number",
+     "value": 360
+    },
+    {
+     "name": "IntroFormations",
+     "type": "number",
+     "value": 2
+    },
+    {
+     "name": "GapMin",
+     "type": "number",
+     "value": 240
+    },
+    {
+     "name": "GapMax",
+     "type": "number",
+     "value": 380
+    },
+    {
+     "name": "MinSpawnAheadOfTower",
+     "type": "number",
+     "value": 200
+    },
+    {
+     "name": "PixelsPerMeter",
+     "type": "number",
+     "value": 10
+    },
+    {
+     "name": "MaxFrameTime",
+     "type": "number",
+     "value": 0.05
+    }
+   ]
+  },
+  {
+   "name": "Materials",
+   "type": "structure",
+   "children": [
+    {
+     "name": "Stone",
+     "type": "structure",
+     "children": [
+      {
+       "name": "Char",
+       "type": "string",
+       "value": "#"
+      },
+      {
+       "name": "HP",
+       "type": "number",
+       "value": 1
+      },
+      {
+       "name": "Solid",
+       "type": "number",
+       "value": 1
+      }
+     ]
+    },
+    {
+     "name": "Hardstone",
+     "type": "structure",
+     "children": [
+      {
+       "name": "Char",
+       "type": "string",
+       "value": "H"
+      },
+      {
+       "name": "HP",
+       "type": "number",
+       "value": 3
+      },
+      {
+       "name": "Solid",
+       "type": "number",
+       "value": 1
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "name": "Formations",
+   "type": "array",
+   "children": [
+    {
+     "type": "structure",
+     "children": [
+      {
+       "name": "Name",
+       "type": "string",
+       "value": "Gate"
+      },
+      {
+       "name": "Shape",
+       "type": "string",
+       "value": "HH|HH|HH|##|##|##|##|##|##|##|##|##|##|##|##|##|##|##"
+      }
+     ]
+    },
+    {
+     "type": "structure",
+     "children": [
+      {
+       "name": "Name",
+       "type": "string",
+       "value": "Cave"
+      },
+      {
+       "name": "Shape",
+       "type": "string",
+       "value": "HHHHHHHHHH|HHHHHHHHHH|HHHHHHHHHH|##########|##########|##########|##########|##########|..........|..........|..........|..........|..........|.........."
+      }
+     ]
+    },
+    {
+     "type": "structure",
+     "children": [
+      {
+       "name": "Name",
+       "type": "string",
+       "value": "Wall"
+      },
+      {
+       "name": "Shape",
+       "type": "string",
+       "value": "HHH|HHH|HHH|HHH|###|###|###|###|###|###|###|###|###|###|###|###|###|###|###|###|###|###"
+      }
+     ]
+    },
+    {
+     "type": "structure",
+     "children": [
+      {
+       "name": "Name",
+       "type": "string",
+       "value": "Arch"
+      },
+      {
+       "name": "Shape",
+       "type": "string",
+       "value": "HHHHHHHHH|HHHHHHHHH|HHHHHHHHH|#########|#########|#########|#########|#########|#########|#.......#|#.......#|#.......#|#.......#|#.......#|#.......#|#.......#"
+      }
+     ]
+    },
+    {
+     "type": "structure",
+     "children": [
+      {
+       "name": "Name",
+       "type": "string",
+       "value": "Mound"
+      },
+      {
+       "name": "Shape",
+       "type": "string",
+       "value": "...##...|..####..|.######.|########"
+      }
+     ]
+    },
+    {
+     "type": "structure",
+     "children": [
+      {
+       "name": "Name",
+       "type": "string",
+       "value": "Pillar"
+      },
+      {
+       "name": "Shape",
+       "type": "string",
+       "value": "HHH|HHH|HHH|HHH|HHH|HHH|###|###|###|###|###|###|###|###|###|###|###|###|###|###|###|###|###|###|###|###|###|###|###|###|###|###|###|###|###|###|###|###|###|###"
+      }
+     ]
+    },
+    {
+     "type": "structure",
+     "children": [
+      {
+       "name": "Name",
+       "type": "string",
+       "value": "Twins"
+      },
+      {
+       "name": "Shape",
+       "type": "string",
+       "value": "HHHHHH|HHHHHH|#....#|#....#|#....#|#....#|#....#|#....#|#....#|#....#|#....#|#....#|#....#|#....#|#....#|#....#|#....#|#....#|#....#|#....#"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "layouts": [
+  {
+   "b": 150,
+   "v": 196,
+   "r": 236,
+   "disableInputWhenNotFocused": true,
+   "mangledName": "Game",
+   "name": "Game",
+   "standardSortMethod": true,
+   "stopSoundsOnStartup": true,
+   "title": "",
+   "uiSettings": {
+    "grid": false,
+    "gridType": "rectangular",
+    "gridWidth": 12,
+    "gridHeight": 12,
+    "gridDepth": 32,
+    "gridOffsetX": 0,
+    "gridOffsetY": 0,
+    "gridOffsetZ": 0,
+    "gridColor": 10401023,
+    "gridAlpha": 0.8,
+    "snap": false,
+    "zoomFactor": 0.8,
+    "windowMask": false,
+    "selectedLayer": "",
+    "gameEditorMode": "instances-editor"
+   },
+   "objectsGroups": [
+    {
+     "name": "GameOverUI",
+     "objects": [
+      {
+       "name": "Panel"
+      },
+      {
+       "name": "GameOverTitle"
+      },
+      {
+       "name": "ResultText"
+      },
+      {
+       "name": "BestResultText"
+      },
+      {
+       "name": "RestartButton"
+      },
+      {
+       "name": "RestartText"
+      }
+     ]
+    }
+   ],
+   "variables": [
+    {
+     "name": "State",
+     "type": "string",
+     "value": ""
+    },
+    {
+     "name": "Dt",
+     "type": "number",
+     "value": 0
+    },
+    {
+     "name": "StartX",
+     "type": "number",
+     "value": 0
+    },
+    {
+     "name": "Distance",
+     "type": "number",
+     "value": 0
+    },
+    {
+     "name": "BestDistance",
+     "type": "number",
+     "value": 0
+    },
+    {
+     "name": "OverTime",
+     "type": "number",
+     "value": 0
+    },
+    {
+     "name": "NextFormationX",
+     "type": "number",
+     "value": 0
+    },
+    {
+     "name": "FormationCount",
+     "type": "number",
+     "value": 0
+    },
+    {
+     "name": "FormationIndex",
+     "type": "number",
+     "value": 0
+    },
+    {
+     "name": "Shape",
+     "type": "string",
+     "value": ""
+    },
+    {
+     "name": "ShapeW",
+     "type": "number",
+     "value": 0
+    },
+    {
+     "name": "ShapeRows",
+     "type": "number",
+     "value": 0
+    },
+    {
+     "name": "SpawnX",
+     "type": "number",
+     "value": 0
+    },
+    {
+     "name": "Idx",
+     "type": "number",
+     "value": 0
+    },
+    {
+     "name": "Col",
+     "type": "number",
+     "value": 0
+    },
+    {
+     "name": "Row",
+     "type": "number",
+     "value": 0
+    },
+    {
+     "name": "Ch",
+     "type": "string",
+     "value": ""
+    },
+    {
+     "name": "CellsSpawned",
+     "type": "number",
+     "value": 0
+    },
+    {
+     "name": "TowerStep",
+     "type": "number",
+     "value": 0
+    },
+    {
+     "name": "Blocked",
+     "type": "number",
+     "value": 0
+    },
+    {
+     "name": "PivotX",
+     "type": "number",
+     "value": 0
+    },
+    {
+     "name": "PivotY",
+     "type": "number",
+     "value": 0
+    },
+    {
+     "name": "AimX",
+     "type": "number",
+     "value": 0
+    },
+    {
+     "name": "AimY",
+     "type": "number",
+     "value": 0
+    },
+    {
+     "name": "TargetAngle",
+     "type": "number",
+     "value": 0
+    },
+    {
+     "name": "TurretAngle",
+     "type": "number",
+     "value": 0
+    },
+    {
+     "name": "InputTouch",
+     "type": "number",
+     "value": 0
+    },
+    {
+     "name": "LastTouchTime",
+     "type": "number",
+     "value": -10
+    },
+    {
+     "name": "HasAimed",
+     "type": "number",
+     "value": 0
+    },
+    {
+     "name": "Firing",
+     "type": "number",
+     "value": 0
+    },
+    {
+     "name": "FireCooldown",
+     "type": "number",
+     "value": 0
+    },
+    {
+     "name": "AimOffset",
+     "type": "number",
+     "value": 0
+    },
+    {
+     "name": "ShotsFired",
+     "type": "number",
+     "value": 0
+    },
+    {
+     "name": "BulletStep",
+     "type": "number",
+     "value": 0
+    },
+    {
+     "name": "BulletHit",
+     "type": "number",
+     "value": 0
+    },
+    {
+     "name": "HitX",
+     "type": "number",
+     "value": 0
+    },
+    {
+     "name": "HitY",
+     "type": "number",
+     "value": 0
+    },
+    {
+     "name": "ShotsHit",
+     "type": "number",
+     "value": 0
+    },
+    {
+     "name": "CellsDestroyed",
+     "type": "number",
+     "value": 0
+    },
+    {
+     "name": "CloudX",
+     "type": "number",
+     "value": 0
+    },
+    {
+     "name": "CloudGap",
+     "type": "number",
+     "value": 0
+    }
+   ],
+   "instances": [
+    {
+     "angle": 0,
+     "customSize": true,
+     "height": 260,
+     "width": 540,
+     "layer": "",
+     "locked": false,
+     "name": "Hills",
+     "persistentUuid": "c47ae843-382d-5d20-94bf-f5e9045044fc",
+     "x": 0,
+     "y": 560,
+     "zOrder": -10,
+     "numberProperties": [],
+     "stringProperties": [],
+     "initialVariables": []
+    },
+    {
+     "angle": 0,
+     "customSize": true,
+     "height": 160,
+     "width": 640,
+     "layer": "",
+     "locked": false,
+     "name": "Ground",
+     "persistentUuid": "c1de56ec-bd37-5ff5-994e-483f4b21be72",
+     "x": -50,
+     "y": 800,
+     "zOrder": 1,
+     "numberProperties": [],
+     "stringProperties": [],
+     "initialVariables": []
+    },
+    {
+     "angle": 0,
+     "customSize": false,
+     "height": 0,
+     "width": 0,
+     "layer": "",
+     "locked": false,
+     "name": "Tower",
+     "persistentUuid": "3eb918f4-0dca-5119-ba4a-e89b3b3a4b38",
+     "x": 150,
+     "y": 800,
+     "zOrder": 20,
+     "numberProperties": [],
+     "stringProperties": [],
+     "initialVariables": []
+    },
+    {
+     "angle": 0,
+     "customSize": false,
+     "height": 0,
+     "width": 0,
+     "layer": "",
+     "locked": false,
+     "name": "Turret",
+     "persistentUuid": "20b13876-3d09-5a61-808d-153df22d4aae",
+     "x": 172,
+     "y": 714,
+     "zOrder": 21,
+     "numberProperties": [],
+     "stringProperties": [],
+     "initialVariables": []
+    },
+    {
+     "angle": 0,
+     "customSize": false,
+     "height": 0,
+     "width": 0,
+     "layer": "",
+     "locked": false,
+     "name": "MuzzleFlash",
+     "persistentUuid": "6ef343f5-f0ea-5999-b70b-f139d100c6b6",
+     "x": 206,
+     "y": 714,
+     "zOrder": 22,
+     "numberProperties": [],
+     "stringProperties": [],
+     "initialVariables": []
+    },
+    {
+     "angle": 0,
+     "customSize": false,
+     "height": 0,
+     "width": 0,
+     "layer": "",
+     "locked": false,
+     "name": "Cloud",
+     "persistentUuid": "939cc49e-1145-5e92-8e1f-b161a766c172",
+     "x": -322,
+     "y": -20,
+     "zOrder": 40,
+     "numberProperties": [],
+     "stringProperties": [],
+     "initialVariables": []
+    },
+    {
+     "angle": 0,
+     "customSize": false,
+     "height": 0,
+     "width": 0,
+     "layer": "",
+     "locked": false,
+     "name": "Crosshair",
+     "persistentUuid": "ca969683-24e2-5d4a-8d7e-ba57e20a410c",
+     "x": 370,
+     "y": 714,
+     "zOrder": 50,
+     "numberProperties": [],
+     "stringProperties": [],
+     "initialVariables": []
+    },
+    {
+     "angle": 0,
+     "customSize": false,
+     "height": 0,
+     "width": 0,
+     "layer": "UI",
+     "locked": false,
+     "name": "WarningEdge",
+     "persistentUuid": "5476b4c1-8aa4-5a2b-bc0d-41d025332f1f",
+     "x": 0,
+     "y": 0,
+     "zOrder": 0,
+     "numberProperties": [],
+     "stringProperties": [],
+     "initialVariables": []
+    },
+    {
+     "angle": 0,
+     "customSize": false,
+     "height": 0,
+     "width": 0,
+     "layer": "UI",
+     "locked": false,
+     "name": "DistanceText",
+     "persistentUuid": "b6d26b8d-67dc-5939-9986-27be32c8ee4f",
+     "x": 16,
+     "y": 10,
+     "zOrder": 5,
+     "numberProperties": [],
+     "stringProperties": [],
+     "initialVariables": []
+    },
+    {
+     "angle": 0,
+     "customSize": false,
+     "height": 0,
+     "width": 0,
+     "layer": "UI",
+     "locked": false,
+     "name": "BestText",
+     "persistentUuid": "d5b450f5-6654-599c-84e1-ebdd50bff830",
+     "x": 18,
+     "y": 58,
+     "zOrder": 5,
+     "numberProperties": [],
+     "stringProperties": [],
+     "initialVariables": []
+    },
+    {
+     "angle": 0,
+     "customSize": false,
+     "height": 0,
+     "width": 0,
+     "layer": "UI",
+     "locked": false,
+     "name": "GasText",
+     "persistentUuid": "8d6a9911-7b5c-5c30-949e-8dcb80a2471c",
+     "x": 18,
+     "y": 84,
+     "zOrder": 5,
+     "numberProperties": [],
+     "stringProperties": [],
+     "initialVariables": []
+    },
+    {
+     "angle": 0,
+     "customSize": false,
+     "height": 0,
+     "width": 0,
+     "layer": "UI",
+     "locked": false,
+     "name": "OffsetButton",
+     "persistentUuid": "c7192913-0780-59d0-b3d0-495b1f6e00a6",
+     "x": 374,
+     "y": 14,
+     "zOrder": 5,
+     "numberProperties": [],
+     "stringProperties": [],
+     "initialVariables": []
+    },
+    {
+     "angle": 0,
+     "customSize": false,
+     "height": 0,
+     "width": 0,
+     "layer": "UI",
+     "locked": false,
+     "name": "OffsetText",
+     "persistentUuid": "078fcac2-b53e-5bf4-933b-2cf183d024e5",
+     "x": 398,
+     "y": 26,
+     "zOrder": 6,
+     "numberProperties": [],
+     "stringProperties": [],
+     "initialVariables": []
+    },
+    {
+     "angle": 0,
+     "customSize": false,
+     "height": 0,
+     "width": 0,
+     "layer": "UI",
+     "locked": false,
+     "name": "HintText",
+     "persistentUuid": "f76b5762-8e10-53ff-9083-01e6b57cdcb0",
+     "x": 70,
+     "y": 880,
+     "zOrder": 5,
+     "numberProperties": [],
+     "stringProperties": [],
+     "initialVariables": []
+    },
+    {
+     "angle": 0,
+     "customSize": false,
+     "height": 0,
+     "width": 0,
+     "layer": "UI",
+     "locked": false,
+     "name": "Panel",
+     "persistentUuid": "601b2d63-f68f-5d40-addb-e43086aebc29",
+     "x": 50,
+     "y": 300,
+     "zOrder": 10,
+     "numberProperties": [],
+     "stringProperties": [],
+     "initialVariables": []
+    },
+    {
+     "angle": 0,
+     "customSize": false,
+     "height": 0,
+     "width": 0,
+     "layer": "UI",
+     "locked": false,
+     "name": "GameOverTitle",
+     "persistentUuid": "02edc0d0-78bc-501f-b408-1764faf16733",
+     "x": 150,
+     "y": 330,
+     "zOrder": 11,
+     "numberProperties": [],
+     "stringProperties": [],
+     "initialVariables": []
+    },
+    {
+     "angle": 0,
+     "customSize": false,
+     "height": 0,
+     "width": 0,
+     "layer": "UI",
+     "locked": false,
+     "name": "ResultText",
+     "persistentUuid": "3fb4f268-1358-5012-9b26-a0443dbf4409",
+     "x": 110,
+     "y": 400,
+     "zOrder": 11,
+     "numberProperties": [],
+     "stringProperties": [],
+     "initialVariables": []
+    },
+    {
+     "angle": 0,
+     "customSize": false,
+     "height": 0,
+     "width": 0,
+     "layer": "UI",
+     "locked": false,
+     "name": "BestResultText",
+     "persistentUuid": "c62655fb-8416-55b4-a673-ba99c443f1da",
+     "x": 110,
+     "y": 444,
+     "zOrder": 11,
+     "numberProperties": [],
+     "stringProperties": [],
+     "initialVariables": []
+    },
+    {
+     "angle": 0,
+     "customSize": false,
+     "height": 0,
+     "width": 0,
+     "layer": "UI",
+     "locked": false,
+     "name": "RestartButton",
+     "persistentUuid": "7093b04f-bb4e-5076-9d42-749ba1441a4b",
+     "x": 150,
+     "y": 500,
+     "zOrder": 11,
+     "numberProperties": [],
+     "stringProperties": [],
+     "initialVariables": []
+    },
+    {
+     "angle": 0,
+     "customSize": false,
+     "height": 0,
+     "width": 0,
+     "layer": "UI",
+     "locked": false,
+     "name": "RestartText",
+     "persistentUuid": "f19dc126-3ee3-5234-965f-6073b2dde14e",
+     "x": 205,
+     "y": 518,
+     "zOrder": 12,
+     "numberProperties": [],
+     "stringProperties": [],
+     "initialVariables": []
+    }
+   ],
+   "objects": [
+    {
+     "assetStoreId": "",
+     "name": "Tower",
+     "persistentUuid": "6f3383fe-398b-5df5-80a3-70a115596a55",
+     "type": "Sprite",
+     "variables": [],
+     "effects": [],
+     "behaviors": [],
+     "adaptCollisionMaskAutomatically": false,
+     "updateIfNotVisible": false,
+     "animations": [
+      {
+       "name": "Drive",
+       "useMultipleDirections": false,
+       "directions": [
+        {
+         "looping": true,
+         "timeBetweenFrames": 0.09,
+         "sprites": [
+          {
+           "hasCustomCollisionMask": true,
+           "image": "tower_0.png",
+           "points": [
+            {
+             "name": "TurretMount",
+             "x": 52,
+             "y": 10
+            }
+           ],
+           "originPoint": {
+            "name": "origine",
+            "x": 30,
+            "y": 96
+           },
+           "centerPoint": {
+            "automatic": true,
+            "name": "centre",
+            "x": 0,
+            "y": 0
+           },
+           "customCollisionMask": [
+            [
+             {
+              "x": 8,
+              "y": 16
+             },
+             {
+              "x": 52,
+              "y": 16
+             },
+             {
+              "x": 52,
+              "y": 96
+             },
+             {
+              "x": 8,
+              "y": 96
+             }
+            ]
+           ]
+          },
+          {
+           "hasCustomCollisionMask": true,
+           "image": "tower_1.png",
+           "points": [
+            {
+             "name": "TurretMount",
+             "x": 52,
+             "y": 10
+            }
+           ],
+           "originPoint": {
+            "name": "origine",
+            "x": 30,
+            "y": 96
+           },
+           "centerPoint": {
+            "automatic": true,
+            "name": "centre",
+            "x": 0,
+            "y": 0
+           },
+           "customCollisionMask": [
+            [
+             {
+              "x": 8,
+              "y": 16
+             },
+             {
+              "x": 52,
+              "y": 16
+             },
+             {
+              "x": 52,
+              "y": 96
+             },
+             {
+              "x": 8,
+              "y": 96
+             }
+            ]
+           ]
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "assetStoreId": "",
+     "name": "Turret",
+     "persistentUuid": "e788b62b-373f-5ef5-af55-d173e2575631",
+     "type": "Sprite",
+     "variables": [],
+     "effects": [],
+     "behaviors": [],
+     "adaptCollisionMaskAutomatically": false,
+     "updateIfNotVisible": false,
+     "animations": [
+      {
+       "name": "Idle",
+       "useMultipleDirections": false,
+       "directions": [
+        {
+         "looping": false,
+         "timeBetweenFrames": 1,
+         "sprites": [
+          {
+           "hasCustomCollisionMask": false,
+           "image": "turret.png",
+           "points": [
+            {
+             "name": "Muzzle",
+             "x": 42,
+             "y": 8
+            }
+           ],
+           "originPoint": {
+            "name": "origine",
+            "x": 8,
+            "y": 8
+           },
+           "centerPoint": {
+            "automatic": true,
+            "name": "centre",
+            "x": 0,
+            "y": 0
+           },
+           "customCollisionMask": []
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "assetStoreId": "",
+     "name": "Bullet",
+     "persistentUuid": "c7a23f8a-7605-5438-bd14-300b4904133b",
+     "type": "Sprite",
+     "variables": [
+      {
+       "name": "Extra",
+       "type": "number",
+       "value": 0
+      }
+     ],
+     "effects": [],
+     "behaviors": [],
+     "adaptCollisionMaskAutomatically": false,
+     "updateIfNotVisible": false,
+     "animations": [
+      {
+       "name": "Fly",
+       "useMultipleDirections": false,
+       "directions": [
+        {
+         "looping": false,
+         "timeBetweenFrames": 1,
+         "sprites": [
+          {
+           "hasCustomCollisionMask": false,
+           "image": "bullet.png",
+           "points": [],
+           "originPoint": {
+            "name": "origine",
+            "x": 11,
+            "y": 2
+           },
+           "centerPoint": {
+            "automatic": true,
+            "name": "centre",
+            "x": 0,
+            "y": 0
+           },
+           "customCollisionMask": []
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "assetStoreId": "",
+     "name": "MuzzleFlash",
+     "persistentUuid": "34dce2b0-7fcd-5847-b586-3862e782f63d",
+     "type": "Sprite",
+     "variables": [],
+     "effects": [],
+     "behaviors": [],
+     "adaptCollisionMaskAutomatically": false,
+     "updateIfNotVisible": false,
+     "animations": [
+      {
+       "name": "Flash",
+       "useMultipleDirections": false,
+       "directions": [
+        {
+         "looping": false,
+         "timeBetweenFrames": 1,
+         "sprites": [
+          {
+           "hasCustomCollisionMask": false,
+           "image": "muzzle_flash.png",
+           "points": [],
+           "originPoint": {
+            "name": "origine",
+            "x": 0,
+            "y": 8
+           },
+           "centerPoint": {
+            "automatic": true,
+            "name": "centre",
+            "x": 0,
+            "y": 0
+           },
+           "customCollisionMask": []
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "assetStoreId": "",
+     "name": "Cell",
+     "persistentUuid": "96826d07-fe49-521f-975e-be899eb1bab6",
+     "type": "Sprite",
+     "variables": [
+      {
+       "name": "HP",
+       "type": "number",
+       "value": 1
+      },
+      {
+       "name": "MaxHP",
+       "type": "number",
+       "value": 1
+      },
+      {
+       "name": "Material",
+       "type": "string",
+       "value": "Stone"
+      },
+      {
+       "name": "Flash",
+       "type": "number",
+       "value": 0
+      }
+     ],
+     "effects": [],
+     "behaviors": [],
+     "adaptCollisionMaskAutomatically": false,
+     "updateIfNotVisible": false,
+     "animations": [
+      {
+       "name": "Stone0",
+       "useMultipleDirections": false,
+       "directions": [
+        {
+         "looping": false,
+         "timeBetweenFrames": 1,
+         "sprites": [
+          {
+           "hasCustomCollisionMask": false,
+           "image": "cell_stone_0.png",
+           "points": [],
+           "originPoint": {
+            "name": "origine",
+            "x": 0,
+            "y": 0
+           },
+           "centerPoint": {
+            "automatic": true,
+            "name": "centre",
+            "x": 0,
+            "y": 0
+           },
+           "customCollisionMask": []
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "name": "Stone1",
+       "useMultipleDirections": false,
+       "directions": [
+        {
+         "looping": false,
+         "timeBetweenFrames": 1,
+         "sprites": [
+          {
+           "hasCustomCollisionMask": false,
+           "image": "cell_stone_1.png",
+           "points": [],
+           "originPoint": {
+            "name": "origine",
+            "x": 0,
+            "y": 0
+           },
+           "centerPoint": {
+            "automatic": true,
+            "name": "centre",
+            "x": 0,
+            "y": 0
+           },
+           "customCollisionMask": []
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "name": "Stone2",
+       "useMultipleDirections": false,
+       "directions": [
+        {
+         "looping": false,
+         "timeBetweenFrames": 1,
+         "sprites": [
+          {
+           "hasCustomCollisionMask": false,
+           "image": "cell_stone_2.png",
+           "points": [],
+           "originPoint": {
+            "name": "origine",
+            "x": 0,
+            "y": 0
+           },
+           "centerPoint": {
+            "automatic": true,
+            "name": "centre",
+            "x": 0,
+            "y": 0
+           },
+           "customCollisionMask": []
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "name": "Hardstone0",
+       "useMultipleDirections": false,
+       "directions": [
+        {
+         "looping": false,
+         "timeBetweenFrames": 1,
+         "sprites": [
+          {
+           "hasCustomCollisionMask": false,
+           "image": "cell_hard_0.png",
+           "points": [],
+           "originPoint": {
+            "name": "origine",
+            "x": 0,
+            "y": 0
+           },
+           "centerPoint": {
+            "automatic": true,
+            "name": "centre",
+            "x": 0,
+            "y": 0
+           },
+           "customCollisionMask": []
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "name": "Hardstone1",
+       "useMultipleDirections": false,
+       "directions": [
+        {
+         "looping": false,
+         "timeBetweenFrames": 1,
+         "sprites": [
+          {
+           "hasCustomCollisionMask": false,
+           "image": "cell_hard_1.png",
+           "points": [],
+           "originPoint": {
+            "name": "origine",
+            "x": 0,
+            "y": 0
+           },
+           "centerPoint": {
+            "automatic": true,
+            "name": "centre",
+            "x": 0,
+            "y": 0
+           },
+           "customCollisionMask": []
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "name": "Hardstone2",
+       "useMultipleDirections": false,
+       "directions": [
+        {
+         "looping": false,
+         "timeBetweenFrames": 1,
+         "sprites": [
+          {
+           "hasCustomCollisionMask": false,
+           "image": "cell_hard_2.png",
+           "points": [],
+           "originPoint": {
+            "name": "origine",
+            "x": 0,
+            "y": 0
+           },
+           "centerPoint": {
+            "automatic": true,
+            "name": "centre",
+            "x": 0,
+            "y": 0
+           },
+           "customCollisionMask": []
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "assetStoreId": "",
+     "name": "Debris",
+     "persistentUuid": "78a038a1-af40-5576-9ba4-9ebe21742834",
+     "type": "Sprite",
+     "variables": [
+      {
+       "name": "VX",
+       "type": "number",
+       "value": 0
+      },
+      {
+       "name": "VY",
+       "type": "number",
+       "value": 0
+      },
+      {
+       "name": "Life",
+       "type": "number",
+       "value": 0
+      }
+     ],
+     "effects": [],
+     "behaviors": [],
+     "adaptCollisionMaskAutomatically": false,
+     "updateIfNotVisible": false,
+     "animations": [
+      {
+       "name": "Chip",
+       "useMultipleDirections": false,
+       "directions": [
+        {
+         "looping": false,
+         "timeBetweenFrames": 1,
+         "sprites": [
+          {
+           "hasCustomCollisionMask": false,
+           "image": "debris.png",
+           "points": [],
+           "originPoint": {
+            "name": "origine",
+            "x": 2,
+            "y": 2
+           },
+           "centerPoint": {
+            "automatic": true,
+            "name": "centre",
+            "x": 0,
+            "y": 0
+           },
+           "customCollisionMask": []
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "assetStoreId": "",
+     "name": "Spark",
+     "persistentUuid": "6e981029-c7a1-5cae-b7ec-462a53b82ff6",
+     "type": "Sprite",
+     "variables": [
+      {
+       "name": "Life",
+       "type": "number",
+       "value": 0
+      }
+     ],
+     "effects": [],
+     "behaviors": [],
+     "adaptCollisionMaskAutomatically": false,
+     "updateIfNotVisible": false,
+     "animations": [
+      {
+       "name": "Hit",
+       "useMultipleDirections": false,
+       "directions": [
+        {
+         "looping": false,
+         "timeBetweenFrames": 1,
+         "sprites": [
+          {
+           "hasCustomCollisionMask": false,
+           "image": "spark.png",
+           "points": [],
+           "originPoint": {
+            "name": "origine",
+            "x": 5,
+            "y": 5
+           },
+           "centerPoint": {
+            "automatic": true,
+            "name": "centre",
+            "x": 0,
+            "y": 0
+           },
+           "customCollisionMask": []
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "assetStoreId": "",
+     "name": "Crosshair",
+     "persistentUuid": "29414e40-e20c-52a6-92a5-8599bac85cd4",
+     "type": "Sprite",
+     "variables": [],
+     "effects": [],
+     "behaviors": [],
+     "adaptCollisionMaskAutomatically": false,
+     "updateIfNotVisible": false,
+     "animations": [
+      {
+       "name": "Aim",
+       "useMultipleDirections": false,
+       "directions": [
+        {
+         "looping": false,
+         "timeBetweenFrames": 1,
+         "sprites": [
+          {
+           "hasCustomCollisionMask": false,
+           "image": "crosshair.png",
+           "points": [],
+           "originPoint": {
+            "name": "origine",
+            "x": 16,
+            "y": 16
+           },
+           "centerPoint": {
+            "automatic": true,
+            "name": "centre",
+            "x": 0,
+            "y": 0
+           },
+           "customCollisionMask": []
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "assetStoreId": "",
+     "name": "Cloud",
+     "persistentUuid": "04c2fa17-a775-5426-bfcf-390fcffd548e",
+     "type": "Sprite",
+     "variables": [],
+     "effects": [],
+     "behaviors": [],
+     "adaptCollisionMaskAutomatically": false,
+     "updateIfNotVisible": false,
+     "animations": [
+      {
+       "name": "Roll",
+       "useMultipleDirections": false,
+       "directions": [
+        {
+         "looping": true,
+         "timeBetweenFrames": 0.22,
+         "sprites": [
+          {
+           "hasCustomCollisionMask": false,
+           "image": "cloud_0.png",
+           "points": [],
+           "originPoint": {
+            "name": "origine",
+            "x": 600,
+            "y": 0
+           },
+           "centerPoint": {
+            "automatic": true,
+            "name": "centre",
+            "x": 0,
+            "y": 0
+           },
+           "customCollisionMask": []
+          },
+          {
+           "hasCustomCollisionMask": false,
+           "image": "cloud_1.png",
+           "points": [],
+           "originPoint": {
+            "name": "origine",
+            "x": 600,
+            "y": 0
+           },
+           "centerPoint": {
+            "automatic": true,
+            "name": "centre",
+            "x": 0,
+            "y": 0
+           },
+           "customCollisionMask": []
+          },
+          {
+           "hasCustomCollisionMask": false,
+           "image": "cloud_2.png",
+           "points": [],
+           "originPoint": {
+            "name": "origine",
+            "x": 600,
+            "y": 0
+           },
+           "centerPoint": {
+            "automatic": true,
+            "name": "centre",
+            "x": 0,
+            "y": 0
+           },
+           "customCollisionMask": []
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "assetStoreId": "",
+     "name": "Ground",
+     "persistentUuid": "d1936c18-6887-5697-9546-b241db200834",
+     "type": "TiledSpriteObject::TiledSprite",
+     "variables": [],
+     "effects": [],
+     "behaviors": [],
+     "texture": "ground.png",
+     "width": 640,
+     "height": 160
+    },
+    {
+     "assetStoreId": "",
+     "name": "Hills",
+     "persistentUuid": "eed1dbae-295a-5a35-8165-ea1e12e768cc",
+     "type": "TiledSpriteObject::TiledSprite",
+     "variables": [],
+     "effects": [],
+     "behaviors": [],
+     "texture": "hills.png",
+     "width": 540,
+     "height": 260
+    },
+    {
+     "assetStoreId": "",
+     "name": "DistanceText",
+     "persistentUuid": "ff6be8fa-12c5-5241-9517-9193a0a68e22",
+     "type": "TextObject::Text",
+     "variables": [],
+     "effects": [],
+     "behaviors": [],
+     "content": {
+      "bold": true,
+      "isOutlineEnabled": true,
+      "isShadowEnabled": false,
+      "italic": false,
+      "outlineColor": "20;16;24",
+      "outlineThickness": 3,
+      "shadowAngle": 90,
+      "shadowBlurRadius": 0,
+      "shadowColor": "0;0;0",
+      "shadowDistance": 3,
+      "shadowOpacity": 160,
+      "smoothed": true,
+      "underlined": false,
+      "text": "0 m",
+      "font": "",
+      "textAlignment": "left",
+      "verticalTextAlignment": "top",
+      "characterSize": 40,
+      "lineHeight": 0,
+      "color": "255;255;255"
+     }
+    },
+    {
+     "assetStoreId": "",
+     "name": "BestText",
+     "persistentUuid": "4beca53e-0a1d-5e84-ac4b-bc95aa6d870a",
+     "type": "TextObject::Text",
+     "variables": [],
+     "effects": [],
+     "behaviors": [],
+     "content": {
+      "bold": true,
+      "isOutlineEnabled": true,
+      "isShadowEnabled": false,
+      "italic": false,
+      "outlineColor": "20;16;24",
+      "outlineThickness": 3,
+      "shadowAngle": 90,
+      "shadowBlurRadius": 0,
+      "shadowColor": "0;0;0",
+      "shadowDistance": 3,
+      "shadowOpacity": 160,
+      "smoothed": true,
+      "underlined": false,
+      "text": "BEST 0 m",
+      "font": "",
+      "textAlignment": "left",
+      "verticalTextAlignment": "top",
+      "characterSize": 20,
+      "lineHeight": 0,
+      "color": "255;225;150"
+     }
+    },
+    {
+     "assetStoreId": "",
+     "name": "GasText",
+     "persistentUuid": "775621dc-ab15-59be-9b68-3b2e839c299e",
+     "type": "TextObject::Text",
+     "variables": [],
+     "effects": [],
+     "behaviors": [],
+     "content": {
+      "bold": true,
+      "isOutlineEnabled": true,
+      "isShadowEnabled": false,
+      "italic": false,
+      "outlineColor": "20;16;24",
+      "outlineThickness": 3,
+      "shadowAngle": 90,
+      "shadowBlurRadius": 0,
+      "shadowColor": "0;0;0",
+      "shadowDistance": 3,
+      "shadowOpacity": 160,
+      "smoothed": true,
+      "underlined": false,
+      "text": "GAS",
+      "font": "",
+      "textAlignment": "left",
+      "verticalTextAlignment": "top",
+      "characterSize": 20,
+      "lineHeight": 0,
+      "color": "200;235;150"
+     }
+    },
+    {
+     "assetStoreId": "",
+     "name": "OffsetButton",
+     "persistentUuid": "f23f0f7e-b3be-5a09-ba30-de0579276e6d",
+     "type": "Sprite",
+     "variables": [],
+     "effects": [],
+     "behaviors": [],
+     "adaptCollisionMaskAutomatically": false,
+     "updateIfNotVisible": false,
+     "animations": [
+      {
+       "name": "Idle",
+       "useMultipleDirections": false,
+       "directions": [
+        {
+         "looping": false,
+         "timeBetweenFrames": 1,
+         "sprites": [
+          {
+           "hasCustomCollisionMask": false,
+           "image": "button_small.png",
+           "points": [],
+           "originPoint": {
+            "name": "origine",
+            "x": 0,
+            "y": 0
+           },
+           "centerPoint": {
+            "automatic": true,
+            "name": "centre",
+            "x": 0,
+            "y": 0
+           },
+           "customCollisionMask": []
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "assetStoreId": "",
+     "name": "OffsetText",
+     "persistentUuid": "092610de-35ca-5e9f-ad50-5e8fe1473951",
+     "type": "TextObject::Text",
+     "variables": [],
+     "effects": [],
+     "behaviors": [],
+     "content": {
+      "bold": true,
+      "isOutlineEnabled": true,
+      "isShadowEnabled": false,
+      "italic": false,
+      "outlineColor": "20;16;24",
+      "outlineThickness": 3,
+      "shadowAngle": 90,
+      "shadowBlurRadius": 0,
+      "shadowColor": "0;0;0",
+      "shadowDistance": 3,
+      "shadowOpacity": 160,
+      "smoothed": true,
+      "underlined": false,
+      "text": "AIM +80",
+      "font": "",
+      "textAlignment": "left",
+      "verticalTextAlignment": "top",
+      "characterSize": 20,
+      "lineHeight": 0,
+      "color": "255;255;255"
+     }
+    },
+    {
+     "assetStoreId": "",
+     "name": "HintText",
+     "persistentUuid": "4e103c60-e3fa-5156-af15-197a5b83321f",
+     "type": "TextObject::Text",
+     "variables": [],
+     "effects": [],
+     "behaviors": [],
+     "content": {
+      "bold": true,
+      "isOutlineEnabled": true,
+      "isShadowEnabled": false,
+      "italic": false,
+      "outlineColor": "20;16;24",
+      "outlineThickness": 3,
+      "shadowAngle": 90,
+      "shadowBlurRadius": 0,
+      "shadowColor": "0;0;0",
+      "shadowDistance": 3,
+      "shadowOpacity": 160,
+      "smoothed": true,
+      "underlined": false,
+      "text": "Hold and drag to aim and fire\nMouse: aim, hold left button",
+      "font": "",
+      "textAlignment": "left",
+      "verticalTextAlignment": "top",
+      "characterSize": 22,
+      "lineHeight": 0,
+      "color": "255;255;255"
+     }
+    },
+    {
+     "assetStoreId": "",
+     "name": "WarningEdge",
+     "persistentUuid": "3ff4bd49-4732-5ad4-a885-aa8219504c78",
+     "type": "Sprite",
+     "variables": [],
+     "effects": [],
+     "behaviors": [],
+     "adaptCollisionMaskAutomatically": false,
+     "updateIfNotVisible": false,
+     "animations": [
+      {
+       "name": "Idle",
+       "useMultipleDirections": false,
+       "directions": [
+        {
+         "looping": false,
+         "timeBetweenFrames": 1,
+         "sprites": [
+          {
+           "hasCustomCollisionMask": false,
+           "image": "warning_edge.png",
+           "points": [],
+           "originPoint": {
+            "name": "origine",
+            "x": 0,
+            "y": 0
+           },
+           "centerPoint": {
+            "automatic": true,
+            "name": "centre",
+            "x": 0,
+            "y": 0
+           },
+           "customCollisionMask": []
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "assetStoreId": "",
+     "name": "Panel",
+     "persistentUuid": "1bf6c368-b7f7-50be-bef1-4027c904a73f",
+     "type": "Sprite",
+     "variables": [],
+     "effects": [],
+     "behaviors": [],
+     "adaptCollisionMaskAutomatically": false,
+     "updateIfNotVisible": false,
+     "animations": [
+      {
+       "name": "Idle",
+       "useMultipleDirections": false,
+       "directions": [
+        {
+         "looping": false,
+         "timeBetweenFrames": 1,
+         "sprites": [
+          {
+           "hasCustomCollisionMask": false,
+           "image": "panel.png",
+           "points": [],
+           "originPoint": {
+            "name": "origine",
+            "x": 0,
+            "y": 0
+           },
+           "centerPoint": {
+            "automatic": true,
+            "name": "centre",
+            "x": 0,
+            "y": 0
+           },
+           "customCollisionMask": []
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "assetStoreId": "",
+     "name": "GameOverTitle",
+     "persistentUuid": "d2a298d5-2fad-5f04-ac52-150cceff8cfe",
+     "type": "TextObject::Text",
+     "variables": [],
+     "effects": [],
+     "behaviors": [],
+     "content": {
+      "bold": true,
+      "isOutlineEnabled": true,
+      "isShadowEnabled": false,
+      "italic": false,
+      "outlineColor": "20;16;24",
+      "outlineThickness": 3,
+      "shadowAngle": 90,
+      "shadowBlurRadius": 0,
+      "shadowColor": "0;0;0",
+      "shadowDistance": 3,
+      "shadowOpacity": 160,
+      "smoothed": true,
+      "underlined": false,
+      "text": "ENGULFED!",
+      "font": "",
+      "textAlignment": "left",
+      "verticalTextAlignment": "top",
+      "characterSize": 44,
+      "lineHeight": 0,
+      "color": "160;230;80"
+     }
+    },
+    {
+     "assetStoreId": "",
+     "name": "ResultText",
+     "persistentUuid": "9c313ca1-56f4-5493-b4a0-1a5e115380c6",
+     "type": "TextObject::Text",
+     "variables": [],
+     "effects": [],
+     "behaviors": [],
+     "content": {
+      "bold": true,
+      "isOutlineEnabled": true,
+      "isShadowEnabled": false,
+      "italic": false,
+      "outlineColor": "20;16;24",
+      "outlineThickness": 3,
+      "shadowAngle": 90,
+      "shadowBlurRadius": 0,
+      "shadowColor": "0;0;0",
+      "shadowDistance": 3,
+      "shadowOpacity": 160,
+      "smoothed": true,
+      "underlined": false,
+      "text": "DISTANCE 0 m",
+      "font": "",
+      "textAlignment": "left",
+      "verticalTextAlignment": "top",
+      "characterSize": 30,
+      "lineHeight": 0,
+      "color": "255;255;255"
+     }
+    },
+    {
+     "assetStoreId": "",
+     "name": "BestResultText",
+     "persistentUuid": "f2e10243-e2dc-53b0-bd6a-759639eea040",
+     "type": "TextObject::Text",
+     "variables": [],
+     "effects": [],
+     "behaviors": [],
+     "content": {
+      "bold": true,
+      "isOutlineEnabled": true,
+      "isShadowEnabled": false,
+      "italic": false,
+      "outlineColor": "20;16;24",
+      "outlineThickness": 3,
+      "shadowAngle": 90,
+      "shadowBlurRadius": 0,
+      "shadowColor": "0;0;0",
+      "shadowDistance": 3,
+      "shadowOpacity": 160,
+      "smoothed": true,
+      "underlined": false,
+      "text": "BEST 0 m",
+      "font": "",
+      "textAlignment": "left",
+      "verticalTextAlignment": "top",
+      "characterSize": 26,
+      "lineHeight": 0,
+      "color": "255;225;150"
+     }
+    },
+    {
+     "assetStoreId": "",
+     "name": "RestartButton",
+     "persistentUuid": "64b0a721-fa0f-5e74-a5f6-be78c7478e54",
+     "type": "Sprite",
+     "variables": [],
+     "effects": [],
+     "behaviors": [],
+     "adaptCollisionMaskAutomatically": false,
+     "updateIfNotVisible": false,
+     "animations": [
+      {
+       "name": "Idle",
+       "useMultipleDirections": false,
+       "directions": [
+        {
+         "looping": false,
+         "timeBetweenFrames": 1,
+         "sprites": [
+          {
+           "hasCustomCollisionMask": false,
+           "image": "button.png",
+           "points": [],
+           "originPoint": {
+            "name": "origine",
+            "x": 0,
+            "y": 0
+           },
+           "centerPoint": {
+            "automatic": true,
+            "name": "centre",
+            "x": 0,
+            "y": 0
+           },
+           "customCollisionMask": []
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "assetStoreId": "",
+     "name": "RestartText",
+     "persistentUuid": "2f2f8085-babb-5d1e-8ab3-6dcf854994c7",
+     "type": "TextObject::Text",
+     "variables": [],
+     "effects": [],
+     "behaviors": [],
+     "content": {
+      "bold": true,
+      "isOutlineEnabled": true,
+      "isShadowEnabled": false,
+      "italic": false,
+      "outlineColor": "20;16;24",
+      "outlineThickness": 3,
+      "shadowAngle": 90,
+      "shadowBlurRadius": 0,
+      "shadowColor": "0;0;0",
+      "shadowDistance": 3,
+      "shadowOpacity": 160,
+      "smoothed": true,
+      "underlined": false,
+      "text": "RESTART",
+      "font": "",
+      "textAlignment": "left",
+      "verticalTextAlignment": "top",
+      "characterSize": 32,
+      "lineHeight": 0,
+      "color": "40;24;8"
+     }
+    }
+   ],
+   "objectsFolderStructure": {
+    "folderName": "__ROOT",
+    "children": [
+     {
+      "objectName": "Tower"
+     },
+     {
+      "objectName": "Turret"
+     },
+     {
+      "objectName": "Bullet"
+     },
+     {
+      "objectName": "MuzzleFlash"
+     },
+     {
+      "objectName": "Cell"
+     },
+     {
+      "objectName": "Debris"
+     },
+     {
+      "objectName": "Spark"
+     },
+     {
+      "objectName": "Crosshair"
+     },
+     {
+      "objectName": "Cloud"
+     },
+     {
+      "objectName": "Ground"
+     },
+     {
+      "objectName": "Hills"
+     },
+     {
+      "objectName": "DistanceText"
+     },
+     {
+      "objectName": "BestText"
+     },
+     {
+      "objectName": "GasText"
+     },
+     {
+      "objectName": "OffsetButton"
+     },
+     {
+      "objectName": "OffsetText"
+     },
+     {
+      "objectName": "HintText"
+     },
+     {
+      "objectName": "WarningEdge"
+     },
+     {
+      "objectName": "Panel"
+     },
+     {
+      "objectName": "GameOverTitle"
+     },
+     {
+      "objectName": "ResultText"
+     },
+     {
+      "objectName": "BestResultText"
+     },
+     {
+      "objectName": "RestartButton"
+     },
+     {
+      "objectName": "RestartText"
+     }
+    ]
+   },
+   "events": [
+    {
+     "type": "BuiltinCommonInstructions::Comment",
+     "color": {
+      "b": 109,
+      "g": 230,
+      "r": 255,
+      "textB": 0,
+      "textG": 0,
+      "textR": 0
+     },
+     "comment": "TOWER RUSH - Phase 1 prototype. Every system is an external event (Project manager > External events), included here in this order. Tuning numbers are the global variable Tuning; formations are the global variable Formations."
+    },
+    {
+     "type": "BuiltinCommonInstructions::Link",
+     "include": {
+      "includeConfig": 0
+     },
+     "target": "RunManager"
+    },
+    {
+     "type": "BuiltinCommonInstructions::Link",
+     "include": {
+      "includeConfig": 0
+     },
+     "target": "ObstacleGenerator"
+    },
+    {
+     "type": "BuiltinCommonInstructions::Link",
+     "include": {
+      "includeConfig": 0
+     },
+     "target": "TowerController"
+    },
+    {
+     "type": "BuiltinCommonInstructions::Link",
+     "include": {
+      "includeConfig": 0
+     },
+     "target": "TurretController"
+    },
+    {
+     "type": "BuiltinCommonInstructions::Link",
+     "include": {
+      "includeConfig": 0
+     },
+     "target": "ProjectileSystem"
+    },
+    {
+     "type": "BuiltinCommonInstructions::Link",
+     "include": {
+      "includeConfig": 0
+     },
+     "target": "ObstacleGrid"
+    },
+    {
+     "type": "BuiltinCommonInstructions::Link",
+     "include": {
+      "includeConfig": 0
+     },
+     "target": "CloudController"
+    },
+    {
+     "type": "BuiltinCommonInstructions::Link",
+     "include": {
+      "includeConfig": 0
+     },
+     "target": "CameraAndHUD"
+    }
+   ],
+   "layers": [
+    {
+     "ambientLightColorB": 200,
+     "ambientLightColorG": 200,
+     "ambientLightColorR": 200,
+     "camera2DPlaneMaxDrawingDistance": 5000,
+     "camera3DFarPlaneDistance": 10000,
+     "camera3DFieldOfView": 45,
+     "camera3DNearPlaneDistance": 3,
+     "cameraType": "",
+     "followBaseLayerCamera": false,
+     "isLightingLayer": false,
+     "isLocked": false,
+     "name": "",
+     "renderingType": "2d",
+     "visibility": true,
+     "cameras": [
+      {
+       "defaultSize": true,
+       "defaultViewport": true,
+       "height": 0,
+       "viewportBottom": 1,
+       "viewportLeft": 0,
+       "viewportRight": 1,
+       "viewportTop": 0,
+       "width": 0
+      }
+     ],
+     "effects": []
+    },
+    {
+     "ambientLightColorB": 200,
+     "ambientLightColorG": 200,
+     "ambientLightColorR": 200,
+     "camera2DPlaneMaxDrawingDistance": 5000,
+     "camera3DFarPlaneDistance": 10000,
+     "camera3DFieldOfView": 45,
+     "camera3DNearPlaneDistance": 3,
+     "cameraType": "",
+     "followBaseLayerCamera": false,
+     "isLightingLayer": false,
+     "isLocked": false,
+     "name": "UI",
+     "renderingType": "2d",
+     "visibility": true,
+     "cameras": [
+      {
+       "defaultSize": true,
+       "defaultViewport": true,
+       "height": 0,
+       "viewportBottom": 1,
+       "viewportLeft": 0,
+       "viewportRight": 1,
+       "viewportTop": 0,
+       "width": 0
+      }
+     ],
+     "effects": []
+    }
+   ],
+   "behaviorsSharedData": []
+  }
+ ],
+ "externalEvents": [
+  {
+   "associatedLayout": "Game",
+   "lastChangeTimeStamp": 0,
+   "name": "RunManager",
+   "events": [
+    {
+     "type": "BuiltinCommonInstructions::Comment",
+     "color": {
+      "b": 109,
+      "g": 230,
+      "r": 255,
+      "textB": 0,
+      "textG": 0,
+      "textR": 0
+     },
+     "comment": "RUN MANAGER - owns: State (\"Run\" / \"Over\"), Dt, StartX, Distance, BestDistance, NewBest, OverTime.\nStarts the run, ends it (GameOver is requested by CloudController through State), saves the best distance (storage \"TowerRush\") and restarts the scene."
+    },
+    {
+     "type": "BuiltinCommonInstructions::Group",
+     "name": "Start of the run",
+     "source": "",
+     "folded": false,
+     "colorR": 74,
+     "colorG": 112,
+     "colorB": 150,
+     "creationTime": 0,
+     "events": [
+      {
+       "type": "BuiltinCommonInstructions::Standard",
+       "conditions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "SceneJustBegins"
+         },
+         "parameters": [
+          ""
+         ]
+        }
+       ],
+       "actions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "SetStringVariable"
+         },
+         "parameters": [
+          "State",
+          "=",
+          "\"Run\""
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "SetNumberVariable"
+         },
+         "parameters": [
+          "StartX",
+          "=",
+          "Tower.X()"
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "SetNumberVariable"
+         },
+         "parameters": [
+          "Distance",
+          "=",
+          "0"
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "Hide"
+         },
+         "parameters": [
+          "GameOverUI"
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "Hide"
+         },
+         "parameters": [
+          "MuzzleFlash"
+         ]
+        }
+       ],
+       "events": [
+        {
+         "type": "BuiltinCommonInstructions::Standard",
+         "conditions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "GroupExists"
+           },
+           "parameters": [
+            "\"TowerRush\"",
+            "\"Best\""
+           ]
+          }
+         ],
+         "actions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "ReadNumberFromStorage"
+           },
+           "parameters": [
+            "\"TowerRush\"",
+            "\"Best\"",
+            "",
+            "BestDistance"
+           ]
+          }
+         ],
+         "events": []
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "type": "BuiltinCommonInstructions::Group",
+     "name": "Frame time",
+     "source": "",
+     "folded": false,
+     "colorR": 74,
+     "colorG": 112,
+     "colorB": 150,
+     "creationTime": 0,
+     "events": [
+      {
+       "type": "BuiltinCommonInstructions::Comment",
+       "color": {
+        "b": 109,
+        "g": 230,
+        "r": 255,
+        "textB": 0,
+        "textG": 0,
+        "textR": 0
+       },
+       "comment": "Dt is the frame time, capped so a slow frame can never make the tower or a bullet skip through a cell. Every system moves things with Dt, never with a fixed step per frame."
+      },
+      {
+       "type": "BuiltinCommonInstructions::Standard",
+       "conditions": [],
+       "actions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "SetNumberVariable"
+         },
+         "parameters": [
+          "Dt",
+          "=",
+          "min(TimeDelta(), GlobalVariable(Tuning.MaxFrameTime))"
+         ]
+        }
+       ],
+       "events": []
+      }
+     ]
+    },
+    {
+     "type": "BuiltinCommonInstructions::Group",
+     "name": "Distance (only forward progress counts)",
+     "source": "",
+     "folded": false,
+     "colorR": 74,
+     "colorG": 112,
+     "colorB": 150,
+     "creationTime": 0,
+     "events": [
+      {
+       "type": "BuiltinCommonInstructions::Standard",
+       "conditions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "StringVariable"
+         },
+         "parameters": [
+          "State",
+          "=",
+          "\"Run\""
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "BuiltinCommonInstructions::CompareNumbers"
+         },
+         "parameters": [
+          "(Tower.X() - Variable(StartX)) / GlobalVariable(Tuning.PixelsPerMeter)",
+          ">",
+          "Variable(Distance)"
+         ]
+        }
+       ],
+       "actions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "SetNumberVariable"
+         },
+         "parameters": [
+          "Distance",
+          "=",
+          "(Tower.X() - Variable(StartX)) / GlobalVariable(Tuning.PixelsPerMeter)"
+         ]
+        }
+       ],
+       "events": []
+      }
+     ]
+    },
+    {
+     "type": "BuiltinCommonInstructions::Group",
+     "name": "Game over",
+     "source": "",
+     "folded": false,
+     "colorR": 74,
+     "colorG": 112,
+     "colorB": 150,
+     "creationTime": 0,
+     "events": [
+      {
+       "type": "BuiltinCommonInstructions::Standard",
+       "conditions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "StringVariable"
+         },
+         "parameters": [
+          "State",
+          "=",
+          "\"Dying\""
+         ]
+        }
+       ],
+       "actions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "SetStringVariable"
+         },
+         "parameters": [
+          "State",
+          "=",
+          "\"Over\""
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "SetNumberVariable"
+         },
+         "parameters": [
+          "OverTime",
+          "=",
+          "0"
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "Show"
+         },
+         "parameters": [
+          "GameOverUI",
+          ""
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "Hide"
+         },
+         "parameters": [
+          "MuzzleFlash"
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "Hide"
+         },
+         "parameters": [
+          "Crosshair"
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "AnimatableCapability::AnimatableBehavior::PauseAnimation"
+         },
+         "parameters": [
+          "Tower",
+          "Animation"
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "TextContainerCapability::TextContainerBehavior::SetValue"
+         },
+         "parameters": [
+          "ResultText",
+          "Text",
+          "=",
+          "\"DISTANCE  \" + ToString(floor(Variable(Distance))) + \" m\""
+         ]
+        }
+       ],
+       "events": [
+        {
+         "type": "BuiltinCommonInstructions::Standard",
+         "conditions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "BuiltinCommonInstructions::CompareNumbers"
+           },
+           "parameters": [
+            "floor(Variable(Distance))",
+            ">",
+            "Variable(BestDistance)"
+           ]
+          }
+         ],
+         "actions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "SetNumberVariable"
+           },
+           "parameters": [
+            "BestDistance",
+            "=",
+            "floor(Variable(Distance))"
+           ]
+          },
+          {
+           "type": {
+            "inverted": false,
+            "value": "EcrireFichierExp"
+           },
+           "parameters": [
+            "\"TowerRush\"",
+            "\"Best\"",
+            "Variable(BestDistance)"
+           ]
+          },
+          {
+           "type": {
+            "inverted": false,
+            "value": "TextContainerCapability::TextContainerBehavior::SetValue"
+           },
+           "parameters": [
+            "BestResultText",
+            "Text",
+            "=",
+            "\"NEW BEST!\""
+           ]
+          }
+         ],
+         "events": []
+        },
+        {
+         "type": "BuiltinCommonInstructions::Standard",
+         "conditions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "BuiltinCommonInstructions::CompareNumbers"
+           },
+           "parameters": [
+            "floor(Variable(Distance))",
+            "<=",
+            "Variable(BestDistance)"
+           ]
+          }
+         ],
+         "actions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "TextContainerCapability::TextContainerBehavior::SetValue"
+           },
+           "parameters": [
+            "BestResultText",
+            "Text",
+            "=",
+            "\"BEST  \" + ToString(Variable(BestDistance)) + \" m\""
+           ]
+          }
+         ],
+         "events": []
+        }
+       ]
+      },
+      {
+       "type": "BuiltinCommonInstructions::Standard",
+       "conditions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "StringVariable"
+         },
+         "parameters": [
+          "State",
+          "=",
+          "\"Over\""
+         ]
+        }
+       ],
+       "actions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "SetNumberVariable"
+         },
+         "parameters": [
+          "OverTime",
+          "+",
+          "Variable(Dt)"
+         ]
+        }
+       ],
+       "events": []
+      }
+     ]
+    },
+    {
+     "type": "BuiltinCommonInstructions::Group",
+     "name": "Restart",
+     "source": "",
+     "folded": false,
+     "colorR": 74,
+     "colorG": 112,
+     "colorB": 150,
+     "creationTime": 0,
+     "events": [
+      {
+       "type": "BuiltinCommonInstructions::Comment",
+       "color": {
+        "b": 109,
+        "g": 230,
+        "r": 255,
+        "textB": 0,
+        "textG": 0,
+        "textR": 0
+       },
+       "comment": "Restart reloads the scene, which resets every run variable and object. The short delay stops the finger that was firing when the cloud hit from pressing Restart by accident."
+      },
+      {
+       "type": "BuiltinCommonInstructions::Standard",
+       "conditions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "StringVariable"
+         },
+         "parameters": [
+          "State",
+          "=",
+          "\"Over\""
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "NumberVariable"
+         },
+         "parameters": [
+          "OverTime",
+          ">",
+          "0.5"
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "MouseButtonFromTextReleased"
+         },
+         "parameters": [
+          "",
+          "\"Left\""
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "IsCursorOnObject"
+         },
+         "parameters": [
+          "RestartButton",
+          "",
+          "",
+          ""
+         ]
+        }
+       ],
+       "actions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "Scene"
+         },
+         "parameters": [
+          "",
+          "\"Game\"",
+          "no"
+         ]
+        }
+       ],
+       "events": []
+      },
+      {
+       "type": "BuiltinCommonInstructions::Standard",
+       "conditions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "StringVariable"
+         },
+         "parameters": [
+          "State",
+          "=",
+          "\"Over\""
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "NumberVariable"
+         },
+         "parameters": [
+          "OverTime",
+          ">",
+          "0.5"
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "KeyFromTextJustPressed"
+         },
+         "parameters": [
+          "",
+          "\"r\""
+         ]
+        }
+       ],
+       "actions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "Scene"
+         },
+         "parameters": [
+          "",
+          "\"Game\"",
+          "no"
+         ]
+        }
+       ],
+       "events": []
+      },
+      {
+       "type": "BuiltinCommonInstructions::Standard",
+       "conditions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "StringVariable"
+         },
+         "parameters": [
+          "State",
+          "=",
+          "\"Over\""
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "NumberVariable"
+         },
+         "parameters": [
+          "OverTime",
+          ">",
+          "0.5"
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "KeyFromTextJustPressed"
+         },
+         "parameters": [
+          "",
+          "\"Space\""
+         ]
+        }
+       ],
+       "actions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "Scene"
+         },
+         "parameters": [
+          "",
+          "\"Game\"",
+          "no"
+         ]
+        }
+       ],
+       "events": []
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "associatedLayout": "Game",
+   "lastChangeTimeStamp": 0,
+   "name": "ObstacleGenerator",
+   "events": [
+    {
+     "type": "BuiltinCommonInstructions::Comment",
+     "color": {
+      "b": 109,
+      "g": 230,
+      "r": 255,
+      "textB": 0,
+      "textG": 0,
+      "textR": 0
+     },
+     "comment": "OBSTACLE GENERATOR - owns: NextFormationX, FormationCount, FormationIndex, Shape, ShapeW, ShapeRows, SpawnX, Idx, Col, Row, Ch, CellsSpawned.\nFormations are text grids in the global variable Formations (one string per formation, rows separated by |, top row first, the bottom row sits on the ground). Each character is a cell: # Stone, H Hardstone, . empty. Add a material: add it to the global Materials (with its Char), add animations <Name>0..2 to Cell, and copy one of the 'Character' events below."
+    },
+    {
+     "type": "BuiltinCommonInstructions::Group",
+     "name": "Spawn the next formation ahead of the camera",
+     "source": "",
+     "folded": false,
+     "colorR": 74,
+     "colorG": 112,
+     "colorB": 150,
+     "creationTime": 0,
+     "events": [
+      {
+       "type": "BuiltinCommonInstructions::Standard",
+       "conditions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "BuiltinCommonInstructions::CompareNumbers"
+         },
+         "parameters": [
+          "Variable(NextFormationX)",
+          "<",
+          "CameraX(\"\", 0) + 270 + GlobalVariable(Tuning.SpawnAhead)"
+         ]
+        }
+       ],
+       "actions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "SetNumberVariable"
+         },
+         "parameters": [
+          "FormationIndex",
+          "=",
+          "RandomInRange(GlobalVariable(Tuning.IntroFormations), GlobalVariableChildCount(Formations) - 1)"
+         ]
+        }
+       ],
+       "events": [
+        {
+         "type": "BuiltinCommonInstructions::Comment",
+         "color": {
+          "b": 109,
+          "g": 230,
+          "r": 255,
+          "textB": 0,
+          "textG": 0,
+          "textR": 0
+         },
+         "comment": "The first formations are always the intro ones, in order (Gate, then Cave)."
+        },
+        {
+         "type": "BuiltinCommonInstructions::Standard",
+         "conditions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "BuiltinCommonInstructions::CompareNumbers"
+           },
+           "parameters": [
+            "Variable(FormationCount)",
+            "<",
+            "GlobalVariable(Tuning.IntroFormations)"
+           ]
+          }
+         ],
+         "actions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "SetNumberVariable"
+           },
+           "parameters": [
+            "FormationIndex",
+            "=",
+            "Variable(FormationCount)"
+           ]
+          }
+         ],
+         "events": []
+        },
+        {
+         "type": "BuiltinCommonInstructions::Standard",
+         "conditions": [],
+         "actions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "SetStringVariable"
+           },
+           "parameters": [
+            "Shape",
+            "=",
+            "GlobalVariableString(Formations[Variable(FormationIndex)].Shape)"
+           ]
+          },
+          {
+           "type": {
+            "inverted": false,
+            "value": "SetNumberVariable"
+           },
+           "parameters": [
+            "ShapeW",
+            "=",
+            "StrFind(VariableString(Shape), \"|\")"
+           ]
+          }
+         ],
+         "events": [
+          {
+           "type": "BuiltinCommonInstructions::Standard",
+           "conditions": [
+            {
+             "type": {
+              "inverted": false,
+              "value": "NumberVariable"
+             },
+             "parameters": [
+              "ShapeW",
+              "<",
+              "0"
+             ]
+            }
+           ],
+           "actions": [
+            {
+             "type": {
+              "inverted": false,
+              "value": "SetNumberVariable"
+             },
+             "parameters": [
+              "ShapeW",
+              "=",
+              "StrLength(VariableString(Shape))"
+             ]
+            }
+           ],
+           "events": []
+          }
+         ]
+        },
+        {
+         "type": "BuiltinCommonInstructions::Standard",
+         "conditions": [],
+         "actions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "SetNumberVariable"
+           },
+           "parameters": [
+            "ShapeRows",
+            "=",
+            "(StrLength(VariableString(Shape)) + 1) / (Variable(ShapeW) + 1)"
+           ]
+          },
+          {
+           "type": {
+            "inverted": false,
+            "value": "SetNumberVariable"
+           },
+           "parameters": [
+            "SpawnX",
+            "=",
+            "max(Variable(NextFormationX), Tower.X() + GlobalVariable(Tuning.MinSpawnAheadOfTower))"
+           ]
+          },
+          {
+           "type": {
+            "inverted": false,
+            "value": "SetNumberVariable"
+           },
+           "parameters": [
+            "Col",
+            "=",
+            "0"
+           ]
+          },
+          {
+           "type": {
+            "inverted": false,
+            "value": "SetNumberVariable"
+           },
+           "parameters": [
+            "Row",
+            "=",
+            "0"
+           ]
+          },
+          {
+           "type": {
+            "inverted": false,
+            "value": "SetNumberVariable"
+           },
+           "parameters": [
+            "Idx",
+            "=",
+            "0"
+           ]
+          }
+         ],
+         "events": []
+        },
+        {
+         "type": "BuiltinCommonInstructions::Repeat",
+         "repeatExpression": "StrLength(VariableString(Shape))",
+         "conditions": [],
+         "actions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "SetStringVariable"
+           },
+           "parameters": [
+            "Ch",
+            "=",
+            "SubStr(VariableString(Shape), Variable(Idx), 1)"
+           ]
+          }
+         ],
+         "events": [
+          {
+           "type": "BuiltinCommonInstructions::Standard",
+           "conditions": [
+            {
+             "type": {
+              "inverted": false,
+              "value": "StringVariable"
+             },
+             "parameters": [
+              "Ch",
+              "=",
+              "\"|\""
+             ]
+            }
+           ],
+           "actions": [
+            {
+             "type": {
+              "inverted": false,
+              "value": "SetNumberVariable"
+             },
+             "parameters": [
+              "Row",
+              "+",
+              "1"
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "SetNumberVariable"
+             },
+             "parameters": [
+              "Col",
+              "=",
+              "-1"
+             ]
+            }
+           ],
+           "events": []
+          },
+          {
+           "type": "BuiltinCommonInstructions::Standard",
+           "conditions": [
+            {
+             "type": {
+              "inverted": false,
+              "value": "StringVariable"
+             },
+             "parameters": [
+              "Ch",
+              "=",
+              "\"#\""
+             ]
+            }
+           ],
+           "actions": [
+            {
+             "type": {
+              "inverted": false,
+              "value": "Create"
+             },
+             "parameters": [
+              "",
+              "Cell",
+              "Variable(SpawnX) + Variable(Col) * GlobalVariable(Tuning.CellSize)",
+              "GlobalVariable(Tuning.GroundY) - (Variable(ShapeRows) - Variable(Row)) * GlobalVariable(Tuning.CellSize)",
+              "\"\""
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "SetStringObjectVariable"
+             },
+             "parameters": [
+              "Cell",
+              "Material",
+              "=",
+              "\"Stone\""
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "SetNumberObjectVariable"
+             },
+             "parameters": [
+              "Cell",
+              "MaxHP",
+              "=",
+              "GlobalVariable(Materials.Stone.HP)"
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "SetNumberObjectVariable"
+             },
+             "parameters": [
+              "Cell",
+              "HP",
+              "=",
+              "GlobalVariable(Materials.Stone.HP)"
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "AnimatableCapability::AnimatableBehavior::SetName"
+             },
+             "parameters": [
+              "Cell",
+              "Animation",
+              "=",
+              "\"Stone0\""
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "SetZOrder"
+             },
+             "parameters": [
+              "Cell",
+              "=",
+              "10"
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "SetNumberVariable"
+             },
+             "parameters": [
+              "CellsSpawned",
+              "+",
+              "1"
+             ]
+            }
+           ],
+           "events": []
+          },
+          {
+           "type": "BuiltinCommonInstructions::Standard",
+           "conditions": [
+            {
+             "type": {
+              "inverted": false,
+              "value": "StringVariable"
+             },
+             "parameters": [
+              "Ch",
+              "=",
+              "\"H\""
+             ]
+            }
+           ],
+           "actions": [
+            {
+             "type": {
+              "inverted": false,
+              "value": "Create"
+             },
+             "parameters": [
+              "",
+              "Cell",
+              "Variable(SpawnX) + Variable(Col) * GlobalVariable(Tuning.CellSize)",
+              "GlobalVariable(Tuning.GroundY) - (Variable(ShapeRows) - Variable(Row)) * GlobalVariable(Tuning.CellSize)",
+              "\"\""
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "SetStringObjectVariable"
+             },
+             "parameters": [
+              "Cell",
+              "Material",
+              "=",
+              "\"Hardstone\""
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "SetNumberObjectVariable"
+             },
+             "parameters": [
+              "Cell",
+              "MaxHP",
+              "=",
+              "GlobalVariable(Materials.Hardstone.HP)"
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "SetNumberObjectVariable"
+             },
+             "parameters": [
+              "Cell",
+              "HP",
+              "=",
+              "GlobalVariable(Materials.Hardstone.HP)"
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "AnimatableCapability::AnimatableBehavior::SetName"
+             },
+             "parameters": [
+              "Cell",
+              "Animation",
+              "=",
+              "\"Hardstone0\""
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "SetZOrder"
+             },
+             "parameters": [
+              "Cell",
+              "=",
+              "10"
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "SetNumberVariable"
+             },
+             "parameters": [
+              "CellsSpawned",
+              "+",
+              "1"
+             ]
+            }
+           ],
+           "events": []
+          },
+          {
+           "type": "BuiltinCommonInstructions::Standard",
+           "conditions": [],
+           "actions": [
+            {
+             "type": {
+              "inverted": false,
+              "value": "SetNumberVariable"
+             },
+             "parameters": [
+              "Col",
+              "+",
+              "1"
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "SetNumberVariable"
+             },
+             "parameters": [
+              "Idx",
+              "+",
+              "1"
+             ]
+            }
+           ],
+           "events": []
+          }
+         ]
+        },
+        {
+         "type": "BuiltinCommonInstructions::Standard",
+         "conditions": [],
+         "actions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "SetNumberVariable"
+           },
+           "parameters": [
+            "NextFormationX",
+            "=",
+            "Variable(SpawnX) + Variable(ShapeW) * GlobalVariable(Tuning.CellSize) + RandomInRange(GlobalVariable(Tuning.GapMin), GlobalVariable(Tuning.GapMax))"
+           ]
+          },
+          {
+           "type": {
+            "inverted": false,
+            "value": "SetNumberVariable"
+           },
+           "parameters": [
+            "FormationCount",
+            "+",
+            "1"
+           ]
+          }
+         ],
+         "events": []
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "type": "BuiltinCommonInstructions::Group",
+     "name": "Remove what is far behind",
+     "source": "",
+     "folded": false,
+     "colorR": 74,
+     "colorG": 112,
+     "colorB": 150,
+     "creationTime": 0,
+     "events": [
+      {
+       "type": "BuiltinCommonInstructions::Comment",
+       "color": {
+        "b": 109,
+        "g": 230,
+        "r": 255,
+        "textB": 0,
+        "textG": 0,
+        "textR": 0
+       },
+       "comment": "Everything behind the left edge of the screen is gone for good (the cloud is there)."
+      },
+      {
+       "type": "BuiltinCommonInstructions::Standard",
+       "conditions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "PosX"
+         },
+         "parameters": [
+          "Cell",
+          "<",
+          "CameraX(\"\", 0) - 330"
+         ]
+        }
+       ],
+       "actions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "Delete"
+         },
+         "parameters": [
+          "Cell",
+          ""
+         ]
+        }
+       ],
+       "events": []
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "associatedLayout": "Game",
+   "lastChangeTimeStamp": 0,
+   "name": "TowerController",
+   "events": [
+    {
+     "type": "BuiltinCommonInstructions::Comment",
+     "color": {
+      "b": 109,
+      "g": 230,
+      "r": 255,
+      "textB": 0,
+      "textG": 0,
+      "textR": 0
+     },
+     "comment": "TOWER CONTROLLER - owns: TowerStep, Blocked.\nThe tower drives right at Tuning.TowerSpeed. Each frame it moves, and if its collision mask (the chassis, 44 x 80 px) now overlaps any surviving Cell it moves back and counts as blocked. A step is at most TowerSpeed x MaxFrameTime (about 4 px), smaller than a cell, so it can never skip through one. The tower fits through an opening at least 7 cells (84 px) high."
+    },
+    {
+     "type": "BuiltinCommonInstructions::Standard",
+     "conditions": [
+      {
+       "type": {
+        "inverted": false,
+        "value": "StringVariable"
+       },
+       "parameters": [
+        "State",
+        "=",
+        "\"Run\""
+       ]
+      }
+     ],
+     "actions": [
+      {
+       "type": {
+        "inverted": false,
+        "value": "SetNumberVariable"
+       },
+       "parameters": [
+        "TowerStep",
+        "=",
+        "GlobalVariable(Tuning.TowerSpeed) * Variable(Dt)"
+       ]
+      },
+      {
+       "type": {
+        "inverted": false,
+        "value": "SetNumberVariable"
+       },
+       "parameters": [
+        "Blocked",
+        "=",
+        "0"
+       ]
+      },
+      {
+       "type": {
+        "inverted": false,
+        "value": "MettreX"
+       },
+       "parameters": [
+        "Tower",
+        "+",
+        "Variable(TowerStep)"
+       ]
+      }
+     ],
+     "events": [
+      {
+       "type": "BuiltinCommonInstructions::Standard",
+       "conditions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "CollisionNP"
+         },
+         "parameters": [
+          "Tower",
+          "Cell",
+          "",
+          "",
+          ""
+         ]
+        }
+       ],
+       "actions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "MettreX"
+         },
+         "parameters": [
+          "Tower",
+          "-",
+          "Variable(TowerStep)"
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "SetNumberVariable"
+         },
+         "parameters": [
+          "Blocked",
+          "=",
+          "1"
+         ]
+        }
+       ],
+       "events": []
+      },
+      {
+       "type": "BuiltinCommonInstructions::Standard",
+       "conditions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "NumberVariable"
+         },
+         "parameters": [
+          "Blocked",
+          "=",
+          "0"
+         ]
+        }
+       ],
+       "actions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "AnimatableCapability::AnimatableBehavior::PlayAnimation"
+         },
+         "parameters": [
+          "Tower",
+          "Animation"
+         ]
+        }
+       ],
+       "events": []
+      },
+      {
+       "type": "BuiltinCommonInstructions::Standard",
+       "conditions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "NumberVariable"
+         },
+         "parameters": [
+          "Blocked",
+          "=",
+          "1"
+         ]
+        }
+       ],
+       "actions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "AnimatableCapability::AnimatableBehavior::PauseAnimation"
+         },
+         "parameters": [
+          "Tower",
+          "Animation"
+         ]
+        }
+       ],
+       "events": []
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "associatedLayout": "Game",
+   "lastChangeTimeStamp": 0,
+   "name": "TurretController",
+   "events": [
+    {
+     "type": "BuiltinCommonInstructions::Comment",
+     "color": {
+      "b": 109,
+      "g": 230,
+      "r": 255,
+      "textB": 0,
+      "textG": 0,
+      "textR": 0
+     },
+     "comment": "TURRET CONTROLLER - owns: PivotX/Y, AimX/Y, TargetAngle, TurretAngle, InputTouch, LastTouchTime, HasAimed, Firing, FireCooldown, AimOffset, ShotsFired.\nMouse: the cursor is the aim point, hold the left button to fire.\nTouch: press anywhere below the top bar and drag; the aim point is AimOffset px above the finger so the target stays visible (change it with the AIM button, saved in storage).\nThe turret sits on the front-top corner of the chassis. Its angle is kept between straight left (-180), up, and TurretMaxDown (88 = almost straight down, in front of the tower), and it turns through the top only, so it never points or fires through the chassis."
+    },
+    {
+     "type": "BuiltinCommonInstructions::Group",
+     "name": "Settings",
+     "source": "",
+     "folded": false,
+     "colorR": 74,
+     "colorG": 112,
+     "colorB": 150,
+     "creationTime": 0,
+     "events": [
+      {
+       "type": "BuiltinCommonInstructions::Standard",
+       "conditions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "SceneJustBegins"
+         },
+         "parameters": [
+          ""
+         ]
+        }
+       ],
+       "actions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "SetNumberVariable"
+         },
+         "parameters": [
+          "AimOffset",
+          "=",
+          "GlobalVariable(Tuning.AimOffsetDefault)"
+         ]
+        }
+       ],
+       "events": [
+        {
+         "type": "BuiltinCommonInstructions::Standard",
+         "conditions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "GroupExists"
+           },
+           "parameters": [
+            "\"TowerRush\"",
+            "\"AimOffset\""
+           ]
+          }
+         ],
+         "actions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "ReadNumberFromStorage"
+           },
+           "parameters": [
+            "\"TowerRush\"",
+            "\"AimOffset\"",
+            "",
+            "AimOffset"
+           ]
+          }
+         ],
+         "events": []
+        }
+       ]
+      },
+      {
+       "type": "BuiltinCommonInstructions::Standard",
+       "conditions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "MouseButtonFromTextReleased"
+         },
+         "parameters": [
+          "",
+          "\"Left\""
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "IsCursorOnObject"
+         },
+         "parameters": [
+          "OffsetButton",
+          "",
+          "",
+          ""
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "StringVariable"
+         },
+         "parameters": [
+          "State",
+          "=",
+          "\"Run\""
+         ]
+        }
+       ],
+       "actions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "SetNumberVariable"
+         },
+         "parameters": [
+          "AimOffset",
+          "+",
+          "GlobalVariable(Tuning.AimOffsetStep)"
+         ]
+        }
+       ],
+       "events": [
+        {
+         "type": "BuiltinCommonInstructions::Standard",
+         "conditions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "NumberVariable"
+           },
+           "parameters": [
+            "AimOffset",
+            ">",
+            "GlobalVariable(Tuning.AimOffsetMax)"
+           ]
+          }
+         ],
+         "actions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "SetNumberVariable"
+           },
+           "parameters": [
+            "AimOffset",
+            "=",
+            "0"
+           ]
+          }
+         ],
+         "events": []
+        },
+        {
+         "type": "BuiltinCommonInstructions::Standard",
+         "conditions": [],
+         "actions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "EcrireFichierExp"
+           },
+           "parameters": [
+            "\"TowerRush\"",
+            "\"AimOffset\"",
+            "Variable(AimOffset)"
+           ]
+          }
+         ],
+         "events": []
+        }
+       ]
+      },
+      {
+       "type": "BuiltinCommonInstructions::Standard",
+       "conditions": [],
+       "actions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "TextContainerCapability::TextContainerBehavior::SetValue"
+         },
+         "parameters": [
+          "OffsetText",
+          "Text",
+          "=",
+          "\"AIM +\" + ToString(Variable(AimOffset))"
+         ]
+        }
+       ],
+       "events": []
+      }
+     ]
+    },
+    {
+     "type": "BuiltinCommonInstructions::Group",
+     "name": "Touch or mouse?",
+     "source": "",
+     "folded": false,
+     "colorR": 74,
+     "colorG": 112,
+     "colorB": 150,
+     "creationTime": 0,
+     "events": [
+      {
+       "type": "BuiltinCommonInstructions::Comment",
+       "color": {
+        "b": 109,
+        "g": 230,
+        "r": 255,
+        "textB": 0,
+        "textG": 0,
+        "textR": 0
+       },
+       "comment": "A real touch switches to touch aiming. A mouse press switches back, unless a finger was down in the last second (phones also send an imitation mouse click after a tap)."
+      },
+      {
+       "type": "BuiltinCommonInstructions::Standard",
+       "conditions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "HasAnyTouchStarted"
+         },
+         "parameters": [
+          ""
+         ]
+        }
+       ],
+       "actions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "SetNumberVariable"
+         },
+         "parameters": [
+          "InputTouch",
+          "=",
+          "1"
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "SetNumberVariable"
+         },
+         "parameters": [
+          "HasAimed",
+          "=",
+          "1"
+         ]
+        }
+       ],
+       "events": []
+      },
+      {
+       "type": "BuiltinCommonInstructions::Standard",
+       "conditions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "NumberVariable"
+         },
+         "parameters": [
+          "InputTouch",
+          "=",
+          "1"
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "MouseButtonFromTextPressed"
+         },
+         "parameters": [
+          "",
+          "\"Left\""
+         ]
+        }
+       ],
+       "actions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "SetNumberVariable"
+         },
+         "parameters": [
+          "LastTouchTime",
+          "=",
+          "TimeFromStart()"
+         ]
+        }
+       ],
+       "events": []
+      },
+      {
+       "type": "BuiltinCommonInstructions::Standard",
+       "conditions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "HasAnyTouchOrMouseStarted"
+         },
+         "parameters": [
+          ""
+         ]
+        },
+        {
+         "type": {
+          "inverted": true,
+          "value": "HasAnyTouchStarted"
+         },
+         "parameters": [
+          ""
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "BuiltinCommonInstructions::CompareNumbers"
+         },
+         "parameters": [
+          "TimeFromStart() - Variable(LastTouchTime)",
+          ">",
+          "1"
+         ]
+        }
+       ],
+       "actions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "SetNumberVariable"
+         },
+         "parameters": [
+          "InputTouch",
+          "=",
+          "0"
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "SetNumberVariable"
+         },
+         "parameters": [
+          "HasAimed",
+          "=",
+          "1"
+         ]
+        }
+       ],
+       "events": []
+      },
+      {
+       "type": "BuiltinCommonInstructions::Standard",
+       "conditions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "NumberVariable"
+         },
+         "parameters": [
+          "HasAimed",
+          "=",
+          "0"
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "BuiltinCommonInstructions::CompareNumbers"
+         },
+         "parameters": [
+          "CursorX(\"UI\", 0) + CursorY(\"UI\", 0)",
+          ">",
+          "0"
+         ]
+        }
+       ],
+       "actions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "SetNumberVariable"
+         },
+         "parameters": [
+          "HasAimed",
+          "=",
+          "1"
+         ]
+        }
+       ],
+       "events": []
+      }
+     ]
+    },
+    {
+     "type": "BuiltinCommonInstructions::Group",
+     "name": "Aim",
+     "source": "",
+     "folded": false,
+     "colorR": 74,
+     "colorG": 112,
+     "colorB": 150,
+     "creationTime": 0,
+     "events": [
+      {
+       "type": "BuiltinCommonInstructions::Comment",
+       "color": {
+        "b": 109,
+        "g": 230,
+        "r": 255,
+        "textB": 0,
+        "textG": 0,
+        "textR": 0
+       },
+       "comment": "CursorX/CursorY of the base layer are world coordinates: they already include the camera scroll, so the aim stays exact while the world moves."
+      },
+      {
+       "type": "BuiltinCommonInstructions::Standard",
+       "conditions": [],
+       "actions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "SetNumberVariable"
+         },
+         "parameters": [
+          "PivotX",
+          "=",
+          "Tower.X() + 22"
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "SetNumberVariable"
+         },
+         "parameters": [
+          "PivotY",
+          "=",
+          "Tower.Y() - 86"
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "SetNumberVariable"
+         },
+         "parameters": [
+          "AimX",
+          "=",
+          "CursorX(\"\", 0)"
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "SetNumberVariable"
+         },
+         "parameters": [
+          "AimY",
+          "=",
+          "CursorY(\"\", 0) - Variable(AimOffset) * Variable(InputTouch)"
+         ]
+        }
+       ],
+       "events": []
+      },
+      {
+       "type": "BuiltinCommonInstructions::Standard",
+       "conditions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "NumberVariable"
+         },
+         "parameters": [
+          "HasAimed",
+          "=",
+          "0"
+         ]
+        }
+       ],
+       "actions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "SetNumberVariable"
+         },
+         "parameters": [
+          "AimX",
+          "=",
+          "Variable(PivotX) + 200"
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "SetNumberVariable"
+         },
+         "parameters": [
+          "AimY",
+          "=",
+          "Variable(PivotY)"
+         ]
+        }
+       ],
+       "events": []
+      },
+      {
+       "type": "BuiltinCommonInstructions::Standard",
+       "conditions": [],
+       "actions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "SetNumberVariable"
+         },
+         "parameters": [
+          "TargetAngle",
+          "=",
+          "ToDeg(atan2(Variable(AimY) - Variable(PivotY), Variable(AimX) - Variable(PivotX)))"
+         ]
+        }
+       ],
+       "events": []
+      },
+      {
+       "type": "BuiltinCommonInstructions::Comment",
+       "color": {
+        "b": 109,
+        "g": 230,
+        "r": 255,
+        "textB": 0,
+        "textG": 0,
+        "textR": 0
+       },
+       "comment": "Keep the barrel out of the chassis: down-and-back angles snap to the nearest allowed one."
+      },
+      {
+       "type": "BuiltinCommonInstructions::Standard",
+       "conditions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "NumberVariable"
+         },
+         "parameters": [
+          "TargetAngle",
+          ">",
+          "GlobalVariable(Tuning.TurretMaxDown)"
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "NumberVariable"
+         },
+         "parameters": [
+          "TargetAngle",
+          "<",
+          "134"
+         ]
+        }
+       ],
+       "actions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "SetNumberVariable"
+         },
+         "parameters": [
+          "TargetAngle",
+          "=",
+          "GlobalVariable(Tuning.TurretMaxDown)"
+         ]
+        }
+       ],
+       "events": []
+      },
+      {
+       "type": "BuiltinCommonInstructions::Standard",
+       "conditions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "NumberVariable"
+         },
+         "parameters": [
+          "TargetAngle",
+          ">=",
+          "134"
+         ]
+        }
+       ],
+       "actions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "SetNumberVariable"
+         },
+         "parameters": [
+          "TargetAngle",
+          "=",
+          "-180"
+         ]
+        }
+       ],
+       "events": []
+      },
+      {
+       "type": "BuiltinCommonInstructions::Standard",
+       "conditions": [],
+       "actions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "SetNumberVariable"
+         },
+         "parameters": [
+          "TurretAngle",
+          "+",
+          "clamp(Variable(TargetAngle) - Variable(TurretAngle), -GlobalVariable(Tuning.TurretTurnSpeed) * Variable(Dt), GlobalVariable(Tuning.TurretTurnSpeed) * Variable(Dt))"
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "SetXY"
+         },
+         "parameters": [
+          "Turret",
+          "=",
+          "Variable(PivotX)",
+          "=",
+          "Variable(PivotY)"
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "SetAngle"
+         },
+         "parameters": [
+          "Turret",
+          "=",
+          "Variable(TurretAngle)"
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "SetXY"
+         },
+         "parameters": [
+          "Crosshair",
+          "=",
+          "Variable(AimX)",
+          "=",
+          "Variable(AimY)"
+         ]
+        }
+       ],
+       "events": []
+      }
+     ]
+    },
+    {
+     "type": "BuiltinCommonInstructions::Group",
+     "name": "Fire",
+     "source": "",
+     "folded": false,
+     "colorR": 74,
+     "colorG": 112,
+     "colorB": 150,
+     "creationTime": 0,
+     "events": [
+      {
+       "type": "BuiltinCommonInstructions::Standard",
+       "conditions": [],
+       "actions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "SetNumberVariable"
+         },
+         "parameters": [
+          "Firing",
+          "=",
+          "0"
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "SetNumberVariable"
+         },
+         "parameters": [
+          "FireCooldown",
+          "-",
+          "Variable(Dt)"
+         ]
+        }
+       ],
+       "events": []
+      },
+      {
+       "type": "BuiltinCommonInstructions::Standard",
+       "conditions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "StringVariable"
+         },
+         "parameters": [
+          "State",
+          "=",
+          "\"Run\""
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "NumberVariable"
+         },
+         "parameters": [
+          "HasAimed",
+          "=",
+          "1"
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "MouseButtonFromTextPressed"
+         },
+         "parameters": [
+          "",
+          "\"Left\""
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "BuiltinCommonInstructions::CompareNumbers"
+         },
+         "parameters": [
+          "CursorY(\"UI\", 0)",
+          ">",
+          "96"
+         ]
+        }
+       ],
+       "actions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "SetNumberVariable"
+         },
+         "parameters": [
+          "Firing",
+          "=",
+          "1"
+         ]
+        }
+       ],
+       "events": []
+      },
+      {
+       "type": "BuiltinCommonInstructions::Standard",
+       "conditions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "NumberVariable"
+         },
+         "parameters": [
+          "Firing",
+          "=",
+          "0"
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "NumberVariable"
+         },
+         "parameters": [
+          "FireCooldown",
+          "<",
+          "0"
+         ]
+        }
+       ],
+       "actions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "SetNumberVariable"
+         },
+         "parameters": [
+          "FireCooldown",
+          "=",
+          "0"
+         ]
+        }
+       ],
+       "events": []
+      },
+      {
+       "type": "BuiltinCommonInstructions::Standard",
+       "conditions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "NumberVariable"
+         },
+         "parameters": [
+          "Firing",
+          "=",
+          "1"
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "NumberVariable"
+         },
+         "parameters": [
+          "FireCooldown",
+          "<=",
+          "0"
+         ]
+        }
+       ],
+       "actions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "SetNumberVariable"
+         },
+         "parameters": [
+          "FireCooldown",
+          "+",
+          "1 / GlobalVariable(Tuning.FireRate)"
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "SetNumberVariable"
+         },
+         "parameters": [
+          "ShotsFired",
+          "+",
+          "1"
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "Create"
+         },
+         "parameters": [
+          "",
+          "Bullet",
+          "Variable(PivotX)",
+          "Variable(PivotY)",
+          "\"\""
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "SetAngle"
+         },
+         "parameters": [
+          "Bullet",
+          "=",
+          "Variable(TurretAngle)"
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "SetNumberObjectVariable"
+         },
+         "parameters": [
+          "Bullet",
+          "Extra",
+          "=",
+          "GlobalVariable(Tuning.BarrelLength)"
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "SetZOrder"
+         },
+         "parameters": [
+          "Bullet",
+          "=",
+          "15"
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "Show"
+         },
+         "parameters": [
+          "MuzzleFlash",
+          ""
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "ResetObjectTimer"
+         },
+         "parameters": [
+          "MuzzleFlash",
+          "\"shown\""
+         ]
+        }
+       ],
+       "events": []
+      },
+      {
+       "type": "BuiltinCommonInstructions::Standard",
+       "conditions": [],
+       "actions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "SetXY"
+         },
+         "parameters": [
+          "MuzzleFlash",
+          "=",
+          "Variable(PivotX) + cos(ToRad(Variable(TurretAngle))) * GlobalVariable(Tuning.BarrelLength)",
+          "=",
+          "Variable(PivotY) + sin(ToRad(Variable(TurretAngle))) * GlobalVariable(Tuning.BarrelLength)"
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "SetAngle"
+         },
+         "parameters": [
+          "MuzzleFlash",
+          "=",
+          "Variable(TurretAngle)"
+         ]
+        }
+       ],
+       "events": []
+      },
+      {
+       "type": "BuiltinCommonInstructions::Standard",
+       "conditions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "CompareObjectTimer"
+         },
+         "parameters": [
+          "MuzzleFlash",
+          "\"shown\"",
+          ">",
+          "0.05"
+         ]
+        }
+       ],
+       "actions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "Hide"
+         },
+         "parameters": [
+          "MuzzleFlash"
+         ]
+        }
+       ],
+       "events": []
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "associatedLayout": "Game",
+   "lastChangeTimeStamp": 0,
+   "name": "ProjectileSystem",
+   "events": [
+    {
+     "type": "BuiltinCommonInstructions::Comment",
+     "color": {
+      "b": 109,
+      "g": 230,
+      "r": 255,
+      "textB": 0,
+      "textG": 0,
+      "textR": 0
+     },
+     "comment": "PROJECTILE SYSTEM - owns: BulletStep, BulletHit, HitX, HitY.\nBullets are moved by a ray, not by forces: each frame a ray is cast from the bullet along its path for the distance it travels this frame (BulletSpeed x Dt). The first Cell the ray meets is hit - only that one - so a fast bullet can never pass through a thin cell. A new bullet starts at the turret pivot and its first ray also covers the barrel (Extra), so it leaves at the muzzle and still hits a cell touching the barrel."
+    },
+    {
+     "type": "BuiltinCommonInstructions::Standard",
+     "conditions": [],
+     "actions": [
+      {
+       "type": {
+        "inverted": false,
+        "value": "SetNumberVariable"
+       },
+       "parameters": [
+        "BulletStep",
+        "=",
+        "GlobalVariable(Tuning.BulletSpeed) * Variable(Dt)"
+       ]
+      }
+     ],
+     "events": []
+    },
+    {
+     "type": "BuiltinCommonInstructions::ForEach",
+     "object": "Bullet",
+     "conditions": [],
+     "actions": [
+      {
+       "type": {
+        "inverted": false,
+        "value": "SetNumberVariable"
+       },
+       "parameters": [
+        "BulletHit",
+        "=",
+        "0"
+       ]
+      }
+     ],
+     "events": [
+      {
+       "type": "BuiltinCommonInstructions::Standard",
+       "conditions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "Raycast"
+         },
+         "parameters": [
+          "Cell",
+          "Bullet.X()",
+          "Bullet.Y()",
+          "Bullet.Angle()",
+          "Variable(BulletStep) + Bullet.Variable(Extra)",
+          "HitX",
+          "HitY",
+          ""
+         ]
+        }
+       ],
+       "actions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "SetNumberVariable"
+         },
+         "parameters": [
+          "BulletHit",
+          "=",
+          "1"
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "SetNumberVariable"
+         },
+         "parameters": [
+          "ShotsHit",
+          "+",
+          "1"
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "SetNumberObjectVariable"
+         },
+         "parameters": [
+          "Cell",
+          "HP",
+          "-",
+          "GlobalVariable(Tuning.BulletDamage)"
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "Create"
+         },
+         "parameters": [
+          "",
+          "Spark",
+          "Variable(HitX)",
+          "Variable(HitY)",
+          "\"\""
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "SetZOrder"
+         },
+         "parameters": [
+          "Spark",
+          "=",
+          "26"
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "Delete"
+         },
+         "parameters": [
+          "Bullet",
+          ""
+         ]
+        }
+       ],
+       "events": [
+        {
+         "type": "BuiltinCommonInstructions::Standard",
+         "conditions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "NumberObjectVariable"
+           },
+           "parameters": [
+            "Cell",
+            "HP",
+            "<=",
+            "0"
+           ]
+          }
+         ],
+         "actions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "SetNumberVariable"
+           },
+           "parameters": [
+            "CellsDestroyed",
+            "+",
+            "1"
+           ]
+          }
+         ],
+         "events": [
+          {
+           "type": "BuiltinCommonInstructions::Repeat",
+           "repeatExpression": "3",
+           "conditions": [],
+           "actions": [
+            {
+             "type": {
+              "inverted": false,
+              "value": "Create"
+             },
+             "parameters": [
+              "",
+              "Debris",
+              "Cell.CenterX()",
+              "Cell.CenterY()",
+              "\"\""
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "SetNumberObjectVariable"
+             },
+             "parameters": [
+              "Debris",
+              "VX",
+              "=",
+              "RandomFloatInRange(-60, 160)"
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "SetNumberObjectVariable"
+             },
+             "parameters": [
+              "Debris",
+              "VY",
+              "=",
+              "RandomFloatInRange(-260, -60)"
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "SetZOrder"
+             },
+             "parameters": [
+              "Debris",
+              "=",
+              "25"
+             ]
+            }
+           ],
+           "events": []
+          },
+          {
+           "type": "BuiltinCommonInstructions::Standard",
+           "conditions": [],
+           "actions": [
+            {
+             "type": {
+              "inverted": false,
+              "value": "Delete"
+             },
+             "parameters": [
+              "Cell",
+              ""
+             ]
+            }
+           ],
+           "events": []
+          }
+         ]
+        },
+        {
+         "type": "BuiltinCommonInstructions::Standard",
+         "conditions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "NumberObjectVariable"
+           },
+           "parameters": [
+            "Cell",
+            "HP",
+            ">",
+            "0"
+           ]
+          }
+         ],
+         "actions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "ChangeColor"
+           },
+           "parameters": [
+            "Cell",
+            "\"255;170;140\""
+           ]
+          },
+          {
+           "type": {
+            "inverted": false,
+            "value": "ResetObjectTimer"
+           },
+           "parameters": [
+            "Cell",
+            "\"flash\""
+           ]
+          },
+          {
+           "type": {
+            "inverted": false,
+            "value": "SetNumberObjectVariable"
+           },
+           "parameters": [
+            "Cell",
+            "Flash",
+            "=",
+            "1"
+           ]
+          },
+          {
+           "type": {
+            "inverted": false,
+            "value": "AnimatableCapability::AnimatableBehavior::SetName"
+           },
+           "parameters": [
+            "Cell",
+            "Animation",
+            "=",
+            "Cell.VariableString(Material) + ToString(min(2, floor((1 - Cell.Variable(HP) / Cell.Variable(MaxHP)) * 3)))"
+           ]
+          }
+         ],
+         "events": []
+        }
+       ]
+      },
+      {
+       "type": "BuiltinCommonInstructions::Standard",
+       "conditions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "NumberVariable"
+         },
+         "parameters": [
+          "BulletHit",
+          "=",
+          "0"
+         ]
+        }
+       ],
+       "actions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "SetXY"
+         },
+         "parameters": [
+          "Bullet",
+          "=",
+          "Bullet.X() + cos(ToRad(Bullet.Angle())) * (Variable(BulletStep) + Bullet.Variable(Extra))",
+          "=",
+          "Bullet.Y() + sin(ToRad(Bullet.Angle())) * (Variable(BulletStep) + Bullet.Variable(Extra))"
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "SetNumberObjectVariable"
+         },
+         "parameters": [
+          "Bullet",
+          "Extra",
+          "=",
+          "0"
+         ]
+        }
+       ],
+       "events": []
+      }
+     ]
+    },
+    {
+     "type": "BuiltinCommonInstructions::Group",
+     "name": "Bullets that leave the play area",
+     "source": "",
+     "folded": false,
+     "colorR": 74,
+     "colorG": 112,
+     "colorB": 150,
+     "creationTime": 0,
+     "events": [
+      {
+       "type": "BuiltinCommonInstructions::Standard",
+       "conditions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "PosY"
+         },
+         "parameters": [
+          "Bullet",
+          ">",
+          "GlobalVariable(Tuning.GroundY)"
+         ]
+        }
+       ],
+       "actions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "Create"
+         },
+         "parameters": [
+          "",
+          "Spark",
+          "Bullet.X()",
+          "GlobalVariable(Tuning.GroundY)",
+          "\"\""
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "SetZOrder"
+         },
+         "parameters": [
+          "Spark",
+          "=",
+          "26"
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "Delete"
+         },
+         "parameters": [
+          "Bullet",
+          ""
+         ]
+        }
+       ],
+       "events": []
+      },
+      {
+       "type": "BuiltinCommonInstructions::Standard",
+       "conditions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "PosX"
+         },
+         "parameters": [
+          "Bullet",
+          ">",
+          "CameraX(\"\", 0) + 320"
+         ]
+        }
+       ],
+       "actions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "Delete"
+         },
+         "parameters": [
+          "Bullet",
+          ""
+         ]
+        }
+       ],
+       "events": []
+      },
+      {
+       "type": "BuiltinCommonInstructions::Standard",
+       "conditions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "PosX"
+         },
+         "parameters": [
+          "Bullet",
+          "<",
+          "CameraX(\"\", 0) - 320"
+         ]
+        }
+       ],
+       "actions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "Delete"
+         },
+         "parameters": [
+          "Bullet",
+          ""
+         ]
+        }
+       ],
+       "events": []
+      },
+      {
+       "type": "BuiltinCommonInstructions::Standard",
+       "conditions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "PosY"
+         },
+         "parameters": [
+          "Bullet",
+          "<",
+          "-60"
+         ]
+        }
+       ],
+       "actions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "Delete"
+         },
+         "parameters": [
+          "Bullet",
+          ""
+         ]
+        }
+       ],
+       "events": []
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "associatedLayout": "Game",
+   "lastChangeTimeStamp": 0,
+   "name": "ObstacleGrid",
+   "events": [
+    {
+     "type": "BuiltinCommonInstructions::Comment",
+     "color": {
+      "b": 109,
+      "g": 230,
+      "r": 255,
+      "textB": 0,
+      "textG": 0,
+      "textR": 0
+     },
+     "comment": "OBSTACLE GRID - owns: CellsDestroyed, CellsSpawned, the Cell object variables (HP, MaxHP, Material, Flash) and the hit effects.\nEvery Cell is its own 12 x 12 object with its own collision mask, so a destroyed cell stops blocking at once and the tower can drive through any tunnel big enough for its chassis. Damage states are the animations <Material>0, 1 and 2 (intact to badly cracked)."
+    },
+    {
+     "type": "BuiltinCommonInstructions::Group",
+     "name": "Hit flash",
+     "source": "",
+     "folded": false,
+     "colorR": 74,
+     "colorG": 112,
+     "colorB": 150,
+     "creationTime": 0,
+     "events": [
+      {
+       "type": "BuiltinCommonInstructions::Standard",
+       "conditions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "NumberObjectVariable"
+         },
+         "parameters": [
+          "Cell",
+          "Flash",
+          "=",
+          "1"
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "CompareObjectTimer"
+         },
+         "parameters": [
+          "Cell",
+          "\"flash\"",
+          ">",
+          "0.06"
+         ]
+        }
+       ],
+       "actions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "ChangeColor"
+         },
+         "parameters": [
+          "Cell",
+          "\"255;255;255\""
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "SetNumberObjectVariable"
+         },
+         "parameters": [
+          "Cell",
+          "Flash",
+          "=",
+          "0"
+         ]
+        }
+       ],
+       "events": []
+      }
+     ]
+    },
+    {
+     "type": "BuiltinCommonInstructions::Group",
+     "name": "Debris and sparks",
+     "source": "",
+     "folded": false,
+     "colorR": 74,
+     "colorG": 112,
+     "colorB": 150,
+     "creationTime": 0,
+     "events": [
+      {
+       "type": "BuiltinCommonInstructions::Standard",
+       "conditions": [],
+       "actions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "SetNumberObjectVariable"
+         },
+         "parameters": [
+          "Debris",
+          "VY",
+          "+",
+          "900 * Variable(Dt)"
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "SetXY"
+         },
+         "parameters": [
+          "Debris",
+          "=",
+          "Debris.X() + Debris.Variable(VX) * Variable(Dt)",
+          "=",
+          "Debris.Y() + Debris.Variable(VY) * Variable(Dt)"
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "SetNumberObjectVariable"
+         },
+         "parameters": [
+          "Debris",
+          "Life",
+          "+",
+          "Variable(Dt)"
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "SetNumberObjectVariable"
+         },
+         "parameters": [
+          "Spark",
+          "Life",
+          "+",
+          "Variable(Dt)"
+         ]
+        }
+       ],
+       "events": []
+      },
+      {
+       "type": "BuiltinCommonInstructions::Standard",
+       "conditions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "NumberObjectVariable"
+         },
+         "parameters": [
+          "Debris",
+          "Life",
+          ">",
+          "0.7"
+         ]
+        }
+       ],
+       "actions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "Delete"
+         },
+         "parameters": [
+          "Debris",
+          ""
+         ]
+        }
+       ],
+       "events": []
+      },
+      {
+       "type": "BuiltinCommonInstructions::Standard",
+       "conditions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "PosY"
+         },
+         "parameters": [
+          "Debris",
+          ">",
+          "GlobalVariable(Tuning.GroundY)"
+         ]
+        }
+       ],
+       "actions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "Delete"
+         },
+         "parameters": [
+          "Debris",
+          ""
+         ]
+        }
+       ],
+       "events": []
+      },
+      {
+       "type": "BuiltinCommonInstructions::Standard",
+       "conditions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "NumberObjectVariable"
+         },
+         "parameters": [
+          "Spark",
+          "Life",
+          ">",
+          "0.07"
+         ]
+        }
+       ],
+       "actions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "Delete"
+         },
+         "parameters": [
+          "Spark",
+          ""
+         ]
+        }
+       ],
+       "events": []
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "associatedLayout": "Game",
+   "lastChangeTimeStamp": 0,
+   "name": "CloudController",
+   "events": [
+    {
+     "type": "BuiltinCommonInstructions::Comment",
+     "color": {
+      "b": 109,
+      "g": 230,
+      "r": 255,
+      "textB": 0,
+      "textG": 0,
+      "textR": 0
+     },
+     "comment": "CLOUD CONTROLLER - owns: CloudX, CloudGap.\nThe cloud is a wall of gas at world position CloudX (its right edge). It moves right at Tuning.CloudSpeed all the time, whatever the tower does; it starts Tuning.CloudStartGap px behind the back of the chassis. When it reaches the chassis the run ends."
+    },
+    {
+     "type": "BuiltinCommonInstructions::Standard",
+     "conditions": [
+      {
+       "type": {
+        "inverted": false,
+        "value": "SceneJustBegins"
+       },
+       "parameters": [
+        ""
+       ]
+      }
+     ],
+     "actions": [
+      {
+       "type": {
+        "inverted": false,
+        "value": "SetNumberVariable"
+       },
+       "parameters": [
+        "CloudX",
+        "=",
+        "Tower.X() - 22 - GlobalVariable(Tuning.CloudStartGap)"
+       ]
+      }
+     ],
+     "events": []
+    },
+    {
+     "type": "BuiltinCommonInstructions::Standard",
+     "conditions": [
+      {
+       "type": {
+        "inverted": false,
+        "value": "StringVariable"
+       },
+       "parameters": [
+        "State",
+        "=",
+        "\"Run\""
+       ]
+      }
+     ],
+     "actions": [
+      {
+       "type": {
+        "inverted": false,
+        "value": "SetNumberVariable"
+       },
+       "parameters": [
+        "CloudX",
+        "+",
+        "GlobalVariable(Tuning.CloudSpeed) * Variable(Dt)"
+       ]
+      }
+     ],
+     "events": []
+    },
+    {
+     "type": "BuiltinCommonInstructions::Comment",
+     "color": {
+      "b": 109,
+      "g": 230,
+      "r": 255,
+      "textB": 0,
+      "textG": 0,
+      "textR": 0
+     },
+     "comment": "After the run ends the cloud rolls on a little to swallow the tower."
+    },
+    {
+     "type": "BuiltinCommonInstructions::Standard",
+     "conditions": [
+      {
+       "type": {
+        "inverted": false,
+        "value": "StringVariable"
+       },
+       "parameters": [
+        "State",
+        "=",
+        "\"Over\""
+       ]
+      },
+      {
+       "type": {
+        "inverted": false,
+        "value": "BuiltinCommonInstructions::CompareNumbers"
+       },
+       "parameters": [
+        "Variable(CloudX)",
+        "<",
+        "Tower.X() + 60"
+       ]
+      }
+     ],
+     "actions": [
+      {
+       "type": {
+        "inverted": false,
+        "value": "SetNumberVariable"
+       },
+       "parameters": [
+        "CloudX",
+        "+",
+        "GlobalVariable(Tuning.CloudSpeed) * 2 * Variable(Dt)"
+       ]
+      }
+     ],
+     "events": []
+    },
+    {
+     "type": "BuiltinCommonInstructions::Standard",
+     "conditions": [],
+     "actions": [
+      {
+       "type": {
+        "inverted": false,
+        "value": "SetNumberVariable"
+       },
+       "parameters": [
+        "CloudGap",
+        "=",
+        "Tower.X() - 22 - Variable(CloudX)"
+       ]
+      },
+      {
+       "type": {
+        "inverted": false,
+        "value": "SetXY"
+       },
+       "parameters": [
+        "Cloud",
+        "=",
+        "Variable(CloudX)",
+        "=",
+        "-20 + sin(TimeFromStart() * 1.7) * 8"
+       ]
+      }
+     ],
+     "events": []
+    },
+    {
+     "type": "BuiltinCommonInstructions::Standard",
+     "conditions": [
+      {
+       "type": {
+        "inverted": false,
+        "value": "StringVariable"
+       },
+       "parameters": [
+        "State",
+        "=",
+        "\"Run\""
+       ]
+      },
+      {
+       "type": {
+        "inverted": false,
+        "value": "NumberVariable"
+       },
+       "parameters": [
+        "CloudGap",
+        "<=",
+        "0"
+       ]
+      }
+     ],
+     "actions": [
+      {
+       "type": {
+        "inverted": false,
+        "value": "SetStringVariable"
+       },
+       "parameters": [
+        "State",
+        "=",
+        "\"Dying\""
+       ]
+      }
+     ],
+     "events": []
+    }
+   ]
+  },
+  {
+   "associatedLayout": "Game",
+   "lastChangeTimeStamp": 0,
+   "name": "CameraAndHUD",
+   "events": [
+    {
+     "type": "BuiltinCommonInstructions::Comment",
+     "color": {
+      "b": 109,
+      "g": 230,
+      "r": 255,
+      "textB": 0,
+      "textG": 0,
+      "textR": 0
+     },
+     "comment": "CAMERA AND HUD - reads the other systems' variables, owns nothing else.\nThe camera follows the tower horizontally with the tower in the left part of the screen (Tuning.CameraLead), so the next formations are visible. The ground and far hills are tiled sprites that follow the camera."
+    },
+    {
+     "type": "BuiltinCommonInstructions::Standard",
+     "conditions": [],
+     "actions": [
+      {
+       "type": {
+        "inverted": false,
+        "value": "SetCameraCenterX"
+       },
+       "parameters": [
+        "",
+        "=",
+        "Tower.X() + GlobalVariable(Tuning.CameraLead)",
+        "\"\"",
+        "0"
+       ]
+      },
+      {
+       "type": {
+        "inverted": false,
+        "value": "SetXY"
+       },
+       "parameters": [
+        "Ground",
+        "=",
+        "floor((CameraX(\"\", 0) - 300) / 32) * 32",
+        "=",
+        "GlobalVariable(Tuning.GroundY)"
+       ]
+      },
+      {
+       "type": {
+        "inverted": false,
+        "value": "SetXY"
+       },
+       "parameters": [
+        "Hills",
+        "=",
+        "CameraX(\"\", 0) - 270",
+        "=",
+        "560"
+       ]
+      },
+      {
+       "type": {
+        "inverted": false,
+        "value": "TiledSpriteObject::XOffset"
+       },
+       "parameters": [
+        "Hills",
+        "=",
+        "CameraX(\"\", 0) * 0.3"
+       ]
+      }
+     ],
+     "events": []
+    },
+    {
+     "type": "BuiltinCommonInstructions::Group",
+     "name": "HUD",
+     "source": "",
+     "folded": false,
+     "colorR": 74,
+     "colorG": 112,
+     "colorB": 150,
+     "creationTime": 0,
+     "events": [
+      {
+       "type": "BuiltinCommonInstructions::Standard",
+       "conditions": [],
+       "actions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "TextContainerCapability::TextContainerBehavior::SetValue"
+         },
+         "parameters": [
+          "DistanceText",
+          "Text",
+          "=",
+          "ToString(floor(Variable(Distance))) + \" m\""
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "TextContainerCapability::TextContainerBehavior::SetValue"
+         },
+         "parameters": [
+          "BestText",
+          "Text",
+          "=",
+          "\"BEST \" + ToString(Variable(BestDistance)) + \" m\""
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "TextContainerCapability::TextContainerBehavior::SetValue"
+         },
+         "parameters": [
+          "GasText",
+          "Text",
+          "=",
+          "\"GAS \" + ToString(max(0, floor(Variable(CloudGap) / GlobalVariable(Tuning.PixelsPerMeter)))) + \" m BEHIND\""
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "OpacityCapability::OpacityBehavior::SetValue"
+         },
+         "parameters": [
+          "WarningEdge",
+          "Opacity",
+          "=",
+          "clamp((GlobalVariable(Tuning.WarningDistance) - Variable(CloudGap)) / GlobalVariable(Tuning.WarningDistance), 0, 1) * (190 + 65 * sin(TimeFromStart() * 14))"
+         ]
+        }
+       ],
+       "events": []
+      },
+      {
+       "type": "BuiltinCommonInstructions::Standard",
+       "conditions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "NumberVariable"
+         },
+         "parameters": [
+          "CloudGap",
+          "<",
+          "GlobalVariable(Tuning.WarningDistance)"
+         ]
+        }
+       ],
+       "actions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "TextObject::ChangeColor"
+         },
+         "parameters": [
+          "GasText",
+          "\"255;80;60\""
+         ]
+        }
+       ],
+       "events": []
+      },
+      {
+       "type": "BuiltinCommonInstructions::Standard",
+       "conditions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "NumberVariable"
+         },
+         "parameters": [
+          "CloudGap",
+          ">=",
+          "GlobalVariable(Tuning.WarningDistance)"
+         ]
+        }
+       ],
+       "actions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "TextObject::ChangeColor"
+         },
+         "parameters": [
+          "GasText",
+          "\"200;235;150\""
+         ]
+        }
+       ],
+       "events": []
+      },
+      {
+       "type": "BuiltinCommonInstructions::Standard",
+       "conditions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "NumberVariable"
+         },
+         "parameters": [
+          "ShotsFired",
+          ">",
+          "0"
+         ]
+        }
+       ],
+       "actions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "Hide"
+         },
+         "parameters": [
+          "HintText"
+         ]
+        }
+       ],
+       "events": []
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "tests": [],
+ "eventsFunctionsExtensions": [],
+ "externalLayouts": []
+}

@@ -1,0 +1,12 @@
+{
+  "name": "Tower Rush",
+  "short_name": "Tower Rush",
+  "id": "com.lonewolfproduction.towerrush",
+  "description": "Blast a path through stone with your tracked tower before the gas cloud catches you.",
+  "orientation": "portrait",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "black",
+  "categories": ["games", "entertainment"],
+  "icons": []
+}

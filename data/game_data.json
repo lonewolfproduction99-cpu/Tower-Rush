@@ -1,0 +1,62 @@
+{
+  "_about": "Tower Rush tuning and content. tools/build_project.py turns each table into a global variable (Project manager > Global variables in GDevelop). Distances are in pixels; 10 px = 1 m.",
+  "Tuning": {
+    "GroundY": 800,
+    "CellSize": 12,
+    "TowerStartX": 150,
+    "TowerSpeed": 85,
+    "CloudSpeed": 60,
+    "CloudStartGap": 450,
+    "WarningDistance": 170,
+    "FireRate": 6,
+    "BulletDamage": 1,
+    "BulletSpeed": 900,
+    "BarrelLength": 34,
+    "TurretTurnSpeed": 900,
+    "TurretMaxDown": 88,
+    "AimOffsetDefault": 80,
+    "AimOffsetStep": 40,
+    "AimOffsetMax": 160,
+    "CameraLead": 140,
+    "SpawnAhead": 320,
+    "FirstFormationAt": 360,
+    "IntroFormations": 2,
+    "GapMin": 240,
+    "GapMax": 380,
+    "MinSpawnAheadOfTower": 200,
+    "PixelsPerMeter": 10,
+    "MaxFrameTime": 0.05
+  },
+  "Materials": {
+    "Stone": {"Char": "#", "HP": 1, "Solid": 1},
+    "Hardstone": {"Char": "H", "HP": 3, "Solid": 1}
+  },
+  "Formations": [
+    {"Name": "Gate", "Rows": [
+      "HH", "HH", "HH",
+      "##", "##", "##", "##", "##", "##", "##", "##", "##", "##", "##", "##", "##", "##", "##"]},
+    {"Name": "Cave", "Rows": [
+      "HHHHHHHHHH", "HHHHHHHHHH", "HHHHHHHHHH",
+      "##########", "##########", "##########", "##########", "##########",
+      "..........", "..........", "..........", "..........", "..........", ".........."]},
+    {"Name": "Wall", "Rows": [
+      "HHH", "HHH", "HHH", "HHH",
+      "###", "###", "###", "###", "###", "###", "###", "###", "###", "###", "###", "###", "###", "###",
+      "###", "###", "###", "###"]},
+    {"Name": "Arch", "Rows": [
+      "HHHHHHHHH", "HHHHHHHHH", "HHHHHHHHH",
+      "#########", "#########", "#########", "#########", "#########", "#########",
+      "#.......#", "#.......#", "#.......#", "#.......#", "#.......#", "#.......#", "#.......#"]},
+    {"Name": "Mound", "Rows": [
+      "...##...", "..####..", ".######.", "########"]},
+    {"Name": "Pillar", "Rows": [
+      "HHH", "HHH", "HHH", "HHH", "HHH", "HHH",
+      "###", "###", "###", "###", "###", "###", "###", "###", "###", "###", "###", "###", "###", "###",
+      "###", "###", "###", "###", "###", "###", "###", "###", "###", "###", "###", "###", "###", "###",
+      "###", "###", "###", "###", "###", "###"]},
+    {"Name": "Twins", "Rows": [
+      "HHHHHH", "HHHHHH",
+      "#....#", "#....#", "#....#", "#....#", "#....#", "#....#", "#....#", "#....#", "#....#",
+      "#....#", "#....#", "#....#", "#....#", "#....#", "#....#", "#....#", "#....#", "#....#"]}
+  ]
+}

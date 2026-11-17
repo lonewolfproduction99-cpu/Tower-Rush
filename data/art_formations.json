@@ -1,0 +1,37 @@
+[
+ {
+  "Name": "placeholder_boulder",
+  "Texture": "formation_placeholder_boulder.png",
+  "Rows": [
+   ".####.",
+   "######",
+   "######",
+   "######"
+  ],
+  "Intro": false
+ },
+ {
+  "Name": "placeholder_ruin",
+  "Texture": "formation_placeholder_ruin.png",
+  "Rows": [
+   ".........C",
+   ".........C",
+   "C........C",
+   "MMMMMMMMMM",
+   "CCCCCCCCCC",
+   "CC..C..CCC",
+   "CC..C..CCC",
+   "CC..C..CCC",
+   "CCCCCCCCCC",
+   "MMMMMMMMMM",
+   "C........C",
+   "C........C",
+   "C........C",
+   ".........C",
+   ".........C",
+   "CC.......C",
+   "CC.......C"
+  ],
+  "Intro": false
+ }
+]

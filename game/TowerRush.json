@@ -94,54 +94,6 @@
     "userAdded": true
    },
    {
-    "file": "assets/cell_hard_0.png",
-    "kind": "image",
-    "metadata": "",
-    "name": "cell_hard_0.png",
-    "smoothed": false,
-    "userAdded": true
-   },
-   {
-    "file": "assets/cell_hard_1.png",
-    "kind": "image",
-    "metadata": "",
-    "name": "cell_hard_1.png",
-    "smoothed": false,
-    "userAdded": true
-   },
-   {
-    "file": "assets/cell_hard_2.png",
-    "kind": "image",
-    "metadata": "",
-    "name": "cell_hard_2.png",
-    "smoothed": false,
-    "userAdded": true
-   },
-   {
-    "file": "assets/cell_stone_0.png",
-    "kind": "image",
-    "metadata": "",
-    "name": "cell_stone_0.png",
-    "smoothed": false,
-    "userAdded": true
-   },
-   {
-    "file": "assets/cell_stone_1.png",
-    "kind": "image",
-    "metadata": "",
-    "name": "cell_stone_1.png",
-    "smoothed": false,
-    "userAdded": true
-   },
-   {
-    "file": "assets/cell_stone_2.png",
-    "kind": "image",
-    "metadata": "",
-    "name": "cell_stone_2.png",
-    "smoothed": false,
-    "userAdded": true
-   },
-   {
     "file": "assets/cloud_0.png",
     "kind": "image",
     "metadata": "",
@@ -166,6 +118,22 @@
     "userAdded": true
    },
    {
+    "file": "assets/crack_1.png",
+    "kind": "image",
+    "metadata": "",
+    "name": "crack_1.png",
+    "smoothed": false,
+    "userAdded": true
+   },
+   {
+    "file": "assets/crack_2.png",
+    "kind": "image",
+    "metadata": "",
+    "name": "crack_2.png",
+    "smoothed": false,
+    "userAdded": true
+   },
+   {
     "file": "assets/crosshair.png",
     "kind": "image",
     "metadata": "",
@@ -178,6 +146,22 @@
     "kind": "image",
     "metadata": "",
     "name": "debris.png",
+    "smoothed": false,
+    "userAdded": true
+   },
+   {
+    "file": "assets/formation_placeholder_boulder.png",
+    "kind": "image",
+    "metadata": "",
+    "name": "formation_placeholder_boulder.png",
+    "smoothed": false,
+    "userAdded": true
+   },
+   {
+    "file": "assets/formation_placeholder_ruin.png",
+    "kind": "image",
+    "metadata": "",
+    "name": "formation_placeholder_ruin.png",
     "smoothed": false,
     "userAdded": true
    },
@@ -218,6 +202,38 @@
     "kind": "image",
     "metadata": "",
     "name": "spark.png",
+    "smoothed": false,
+    "userAdded": true
+   },
+   {
+    "file": "assets/tile_concrete.png",
+    "kind": "image",
+    "metadata": "",
+    "name": "tile_concrete.png",
+    "smoothed": false,
+    "userAdded": true
+   },
+   {
+    "file": "assets/tile_hard.png",
+    "kind": "image",
+    "metadata": "",
+    "name": "tile_hard.png",
+    "smoothed": false,
+    "userAdded": true
+   },
+   {
+    "file": "assets/tile_metal.png",
+    "kind": "image",
+    "metadata": "",
+    "name": "tile_metal.png",
+    "smoothed": false,
+    "userAdded": true
+   },
+   {
+    "file": "assets/tile_stone.png",
+    "kind": "image",
+    "metadata": "",
+    "name": "tile_stone.png",
     "smoothed": false,
     "userAdded": true
    },
@@ -390,6 +406,11 @@
      "name": "MaxFrameTime",
      "type": "number",
      "value": 0.05
+    },
+    {
+     "name": "TestFormation",
+     "type": "number",
+     "value": -1
     }
    ]
   },
@@ -412,9 +433,19 @@
        "value": 1
       },
       {
-       "name": "Solid",
-       "type": "number",
-       "value": 1
+       "name": "Tile",
+       "type": "string",
+       "value": "tile_stone.png"
+      },
+      {
+       "name": "MapColor",
+       "type": "string",
+       "value": "#8c7a64"
+      },
+      {
+       "name": "DebrisColor",
+       "type": "string",
+       "value": "150;136;120"
       }
      ]
     },
@@ -433,9 +464,81 @@
        "value": 3
       },
       {
-       "name": "Solid",
+       "name": "Tile",
+       "type": "string",
+       "value": "tile_hard.png"
+      },
+      {
+       "name": "MapColor",
+       "type": "string",
+       "value": "#3c4664"
+      },
+      {
+       "name": "DebrisColor",
+       "type": "string",
+       "value": "100;104;120"
+      }
+     ]
+    },
+    {
+     "name": "Concrete",
+     "type": "structure",
+     "children": [
+      {
+       "name": "Char",
+       "type": "string",
+       "value": "C"
+      },
+      {
+       "name": "HP",
        "type": "number",
        "value": 1
+      },
+      {
+       "name": "Tile",
+       "type": "string",
+       "value": "tile_concrete.png"
+      },
+      {
+       "name": "MapColor",
+       "type": "string",
+       "value": "#808080"
+      },
+      {
+       "name": "DebrisColor",
+       "type": "string",
+       "value": "170;170;164"
+      }
+     ]
+    },
+    {
+     "name": "Metal",
+     "type": "structure",
+     "children": [
+      {
+       "name": "Char",
+       "type": "string",
+       "value": "M"
+      },
+      {
+       "name": "HP",
+       "type": "number",
+       "value": 4
+      },
+      {
+       "name": "Tile",
+       "type": "string",
+       "value": "tile_metal.png"
+      },
+      {
+       "name": "MapColor",
+       "type": "string",
+       "value": "#ff0000"
+      },
+      {
+       "name": "DebrisColor",
+       "type": "string",
+       "value": "150;90;60"
       }
      ]
     }
@@ -457,6 +560,11 @@
        "name": "Shape",
        "type": "string",
        "value": "HH|HH|HH|##|##|##|##|##|##|##|##|##|##|##|##|##|##|##"
+      },
+      {
+       "name": "Art",
+       "type": "number",
+       "value": 0
       }
      ]
     },
@@ -472,6 +580,11 @@
        "name": "Shape",
        "type": "string",
        "value": "HHHHHHHHHH|HHHHHHHHHH|HHHHHHHHHH|##########|##########|##########|##########|##########|..........|..........|..........|..........|..........|.........."
+      },
+      {
+       "name": "Art",
+       "type": "number",
+       "value": 0
       }
      ]
     },
@@ -487,6 +600,11 @@
        "name": "Shape",
        "type": "string",
        "value": "HHH|HHH|HHH|HHH|###|###|###|###|###|###|###|###|###|###|###|###|###|###|###|###|###|###"
+      },
+      {
+       "name": "Art",
+       "type": "number",
+       "value": 0
       }
      ]
     },
@@ -502,6 +620,11 @@
        "name": "Shape",
        "type": "string",
        "value": "HHHHHHHHH|HHHHHHHHH|HHHHHHHHH|#########|#########|#########|#########|#########|#########|#.......#|#.......#|#.......#|#.......#|#.......#|#.......#|#.......#"
+      },
+      {
+       "name": "Art",
+       "type": "number",
+       "value": 0
       }
      ]
     },
@@ -517,6 +640,11 @@
        "name": "Shape",
        "type": "string",
        "value": "...##...|..####..|.######.|########"
+      },
+      {
+       "name": "Art",
+       "type": "number",
+       "value": 0
       }
      ]
     },
@@ -532,6 +660,11 @@
        "name": "Shape",
        "type": "string",
        "value": "HHH|HHH|HHH|HHH|HHH|HHH|###|###|###|###|###|###|###|###|###|###|###|###|###|###|###|###|###|###|###|###|###|###|###|###|###|###|###|###|###|###|###|###|###|###"
+      },
+      {
+       "name": "Art",
+       "type": "number",
+       "value": 0
       }
      ]
     },
@@ -547,6 +680,51 @@
        "name": "Shape",
        "type": "string",
        "value": "HHHHHH|HHHHHH|#....#|#....#|#....#|#....#|#....#|#....#|#....#|#....#|#....#|#....#|#....#|#....#|#....#|#....#|#....#|#....#|#....#|#....#"
+      },
+      {
+       "name": "Art",
+       "type": "number",
+       "value": 0
+      }
+     ]
+    },
+    {
+     "type": "structure",
+     "children": [
+      {
+       "name": "Name",
+       "type": "string",
+       "value": "placeholder_boulder"
+      },
+      {
+       "name": "Shape",
+       "type": "string",
+       "value": ".####.|######|######|######"
+      },
+      {
+       "name": "Art",
+       "type": "number",
+       "value": 1
+      }
+     ]
+    },
+    {
+     "type": "structure",
+     "children": [
+      {
+       "name": "Name",
+       "type": "string",
+       "value": "placeholder_ruin"
+      },
+      {
+       "name": "Shape",
+       "type": "string",
+       "value": ".........C|.........C|C........C|MMMMMMMMMM|CCCCCCCCCC|CC..C..CCC|CC..C..CCC|CC..C..CCC|CCCCCCCCCC|MMMMMMMMMM|C........C|C........C|C........C|.........C|.........C|CC.......C|CC.......C"
+      },
+      {
+       "name": "Art",
+       "type": "number",
+       "value": 1
       }
      ]
     }
@@ -669,6 +847,11 @@
     },
     {
      "name": "SpawnX",
+     "type": "number",
+     "value": 0
+    },
+    {
+     "name": "FormationArt",
      "type": "number",
      "value": 0
     },
@@ -1387,7 +1570,7 @@
      "assetStoreId": "",
      "name": "Cell",
      "persistentUuid": "96826d07-fe49-521f-975e-be899eb1bab6",
-     "type": "Sprite",
+     "type": "TiledSpriteObject::TiledSprite",
      "variables": [
       {
        "name": "HP",
@@ -1408,15 +1591,52 @@
        "name": "Flash",
        "type": "number",
        "value": 0
+      },
+      {
+       "name": "Stage",
+       "type": "number",
+       "value": 0
+      },
+      {
+       "name": "HasCrack",
+       "type": "number",
+       "value": 0
+      },
+      {
+       "name": "Batch",
+       "type": "number",
+       "value": 0
+      },
+      {
+       "name": "SliceX",
+       "type": "number",
+       "value": 0
+      },
+      {
+       "name": "SliceY",
+       "type": "number",
+       "value": 0
       }
      ],
+     "effects": [],
+     "behaviors": [],
+     "texture": "tile_stone.png",
+     "width": 12,
+     "height": 12
+    },
+    {
+     "assetStoreId": "",
+     "name": "Crack",
+     "persistentUuid": "3bb92e4d-f445-5921-af44-b21587754444",
+     "type": "Sprite",
+     "variables": [],
      "effects": [],
      "behaviors": [],
      "adaptCollisionMaskAutomatically": false,
      "updateIfNotVisible": false,
      "animations": [
       {
-       "name": "Stone0",
+       "name": "Crack1",
        "useMultipleDirections": false,
        "directions": [
         {
@@ -1425,7 +1645,7 @@
          "sprites": [
           {
            "hasCustomCollisionMask": false,
-           "image": "cell_stone_0.png",
+           "image": "crack_1.png",
            "points": [],
            "originPoint": {
             "name": "origine",
@@ -1445,7 +1665,7 @@
        ]
       },
       {
-       "name": "Stone1",
+       "name": "Crack2",
        "useMultipleDirections": false,
        "directions": [
         {
@@ -1454,123 +1674,7 @@
          "sprites": [
           {
            "hasCustomCollisionMask": false,
-           "image": "cell_stone_1.png",
-           "points": [],
-           "originPoint": {
-            "name": "origine",
-            "x": 0,
-            "y": 0
-           },
-           "centerPoint": {
-            "automatic": true,
-            "name": "centre",
-            "x": 0,
-            "y": 0
-           },
-           "customCollisionMask": []
-          }
-         ]
-        }
-       ]
-      },
-      {
-       "name": "Stone2",
-       "useMultipleDirections": false,
-       "directions": [
-        {
-         "looping": false,
-         "timeBetweenFrames": 1,
-         "sprites": [
-          {
-           "hasCustomCollisionMask": false,
-           "image": "cell_stone_2.png",
-           "points": [],
-           "originPoint": {
-            "name": "origine",
-            "x": 0,
-            "y": 0
-           },
-           "centerPoint": {
-            "automatic": true,
-            "name": "centre",
-            "x": 0,
-            "y": 0
-           },
-           "customCollisionMask": []
-          }
-         ]
-        }
-       ]
-      },
-      {
-       "name": "Hardstone0",
-       "useMultipleDirections": false,
-       "directions": [
-        {
-         "looping": false,
-         "timeBetweenFrames": 1,
-         "sprites": [
-          {
-           "hasCustomCollisionMask": false,
-           "image": "cell_hard_0.png",
-           "points": [],
-           "originPoint": {
-            "name": "origine",
-            "x": 0,
-            "y": 0
-           },
-           "centerPoint": {
-            "automatic": true,
-            "name": "centre",
-            "x": 0,
-            "y": 0
-           },
-           "customCollisionMask": []
-          }
-         ]
-        }
-       ]
-      },
-      {
-       "name": "Hardstone1",
-       "useMultipleDirections": false,
-       "directions": [
-        {
-         "looping": false,
-         "timeBetweenFrames": 1,
-         "sprites": [
-          {
-           "hasCustomCollisionMask": false,
-           "image": "cell_hard_1.png",
-           "points": [],
-           "originPoint": {
-            "name": "origine",
-            "x": 0,
-            "y": 0
-           },
-           "centerPoint": {
-            "automatic": true,
-            "name": "centre",
-            "x": 0,
-            "y": 0
-           },
-           "customCollisionMask": []
-          }
-         ]
-        }
-       ]
-      },
-      {
-       "name": "Hardstone2",
-       "useMultipleDirections": false,
-       "directions": [
-        {
-         "looping": false,
-         "timeBetweenFrames": 1,
-         "sprites": [
-          {
-           "hasCustomCollisionMask": false,
-           "image": "cell_hard_2.png",
+           "image": "crack_2.png",
            "points": [],
            "originPoint": {
             "name": "origine",
@@ -2304,6 +2408,9 @@
      },
      {
       "objectName": "Cell"
+     },
+     {
+      "objectName": "Crack"
      },
      {
       "objectName": "Debris"
@@ -3145,7 +3252,7 @@
       "textG": 0,
       "textR": 0
      },
-     "comment": "OBSTACLE GENERATOR - owns: NextFormationX, FormationCount, FormationIndex, Shape, ShapeW, ShapeRows, SpawnX, Idx, Col, Row, Ch, CellsSpawned.\nFormations are text grids in the global variable Formations (one string per formation, rows separated by |, top row first, the bottom row sits on the ground). Each character is a cell: # Stone, H Hardstone, . empty. Add a material: add it to the global Materials (with its Char), add animations <Name>0..2 to Cell, and copy one of the 'Character' events below."
+     "comment": "OBSTACLE GENERATOR - owns: NextFormationX, FormationCount, FormationIndex, Shape, ShapeW, ShapeRows, SpawnX, Idx, Col, Row, Ch, CellsSpawned.\nFormations are text grids in the global variable Formations (one string per formation, rows separated by |, top row first, the bottom row sits on the ground). Each character is a cell: a material's Char (# Stone, H Hardstone, C Concrete, M Metal), . empty.\nCell is a 12 x 12 tiled sprite. Text-grid formations show their material's tile; art formations (Texture set, made by tools/import_formations.py from whole pixel-art pictures) show their own 12 x 12 slice of the picture: the cell's X/Y offset is its column/row times 12."
     },
     {
      "type": "BuiltinCommonInstructions::Group",
@@ -3229,6 +3336,48 @@
          "events": []
         },
         {
+         "type": "BuiltinCommonInstructions::Comment",
+         "color": {
+          "b": 109,
+          "g": 230,
+          "r": 255,
+          "textB": 0,
+          "textG": 0,
+          "textR": 0
+         },
+         "comment": "Preview one formation (e.g. your new art): set Tuning.TestFormation to its index in Formations. -1 = normal game."
+        },
+        {
+         "type": "BuiltinCommonInstructions::Standard",
+         "conditions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "BuiltinCommonInstructions::CompareNumbers"
+           },
+           "parameters": [
+            "GlobalVariable(Tuning.TestFormation)",
+            ">=",
+            "0"
+           ]
+          }
+         ],
+         "actions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "SetNumberVariable"
+           },
+           "parameters": [
+            "FormationIndex",
+            "=",
+            "GlobalVariable(Tuning.TestFormation)"
+           ]
+          }
+         ],
+         "events": []
+        },
+        {
          "type": "BuiltinCommonInstructions::Standard",
          "conditions": [],
          "actions": [
@@ -3241,6 +3390,17 @@
             "Shape",
             "=",
             "GlobalVariableString(Formations[Variable(FormationIndex)].Shape)"
+           ]
+          },
+          {
+           "type": {
+            "inverted": false,
+            "value": "SetNumberVariable"
+           },
+           "parameters": [
+            "FormationArt",
+            "=",
+            "GlobalVariable(Formations[Variable(FormationIndex)].Art)"
            ]
           },
           {
@@ -3477,13 +3637,13 @@
             {
              "type": {
               "inverted": false,
-              "value": "AnimatableCapability::AnimatableBehavior::SetName"
+              "value": "SetNumberObjectVariable"
              },
              "parameters": [
               "Cell",
-              "Animation",
+              "Batch",
               "=",
-              "\"Stone0\""
+              "Variable(FormationCount)"
              ]
             },
             {
@@ -3509,7 +3669,81 @@
              ]
             }
            ],
-           "events": []
+           "events": [
+            {
+             "type": "BuiltinCommonInstructions::Standard",
+             "conditions": [
+              {
+               "type": {
+                "inverted": false,
+                "value": "NumberVariable"
+               },
+               "parameters": [
+                "FormationArt",
+                "=",
+                "0"
+               ]
+              }
+             ],
+             "actions": [
+              {
+               "type": {
+                "inverted": false,
+                "value": "TiledSpriteObject::SetImageFromResource"
+               },
+               "parameters": [
+                "Cell",
+                "tile_stone.png",
+                ""
+               ]
+              }
+             ],
+             "events": []
+            },
+            {
+             "type": "BuiltinCommonInstructions::Standard",
+             "conditions": [
+              {
+               "type": {
+                "inverted": false,
+                "value": "NumberVariable"
+               },
+               "parameters": [
+                "FormationArt",
+                "=",
+                "1"
+               ]
+              }
+             ],
+             "actions": [
+              {
+               "type": {
+                "inverted": false,
+                "value": "SetNumberObjectVariable"
+               },
+               "parameters": [
+                "Cell",
+                "SliceX",
+                "=",
+                "Variable(Col) * GlobalVariable(Tuning.CellSize)"
+               ]
+              },
+              {
+               "type": {
+                "inverted": false,
+                "value": "SetNumberObjectVariable"
+               },
+               "parameters": [
+                "Cell",
+                "SliceY",
+                "=",
+                "Variable(Row) * GlobalVariable(Tuning.CellSize)"
+               ]
+              }
+             ],
+             "events": []
+            }
+           ]
           },
           {
            "type": "BuiltinCommonInstructions::Standard",
@@ -3579,13 +3813,13 @@
             {
              "type": {
               "inverted": false,
-              "value": "AnimatableCapability::AnimatableBehavior::SetName"
+              "value": "SetNumberObjectVariable"
              },
              "parameters": [
               "Cell",
-              "Animation",
+              "Batch",
               "=",
-              "\"Hardstone0\""
+              "Variable(FormationCount)"
              ]
             },
             {
@@ -3611,7 +3845,433 @@
              ]
             }
            ],
-           "events": []
+           "events": [
+            {
+             "type": "BuiltinCommonInstructions::Standard",
+             "conditions": [
+              {
+               "type": {
+                "inverted": false,
+                "value": "NumberVariable"
+               },
+               "parameters": [
+                "FormationArt",
+                "=",
+                "0"
+               ]
+              }
+             ],
+             "actions": [
+              {
+               "type": {
+                "inverted": false,
+                "value": "TiledSpriteObject::SetImageFromResource"
+               },
+               "parameters": [
+                "Cell",
+                "tile_hard.png",
+                ""
+               ]
+              }
+             ],
+             "events": []
+            },
+            {
+             "type": "BuiltinCommonInstructions::Standard",
+             "conditions": [
+              {
+               "type": {
+                "inverted": false,
+                "value": "NumberVariable"
+               },
+               "parameters": [
+                "FormationArt",
+                "=",
+                "1"
+               ]
+              }
+             ],
+             "actions": [
+              {
+               "type": {
+                "inverted": false,
+                "value": "SetNumberObjectVariable"
+               },
+               "parameters": [
+                "Cell",
+                "SliceX",
+                "=",
+                "Variable(Col) * GlobalVariable(Tuning.CellSize)"
+               ]
+              },
+              {
+               "type": {
+                "inverted": false,
+                "value": "SetNumberObjectVariable"
+               },
+               "parameters": [
+                "Cell",
+                "SliceY",
+                "=",
+                "Variable(Row) * GlobalVariable(Tuning.CellSize)"
+               ]
+              }
+             ],
+             "events": []
+            }
+           ]
+          },
+          {
+           "type": "BuiltinCommonInstructions::Standard",
+           "conditions": [
+            {
+             "type": {
+              "inverted": false,
+              "value": "StringVariable"
+             },
+             "parameters": [
+              "Ch",
+              "=",
+              "\"C\""
+             ]
+            }
+           ],
+           "actions": [
+            {
+             "type": {
+              "inverted": false,
+              "value": "Create"
+             },
+             "parameters": [
+              "",
+              "Cell",
+              "Variable(SpawnX) + Variable(Col) * GlobalVariable(Tuning.CellSize)",
+              "GlobalVariable(Tuning.GroundY) - (Variable(ShapeRows) - Variable(Row)) * GlobalVariable(Tuning.CellSize)",
+              "\"\""
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "SetStringObjectVariable"
+             },
+             "parameters": [
+              "Cell",
+              "Material",
+              "=",
+              "\"Concrete\""
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "SetNumberObjectVariable"
+             },
+             "parameters": [
+              "Cell",
+              "MaxHP",
+              "=",
+              "GlobalVariable(Materials.Concrete.HP)"
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "SetNumberObjectVariable"
+             },
+             "parameters": [
+              "Cell",
+              "HP",
+              "=",
+              "GlobalVariable(Materials.Concrete.HP)"
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "SetNumberObjectVariable"
+             },
+             "parameters": [
+              "Cell",
+              "Batch",
+              "=",
+              "Variable(FormationCount)"
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "SetZOrder"
+             },
+             "parameters": [
+              "Cell",
+              "=",
+              "10"
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "SetNumberVariable"
+             },
+             "parameters": [
+              "CellsSpawned",
+              "+",
+              "1"
+             ]
+            }
+           ],
+           "events": [
+            {
+             "type": "BuiltinCommonInstructions::Standard",
+             "conditions": [
+              {
+               "type": {
+                "inverted": false,
+                "value": "NumberVariable"
+               },
+               "parameters": [
+                "FormationArt",
+                "=",
+                "0"
+               ]
+              }
+             ],
+             "actions": [
+              {
+               "type": {
+                "inverted": false,
+                "value": "TiledSpriteObject::SetImageFromResource"
+               },
+               "parameters": [
+                "Cell",
+                "tile_concrete.png",
+                ""
+               ]
+              }
+             ],
+             "events": []
+            },
+            {
+             "type": "BuiltinCommonInstructions::Standard",
+             "conditions": [
+              {
+               "type": {
+                "inverted": false,
+                "value": "NumberVariable"
+               },
+               "parameters": [
+                "FormationArt",
+                "=",
+                "1"
+               ]
+              }
+             ],
+             "actions": [
+              {
+               "type": {
+                "inverted": false,
+                "value": "SetNumberObjectVariable"
+               },
+               "parameters": [
+                "Cell",
+                "SliceX",
+                "=",
+                "Variable(Col) * GlobalVariable(Tuning.CellSize)"
+               ]
+              },
+              {
+               "type": {
+                "inverted": false,
+                "value": "SetNumberObjectVariable"
+               },
+               "parameters": [
+                "Cell",
+                "SliceY",
+                "=",
+                "Variable(Row) * GlobalVariable(Tuning.CellSize)"
+               ]
+              }
+             ],
+             "events": []
+            }
+           ]
+          },
+          {
+           "type": "BuiltinCommonInstructions::Standard",
+           "conditions": [
+            {
+             "type": {
+              "inverted": false,
+              "value": "StringVariable"
+             },
+             "parameters": [
+              "Ch",
+              "=",
+              "\"M\""
+             ]
+            }
+           ],
+           "actions": [
+            {
+             "type": {
+              "inverted": false,
+              "value": "Create"
+             },
+             "parameters": [
+              "",
+              "Cell",
+              "Variable(SpawnX) + Variable(Col) * GlobalVariable(Tuning.CellSize)",
+              "GlobalVariable(Tuning.GroundY) - (Variable(ShapeRows) - Variable(Row)) * GlobalVariable(Tuning.CellSize)",
+              "\"\""
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "SetStringObjectVariable"
+             },
+             "parameters": [
+              "Cell",
+              "Material",
+              "=",
+              "\"Metal\""
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "SetNumberObjectVariable"
+             },
+             "parameters": [
+              "Cell",
+              "MaxHP",
+              "=",
+              "GlobalVariable(Materials.Metal.HP)"
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "SetNumberObjectVariable"
+             },
+             "parameters": [
+              "Cell",
+              "HP",
+              "=",
+              "GlobalVariable(Materials.Metal.HP)"
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "SetNumberObjectVariable"
+             },
+             "parameters": [
+              "Cell",
+              "Batch",
+              "=",
+              "Variable(FormationCount)"
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "SetZOrder"
+             },
+             "parameters": [
+              "Cell",
+              "=",
+              "10"
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "SetNumberVariable"
+             },
+             "parameters": [
+              "CellsSpawned",
+              "+",
+              "1"
+             ]
+            }
+           ],
+           "events": [
+            {
+             "type": "BuiltinCommonInstructions::Standard",
+             "conditions": [
+              {
+               "type": {
+                "inverted": false,
+                "value": "NumberVariable"
+               },
+               "parameters": [
+                "FormationArt",
+                "=",
+                "0"
+               ]
+              }
+             ],
+             "actions": [
+              {
+               "type": {
+                "inverted": false,
+                "value": "TiledSpriteObject::SetImageFromResource"
+               },
+               "parameters": [
+                "Cell",
+                "tile_metal.png",
+                ""
+               ]
+              }
+             ],
+             "events": []
+            },
+            {
+             "type": "BuiltinCommonInstructions::Standard",
+             "conditions": [
+              {
+               "type": {
+                "inverted": false,
+                "value": "NumberVariable"
+               },
+               "parameters": [
+                "FormationArt",
+                "=",
+                "1"
+               ]
+              }
+             ],
+             "actions": [
+              {
+               "type": {
+                "inverted": false,
+                "value": "SetNumberObjectVariable"
+               },
+               "parameters": [
+                "Cell",
+                "SliceX",
+                "=",
+                "Variable(Col) * GlobalVariable(Tuning.CellSize)"
+               ]
+              },
+              {
+               "type": {
+                "inverted": false,
+                "value": "SetNumberObjectVariable"
+               },
+               "parameters": [
+                "Cell",
+                "SliceY",
+                "=",
+                "Variable(Row) * GlobalVariable(Tuning.CellSize)"
+               ]
+              }
+             ],
+             "events": []
+            }
+           ]
           },
           {
            "type": "BuiltinCommonInstructions::Standard",
@@ -3637,6 +4297,146 @@
               "Idx",
               "+",
               "1"
+             ]
+            }
+           ],
+           "events": []
+          }
+         ]
+        },
+        {
+         "type": "BuiltinCommonInstructions::Group",
+         "name": "Art formations: give the new cells their picture",
+         "source": "",
+         "folded": false,
+         "colorR": 74,
+         "colorG": 112,
+         "colorB": 150,
+         "creationTime": 0,
+         "events": [
+          {
+           "type": "BuiltinCommonInstructions::Standard",
+           "conditions": [
+            {
+             "type": {
+              "inverted": false,
+              "value": "NumberVariable"
+             },
+             "parameters": [
+              "FormationIndex",
+              "=",
+              "7"
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "NumberObjectVariable"
+             },
+             "parameters": [
+              "Cell",
+              "Batch",
+              "=",
+              "Variable(FormationCount)"
+             ]
+            }
+           ],
+           "actions": [
+            {
+             "type": {
+              "inverted": false,
+              "value": "TiledSpriteObject::SetImageFromResource"
+             },
+             "parameters": [
+              "Cell",
+              "formation_placeholder_boulder.png",
+              ""
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "TiledSpriteObject::XOffset"
+             },
+             "parameters": [
+              "Cell",
+              "=",
+              "Cell.Variable(SliceX)"
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "TiledSpriteObject::YOffset"
+             },
+             "parameters": [
+              "Cell",
+              "=",
+              "Cell.Variable(SliceY)"
+             ]
+            }
+           ],
+           "events": []
+          },
+          {
+           "type": "BuiltinCommonInstructions::Standard",
+           "conditions": [
+            {
+             "type": {
+              "inverted": false,
+              "value": "NumberVariable"
+             },
+             "parameters": [
+              "FormationIndex",
+              "=",
+              "8"
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "NumberObjectVariable"
+             },
+             "parameters": [
+              "Cell",
+              "Batch",
+              "=",
+              "Variable(FormationCount)"
+             ]
+            }
+           ],
+           "actions": [
+            {
+             "type": {
+              "inverted": false,
+              "value": "TiledSpriteObject::SetImageFromResource"
+             },
+             "parameters": [
+              "Cell",
+              "formation_placeholder_ruin.png",
+              ""
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "TiledSpriteObject::XOffset"
+             },
+             "parameters": [
+              "Cell",
+              "=",
+              "Cell.Variable(SliceX)"
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "TiledSpriteObject::YOffset"
+             },
+             "parameters": [
+              "Cell",
+              "=",
+              "Cell.Variable(SliceY)"
              ]
             }
            ],
@@ -3722,6 +4522,35 @@
          },
          "parameters": [
           "Cell",
+          ""
+         ]
+        }
+       ],
+       "events": []
+      },
+      {
+       "type": "BuiltinCommonInstructions::Standard",
+       "conditions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "PosX"
+         },
+         "parameters": [
+          "Crack",
+          "<",
+          "CameraX(\"\", 0) - 330"
+         ]
+        }
+       ],
+       "actions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "Delete"
+         },
+         "parameters": [
+          "Crack",
           ""
          ]
         }
@@ -5088,6 +5917,36 @@
          ],
          "events": [
           {
+           "type": "BuiltinCommonInstructions::Standard",
+           "conditions": [
+            {
+             "type": {
+              "inverted": false,
+              "value": "LinkedObjects::PickObjectsLinkedTo"
+             },
+             "parameters": [
+              "",
+              "Crack",
+              "Cell",
+              ""
+             ]
+            }
+           ],
+           "actions": [
+            {
+             "type": {
+              "inverted": false,
+              "value": "Delete"
+             },
+             "parameters": [
+              "Crack",
+              ""
+             ]
+            }
+           ],
+           "events": []
+          },
+          {
            "type": "BuiltinCommonInstructions::Repeat",
            "repeatExpression": "3",
            "conditions": [],
@@ -5103,6 +5962,16 @@
               "Cell.CenterX()",
               "Cell.CenterY()",
               "\"\""
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "ChangeColor"
+             },
+             "parameters": [
+              "Debris",
+              "GlobalVariableString(Materials[Cell.VariableString(Material)].DebrisColor)"
              ]
             },
             {
@@ -5182,7 +6051,7 @@
           {
            "type": {
             "inverted": false,
-            "value": "ChangeColor"
+            "value": "TiledSpriteObject::SetColor"
            },
            "parameters": [
             "Cell",
@@ -5214,17 +6083,141 @@
           {
            "type": {
             "inverted": false,
-            "value": "AnimatableCapability::AnimatableBehavior::SetName"
+            "value": "SetNumberObjectVariable"
            },
            "parameters": [
             "Cell",
-            "Animation",
+            "Stage",
             "=",
-            "Cell.VariableString(Material) + ToString(min(2, floor((1 - Cell.Variable(HP) / Cell.Variable(MaxHP)) * 3)))"
+            "min(2, floor((1 - Cell.Variable(HP) / Cell.Variable(MaxHP)) * 3))"
            ]
           }
          ],
-         "events": []
+         "events": [
+          {
+           "type": "BuiltinCommonInstructions::Comment",
+           "color": {
+            "b": 109,
+            "g": 230,
+            "r": 255,
+            "textB": 0,
+            "textG": 0,
+            "textR": 0
+           },
+           "comment": "Damage shows as a crack overlay (one shared image for every material and picture), linked to its cell so it goes when the cell goes."
+          },
+          {
+           "type": "BuiltinCommonInstructions::Standard",
+           "conditions": [
+            {
+             "type": {
+              "inverted": false,
+              "value": "NumberObjectVariable"
+             },
+             "parameters": [
+              "Cell",
+              "Stage",
+              ">=",
+              "1"
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "NumberObjectVariable"
+             },
+             "parameters": [
+              "Cell",
+              "HasCrack",
+              "=",
+              "0"
+             ]
+            }
+           ],
+           "actions": [
+            {
+             "type": {
+              "inverted": false,
+              "value": "Create"
+             },
+             "parameters": [
+              "",
+              "Crack",
+              "Cell.X()",
+              "Cell.Y()",
+              "\"\""
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "SetZOrder"
+             },
+             "parameters": [
+              "Crack",
+              "=",
+              "11"
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "LinkedObjects::LinkObjects"
+             },
+             "parameters": [
+              "",
+              "Cell",
+              "Crack"
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "SetNumberObjectVariable"
+             },
+             "parameters": [
+              "Cell",
+              "HasCrack",
+              "=",
+              "1"
+             ]
+            }
+           ],
+           "events": []
+          },
+          {
+           "type": "BuiltinCommonInstructions::Standard",
+           "conditions": [
+            {
+             "type": {
+              "inverted": false,
+              "value": "LinkedObjects::PickObjectsLinkedTo"
+             },
+             "parameters": [
+              "",
+              "Crack",
+              "Cell",
+              ""
+             ]
+            }
+           ],
+           "actions": [
+            {
+             "type": {
+              "inverted": false,
+              "value": "AnimatableCapability::AnimatableBehavior::SetName"
+             },
+             "parameters": [
+              "Crack",
+              "Animation",
+              "=",
+              "\"Crack\" + ToString(Cell.Variable(Stage))"
+             ]
+            }
+           ],
+           "events": []
+          }
+         ]
         }
        ]
       },
@@ -5443,7 +6436,7 @@
       "textG": 0,
       "textR": 0
      },
-     "comment": "OBSTACLE GRID - owns: CellsDestroyed, CellsSpawned, the Cell object variables (HP, MaxHP, Material, Flash) and the hit effects.\nEvery Cell is its own 12 x 12 object with its own collision mask, so a destroyed cell stops blocking at once and the tower can drive through any tunnel big enough for its chassis. Damage states are the animations <Material>0, 1 and 2 (intact to badly cracked)."
+     "comment": "OBSTACLE GRID - owns: CellsDestroyed, CellsSpawned, the Cell object variables (HP, MaxHP, Material, Flash) and the hit effects.\nEvery Cell is its own 12 x 12 object with its own collision box, so a destroyed cell stops blocking at once and the tower can drive through any tunnel big enough for its chassis. Damage is shown by a Crack overlay (animations Crack1, Crack2) linked to the cell."
     },
     {
      "type": "BuiltinCommonInstructions::Group",
@@ -5487,7 +6480,7 @@
         {
          "type": {
           "inverted": false,
-          "value": "ChangeColor"
+          "value": "TiledSpriteObject::SetColor"
          },
          "parameters": [
           "Cell",

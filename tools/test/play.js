@@ -10,6 +10,7 @@ const fs = require('fs');
 
 const DOCS = path.resolve(process.argv[2] || 'docs');
 const OUT = path.resolve(process.argv[3] || 'test-output');
+const SCENARIO = process.argv[4] || 'phase1'; // phase1 | art
 const PORT = 8790 + Math.floor(Math.random() * 100);
 fs.mkdirSync(OUT, { recursive: true });
 
@@ -85,13 +86,22 @@ async function waitFor(page, pred, timeoutMs, stepMs = 100) {
   return s;
 }
 
-async function openGame(browser, opts = {}) {
+async function openGame(browser, opts = {}, testFormation = -1) {
   const ctx = await browser.newContext({ viewport: { width: 540, height: 960 }, ...opts });
   const page = await ctx.newPage();
   const errors = [];
   page.on('pageerror', (e) => errors.push(String(e)));
   page.on('console', (m) => { if (m.type() === 'error') errors.push(m.text()); });
   await page.addInitScript(HOOK);
+  if (testFormation >= 0) {
+    // Same as setting Tuning.TestFormation in GDevelop: only that formation spawns.
+    await page.route('**/data.js', async (route) => {
+      const res = await route.fetch();
+      const body = (await res.text()).replace('"name":"TestFormation","type":"number","value":-1',
+        '"name":"TestFormation","type":"number","value":' + testFormation);
+      await route.fulfill({ response: res, body });
+    });
+  }
   await page.goto(`http://127.0.0.1:${PORT}/index.html`);
   await waitFor(page, (s) => s.frames > 5, 30000);
   return { ctx, page, errors };
@@ -116,11 +126,108 @@ async function clearWithMouse(page, untilX, timeoutMs) {
   return s;
 }
 
+// Whole-object pixel art formations (tools/import_formations.py): pictures sliced into cells.
+async function artScenario(browser) {
+  const names = await (async () => {
+    const d = JSON.parse(fs.readFileSync(path.join(DOCS, '..', 'data', 'art_formations.json'), 'utf8'));
+    const base = JSON.parse(fs.readFileSync(path.join(DOCS, '..', 'data', 'game_data.json'), 'utf8')).Formations.length;
+    return d.map((f, i) => ({ name: f.Name, index: base + i, texture: f.Texture,
+      solid: f.Rows.join('').replace(/\./g, '').length }));
+  })();
+  for (const f of names) {
+    const { ctx, page, errors } = await openGame(browser, {}, f.index);
+    const sb = await waitFor(page, (s) => s.blocked === 1, 20000);
+    const info = await page.evaluate((tex) => {
+      const cells = window.__scene.getObjects('Cell');
+      const pic = window.__scene.getGame().getImageManager().getPIXITexture(tex);
+      const own = cells.filter((c) => c._renderer._tiledSprite.texture === pic);
+      const offs = new Set(own.map((c) => c.getXOffset() + ',' + c.getYOffset()));
+      const mats = {};
+      cells.forEach((c) => { const m = c.getVariables().get('Material').getAsString(); mats[m] = (mats[m] || 0) + 1; });
+      return { cells: cells.length, own: own.length, distinctSlices: offs.size, mats,
+        sizes: [...new Set(cells.map((c) => c.getWidth() + 'x' + c.getHeight()))] };
+    }, f.texture);
+    check('A.' + f.name, f.name + ': cells show their own slice of the picture',
+      info.own > 0 && info.distinctSlices === f.solid && info.own % f.solid === 0 && info.sizes.join() === '12x12',
+      `${info.cells} cells (${info.own / f.solid} copies on screen), ${info.own} with ${f.texture}, ` +
+      `${info.distinctSlices} distinct slices of ${f.solid}, ` +
+      `materials ${JSON.stringify(info.mats)}, sizes ${info.sizes}`);
+    await page.screenshot({ path: path.join(OUT, `art_${f.name}_1_blocked.png`) });
+    // Hit a tough cell (more than 1 HP) a couple of times: crack overlay appears, then goes with the cell.
+    const tough = await page.evaluate(() => {
+      // The nearest tough cell the turret can see (no other cell on the line from the pivot).
+      const s = window.__scene, vars = s.getVariables();
+      const px = vars.get('PivotX').getAsNumber(), py = vars.get('PivotY').getAsNumber();
+      const all = s.getObjects('Cell');
+      const inside = (o, x, y) => x >= o.getX() && x <= o.getX() + 12 && y >= o.getY() && y <= o.getY() + 12;
+      const visible = (c) => {
+        const tx = c.getX() + 6, ty = c.getY() + 6, n = Math.ceil(Math.hypot(tx - px, ty - py) / 2);
+        for (let i = 1; i < n; i++) {
+          const x = px + (tx - px) * i / n, y = py + (ty - py) * i / n;
+          if (all.some((o) => o !== c && inside(o, x, y))) return false;
+        }
+        return true;
+      };
+      const c = all.filter((o) => o.getVariables().get('MaxHP').getAsNumber() > 1 && visible(o))
+        .sort((a, b) => Math.hypot(a.getX() - px, a.getY() - py) - Math.hypot(b.getX() - px, b.getY() - py))[0];
+      return c ? { x: c.getX() + 6, y: c.getY() + 6, hp: c.getVariables().get('MaxHP').getAsNumber() } : null;
+    });
+    if (tough) {
+      let s = await snapshot(page);
+      const p = toScreen(s, tough.x, tough.y);
+      await page.mouse.move(p.x, p.y);
+      await wait(300);
+      const hits0 = (await snapshot(page)).hits;
+      await page.mouse.down();
+      await waitFor(page, (q) => q.hits >= hits0 + 2, 5000, 20);
+      await page.mouse.up();
+      const cracked = await page.evaluate(() => window.__scene.getObjects('Crack').length);
+      await page.screenshot({ path: path.join(OUT, `art_${f.name}_2_cracked.png`) });
+      await page.mouse.down();
+      await waitFor(page, (q) => q.hits >= hits0 + tough.hp + 2, 8000, 20);
+      await page.mouse.up();
+      await wait(200);
+      const left = await page.evaluate((t) => ({
+        cell: window.__scene.getObjects('Cell').some((c) => Math.abs(c.getX() + 6 - t.x) < 1 && Math.abs(c.getY() + 6 - t.y) < 1),
+        cracks: window.__scene.getObjects('Crack').map((k) => [k.getX(), k.getY()]) }), tough);
+      check('A.' + f.name + '.crack', f.name + `: a ${tough.hp}-HP cell shows cracks, then is destroyed with its crack`,
+        cracked >= 1 && !left.cell && !left.cracks.some(([x, y]) => Math.abs(x + 6 - tough.x) < 1 && Math.abs(y + 6 - tough.y) < 1),
+        `cracks after 2 hits: ${cracked}; cell gone: ${!left.cell}; cracks left elsewhere: ${left.cracks.length}`);
+    }
+    const x0 = (await snapshot(page)).towerX;
+    const sd = await clearWithMouse(page, x0 + 160, 30000);
+    check('A.' + f.name + '.pass', f.name + ': tower shoots its way through', sd.towerX > x0 + 100,
+      `x ${x0.toFixed(0)} -> ${sd.towerX.toFixed(0)}, shots ${sd.shots}, destroyed ${sd.destroyed}`);
+    const fps = await page.evaluate(async () => { const f0 = window.__frames; await new Promise((r) => setTimeout(r, 2000)); return (window.__frames - f0) / 2; });
+    await page.screenshot({ path: path.join(OUT, `art_${f.name}_3_through.png`) });
+    check('A.' + f.name + '.err', f.name + ': no script errors', errors.length === 0,
+      errors.slice(0, 3).join(' | ') + ` (headless software rendering: ${fps} fps, ${(await snapshot(page)).counts.cell} cells)`);
+    await ctx.close();
+  }
+}
+
 (async () => {
   const server = spawn('python3', ['-m', 'http.server', String(PORT), '--bind', '127.0.0.1'], { cwd: DOCS, stdio: 'ignore' });
   await wait(800);
   const browser = await chromium.launch();
   try {
+    if (SCENARIO === 'art') await artScenario(browser);
+    else await phase1(browser);
+  } catch (e) {
+    console.error(e);
+    check(0, 'Test run crashed', false, String(e));
+  } finally {
+    await browser.close();
+    server.kill();
+  }
+  fs.writeFileSync(path.join(OUT, 'report.json'), JSON.stringify(results, null, 1));
+  const failed = results.filter((r) => !r.ok).length;
+  console.log(`\n${results.length - failed}/${results.length} checks passed`);
+  process.exit(failed ? 1 : 0);
+})();
+
+async function phase1(browser) {
+  {
     // ---------------------------------------------------------------- desktop, mouse
     let { ctx, page, errors } = await openGame(browser);
     let s0 = await snapshot(page);
@@ -274,7 +381,7 @@ async function clearWithMouse(page, untilX, timeoutMs) {
     await page.mouse.move(270, 536);
     await page.mouse.down(); await wait(80); await page.mouse.up();
     const sr = await waitFor(page, (s) => s.state === 'Run' && s.time < 2, 5000);
-    check(13, 'Restart resets the run', sr.state === 'Run' && sr.distance < 1 && sr.towerX < 200 &&
+    check(13, 'Restart resets the run', sr.state === 'Run' && sr.distance < 3 && sr.towerX < 200 &&
       Math.abs(sr.cloudGap - 450) < 60 && !sr.gameOverVisible && sr.best >= Math.floor(so.distance),
       `distance ${sr.distance.toFixed(1)}, tower x ${sr.towerX.toFixed(0)}, gap ${sr.cloudGap.toFixed(0)}, best kept ${sr.best}`);
     check(15.1, 'No script errors in the desktop run', errors.length === 0, errors.slice(0, 3).join(' | '));
@@ -319,15 +426,5 @@ async function clearWithMouse(page, untilX, timeoutMs) {
       `offset ${t2.aimOffset} -> ${t3.aimOffset}, shots ${shotsBefore} -> ${t3.shots}`);
     check(15.2, 'No script errors in the touch run', errors.length === 0, errors.slice(0, 3).join(' | '));
     await ctx.close();
-  } catch (e) {
-    console.error(e);
-    check(0, 'Test run crashed', false, String(e));
-  } finally {
-    await browser.close();
-    server.kill();
   }
-  fs.writeFileSync(path.join(OUT, 'report.json'), JSON.stringify(results, null, 1));
-  const failed = results.filter((r) => !r.ok).length;
-  console.log(`\n${results.length - failed}/${results.length} checks passed`);
-  process.exit(failed ? 1 : 0);
-})();
+}

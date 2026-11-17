@@ -27,6 +27,15 @@ Portrait (540×960) GDevelop 5 arcade game: a tracked tower auto-drives right, t
   - It reads the scene through `gdjs.registerRuntimeScenePostEventsCallback`, which is test-only.
 - **libGD** (for `tools/gd/dump_metadata.js`) is `www/libGD.js` inside `resources/app.asar`. Extract it with `npx asar extract`.
 
+## Art formations (owner's whole-object pixel art)
+
+- `art/formations/<name>.png` (+ optional `_material.png` colour map, `<name>.json` default material) → `tools/import_formations.py` → `data/art_formations.json` + `game/assets/formation_<name>.png` → build merges them after the text-grid formations (`Art: 1`).
+- `Cell` is a TiledSprite 12×12. The texture is set per formation by one generated event each (resource names are literals in GDevelop, not expressions).
+  - **Set the XOffset/YOffset after the texture**: GDevelop wraps the offset by the texture size at the time it is set. That's why cells keep `SliceX`/`SliceY` variables.
+- Cracks: a `Crack` sprite (Crack1/Crack2) linked with LinkedObjects to its cell. It is deleted with the cell or when behind the camera.
+- Test: `node tools/test/play.js docs <out> art` (it patches `Tuning.TestFormation` in data.js through `page.route`).
+- Owner's provenance rule (as in Retro Knight): no generative AI in shipped art. Placeholders are code-drawn and named `placeholder_*`.
+
 ## Gotchas
 
 - The tower's collision mask is x 8..52, y 16..96 of the 60×96 sprite (origin 30,96). The turret pivot is Tower.X+22, Tower.Y−86. Several events hard-code 22 and 86, so change those together.

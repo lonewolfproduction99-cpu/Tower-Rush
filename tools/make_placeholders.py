@@ -87,8 +87,12 @@ def muzzle():
     return im
 
 
-def cell(material, damage):
-    base = {"stone": (128, 116, 104), "hard": (82, 86, 102)}[material]
+TILE_COLORS = {"stone": (128, 116, 104), "hard": (82, 86, 102), "concrete": (150, 150, 146), "metal": (120, 70, 50)}
+
+
+def tile(material):
+    """A 12 x 12 tile for formations typed as text grids (one per material)."""
+    base = TILE_COLORS[material]
     im = Image.new("RGBA", (12, 12), base + (255,))
     d = ImageDraw.Draw(im)
     light = tuple(min(255, c + 30) for c in base)
@@ -100,12 +104,75 @@ def cell(material, damage):
     rnd = random.Random(material)
     for _ in range(4):
         d.point((rnd.randint(2, 9), rnd.randint(2, 9)), fill=dark)
-    crack = (24, 20, 18)
-    if damage >= 1:
-        d.line([(3, 2), (6, 5), (5, 8)], fill=crack)
-    if damage >= 2:
-        d.line([(9, 3), (6, 5), (8, 9), (10, 10)], fill=crack)
-        d.line([(2, 9), (5, 8)], fill=crack)
+    return im
+
+
+def crack(stage):
+    """Transparent 12 x 12 crack overlay drawn over any damaged cell (stage 1 or 2)."""
+    im = rgba(12, 12)
+    d = ImageDraw.Draw(im)
+    col = (20, 16, 14, 230)
+    d.line([(3, 2), (6, 5), (5, 8)], fill=col)
+    if stage >= 2:
+        d.line([(9, 3), (6, 5), (8, 9), (10, 10)], fill=col)
+        d.line([(2, 9), (5, 8)], fill=col)
+        d.point((7, 6), fill=col)
+    return im
+
+
+# ------------------------------------------------------------------ example formation art (PLACEHOLDERS)
+# Stand-ins for the owner's pixel art, to show the "draw a whole object" pipeline (tools/import_formations.py).
+def ruin():
+    """A ruined two-storey building, 120 x 252, open ground floor 7 cells (84 px) high."""
+    w, h = 120, 252
+    im, mp = rgba(w, h), Image.new("RGBA", (w, h), (0, 0, 0, 0))
+    d, m = ImageDraw.Draw(im), ImageDraw.Draw(mp)
+    conc, conc_d, conc_l = (150, 150, 146, 255), (104, 104, 100, 255), (178, 176, 168, 255)
+    grey, red = (128, 128, 128, 255), (255, 0, 0, 255)
+    # back wall (right) full height with a jagged top
+    d.rectangle([108, 40, 119, 251], fill=conc_d)
+    m.rectangle([108, 40, 119, 251], fill=grey)
+    # front wall (left): broken at the bottom (rubble gap 4 cells high), jagged top
+    d.rectangle([0, 72, 11, 203], fill=conc)
+    m.rectangle([0, 72, 11, 203], fill=grey)
+    # floor slabs (metal-reinforced): above the ground floor and between storeys
+    for y in (156, 84):
+        d.rectangle([0, y, 119, y + 11], fill=(110, 76, 58, 255))
+        d.line([(0, y + 5), (119, y + 5)], fill=(70, 40, 30, 255))
+        m.rectangle([0, y, 119, y + 11], fill=red)
+    # upper storey walls with window holes
+    d.rectangle([12, 96, 107, 155], fill=conc_l)
+    m.rectangle([12, 96, 107, 155], fill=grey)
+    for x in (24, 60):
+        d.rectangle([x, 108, x + 23, 143], fill=(0, 0, 0, 0))
+        m.rectangle([x, 108, x + 23, 143], fill=(0, 0, 0, 0))
+    # jagged broken top
+    for x in range(0, w, 12):
+        top = 40 + (x * 37 % 48)
+        d.rectangle([x, 30, x + 11, top], fill=(0, 0, 0, 0))
+        m.rectangle([x, 30, x + 11, top], fill=(0, 0, 0, 0))
+    d.rectangle([0, 0, w - 1, 39], fill=(0, 0, 0, 0))
+    m.rectangle([0, 0, w - 1, 39], fill=(0, 0, 0, 0))
+    # rubble pile at the foot of the front wall
+    d.polygon([(0, 251), (0, 230), (8, 222), (18, 236), (22, 251)], fill=(120, 116, 108, 255))
+    m.polygon([(0, 251), (0, 230), (8, 222), (18, 236), (22, 251)], fill=grey)
+    # cracks and grime
+    rnd = random.Random(11)
+    for _ in range(140):
+        x, y = rnd.randint(0, w - 1), rnd.randint(0, h - 1)
+        if im.getpixel((x, y))[3]:
+            d.point((x, y), fill=(90, 88, 84, 255))
+    return im, mp
+
+
+def boulder():
+    """A 72 x 48 boulder, all stone."""
+    im = rgba(72, 48)
+    d = ImageDraw.Draw(im)
+    d.polygon([(4, 47), (0, 30), (10, 12), (28, 2), (50, 4), (66, 16), (71, 34), (66, 47)],
+              fill=(132, 118, 98, 255), outline=(70, 60, 48, 255))
+    d.polygon([(14, 16), (28, 8), (44, 10), (30, 20)], fill=(166, 150, 126, 255))
+    d.line([(30, 24), (40, 34), (38, 44)], fill=(80, 68, 54, 255))
     return im
 
 
@@ -227,9 +294,16 @@ def main():
     save(turret(), "turret.png")
     save(bullet(), "bullet.png")
     save(muzzle(), "muzzle_flash.png")
-    for m in ("stone", "hard"):
-        for dmg in range(3):
-            save(cell(m, dmg), "cell_%s_%d.png" % (m, dmg))
+    for m in TILE_COLORS:
+        save(tile(m), "tile_%s.png" % m)
+    for st in (1, 2):
+        save(crack(st), "crack_%d.png" % st)
+    art = os.path.join(ROOT, "art", "formations")
+    os.makedirs(art, exist_ok=True)
+    r, rm = ruin()
+    r.save(os.path.join(art, "placeholder_ruin.png"))
+    rm.save(os.path.join(art, "placeholder_ruin_material.png"))
+    boulder().save(os.path.join(art, "placeholder_boulder.png"))
     save(debris(), "debris.png")
     save(spark(), "spark.png")
     save(crosshair(), "crosshair.png")

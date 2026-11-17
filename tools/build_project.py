@@ -28,6 +28,10 @@ GAME = os.path.join(ROOT, "game")
 OUT = os.path.join(GAME, "TowerRush.json")
 STAMP = os.path.join(GAME, ".build_stamp.json")
 DATA = json.load(open(os.path.join(ROOT, "data", "game_data.json"), encoding="utf-8"))
+_ART = os.path.join(ROOT, "data", "art_formations.json")
+# Whole-object pixel art turned into formations by tools/import_formations.py.
+ART_FORMATIONS = json.load(open(_ART, encoding="utf-8")) if os.path.exists(_ART) else []
+ALL_FORMATIONS = [dict(f, Texture="") for f in DATA["Formations"]] + ART_FORMATIONS
 META = json.load(open(os.path.join(ROOT, "tools", "gd", "instructions.json")))
 T = DATA["Tuning"]
 _ns = uuid.UUID("6c1d7b8e-2f0a-4e55-9a3b-1f4d2c7e9b10")
@@ -229,17 +233,32 @@ def obstacle_generator():
             else A("ModVarObjetTxt", "Cell", "Material", "=", q(mat)),
             setov("Cell", "MaxHP", "=", "GlobalVariable(Materials.%s.HP)" % mat),
             setov("Cell", "HP", "=", "GlobalVariable(Materials.%s.HP)" % mat),
-            set_anim("Cell", q(mat + "0")),
+            setov("Cell", "Batch", "=", V("FormationCount")),
             A("SetZOrder", "Cell", "=", "10"),
             setv("CellsSpawned", "+", "1"),
+        ], [
+            ev([isv("FormationArt", "=", "0")], [A("TiledSpriteObject::SetImageFromResource", "Cell", info["Tile"])]),
+            ev([isv("FormationArt", "=", "1")], [
+                setov("Cell", "SliceX", "=", "Variable(Col) * %s" % cs),
+                setov("Cell", "SliceY", "=", "Variable(Row) * %s" % cs),
+            ]),
         ]))
+    art_events = [
+        ev([isv("FormationIndex", "=", str(i)), isov("Cell", "Batch", "=", V("FormationCount"))],
+           [A("TiledSpriteObject::SetImageFromResource", "Cell", f["Texture"]),
+            # The offset must be set after the picture: GDevelop wraps it by the current image's size.
+            A("TiledSpriteObject::XOffset", "Cell", "=", "Cell.Variable(SliceX)"),
+            A("TiledSpriteObject::YOffset", "Cell", "=", "Cell.Variable(SliceY)")])
+        for i, f in enumerate(ALL_FORMATIONS) if f["Texture"]]
     return [
         comment("OBSTACLE GENERATOR - owns: NextFormationX, FormationCount, FormationIndex, Shape, ShapeW, "
                 "ShapeRows, SpawnX, Idx, Col, Row, Ch, CellsSpawned.\n"
                 "Formations are text grids in the global variable Formations (one string per formation, rows "
                 "separated by |, top row first, the bottom row sits on the ground). Each character is a cell: "
-                "# Stone, H Hardstone, . empty. Add a material: add it to the global Materials (with its Char), "
-                "add animations <Name>0..2 to Cell, and copy one of the 'Character' events below."),
+                "a material's Char (# Stone, H Hardstone, C Concrete, M Metal), . empty.\n"
+                "Cell is a 12 x 12 tiled sprite. Text-grid formations show their material's tile; art formations "
+                "(Texture set, made by tools/import_formations.py from whole pixel-art pictures) show their own "
+                "12 x 12 slice of the picture: the cell's X/Y offset is its column/row times 12."),
         group("Spawn the next formation ahead of the camera", [
             ev([cmp(V("NextFormationX"), "<", "%s + 270 + %s" % (CAM_X, tune("SpawnAhead")))], [
                 setv("FormationIndex", "=",
@@ -248,8 +267,12 @@ def obstacle_generator():
                 comment("The first formations are always the intro ones, in order (Gate, then Cave)."),
                 ev([cmp(V("FormationCount"), "<", tune("IntroFormations"))],
                    [setv("FormationIndex", "=", V("FormationCount"))]),
+                comment("Preview one formation (e.g. your new art): set Tuning.TestFormation to its index in "
+                        "Formations. -1 = normal game."),
+                ev([cmp(tune("TestFormation"), ">=", "0")], [setv("FormationIndex", "=", tune("TestFormation"))]),
                 ev([], [
                     sets("Shape", "GlobalVariableString(Formations[Variable(FormationIndex)].Shape)"),
+                    setv("FormationArt", "=", "GlobalVariable(Formations[Variable(FormationIndex)].Art)"),
                     setv("ShapeW", "=", 'StrFind(VariableString(Shape), "|")'),
                 ], [
                     ev([isv("ShapeW", "<", "0")], [setv("ShapeW", "=", "StrLength(VariableString(Shape))")]),
@@ -265,6 +288,7 @@ def obstacle_generator():
                        [ev([iss("Ch", q("|"))], [setv("Row", "+", "1"), setv("Col", "=", "-1")])]
                        + cell_events
                        + [ev([], [setv("Col", "+", "1"), setv("Idx", "+", "1")])]),
+                group("Art formations: give the new cells their picture", art_events),
                 ev([], [
                     setv("NextFormationX", "=", "Variable(SpawnX) + Variable(ShapeW) * %s + RandomInRange(%s, %s)"
                          % (cs, tune("GapMin"), tune("GapMax"))),
@@ -275,6 +299,7 @@ def obstacle_generator():
         group("Remove what is far behind", [
             comment("Everything behind the left edge of the screen is gone for good (the cloud is there)."),
             ev([C("PosX", "Cell", "<", "%s - 330" % CAM_X)], [A("Delete", "Cell")]),
+            ev([C("PosX", "Crack", "<", "%s - 330" % CAM_X)], [A("Delete", "Crack")]),
         ]),
     ]
 
@@ -417,8 +442,11 @@ def projectile_system():
                 ev([isov("Cell", "HP", "<=", "0")], [
                     setv("CellsDestroyed", "+", "1"),
                 ], [
+                    ev([C("LinkedObjects::PickObjectsLinkedTo", "Crack", "Cell")], [A("Delete", "Crack")]),
                     repeat("3", [
                         A("Create", "Debris", "Cell.CenterX()", "Cell.CenterY()", q("")),
+                        A("ChangeColor", "Debris",
+                          "GlobalVariableString(Materials[Cell.VariableString(Material)].DebrisColor)"),
                         setov("Debris", "VX", "=", "RandomFloatInRange(-60, 160)"),
                         setov("Debris", "VY", "=", "RandomFloatInRange(-260, -60)"),
                         A("SetZOrder", "Debris", "=", "25"),
@@ -426,11 +454,22 @@ def projectile_system():
                     ev([], [A("Delete", "Cell")]),
                 ]),
                 ev([isov("Cell", "HP", ">", "0")], [
-                    A("ChangeColor", "Cell", q("255;170;140")),
+                    A("TiledSpriteObject::SetColor", "Cell", q("255;170;140")),
                     A("ResetObjectTimer", "Cell", q("flash")),
                     setov("Cell", "Flash", "=", "1"),
-                    set_anim("Cell", 'Cell.VariableString(Material) + ToString(min(2, floor((1 - Cell.Variable(HP) '
-                                     '/ Cell.Variable(MaxHP)) * 3)))'),
+                    setov("Cell", "Stage", "=",
+                          "min(2, floor((1 - Cell.Variable(HP) / Cell.Variable(MaxHP)) * 3))"),
+                ], [
+                    comment("Damage shows as a crack overlay (one shared image for every material and picture), "
+                            "linked to its cell so it goes when the cell goes."),
+                    ev([isov("Cell", "Stage", ">=", "1"), isov("Cell", "HasCrack", "=", "0")], [
+                        A("Create", "Crack", "Cell.X()", "Cell.Y()", q("")),
+                        A("SetZOrder", "Crack", "=", "11"),
+                        A("LinkedObjects::LinkObjects", "Cell", "Crack"),
+                        setov("Cell", "HasCrack", "=", "1"),
+                    ]),
+                    ev([C("LinkedObjects::PickObjectsLinkedTo", "Crack", "Cell")],
+                       [set_anim("Crack", '"Crack" + ToString(Cell.Variable(Stage))')]),
                 ]),
             ]),
             ev([isv("BulletHit", "=", "0")], [
@@ -457,12 +496,12 @@ def obstacle_grid():
     return [
         comment("OBSTACLE GRID - owns: CellsDestroyed, CellsSpawned, the Cell object variables (HP, MaxHP, "
                 "Material, Flash) and the hit effects.\n"
-                "Every Cell is its own 12 x 12 object with its own collision mask, so a destroyed cell stops "
+                "Every Cell is its own 12 x 12 object with its own collision box, so a destroyed cell stops "
                 "blocking at once and the tower can drive through any tunnel big enough for its chassis. "
-                "Damage states are the animations <Material>0, 1 and 2 (intact to badly cracked)."),
+                "Damage is shown by a Crack overlay (animations Crack1, Crack2) linked to the cell."),
         group("Hit flash", [
             ev([isov("Cell", "Flash", "=", "1"), C("CompareObjectTimer", "Cell", q("flash"), ">", "0.06")],
-               [A("ChangeColor", "Cell", q("255;255;255")), setov("Cell", "Flash", "=", "0")]),
+               [A("TiledSpriteObject::SetColor", "Cell", q("255;255;255")), setov("Cell", "Flash", "=", "0")]),
         ]),
         group("Debris and sparks", [
             ev([], [
@@ -537,7 +576,7 @@ SYSTEMS = [
 SCENE_VARS = {
     "State": "", "Dt": 0, "StartX": 0, "Distance": 0, "BestDistance": 0, "OverTime": 0,
     "NextFormationX": 0, "FormationCount": 0, "FormationIndex": 0, "Shape": "", "ShapeW": 0, "ShapeRows": 0,
-    "SpawnX": 0, "Idx": 0, "Col": 0, "Row": 0, "Ch": "", "CellsSpawned": 0,
+    "SpawnX": 0, "FormationArt": 0, "Idx": 0, "Col": 0, "Row": 0, "Ch": "", "CellsSpawned": 0,
     "TowerStep": 0, "Blocked": 0,
     "PivotX": 0, "PivotY": 0, "AimX": 0, "AimY": 0, "TargetAngle": 0, "TurretAngle": 0, "InputTouch": 0,
     "LastTouchTime": -10, "HasAimed": 0, "Firing": 0, "FireCooldown": 0, "AimOffset": 0, "ShotsFired": 0,
@@ -609,17 +648,17 @@ def text(name, size, color="255;255;255", string="", bold=True):
 
 def build_objects():
     tower_mask = [(8, 16), (52, 16), (52, 96), (8, 96)]
-    cell_anims = []
-    for mat in DATA["Materials"]:
-        img = {"Stone": "stone", "Hardstone": "hard"}.get(mat, "stone")
-        cell_anims += [(mat + str(i), ["cell_%s_%d.png" % (img, i)]) for i in range(3)]
+    cell = tiled("Cell", "tile_stone.png", 12, 12)
+    cell["variables"] = [var(k, v) for k, v in {"HP": 1, "MaxHP": 1, "Material": "Stone", "Flash": 0, "Stage": 0,
+                                                 "HasCrack": 0, "Batch": 0, "SliceX": 0, "SliceY": 0}.items()]
     return [
         sprite("Tower", [("Drive", ["tower_0.png", "tower_1.png"])], loop_time=0.09, origin=(30, 96),
                mask=tower_mask, points={"TurretMount": (52, 10)}),
         sprite("Turret", [("Idle", ["turret.png"])], origin=(8, 8), points={"Muzzle": (42, 8)}),
         sprite("Bullet", [("Fly", ["bullet.png"])], {"Extra": 0}, origin=(11, 2)),
         sprite("MuzzleFlash", [("Flash", ["muzzle_flash.png"])], origin=(0, 8)),
-        sprite("Cell", cell_anims, {"HP": 1, "MaxHP": 1, "Material": "Stone", "Flash": 0}),
+        cell,
+        sprite("Crack", [("Crack1", ["crack_1.png"]), ("Crack2", ["crack_2.png"])]),
         sprite("Debris", [("Chip", ["debris.png"])], {"VX": 0, "VY": 0, "Life": 0}, origin=(2, 2)),
         sprite("Spark", [("Hit", ["spark.png"])], {"Life": 0}, origin=(5, 5)),
         sprite("Crosshair", [("Aim", ["crosshair.png"])], origin=(16, 16)),
@@ -699,8 +738,9 @@ def build_resources():
 
 
 def global_variables():
-    forms = [{"Name": f["Name"], "Shape": "|".join(f["Rows"])} for f in DATA["Formations"]]
-    for f in DATA["Formations"]:
+    forms = [{"Name": f["Name"], "Shape": "|".join(f["Rows"]), "Art": 1 if f["Texture"] else 0}
+             for f in ALL_FORMATIONS]
+    for f in ALL_FORMATIONS:
         widths = {len(r) for r in f["Rows"]}
         assert len(widths) == 1, "Formation %s: every row needs the same width" % f["Name"]
     return [var("Tuning", T), var("Materials", DATA["Materials"]), var("Formations", forms)]

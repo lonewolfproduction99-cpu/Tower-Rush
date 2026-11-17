@@ -34,17 +34,20 @@ Only the system that owns a variable writes to it. The others only read it.
 ### Tuning and content (global variables)
 
 - **`Tuning`:** speeds, fire rate, damage, the cloud's start gap, spawn distances and so on. The defaults follow the design brief: tower 85 px/s, cloud 60 px/s, 450 px gap, 6 shots/s, 1 damage, bullets at 900 px/s.
-- **`Materials`:** one entry per cell type: `Char` (its letter in a formation) and `HP`. The current types are Stone `#` (1 HP) and Hardstone `H` (3 HP, used only in tops you never need to shoot).
-- **`Formations`:** each one has a `Name` and a `Shape`. The shape is rows of characters separated by `|`, top row first; the bottom row sits on the ground. `.` is empty. Gate and Cave always come first, then the rest at random.
+- **`Materials`:** one entry per cell type: `Char` (its letter in a formation), `HP`, `Tile` (a 12 × 12 image for text-grid formations), `MapColor` (its colour in material maps) and `DebrisColor`. The current types are Stone `#` (1 HP), Hardstone `H` (3), Concrete `C` (1) and Metal `M` (4).
+- **`Formations`:** each one has a `Name`, a `Shape` and `Art`. The shape is rows of characters separated by `|`, top row first; the bottom row sits on the ground. `.` is empty. Gate and Cave always come first, then the rest at random. `Tuning.TestFormation` (index, -1 = off) spawns only one formation, for previewing.
 
-To add a material:
-1. Add it to `Materials`.
-2. Add the animations `<Name>0`, `<Name>1` and `<Name>2` to the `Cell` object (intact, cracked, badly cracked).
-3. Copy one of the per-character events in `ObstacleGenerator`.
+### Your own pixel-art obstacles
+
+Draw a whole object, such as a ruined building, a boulder or a wreck. Put it in `art/formations/` and run `python3 tools/import_formations.py`. The game cuts it into 12 × 12 cells, each showing its own piece of your picture, and you blast it apart piece by piece. An optional material map sets which parts are concrete, metal and so on.
+
+Full guide: **[art/formations/README.md](art/formations/README.md)**.
 
 ### Key mechanics
 
-- **Cells:** every cell is its own 12 × 12 `Cell` object with its own collision mask. A destroyed cell stops blocking at once.
+- **Cells:** every cell is its own 12 × 12 `Cell` object (a tiled sprite) with its own collision box. A destroyed cell stops blocking at once.
+  - A text-grid cell shows its material's tile. An art cell shows its slice of the picture through its X/Y offset.
+  - Damage is a `Crack` overlay linked to the cell (GDevelop's Linked objects).
 - **Tower:** the collision mask is the chassis, 44 × 80 px. Each frame the tower moves and, if it overlaps a cell, moves back. A step is at most about 4 px, so it can't skip through a cell.
   - It fits an opening at least **7 cells (84 px)** high. A 6-cell opening blocks it; the Cave formation shows this.
 - **Bullets:** each frame a ray is cast for the distance the bullet travels. Only the first cell on that ray is hit.
@@ -58,12 +61,15 @@ To add a material:
 
 **Once you edit the project in GDevelop, the `.json` is the source of truth.** The build script then refuses to overwrite it (it keeps a hash in `game/.build_stamp.json`).
 
+Your formation art is imported by `python3 tools/import_formations.py` (writes `data/art_formations.json` and `game/assets/formation_*.png`).
+
 Web build and tests (Linux, as used in the cloud container):
 
 ```bash
 python3 tools/build_project.py
 tools/export.sh <extracted GDevelop-5-5.6.285-linux.zip folder> docs   # needs xvfb-run
 node tools/test/play.js docs test-output                                 # needs Playwright + Chromium
+node tools/test/play.js docs test-output art                             # every art formation: slices, cracks, passable
 ```
 
 `tools/gd/instructions.json` lists GDevelop's instructions and their parameters. It is dumped from the editor's own `libGD.js` by `tools/gd/dump_metadata.js`. The build checks every event against it.
@@ -76,7 +82,9 @@ Keep each file name and pixel size and the project needs no change. The files ar
 |---|---|---|
 | `tower_0.png`, `tower_1.png` | 60 × 96 | origin bottom-centre (30, 96); collision mask x 8–52, y 16–96; turret mount at (52, 10); two track frames |
 | `turret.png` | 44 × 16 | pivot (8, 8), muzzle (42, 8), barrel points right |
-| `cell_stone_0..2.png`, `cell_hard_0..2.png` | 12 × 12 | intact, cracked, badly cracked |
+| `tile_stone.png`, `tile_hard.png`, `tile_concrete.png`, `tile_metal.png` | 12 × 12 | material tiles for text-grid formations |
+| `crack_1.png`, `crack_2.png` | 12 × 12 | transparent crack overlays (damaged, badly damaged), shared by all materials |
+| `art/formations/*.png` | any | whole destructible objects: see [art/formations/README.md](art/formations/README.md) |
 | `bullet.png` | 12 × 4 | origin at the tip (11, 2) |
 | `muzzle_flash.png` | 20 × 16 | origin (0, 8) |
 | `cloud_0..2.png` | 600 × 960 | origin at the right edge (600, 0); the right edge is the deadly front |
@@ -91,3 +99,9 @@ Keep each file name and pixel size and the project needs no change. The files ar
 3. **Phase 3:** saved progression, upgrade shop, weapon unlocks.
 4. **Phase 4:** explosives, fracture points, special materials, regions.
 5. **Phase 5:** final art, effects, balancing, UI polish, release.
+
+## Asset provenance
+
+All art in this repository is currently **code-drawn placeholder art**: `tools/make_placeholders.py` draws it with Pillow, using no generative AI. That includes `art/formations/placeholder_*`.
+
+Slicing your own drawings into cells (`tools/import_formations.py`) only cuts and copies your pixels. It doesn't generate or change any art.

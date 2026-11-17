@@ -88,9 +88,12 @@ Keep each file name and pixel size and the project needs no change. The files ar
 | `bullet.png` | 12 × 4 | origin at the tip (11, 2) |
 | `muzzle_flash.png` | 20 × 16 | origin (0, 8) |
 | `cloud_0..2.png` | 600 × 960 | origin at the right edge (600, 0); the right edge is the deadly front |
-| `ground.png` | 32 × 160 | tiles horizontally |
-| `hills.png` | 256 × 260 | tiles horizontally, parallax |
+| `sky.png` | 540 × 960 | the whole screen; doesn't move (its own layer `Sky`) |
+| `hills.png` | any width × any height (540 × 300 suggested) | far skyline; repeats sideways, scrolls at 30 % (parallax); its bottom 20 px sit behind the ground |
+| `ground.png` | any width × 160 (128 × 160 suggested) | the strip the tower drives on; its top edge is the ground line; repeats sideways |
 | `crosshair.png` | 32 × 32 | centred |
+
+Guides for all of these are in `art/templates/`. The backgrounds take whatever size you draw: rebuild with `python3 tools/build_project.py` and the objects resize to fit.
 
 ## Roadmap
 

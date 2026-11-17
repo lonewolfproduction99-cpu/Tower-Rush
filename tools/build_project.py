@@ -23,6 +23,8 @@ import os
 import sys
 import uuid
 
+from PIL import Image
+
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..")
 GAME = os.path.join(ROOT, "game")
 OUT = os.path.join(GAME, "TowerRush.json")
@@ -154,6 +156,16 @@ def tune(key):
 
 
 V = "Variable(%s)".__mod__
+
+
+def img_size(name):
+    """Size of an image in game/assets (backgrounds adapt to whatever size the owner draws)."""
+    return Image.open(os.path.join(GAME, "assets", name)).size
+
+
+GROUND_W, GROUND_H = img_size("ground.png")
+FAR_W, FAR_H = img_size("hills.png")
+FAR_SINK = 20  # px of the far layer hidden behind the ground strip
 DT = V("Dt")
 CAM_X = 'CameraX("", 0)'
 GROUND = tune("GroundY")
@@ -546,8 +558,11 @@ def camera_and_hud():
                 "sprites that follow the camera."),
         ev([], [
             A("SetCameraCenterX", "=", "Tower.X() + %s" % tune("CameraLead"), q(""), "0"),
-            set_xy("Ground", "floor((%s - 300) / 32) * 32" % CAM_X, GROUND),
-            set_xy("Hills", "%s - 270" % CAM_X, "560"),
+            comment("Ground and far layer cover the screen and slide their picture: the ground moves with the "
+                    "world, the far layer at 30 % (parallax). Any image width tiles seamlessly."),
+            set_xy("Ground", "%s - 270" % CAM_X, GROUND),
+            A("TiledSpriteObject::XOffset", "Ground", "=", "%s - 270" % CAM_X),
+            set_xy("Hills", "%s - 270" % CAM_X, "%s + %d - %d" % (GROUND, FAR_SINK, FAR_H)),
             A("TiledSpriteObject::XOffset", "Hills", "=", "%s * 0.3" % CAM_X),
         ]),
         group("HUD", [
@@ -663,8 +678,9 @@ def build_objects():
         sprite("Spark", [("Hit", ["spark.png"])], {"Life": 0}, origin=(5, 5)),
         sprite("Crosshair", [("Aim", ["crosshair.png"])], origin=(16, 16)),
         sprite("Cloud", [("Roll", ["cloud_0.png", "cloud_1.png", "cloud_2.png"])], loop_time=0.22, origin=(600, 0)),
-        tiled("Ground", "ground.png", 640, 160),
-        tiled("Hills", "hills.png", 540, 260),
+        tiled("Ground", "ground.png", 540, GROUND_H),
+        tiled("Hills", "hills.png", 540, FAR_H),
+        sprite("Sky", [("Idle", ["sky.png"])]),
         # UI layer
         text("DistanceText", 40, string="0 m"),
         text("BestText", 20, "255;225;150", "BEST 0 m"),
@@ -693,8 +709,9 @@ def build_instances():
     g = T["GroundY"]
     tx = T["TowerStartX"]
     return [
-        inst("Hills", 0, 560, -10, w=540, h=260),
-        inst("Ground", -50, g, 1, w=640, h=160),
+        inst("Sky", 0, 0, 0, "Sky"),
+        inst("Hills", 0, g + FAR_SINK - FAR_H, -10, w=540, h=FAR_H),
+        inst("Ground", 0, g, 1, w=540, h=GROUND_H),
         inst("Tower", tx, g, 20),
         inst("Turret", tx + 22, g - 86, 21),
         inst("MuzzleFlash", tx + 56, g - 86, 22),
@@ -766,7 +783,7 @@ def build_project():
         "variables": [var(k, v) for k, v in SCENE_VARS.items()],
         "instances": build_instances(), "objects": objects,
         "objectsFolderStructure": {"folderName": "__ROOT", "children": [{"objectName": o["name"]} for o in objects]},
-        "events": scene_events, "layers": [layer(""), layer("UI")], "behaviorsSharedData": [],
+        "events": scene_events, "layers": [layer("Sky"), layer(""), layer("UI")], "behaviorsSharedData": [],
     }
     return {
         "firstLayout": "Game",

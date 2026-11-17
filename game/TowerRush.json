@@ -230,6 +230,14 @@
     "userAdded": true
    },
    {
+    "file": "assets/sky.png",
+    "kind": "image",
+    "metadata": "",
+    "name": "sky.png",
+    "smoothed": false,
+    "userAdded": true
+   },
+   {
     "file": "assets/spark.png",
     "kind": "image",
     "metadata": "",
@@ -1111,6 +1119,22 @@
    "instances": [
     {
      "angle": 0,
+     "customSize": false,
+     "height": 0,
+     "width": 0,
+     "layer": "Sky",
+     "locked": false,
+     "name": "Sky",
+     "persistentUuid": "ef1af555-bdbc-576b-aa1d-c0d32be880f4",
+     "x": 0,
+     "y": 0,
+     "zOrder": 0,
+     "numberProperties": [],
+     "stringProperties": [],
+     "initialVariables": []
+    },
+    {
+     "angle": 0,
      "customSize": true,
      "height": 260,
      "width": 540,
@@ -1129,12 +1153,12 @@
      "angle": 0,
      "customSize": true,
      "height": 160,
-     "width": 640,
+     "width": 540,
      "layer": "",
      "locked": false,
      "name": "Ground",
-     "persistentUuid": "c1de56ec-bd37-5ff5-994e-483f4b21be72",
-     "x": -50,
+     "persistentUuid": "6fc29026-5ad9-5765-8b1b-fbc52e8053c4",
+     "x": 0,
      "y": 800,
      "zOrder": 1,
      "numberProperties": [],
@@ -2040,7 +2064,7 @@
      "effects": [],
      "behaviors": [],
      "texture": "ground.png",
-     "width": 640,
+     "width": 540,
      "height": 160
     },
     {
@@ -2054,6 +2078,48 @@
      "texture": "hills.png",
      "width": 540,
      "height": 260
+    },
+    {
+     "assetStoreId": "",
+     "name": "Sky",
+     "persistentUuid": "c1a56174-73e3-5bac-add4-134784bae4fb",
+     "type": "Sprite",
+     "variables": [],
+     "effects": [],
+     "behaviors": [],
+     "adaptCollisionMaskAutomatically": false,
+     "updateIfNotVisible": false,
+     "animations": [
+      {
+       "name": "Idle",
+       "useMultipleDirections": false,
+       "directions": [
+        {
+         "looping": false,
+         "timeBetweenFrames": 1,
+         "sprites": [
+          {
+           "hasCustomCollisionMask": false,
+           "image": "sky.png",
+           "points": [],
+           "originPoint": {
+            "name": "origine",
+            "x": 0,
+            "y": 0
+           },
+           "centerPoint": {
+            "automatic": true,
+            "name": "centre",
+            "x": 0,
+            "y": 0
+           },
+           "customCollisionMask": []
+          }
+         ]
+        }
+       ]
+      }
+     ]
     },
     {
      "assetStoreId": "",
@@ -2543,6 +2609,9 @@
       "objectName": "Hills"
      },
      {
+      "objectName": "Sky"
+     },
+     {
       "objectName": "DistanceText"
      },
      {
@@ -2654,6 +2723,35 @@
     }
    ],
    "layers": [
+    {
+     "ambientLightColorB": 200,
+     "ambientLightColorG": 200,
+     "ambientLightColorR": 200,
+     "camera2DPlaneMaxDrawingDistance": 5000,
+     "camera3DFarPlaneDistance": 10000,
+     "camera3DFieldOfView": 45,
+     "camera3DNearPlaneDistance": 3,
+     "cameraType": "",
+     "followBaseLayerCamera": false,
+     "isLightingLayer": false,
+     "isLocked": false,
+     "name": "Sky",
+     "renderingType": "2d",
+     "visibility": true,
+     "cameras": [
+      {
+       "defaultSize": true,
+       "defaultViewport": true,
+       "height": 0,
+       "viewportBottom": 1,
+       "viewportLeft": 0,
+       "viewportRight": 1,
+       "viewportTop": 0,
+       "width": 0
+      }
+     ],
+     "effects": []
+    },
     {
      "ambientLightColorB": 200,
      "ambientLightColorG": 200,
@@ -7268,6 +7366,18 @@
        ]
       },
       {
+       "type": "BuiltinCommonInstructions::Comment",
+       "color": {
+        "b": 109,
+        "g": 230,
+        "r": 255,
+        "textB": 0,
+        "textG": 0,
+        "textR": 0
+       },
+       "comment": "Ground and far layer cover the screen and slide their picture: the ground moves with the world, the far layer at 30 % (parallax). Any image width tiles seamlessly."
+      },
+      {
        "type": {
         "inverted": false,
         "value": "SetXY"
@@ -7275,9 +7385,20 @@
        "parameters": [
         "Ground",
         "=",
-        "floor((CameraX(\"\", 0) - 300) / 32) * 32",
+        "CameraX(\"\", 0) - 270",
         "=",
         "GlobalVariable(Tuning.GroundY)"
+       ]
+      },
+      {
+       "type": {
+        "inverted": false,
+        "value": "TiledSpriteObject::XOffset"
+       },
+       "parameters": [
+        "Ground",
+        "=",
+        "CameraX(\"\", 0) - 270"
        ]
       },
       {
@@ -7290,7 +7411,7 @@
         "=",
         "CameraX(\"\", 0) - 270",
         "=",
-        "560"
+        "GlobalVariable(Tuning.GroundY) + 20 - 260"
        ]
       },
       {

@@ -81,6 +81,12 @@ gdjs.GameCode.GDHillsObjects3= [];
 gdjs.GameCode.GDHillsObjects4= [];
 gdjs.GameCode.GDHillsObjects5= [];
 gdjs.GameCode.GDHillsObjects6= [];
+gdjs.GameCode.GDSkyObjects1= [];
+gdjs.GameCode.GDSkyObjects2= [];
+gdjs.GameCode.GDSkyObjects3= [];
+gdjs.GameCode.GDSkyObjects4= [];
+gdjs.GameCode.GDSkyObjects5= [];
+gdjs.GameCode.GDSkyObjects6= [];
 gdjs.GameCode.GDDistanceTextObjects1= [];
 gdjs.GameCode.GDDistanceTextObjects2= [];
 gdjs.GameCode.GDDistanceTextObjects3= [];
@@ -2689,12 +2695,17 @@ gdjs.copyArray(runtimeScene.getObjects("Hills"), gdjs.GameCode.GDHillsObjects1);
 gdjs.copyArray(runtimeScene.getObjects("Tower"), gdjs.GameCode.GDTowerObjects1);
 {gdjs.evtTools.camera.setCameraX(runtimeScene, (( gdjs.GameCode.GDTowerObjects1.length === 0 ) ? 0 :gdjs.GameCode.GDTowerObjects1[0].getPointX("")) + gdjs.evtTools.variable.getVariableNumber(runtimeScene.getGame().getVariables().getFromIndex(0).getChild("CameraLead")), "", 0);
 }
+{/* Skipped action (empty type) */}
 {for(var i = 0, len = gdjs.GameCode.GDGroundObjects1.length ;i < len;++i) {
-    gdjs.GameCode.GDGroundObjects1[i].setPosition(Math.floor((gdjs.evtTools.camera.getCameraX(runtimeScene, "", 0) - 300) / 32) * 32,gdjs.evtTools.variable.getVariableNumber(runtimeScene.getGame().getVariables().getFromIndex(0).getChild("GroundY")));
+    gdjs.GameCode.GDGroundObjects1[i].setPosition(gdjs.evtTools.camera.getCameraX(runtimeScene, "", 0) - 270,gdjs.evtTools.variable.getVariableNumber(runtimeScene.getGame().getVariables().getFromIndex(0).getChild("GroundY")));
+}
+}
+{for(var i = 0, len = gdjs.GameCode.GDGroundObjects1.length ;i < len;++i) {
+    gdjs.GameCode.GDGroundObjects1[i].setXOffset(gdjs.evtTools.camera.getCameraX(runtimeScene, "", 0) - 270);
 }
 }
 {for(var i = 0, len = gdjs.GameCode.GDHillsObjects1.length ;i < len;++i) {
-    gdjs.GameCode.GDHillsObjects1[i].setPosition(gdjs.evtTools.camera.getCameraX(runtimeScene, "", 0) - 270,560);
+    gdjs.GameCode.GDHillsObjects1[i].setPosition(gdjs.evtTools.camera.getCameraX(runtimeScene, "", 0) - 270,gdjs.evtTools.variable.getVariableNumber(runtimeScene.getGame().getVariables().getFromIndex(0).getChild("GroundY")) + 20 - 260);
 }
 }
 {for(var i = 0, len = gdjs.GameCode.GDHillsObjects1.length ;i < len;++i) {
@@ -2790,6 +2801,12 @@ gdjs.GameCode.GDHillsObjects3.length = 0;
 gdjs.GameCode.GDHillsObjects4.length = 0;
 gdjs.GameCode.GDHillsObjects5.length = 0;
 gdjs.GameCode.GDHillsObjects6.length = 0;
+gdjs.GameCode.GDSkyObjects1.length = 0;
+gdjs.GameCode.GDSkyObjects2.length = 0;
+gdjs.GameCode.GDSkyObjects3.length = 0;
+gdjs.GameCode.GDSkyObjects4.length = 0;
+gdjs.GameCode.GDSkyObjects5.length = 0;
+gdjs.GameCode.GDSkyObjects6.length = 0;
 gdjs.GameCode.GDDistanceTextObjects1.length = 0;
 gdjs.GameCode.GDDistanceTextObjects2.length = 0;
 gdjs.GameCode.GDDistanceTextObjects3.length = 0;
@@ -2942,6 +2959,12 @@ gdjs.GameCode.GDHillsObjects3.length = 0;
 gdjs.GameCode.GDHillsObjects4.length = 0;
 gdjs.GameCode.GDHillsObjects5.length = 0;
 gdjs.GameCode.GDHillsObjects6.length = 0;
+gdjs.GameCode.GDSkyObjects1.length = 0;
+gdjs.GameCode.GDSkyObjects2.length = 0;
+gdjs.GameCode.GDSkyObjects3.length = 0;
+gdjs.GameCode.GDSkyObjects4.length = 0;
+gdjs.GameCode.GDSkyObjects5.length = 0;
+gdjs.GameCode.GDSkyObjects6.length = 0;
 gdjs.GameCode.GDDistanceTextObjects1.length = 0;
 gdjs.GameCode.GDDistanceTextObjects2.length = 0;
 gdjs.GameCode.GDDistanceTextObjects3.length = 0;

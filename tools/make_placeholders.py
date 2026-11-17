@@ -262,6 +262,17 @@ def hills():
     return im
 
 
+def sky():
+    """540 x 960, does not scroll: a dusty gradient."""
+    im = Image.new("RGBA", (540, 960))
+    d = ImageDraw.Draw(im)
+    top, bottom = (196, 140, 110), (240, 200, 150)
+    for y in range(0, 960, 8):  # 8 px bands: a pixel-art gradient
+        t = y / 959
+        d.rectangle([0, y, 539, y + 7], fill=tuple(int(a + (b - a) * t) for a, b in zip(top, bottom)) + (255,))
+    return im
+
+
 def button(w, h, fill, edge):
     im = rgba(w, h)
     d = ImageDraw.Draw(im)
@@ -310,6 +321,7 @@ def main():
     for f in range(3):
         save(cloud(f), "cloud_%d.png" % f)
     save(ground(), "ground.png")
+    save(sky(), "sky.png")
     save(hills(), "hills.png")
     save(button(240, 72, (230, 170, 60, 255), (110, 70, 20, 255)), "button.png")
     save(button(150, 50, (60, 70, 90, 220), (20, 24, 34, 255)), "button_small.png")

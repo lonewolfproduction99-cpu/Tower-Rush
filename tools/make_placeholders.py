@@ -18,8 +18,13 @@ OUT = os.path.join(ROOT, "game", "assets")
 random.seed(7)
 
 
+OWNER_BG = os.path.join(ROOT, "art", "backgrounds")
+
+
 def save(img, name):
     os.makedirs(OUT, exist_ok=True)
+    if os.path.exists(os.path.join(OWNER_BG, name)):
+        return  # the owner's own art (art/backgrounds/) is used instead; build_project.py copies it in
     img.save(os.path.join(OUT, name))
 
 

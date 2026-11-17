@@ -451,6 +451,11 @@
      "name": "TestFormation",
      "type": "number",
      "value": -1
+    },
+    {
+     "name": "ShowFarLayer",
+     "type": "number",
+     "value": 0
     }
    ]
   },
@@ -7423,6 +7428,55 @@
         "Hills",
         "=",
         "CameraX(\"\", 0) * 0.3"
+       ]
+      }
+     ],
+     "events": []
+    },
+    {
+     "type": "BuiltinCommonInstructions::Comment",
+     "color": {
+      "b": 109,
+      "g": 230,
+      "r": 255,
+      "textB": 0,
+      "textG": 0,
+      "textR": 0
+     },
+     "comment": "Tuning.ShowFarLayer = 0 hides the scrolling far skyline (when the sky picture has its own)."
+    },
+    {
+     "type": "BuiltinCommonInstructions::Standard",
+     "conditions": [
+      {
+       "type": {
+        "inverted": false,
+        "value": "SceneJustBegins"
+       },
+       "parameters": [
+        ""
+       ]
+      },
+      {
+       "type": {
+        "inverted": false,
+        "value": "BuiltinCommonInstructions::CompareNumbers"
+       },
+       "parameters": [
+        "GlobalVariable(Tuning.ShowFarLayer)",
+        "=",
+        "0"
+       ]
+      }
+     ],
+     "actions": [
+      {
+       "type": {
+        "inverted": false,
+        "value": "Hide"
+       },
+       "parameters": [
+        "Hills"
        ]
       }
      ],

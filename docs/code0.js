@@ -2720,6 +2720,28 @@ gdjs.copyArray(runtimeScene.getObjects("Tower"), gdjs.GameCode.GDTowerObjects1);
 {
 
 
+let isConditionTrue_0 = false;
+isConditionTrue_0 = false;
+isConditionTrue_0 = gdjs.evtTools.runtimeScene.sceneJustBegins(runtimeScene);
+if (isConditionTrue_0) {
+isConditionTrue_0 = false;
+{isConditionTrue_0 = (gdjs.evtTools.variable.getVariableNumber(runtimeScene.getGame().getVariables().getFromIndex(0).getChild("ShowFarLayer")) == 0);
+}
+}
+if (isConditionTrue_0) {
+gdjs.copyArray(runtimeScene.getObjects("Hills"), gdjs.GameCode.GDHillsObjects1);
+{for(var i = 0, len = gdjs.GameCode.GDHillsObjects1.length ;i < len;++i) {
+    gdjs.GameCode.GDHillsObjects1[i].hide();
+}
+}
+}
+
+}
+
+
+{
+
+
 gdjs.GameCode.eventsList32(runtimeScene);
 }
 

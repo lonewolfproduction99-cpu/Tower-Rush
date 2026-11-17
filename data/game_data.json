@@ -26,7 +26,8 @@
     "MinSpawnAheadOfTower": 200,
     "PixelsPerMeter": 10,
     "MaxFrameTime": 0.05,
-    "TestFormation": -1
+    "TestFormation": -1,
+    "ShowFarLayer": 0
   },
   "Materials": {
     "Stone": {

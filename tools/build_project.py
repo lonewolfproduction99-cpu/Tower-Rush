@@ -158,6 +158,12 @@ def tune(key):
 V = "Variable(%s)".__mod__
 
 
+# The owner's backgrounds (art/backgrounds/sky.png, hills.png, ground.png) replace the placeholders.
+for _f in glob.glob(os.path.join(ROOT, "art", "backgrounds", "*.png")):
+    import shutil
+    shutil.copyfile(_f, os.path.join(GAME, "assets", os.path.basename(_f)))
+
+
 def img_size(name):
     """Size of an image in game/assets (backgrounds adapt to whatever size the owner draws)."""
     return Image.open(os.path.join(GAME, "assets", name)).size
@@ -565,6 +571,8 @@ def camera_and_hud():
             set_xy("Hills", "%s - 270" % CAM_X, "%s + %d - %d" % (GROUND, FAR_SINK, FAR_H)),
             A("TiledSpriteObject::XOffset", "Hills", "=", "%s * 0.3" % CAM_X),
         ]),
+        comment("Tuning.ShowFarLayer = 0 hides the scrolling far skyline (when the sky picture has its own)."),
+        ev([C("SceneJustBegins"), cmp(tune("ShowFarLayer"), "=", "0")], [A("Hide", "Hills")]),
         group("HUD", [
             ev([], [
                 set_text("DistanceText", 'ToString(floor(Variable(Distance))) + " m"'),

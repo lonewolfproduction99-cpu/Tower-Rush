@@ -18,6 +18,55 @@
   "Intro": false
  },
  {
+  "Name": "owner_building_02",
+  "Texture": "formation_owner_building_02.png",
+  "Rows": [
+   "C..CC.",
+   "CCCCCC",
+   "CCCCCC",
+   "CCCCCC",
+   "CCCCCC",
+   "CCCCCC",
+   "CCCCCC",
+   "CCCCCC",
+   "CCCCCC"
+  ],
+  "Intro": false
+ },
+ {
+  "Name": "owner_building_03",
+  "Texture": "formation_owner_building_03.png",
+  "Rows": [
+   ".......",
+   ".CCCCC.",
+   "CCCCCC.",
+   "CCCCCC.",
+   "CCCCCC.",
+   "CCCCCC.",
+   "CCCCCC.",
+   "CCCCCC.",
+   "CCCCCC.",
+   "CCCCCC."
+  ],
+  "Intro": false
+ },
+ {
+  "Name": "owner_wall_01",
+  "Texture": "formation_owner_wall_01.png",
+  "Rows": [
+   ".....",
+   "CC...",
+   "CC...",
+   "CCC..",
+   "CCC..",
+   "CCC..",
+   "CCC..",
+   "CCCC.",
+   "CCCCC"
+  ],
+  "Intro": false
+ },
+ {
   "Name": "placeholder_boulder",
   "Texture": "formation_placeholder_boulder.png",
   "Rows": [

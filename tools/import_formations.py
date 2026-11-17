@@ -53,8 +53,8 @@ def import_one(path, min_cover, palette):
     box = im.getchannel("A").getbbox()
     if not box:
         sys.exit("%s is empty (fully transparent)" % path)
-    # Empty space above and left of the drawing is dropped; the bottom edge stays the ground line.
-    crop = (box[0], box[1], im.width, im.height)
+    # Empty space above, left and right of the drawing is dropped; the bottom edge stays the ground line.
+    crop = (box[0], box[1], box[2], im.height)
     im = im.crop(crop)
     cols = -(-im.width // CELL)
     rows = -(-im.height // CELL)

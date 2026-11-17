@@ -1,5 +1,23 @@
 [
  {
+  "Name": "owner_building_01",
+  "Texture": "formation_owner_building_01.png",
+  "Rows": [
+   "CCCCCC....",
+   "CCCCCC....",
+   "CCCCCC....",
+   "CCCCCC....",
+   "CCCCCC....",
+   "CCCCCC....",
+   "CCCCCC....",
+   "CCCCCCC...",
+   "CCCCCCCCCC",
+   "CCCCCCCCCC",
+   "CCCCCCCCCC"
+  ],
+  "Intro": false
+ },
+ {
   "Name": "placeholder_boulder",
   "Texture": "formation_placeholder_boulder.png",
   "Rows": [

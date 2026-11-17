@@ -891,6 +891,44 @@ gdjs.GameCode.GDCellObjects3.length = k;
 if (isConditionTrue_0) {
 /* Reuse gdjs.GameCode.GDCellObjects3 */
 {for(var i = 0, len = gdjs.GameCode.GDCellObjects3.length ;i < len;++i) {
+    gdjs.GameCode.GDCellObjects3[i].setTexture("formation_owner_building_01.png", runtimeScene);
+}
+}
+{for(var i = 0, len = gdjs.GameCode.GDCellObjects3.length ;i < len;++i) {
+    gdjs.GameCode.GDCellObjects3[i].setXOffset((gdjs.RuntimeObject.getVariableNumber(gdjs.GameCode.GDCellObjects3[i].getVariables().getFromIndex(7))));
+}
+}
+{for(var i = 0, len = gdjs.GameCode.GDCellObjects3.length ;i < len;++i) {
+    gdjs.GameCode.GDCellObjects3[i].setYOffset((gdjs.RuntimeObject.getVariableNumber(gdjs.GameCode.GDCellObjects3[i].getVariables().getFromIndex(8))));
+}
+}
+}
+
+}
+
+
+{
+
+gdjs.copyArray(runtimeScene.getObjects("Cell"), gdjs.GameCode.GDCellObjects3);
+
+let isConditionTrue_0 = false;
+isConditionTrue_0 = false;
+{isConditionTrue_0 = (runtimeScene.getScene().getVariables().getFromIndex(8).getAsNumber() == 8);
+}
+if (isConditionTrue_0) {
+isConditionTrue_0 = false;
+for (var i = 0, k = 0, l = gdjs.GameCode.GDCellObjects3.length;i<l;++i) {
+    if ( gdjs.GameCode.GDCellObjects3[i].getVariableNumber(gdjs.GameCode.GDCellObjects3[i].getVariables().getFromIndex(6)) == gdjs.evtTools.variable.getVariableNumber(runtimeScene.getScene().getVariables().getFromIndex(7)) ) {
+        isConditionTrue_0 = true;
+        gdjs.GameCode.GDCellObjects3[k] = gdjs.GameCode.GDCellObjects3[i];
+        ++k;
+    }
+}
+gdjs.GameCode.GDCellObjects3.length = k;
+}
+if (isConditionTrue_0) {
+/* Reuse gdjs.GameCode.GDCellObjects3 */
+{for(var i = 0, len = gdjs.GameCode.GDCellObjects3.length ;i < len;++i) {
     gdjs.GameCode.GDCellObjects3[i].setTexture("formation_placeholder_boulder.png", runtimeScene);
 }
 }
@@ -913,7 +951,7 @@ gdjs.copyArray(runtimeScene.getObjects("Cell"), gdjs.GameCode.GDCellObjects2);
 
 let isConditionTrue_0 = false;
 isConditionTrue_0 = false;
-{isConditionTrue_0 = (runtimeScene.getScene().getVariables().getFromIndex(8).getAsNumber() == 8);
+{isConditionTrue_0 = (runtimeScene.getScene().getVariables().getFromIndex(8).getAsNumber() == 9);
 }
 if (isConditionTrue_0) {
 isConditionTrue_0 = false;

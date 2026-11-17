@@ -150,6 +150,14 @@
     "userAdded": true
    },
    {
+    "file": "assets/formation_owner_building_01.png",
+    "kind": "image",
+    "metadata": "",
+    "name": "formation_owner_building_01.png",
+    "smoothed": false,
+    "userAdded": true
+   },
+   {
     "file": "assets/formation_placeholder_boulder.png",
     "kind": "image",
     "metadata": "",
@@ -685,6 +693,26 @@
        "name": "Art",
        "type": "number",
        "value": 0
+      }
+     ]
+    },
+    {
+     "type": "structure",
+     "children": [
+      {
+       "name": "Name",
+       "type": "string",
+       "value": "owner_building_01"
+      },
+      {
+       "name": "Shape",
+       "type": "string",
+       "value": "CCCCCC....|CCCCCC....|CCCCCC....|CCCCCC....|CCCCCC....|CCCCCC....|CCCCCC....|CCCCCCC...|CCCCCCCCCC|CCCCCCCCCC|CCCCCCCCCC"
+      },
+      {
+       "name": "Art",
+       "type": "number",
+       "value": 1
       }
      ]
     },
@@ -4349,7 +4377,7 @@
              },
              "parameters": [
               "Cell",
-              "formation_placeholder_boulder.png",
+              "formation_owner_building_01.png",
               ""
              ]
             },
@@ -4390,6 +4418,70 @@
               "FormationIndex",
               "=",
               "8"
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "NumberObjectVariable"
+             },
+             "parameters": [
+              "Cell",
+              "Batch",
+              "=",
+              "Variable(FormationCount)"
+             ]
+            }
+           ],
+           "actions": [
+            {
+             "type": {
+              "inverted": false,
+              "value": "TiledSpriteObject::SetImageFromResource"
+             },
+             "parameters": [
+              "Cell",
+              "formation_placeholder_boulder.png",
+              ""
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "TiledSpriteObject::XOffset"
+             },
+             "parameters": [
+              "Cell",
+              "=",
+              "Cell.Variable(SliceX)"
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "TiledSpriteObject::YOffset"
+             },
+             "parameters": [
+              "Cell",
+              "=",
+              "Cell.Variable(SliceY)"
+             ]
+            }
+           ],
+           "events": []
+          },
+          {
+           "type": "BuiltinCommonInstructions::Standard",
+           "conditions": [
+            {
+             "type": {
+              "inverted": false,
+              "value": "NumberVariable"
+             },
+             "parameters": [
+              "FormationIndex",
+              "=",
+              "9"
              ]
             },
             {

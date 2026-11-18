@@ -39,7 +39,7 @@ Portrait (540×960) GDevelop 5 arcade game: a tracked tower auto-drives right, t
 ## Gotchas
 
 - The tower's collision mask is x 8..52, y 16..96 of the 60×96 sprite (origin 30,96). Its back edge (Tower.X−22) is hard-coded in the cloud events and the test; its front edge (+22) in the test's lane helpers.
-- The turret pivot is the sprite point `TurretMount` (events use `Tower.PointX/PointY("TurretMount")`), set at build time from `TowerArt.TurretMount` in data (default 30,10 = top centre). Bullets are z 22, above the tower; they ray-cast only against Cell, never the tower.
+- The turret pivot is the sprite point `TurretMount` (events use `Tower.PointX/PointY("TurretMount")`), set at build time from `TowerArt.TurretMount` in data (default 18,10: the 34 px barrel, held level, ends at the chassis front x=52). Bullets are z 22, above the tower; they ray-cast only against Cell, never the tower.
 - Play-test timing: the gas gives about 7 s of slack at the first wall. Extra steps while blocked there make later checks fail because the run ends, so put new checks before the wall or in their own run.
 - The clearance needed is 7 cells. Rows are 12 px from GroundY=800, and the chassis top is at 720.
 - `State` goes `"Run"` → `"Dying"` (set by CloudController) → `"Over"` (RunManager shows the UI and saves the best distance).

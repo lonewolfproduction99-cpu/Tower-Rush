@@ -233,7 +233,7 @@
   "TowerArt": {
     "_about": "Used when building the project: points on the tower sprite (60 x 96, origin bottom centre 30,96). The game reads the TurretMount point at runtime, so it can also be moved in GDevelop's sprite editor (Tower > Edit points).",
     "TurretMount": [
-      30,
+      18,
       10
     ]
   }

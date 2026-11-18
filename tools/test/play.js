@@ -212,7 +212,7 @@ async function artScenario(browser) {
   const browser = await chromium.launch();
   try {
     if (SCENARIO === 'art') await artScenario(browser);
-    else await phase1(browser);
+    else { await aimChecks(browser); await phase1(browser); }
   } catch (e) {
     console.error(e);
     check(0, 'Test run crashed', false, String(e));
@@ -226,23 +226,16 @@ async function artScenario(browser) {
   process.exit(failed ? 1 : 0);
 })();
 
-async function phase1(browser) {
-  {
-    // ---------------------------------------------------------------- desktop, mouse
-    let { ctx, page, errors } = await openGame(browser);
-    let s0 = await snapshot(page);
-    await wait(1500);
-    let s1 = await snapshot(page);
-    check(1, 'Tower moves automatically when unobstructed', s1.towerX > s0.towerX + 40 && s1.blocked === 0,
-      `x ${s0.towerX.toFixed(0)} -> ${s1.towerX.toFixed(0)} in ${(s1.time - s0.time).toFixed(2)}s game time ` +
-      `(${((s1.towerX - s0.towerX) / (s1.time - s0.time)).toFixed(0)} px/s)`);
-    check(10, 'Cloud moves on its own (while the tower drives)', s1.cloudX > s0.cloudX,
-      `cloud ${(s1.cloudX - s0.cloudX).toFixed(0)} px in ${(s1.time - s0.time).toFixed(2)}s ` +
-      `(${((s1.cloudX - s0.cloudX) / (s1.time - s0.time)).toFixed(0)} px/s)`);
-    await page.screenshot({ path: path.join(OUT, '01_start.png') });
+// Aim and muzzle checks in their own short session: they don't need a wall, and in the main run every
+// second spent at the first wall is gas slack lost.
+async function aimChecks(browser) {
+  const { ctx, page, errors } = await openGame(browser);
+  await wait(300);
+  const sm = await snapshot(page);
+  let p;
     // Muzzle check (while driving, before the first wall): one short burst upward (nothing to hit), then watch where the new bullet first shows.
     {
-      const up = toScreen(s1, s1.pivotX - 80, s1.pivotY - 200); // up and back: nothing to hit there
+      const up = toScreen(sm, sm.pivotX - 80, sm.pivotY - 200); // up and back: nothing to hit there
       await page.mouse.move(up.x, up.y);
       await wait(400);
       const seen = page.evaluate(() => new Promise((resolve) => {
@@ -263,25 +256,16 @@ async function phase1(browser) {
       await wait(300);
     }
 
-    // Arrive at the first formation (Gate) without shooting.
-    let sb = await waitFor(page, (s) => s.blocked === 1, 20000);
-    await wait(700);
-    let sb2 = await snapshot(page);
-    check(2, 'Tower stops at a solid obstacle', sb.blocked === 1 && Math.abs(sb2.towerX - sb.towerX) < 0.5,
-      `blocked at x=${sb.towerX.toFixed(1)}, ${sb2.towerX.toFixed(1)} after 0.7s; cells in lane: ${(await cellsInPath(page)).length}`);
-    check(10.1, 'Cloud keeps moving while the tower is blocked', sb2.cloudX > sb.cloudX + 10,
-      `cloud +${(sb2.cloudX - sb.cloudX).toFixed(0)} px while blocked`);
-    await page.screenshot({ path: path.join(OUT, '02_blocked_gate.png') });
-
+  const sa0 = await snapshot(page);
     // Mouse aim: point at a known world position and check the turret.
-    const aimW = { x: sb2.pivotX + 120, y: sb2.pivotY - 90 };
-    let p = toScreen(sb2, aimW.x, aimW.y);
+    const aimW = { x: sa0.pivotX + 120, y: sa0.pivotY - 90 };
+    p = toScreen(sa0, aimW.x, aimW.y);
     await page.mouse.move(p.x, p.y);
     await wait(400);
     let sa = await snapshot(page);
     const expected = Math.atan2(sa.aimY - sa.pivotY, sa.aimX - sa.pivotX) * 180 / Math.PI;
     check(3, 'Mouse aiming works (screen to world, turret follows)',
-      Math.abs(sa.aimX - (aimW.x + (sa.camX - sb2.camX))) < 2 && Math.abs(sa.aimY - aimW.y) < 2 &&
+      Math.abs(sa.aimX - (aimW.x + (sa.camX - sa0.camX))) < 2 && Math.abs(sa.aimY - aimW.y) < 2 &&
       Math.abs(sa.turretAngle - expected) < 1 && sa.inputTouch === 0,
       `aim (${sa.aimX.toFixed(0)},${sa.aimY.toFixed(0)}), turret ${sa.turretAngle.toFixed(1)} deg, expected ${expected.toFixed(1)}`);
 
@@ -293,6 +277,36 @@ async function phase1(browser) {
     check(3.1, 'Turret never points through the chassis (down-back aim is clamped)',
       sc.turretAngle <= 88.01 && sc.turretAngle >= -180, `aim down-back -> turret ${sc.turretAngle.toFixed(1)} deg`);
 
+  check(15.0, 'No script errors in the aim session', errors.length === 0, errors.slice(0, 3).join(' | '));
+  await ctx.close();
+}
+
+async function phase1(browser) {
+  {
+    // ---------------------------------------------------------------- desktop, mouse
+    let { ctx, page, errors } = await openGame(browser);
+    let s0 = await snapshot(page);
+    await wait(1500);
+    let s1 = await snapshot(page);
+    check(1, 'Tower moves automatically when unobstructed', s1.towerX > s0.towerX + 40 && s1.blocked === 0,
+      `x ${s0.towerX.toFixed(0)} -> ${s1.towerX.toFixed(0)} in ${(s1.time - s0.time).toFixed(2)}s game time ` +
+      `(${((s1.towerX - s0.towerX) / (s1.time - s0.time)).toFixed(0)} px/s)`);
+    check(10, 'Cloud moves on its own (while the tower drives)', s1.cloudX > s0.cloudX,
+      `cloud ${(s1.cloudX - s0.cloudX).toFixed(0)} px in ${(s1.time - s0.time).toFixed(2)}s ` +
+      `(${((s1.cloudX - s0.cloudX) / (s1.time - s0.time)).toFixed(0)} px/s)`);
+    await page.screenshot({ path: path.join(OUT, '01_start.png') });
+    // Arrive at the first formation (Gate) without shooting.
+    let sb = await waitFor(page, (s) => s.blocked === 1, 20000);
+    await wait(700);
+    let sb2 = await snapshot(page);
+    check(2, 'Tower stops at a solid obstacle', sb.blocked === 1 && Math.abs(sb2.towerX - sb.towerX) < 0.5,
+      `blocked at x=${sb.towerX.toFixed(1)}, ${sb2.towerX.toFixed(1)} after 0.7s; cells in lane: ${(await cellsInPath(page)).length}`);
+    check(10.1, 'Cloud keeps moving while the tower is blocked', sb2.cloudX > sb.cloudX + 10,
+      `cloud +${(sb2.cloudX - sb.cloudX).toFixed(0)} px while blocked`);
+    await page.screenshot({ path: path.join(OUT, '02_blocked_gate.png') });
+
+    let p;
+    let sc = await snapshot(page);
     // Fire one burst at the gate and check bullets and hits.
     const cells = await cellsInPath(page);
     const target = cells[0];

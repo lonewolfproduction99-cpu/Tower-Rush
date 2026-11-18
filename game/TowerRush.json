@@ -1194,8 +1194,8 @@
      "layer": "",
      "locked": false,
      "name": "Turret",
-     "persistentUuid": "ea650c73-2cd7-5490-a56b-de48e369f341",
-     "x": 150,
+     "persistentUuid": "d8236009-f63c-56d7-91b4-d131b2f9d425",
+     "x": 138,
      "y": 714,
      "zOrder": 23,
      "numberProperties": [],
@@ -1210,8 +1210,8 @@
      "layer": "",
      "locked": false,
      "name": "MuzzleFlash",
-     "persistentUuid": "e6f017b4-f210-5c3c-8733-fe9d8584a5ea",
-     "x": 184,
+     "persistentUuid": "3791042c-3aae-5e0b-bdd2-c2dcef300e75",
+     "x": 172,
      "y": 714,
      "zOrder": 24,
      "numberProperties": [],
@@ -1485,7 +1485,7 @@
            "points": [
             {
              "name": "TurretMount",
-             "x": 30,
+             "x": 18,
              "y": 10
             }
            ],
@@ -1527,7 +1527,7 @@
            "points": [
             {
              "name": "TurretMount",
-             "x": 30,
+             "x": 18,
              "y": 10
             }
            ],

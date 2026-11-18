@@ -20,6 +20,7 @@ import glob
 import hashlib
 import json
 import os
+import re
 import sys
 import uuid
 
@@ -160,7 +161,8 @@ V = "Variable(%s)".__mod__
 
 
 # The owner's backgrounds (art/backgrounds/sky.png, hills.png, ground.png) replace the placeholders.
-for _f in glob.glob(os.path.join(ROOT, "art", "backgrounds", "*.png")):
+# The owner's tower (art/tower/tower_0.png, tower_1.png, ... and turret.png) likewise.
+for _f in glob.glob(os.path.join(ROOT, "art", "backgrounds", "*.png")) + glob.glob(os.path.join(ROOT, "art", "tower", "*.png")):
     import shutil
     shutil.copyfile(_f, os.path.join(GAME, "assets", os.path.basename(_f)))
 
@@ -671,13 +673,23 @@ def text(name, size, color="255;255;255", string="", bold=True):
     return o
 
 
+def tower_frames():
+    """Track animation frames: the owner's art/tower/tower_<n>.png if any, else the placeholders, in number order."""
+    def frames(folder):
+        fs = glob.glob(os.path.join(folder, "tower_*.png"))
+        fs = [f for f in fs if re.fullmatch(r"tower_\d+\.png", os.path.basename(f))]
+        return [os.path.basename(f) for f in sorted(fs, key=lambda f: int(re.findall(r"\d+", os.path.basename(f))[0]))]
+    return frames(os.path.join(ROOT, "art", "tower")) or frames(os.path.join(GAME, "assets"))
+
+
 def build_objects():
     tower_mask = [(8, 16), (52, 16), (52, 96), (8, 96)]
     cell = tiled("Cell", "tile_stone.png", 12, 12)
     cell["variables"] = [var(k, v) for k, v in {"HP": 1, "MaxHP": 1, "Material": "Stone", "Flash": 0, "Stage": 0,
                                                  "HasCrack": 0, "Batch": 0, "SliceX": 0, "SliceY": 0}.items()]
     return [
-        sprite("Tower", [("Drive", ["tower_0.png", "tower_1.png"])], loop_time=0.09, origin=(30, 96),
+        sprite("Tower", [("Drive", tower_frames())], loop_time=DATA.get("TowerArt", {}).get("TrackFrameTime", 0.09),
+               origin=(30, 96),
                mask=tower_mask, points={"TurretMount": tuple(MOUNT)}),
         sprite("Turret", [("Idle", ["turret.png"])], origin=(8, 8), points={"Muzzle": (42, 8)}),
         sprite("Bullet", [("Fly", ["bullet.png"])], {"Extra": 0}, origin=(11, 2)),

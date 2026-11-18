@@ -93,3 +93,37 @@ for w, h in ((72, 48), (120, 252), (240, 360)):
 tower().save(os.path.join(OUT, "tower_guide_60x96.png"))
 turret().save(os.path.join(OUT, "turret_guide_44x16.png"))
 print("templates written to art/templates/")
+
+
+def track_animation_guide():
+    """How to animate tracks: 4 frames, the tread marks move 2 px (a quarter of their 8 px spacing) per frame.
+    Saved enlarged x6 with a red reference line, for reading only (not a drawing template)."""
+    from PIL import ImageFont  # noqa: F401  (default bitmap font)
+    k, frames, spacing = 6, 4, 8
+    sheet = Image.new("RGBA", (60 * k + 40, frames * (24 * k + 30) + 10), (255, 255, 255, 255))
+    for f in range(frames):
+        im = Image.new("RGBA", (60, 24), (255, 255, 255, 255))
+        d = ImageDraw.Draw(im)
+        d.rounded_rectangle([2, 1, 57, 22], radius=10, fill=(40, 40, 46), outline=(16, 16, 20))
+        shift = f * spacing // frames
+        for x in range(4 - spacing + shift, 56, spacing):   # tread marks top and bottom, moving opposite ways
+            if 6 <= x <= 52:
+                d.rectangle([x, 2, x + 2, 4], fill=(150, 150, 160))
+            xb = 56 - (x - 4)
+            if 6 <= xb <= 52:
+                d.rectangle([xb, 19, xb + 2, 21], fill=(150, 150, 160))
+        for cx in (12, 24, 36, 48):                          # wheels: the bolt turns a quarter each frame
+            d.ellipse([cx - 5, 7, cx + 5, 17], fill=(90, 90, 98), outline=(30, 30, 36))
+            bx, by = [(cx, 9), (cx + 3, 12), (cx, 15), (cx - 3, 12)][f]
+            d.rectangle([bx - 1, by - 1, bx, by], fill=(220, 220, 230))
+        big = im.resize((60 * k, 24 * k), Image.NEAREST)
+        y = 10 + f * (24 * k + 30)
+        sheet.alpha_composite(big, (20, y + 20))
+        dd = ImageDraw.Draw(sheet)
+        dd.text((20, y + 4), "frame %d  (tread marks moved %d px)" % (f, shift), fill=(0, 0, 0, 255))
+        rx = 20 + 10 * k                                     # fixed red line: watch the marks slide past it
+        dd.line([(rx, y + 20), (rx, y + 20 + 24 * k)], fill=(230, 40, 40, 255), width=2)
+    return sheet
+
+
+track_animation_guide().save(os.path.join(OUT, "track_animation_guide_x6.png"))

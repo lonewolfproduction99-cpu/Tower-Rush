@@ -30,7 +30,7 @@ def tower():
     im = Image.new("RGBA", (60, 96), (255, 255, 255, 255))
     d = ImageDraw.Draw(im)
     d.rectangle([8, 16, 52, 95], outline=(230, 40, 40, 255))        # collision box (chassis)
-    d.rectangle([50, 8, 54, 12], fill=(40, 120, 230, 255))          # turret mount point (52, 10)
+    d.rectangle([28, 8, 32, 12], fill=(40, 120, 230, 255))          # turret mount point (30, 10), movable
     d.line([(30, 90), (30, 95)], fill=(40, 160, 60, 255))           # origin: bottom centre
     return im
 

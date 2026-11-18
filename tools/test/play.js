@@ -240,6 +240,28 @@ async function phase1(browser) {
       `cloud ${(s1.cloudX - s0.cloudX).toFixed(0)} px in ${(s1.time - s0.time).toFixed(2)}s ` +
       `(${((s1.cloudX - s0.cloudX) / (s1.time - s0.time)).toFixed(0)} px/s)`);
     await page.screenshot({ path: path.join(OUT, '01_start.png') });
+    // Muzzle check (while driving, before the first wall): one short burst upward (nothing to hit), then watch where the new bullet first shows.
+    {
+      const up = toScreen(s1, s1.pivotX - 80, s1.pivotY - 200); // up and back: nothing to hit there
+      await page.mouse.move(up.x, up.y);
+      await wait(400);
+      const seen = page.evaluate(() => new Promise((resolve) => {
+        const s = window.__scene;
+        const known = new Set(s.getObjects('Bullet'));
+        const iv = setInterval(() => {
+          const b = s.getObjects('Bullet').find((o) => !known.has(o));
+          if (b) { clearInterval(iv); resolve({ x: b.getX(), y: b.getY(),
+            px: s.getVariables().get('PivotX').getAsNumber(), py: s.getVariables().get('PivotY').getAsNumber() }); }
+        }, 1);
+        setTimeout(() => { clearInterval(iv); resolve(null); }, 3000);
+      }));
+      await page.mouse.down(); await wait(250); await page.mouse.up();
+      const b = await seen;
+      const d = b ? Math.hypot(b.x - b.px, b.y - b.py) : 0;
+      check(5.1, 'A bullet fired into open air first appears just past the muzzle', b && d > 30 && d < 34 + 46,
+        b ? `first seen ${d.toFixed(1)} px from the pivot (barrel 34 px + one frame of travel, up to 45 px)` : 'no bullet seen');
+      await wait(300);
+    }
 
     // Arrive at the first formation (Gate) without shooting.
     let sb = await waitFor(page, (s) => s.blocked === 1, 20000);

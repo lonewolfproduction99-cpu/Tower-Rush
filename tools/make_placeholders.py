@@ -56,8 +56,8 @@ def tower(frame):
     for x in (12, 22, 32, 42):
         d.point((x, 46), fill=(240, 200, 120))
         d.point((x, 66), fill=(240, 200, 120))
-    # Turret mount arm up to the front-top corner
-    d.rectangle([42, 8, 52, 20], fill=(120, 80, 34), outline=(70, 44, 18))
+    # Turret mount on top of the chassis, at the TurretMount point (30, 10)
+    d.rectangle([24, 8, 36, 20], fill=(120, 80, 34), outline=(70, 44, 18))
     # Hazard stripes on the front
     for y in range(44, 72, 8):
         d.polygon([(48, y), (52, y), (52, y + 4)], fill=(30, 30, 30))

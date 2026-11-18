@@ -52,7 +52,9 @@ Full guide: **[art/formations/README.md](art/formations/README.md)**.
   - It fits an opening at least **7 cells (84 px)** high. A 6-cell opening blocks it; the Cave formation shows this.
 - **Bullets:** each frame a ray is cast for the distance the bullet travels. Only the first cell on that ray is hit.
   - A new bullet starts at the turret pivot, and its first ray covers the barrel. So it appears at the muzzle and still hits a cell touching the barrel.
-- **Turret:** it sits on the front-top corner of the chassis. Its angle stays between straight left, up, and 88° (almost straight down in front), and it turns through the top only. So it never fires through the chassis.
+- **Turret:** it pivots on the tower sprite's `TurretMount` point (default: top centre of the chassis, (30, 10)). Move the point in GDevelop's sprite editor, or `TowerArt.TurretMount` in `data/game_data.json`, to match your art.
+  - The turret and bullets never collide with the tower: bullets only test against obstacle cells, and they're drawn above the tower.
+  - Its angle stays between straight left, up, and 88° (almost straight down in front), and it turns through the top only.
 - **Frame time:** it is capped (`Tuning.MaxFrameTime`), and all movement uses it.
 
 ## Rebuilding (for development with Claude / scripts)
@@ -80,7 +82,7 @@ Keep each file name and pixel size and the project needs no change. The files ar
 
 | File | Size | Origin / notes |
 |---|---|---|
-| `tower_0.png`, `tower_1.png` | 60 × 96 | origin bottom-centre (30, 96); collision mask x 8–52, y 16–96; turret mount at (52, 10); two track frames |
+| `tower_0.png`, `tower_1.png` | 60 × 96 | origin bottom-centre (30, 96); collision mask x 8–52, y 16–96; turret mount point `TurretMount` (30, 10) by default, movable; two track frames |
 | `turret.png` | 44 × 16 | pivot (8, 8), muzzle (42, 8), barrel points right |
 | `tile_stone.png`, `tile_hard.png`, `tile_concrete.png`, `tile_metal.png` | 12 × 12 | material tiles for text-grid formations |
 | `crack_1.png`, `crack_2.png` | 12 × 12 | transparent crack overlays (damaged, badly damaged), shared by all materials |

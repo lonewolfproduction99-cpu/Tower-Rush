@@ -36,6 +36,7 @@ ART_FORMATIONS = json.load(open(_ART, encoding="utf-8")) if os.path.exists(_ART)
 ALL_FORMATIONS = [dict(f, Texture="") for f in DATA["Formations"]] + ART_FORMATIONS
 META = json.load(open(os.path.join(ROOT, "tools", "gd", "instructions.json")))
 T = DATA["Tuning"]
+MOUNT = DATA.get("TowerArt", {}).get("TurretMount", [30, 10])
 _ns = uuid.UUID("6c1d7b8e-2f0a-4e55-9a3b-1f4d2c7e9b10")
 
 
@@ -347,8 +348,8 @@ def tower_controller():
 
 
 def turret_controller():
-    pivot_x = "Tower.X() + 22"
-    pivot_y = "Tower.Y() - 86"
+    pivot_x = 'Tower.PointX("TurretMount")'
+    pivot_y = 'Tower.PointY("TurretMount")'
     maxdown = tune("TurretMaxDown")
     return [
         comment("TURRET CONTROLLER - owns: PivotX/Y, AimX/Y, TargetAngle, TurretAngle, InputTouch, "
@@ -356,9 +357,10 @@ def turret_controller():
                 "Mouse: the cursor is the aim point, hold the left button to fire.\n"
                 "Touch: press anywhere below the top bar and drag; the aim point is AimOffset px above the finger "
                 "so the target stays visible (change it with the AIM button, saved in storage).\n"
-                "The turret sits on the front-top corner of the chassis. Its angle is kept between straight "
-                "left (-180), up, and TurretMaxDown (88 = almost straight down, in front of the tower), and it "
-                "turns through the top only, so it never points or fires through the chassis."),
+                "The turret pivots on the Tower sprite's point TurretMount (move it in the sprite editor to match "
+                "the art). The turret and bullets never collide with the tower: bullets only ray-cast against "
+                "Cells and are drawn above the tower. The angle is kept between straight left (-180), up, and "
+                "TurretMaxDown (88 = almost straight down, in front), turning through the top only."),
         group("Settings", [
             ev([C("SceneJustBegins")], [setv("AimOffset", "=", tune("AimOffsetDefault"))], [
                 ev([C("GroupExists", q("TowerRush"), q("AimOffset"))],
@@ -400,7 +402,7 @@ def turret_controller():
             ]),
             ev([], [setv("TargetAngle", "=",
                          "ToDeg(atan2(Variable(AimY) - Variable(PivotY), Variable(AimX) - Variable(PivotX)))")]),
-            comment("Keep the barrel out of the chassis: down-and-back angles snap to the nearest allowed one."),
+            comment("Down-and-back angles (aiming under or behind the tower) snap to the nearest allowed one."),
             ev([isv("TargetAngle", ">", maxdown), isv("TargetAngle", "<", "134")],
                [setv("TargetAngle", "=", maxdown)]),
             ev([isv("TargetAngle", ">=", "134")], [setv("TargetAngle", "=", "-180")]),
@@ -424,7 +426,7 @@ def turret_controller():
                 A("Create", "Bullet", V("PivotX"), V("PivotY"), q("")),
                 A("SetAngle", "Bullet", "=", V("TurretAngle")),
                 setov("Bullet", "Extra", "=", tune("BarrelLength")),
-                A("SetZOrder", "Bullet", "=", "15"),
+                A("SetZOrder", "Bullet", "=", "22"),
                 A("Show", "MuzzleFlash"),
                 A("ResetObjectTimer", "MuzzleFlash", q("shown")),
             ]),
@@ -676,7 +678,7 @@ def build_objects():
                                                  "HasCrack": 0, "Batch": 0, "SliceX": 0, "SliceY": 0}.items()]
     return [
         sprite("Tower", [("Drive", ["tower_0.png", "tower_1.png"])], loop_time=0.09, origin=(30, 96),
-               mask=tower_mask, points={"TurretMount": (52, 10)}),
+               mask=tower_mask, points={"TurretMount": tuple(MOUNT)}),
         sprite("Turret", [("Idle", ["turret.png"])], origin=(8, 8), points={"Muzzle": (42, 8)}),
         sprite("Bullet", [("Fly", ["bullet.png"])], {"Extra": 0}, origin=(11, 2)),
         sprite("MuzzleFlash", [("Flash", ["muzzle_flash.png"])], origin=(0, 8)),
@@ -721,8 +723,8 @@ def build_instances():
         inst("Hills", 0, g + FAR_SINK - FAR_H, -10, w=540, h=FAR_H),
         inst("Ground", 0, g, 1, w=540, h=GROUND_H),
         inst("Tower", tx, g, 20),
-        inst("Turret", tx + 22, g - 86, 21),
-        inst("MuzzleFlash", tx + 56, g - 86, 22),
+        inst("Turret", tx + MOUNT[0] - 30, g - 96 + MOUNT[1], 23),
+        inst("MuzzleFlash", tx + MOUNT[0] - 30 + 34, g - 96 + MOUNT[1], 24),
         inst("Cloud", tx - 22 - T["CloudStartGap"], -20, 40),
         inst("Crosshair", tx + 220, g - 86, 50),
         # UI (540 x 960)

@@ -1194,10 +1194,10 @@
      "layer": "",
      "locked": false,
      "name": "Turret",
-     "persistentUuid": "20b13876-3d09-5a61-808d-153df22d4aae",
-     "x": 172,
+     "persistentUuid": "ea650c73-2cd7-5490-a56b-de48e369f341",
+     "x": 150,
      "y": 714,
-     "zOrder": 21,
+     "zOrder": 23,
      "numberProperties": [],
      "stringProperties": [],
      "initialVariables": []
@@ -1210,10 +1210,10 @@
      "layer": "",
      "locked": false,
      "name": "MuzzleFlash",
-     "persistentUuid": "6ef343f5-f0ea-5999-b70b-f139d100c6b6",
-     "x": 206,
+     "persistentUuid": "e6f017b4-f210-5c3c-8733-fe9d8584a5ea",
+     "x": 184,
      "y": 714,
-     "zOrder": 22,
+     "zOrder": 24,
      "numberProperties": [],
      "stringProperties": [],
      "initialVariables": []
@@ -1485,7 +1485,7 @@
            "points": [
             {
              "name": "TurretMount",
-             "x": 52,
+             "x": 30,
              "y": 10
             }
            ],
@@ -1527,7 +1527,7 @@
            "points": [
             {
              "name": "TurretMount",
-             "x": 52,
+             "x": 30,
              "y": 10
             }
            ],
@@ -5220,7 +5220,7 @@
       "textG": 0,
       "textR": 0
      },
-     "comment": "TURRET CONTROLLER - owns: PivotX/Y, AimX/Y, TargetAngle, TurretAngle, InputTouch, LastTouchTime, HasAimed, Firing, FireCooldown, AimOffset, ShotsFired.\nMouse: the cursor is the aim point, hold the left button to fire.\nTouch: press anywhere below the top bar and drag; the aim point is AimOffset px above the finger so the target stays visible (change it with the AIM button, saved in storage).\nThe turret sits on the front-top corner of the chassis. Its angle is kept between straight left (-180), up, and TurretMaxDown (88 = almost straight down, in front of the tower), and it turns through the top only, so it never points or fires through the chassis."
+     "comment": "TURRET CONTROLLER - owns: PivotX/Y, AimX/Y, TargetAngle, TurretAngle, InputTouch, LastTouchTime, HasAimed, Firing, FireCooldown, AimOffset, ShotsFired.\nMouse: the cursor is the aim point, hold the left button to fire.\nTouch: press anywhere below the top bar and drag; the aim point is AimOffset px above the finger so the target stays visible (change it with the AIM button, saved in storage).\nThe turret pivots on the Tower sprite's point TurretMount (move it in the sprite editor to match the art). The turret and bullets never collide with the tower: bullets only ray-cast against Cells and are drawn above the tower. The angle is kept between straight left (-180), up, and TurretMaxDown (88 = almost straight down, in front), turning through the top only."
     },
     {
      "type": "BuiltinCommonInstructions::Group",
@@ -5650,7 +5650,7 @@
          "parameters": [
           "PivotX",
           "=",
-          "Tower.X() + 22"
+          "Tower.PointX(\"TurretMount\")"
          ]
         },
         {
@@ -5661,7 +5661,7 @@
          "parameters": [
           "PivotY",
           "=",
-          "Tower.Y() - 86"
+          "Tower.PointY(\"TurretMount\")"
          ]
         },
         {
@@ -5758,7 +5758,7 @@
         "textG": 0,
         "textR": 0
        },
-       "comment": "Keep the barrel out of the chassis: down-and-back angles snap to the nearest allowed one."
+       "comment": "Down-and-back angles (aiming under or behind the tower) snap to the nearest allowed one."
       },
       {
        "type": "BuiltinCommonInstructions::Standard",
@@ -6123,7 +6123,7 @@
          "parameters": [
           "Bullet",
           "=",
-          "15"
+          "22"
          ]
         },
         {

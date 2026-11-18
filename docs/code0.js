@@ -1548,9 +1548,9 @@ if (isConditionTrue_0) {
 let isConditionTrue_0 = false;
 {
 gdjs.copyArray(runtimeScene.getObjects("Tower"), gdjs.GameCode.GDTowerObjects2);
-{runtimeScene.getScene().getVariables().getFromIndex(21).setNumber((( gdjs.GameCode.GDTowerObjects2.length === 0 ) ? 0 :gdjs.GameCode.GDTowerObjects2[0].getPointX("")) + 22);
+{runtimeScene.getScene().getVariables().getFromIndex(21).setNumber((( gdjs.GameCode.GDTowerObjects2.length === 0 ) ? 0 :gdjs.GameCode.GDTowerObjects2[0].getPointX("TurretMount")));
 }
-{runtimeScene.getScene().getVariables().getFromIndex(22).setNumber((( gdjs.GameCode.GDTowerObjects2.length === 0 ) ? 0 :gdjs.GameCode.GDTowerObjects2[0].getPointY("")) - 86);
+{runtimeScene.getScene().getVariables().getFromIndex(22).setNumber((( gdjs.GameCode.GDTowerObjects2.length === 0 ) ? 0 :gdjs.GameCode.GDTowerObjects2[0].getPointY("TurretMount")));
 }
 {runtimeScene.getScene().getVariables().getFromIndex(23).setNumber(gdjs.evtTools.input.getCursorX(runtimeScene, "", 0));
 }
@@ -1748,7 +1748,7 @@ gdjs.GameCode.GDBulletObjects2.length = 0;
 }
 }
 {for(var i = 0, len = gdjs.GameCode.GDBulletObjects2.length ;i < len;++i) {
-    gdjs.GameCode.GDBulletObjects2[i].setZOrder(15);
+    gdjs.GameCode.GDBulletObjects2[i].setZOrder(22);
 }
 }
 {for(var i = 0, len = gdjs.GameCode.GDMuzzleFlashObjects2.length ;i < len;++i) {

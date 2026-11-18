@@ -1157,7 +1157,7 @@
     {
      "angle": 0,
      "customSize": true,
-     "height": 160,
+     "height": 162,
      "width": 540,
      "layer": "",
      "locked": false,
@@ -2070,7 +2070,7 @@
      "behaviors": [],
      "texture": "ground.png",
      "width": 540,
-     "height": 160
+     "height": 162
     },
     {
      "assetStoreId": "",

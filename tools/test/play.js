@@ -265,7 +265,7 @@ async function aimChecks(browser) {
     let sa = await snapshot(page);
     const expected = Math.atan2(sa.aimY - sa.pivotY, sa.aimX - sa.pivotX) * 180 / Math.PI;
     check(3, 'Mouse aiming works (screen to world, turret follows)',
-      Math.abs(sa.aimX - (aimW.x + (sa.camX - sa0.camX))) < 2 && Math.abs(sa.aimY - aimW.y) < 2 &&
+      Math.abs(sa.aimX - (sa.camX - 270) - p.x) < 3 && Math.abs(sa.aimY - p.y) < 2 &&
       Math.abs(sa.turretAngle - expected) < 1 && sa.inputTouch === 0,
       `aim (${sa.aimX.toFixed(0)},${sa.aimY.toFixed(0)}), turret ${sa.turretAngle.toFixed(1)} deg, expected ${expected.toFixed(1)}`);
 

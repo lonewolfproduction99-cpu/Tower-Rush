@@ -294,6 +294,22 @@
     "userAdded": true
    },
    {
+    "file": "assets/tower_2.png",
+    "kind": "image",
+    "metadata": "",
+    "name": "tower_2.png",
+    "smoothed": false,
+    "userAdded": true
+   },
+   {
+    "file": "assets/tower_3.png",
+    "kind": "image",
+    "metadata": "",
+    "name": "tower_3.png",
+    "smoothed": false,
+    "userAdded": true
+   },
+   {
     "file": "assets/turret.png",
     "kind": "image",
     "metadata": "",
@@ -1524,6 +1540,90 @@
           {
            "hasCustomCollisionMask": true,
            "image": "tower_1.png",
+           "points": [
+            {
+             "name": "TurretMount",
+             "x": 18,
+             "y": 10
+            }
+           ],
+           "originPoint": {
+            "name": "origine",
+            "x": 30,
+            "y": 96
+           },
+           "centerPoint": {
+            "automatic": true,
+            "name": "centre",
+            "x": 0,
+            "y": 0
+           },
+           "customCollisionMask": [
+            [
+             {
+              "x": 8,
+              "y": 16
+             },
+             {
+              "x": 52,
+              "y": 16
+             },
+             {
+              "x": 52,
+              "y": 96
+             },
+             {
+              "x": 8,
+              "y": 96
+             }
+            ]
+           ]
+          },
+          {
+           "hasCustomCollisionMask": true,
+           "image": "tower_2.png",
+           "points": [
+            {
+             "name": "TurretMount",
+             "x": 18,
+             "y": 10
+            }
+           ],
+           "originPoint": {
+            "name": "origine",
+            "x": 30,
+            "y": 96
+           },
+           "centerPoint": {
+            "automatic": true,
+            "name": "centre",
+            "x": 0,
+            "y": 0
+           },
+           "customCollisionMask": [
+            [
+             {
+              "x": 8,
+              "y": 16
+             },
+             {
+              "x": 52,
+              "y": 16
+             },
+             {
+              "x": 52,
+              "y": 96
+             },
+             {
+              "x": 8,
+              "y": 96
+             }
+            ]
+           ]
+          },
+          {
+           "hasCustomCollisionMask": true,
+           "image": "tower_3.png",
            "points": [
             {
              "name": "TurretMount",

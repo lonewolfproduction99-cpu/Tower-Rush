@@ -2,6 +2,18 @@
 
 Draw an obstacle as one whole picture. The game cuts it into 12 × 12 px cells, and each cell shows its own piece of your picture. Every bullet knocks one piece out.
 
+## Materials without painting a map
+
+`art/formations/material_reference.png` is a sheet with one sample per material, drawn in its drawing colours (top row), and that material's map colour below it. When you draw a building **with those colours**, the importer works out the material of every 12 × 12 piece by itself, so no `_material.png` is needed. The colour covering most of a piece wins. The outline colour, shared by every sample, doesn't count.
+
+What decides a piece's material, in order:
+1. a hand-painted `<name>_material.png`;
+2. `<name>.json` with `{"material": "..."}`, for the whole object (your first four test buildings are pinned to Concrete this way);
+3. the reference sheet (automatic);
+4. Concrete.
+
+To add a material or change its colours, edit the reference sheet: add a sample on top and its map colour square below it. The map colour must be one of the `MapColor`s in `data/game_data.json` > `Materials`.
+
 ## Steps
 
 1. **Draw** your object as a PNG with a transparent background, at 1× (no scaling).

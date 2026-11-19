@@ -316,12 +316,6 @@ def main():
         save(tile(m), "tile_%s.png" % m)
     for st in (1, 2):
         save(crack(st), "crack_%d.png" % st)
-    art = os.path.join(ROOT, "art", "formations")
-    os.makedirs(art, exist_ok=True)
-    r, rm = ruin()
-    r.save(os.path.join(art, "placeholder_ruin.png"))
-    rm.save(os.path.join(art, "placeholder_ruin_material.png"))
-    boulder().save(os.path.join(art, "placeholder_boulder.png"))
     save(debris(), "debris.png")
     save(spark(), "spark.png")
     save(crosshair(), "crosshair.png")

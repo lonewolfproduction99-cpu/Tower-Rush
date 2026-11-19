@@ -179,7 +179,7 @@ async function artScenario(browser) {
       await wait(300);
       const hits0 = (await snapshot(page)).hits;
       await page.mouse.down();
-      await waitFor(page, (q) => q.hits >= hits0 + 2, 5000, 20);
+      await waitFor(page, (q) => q.hits >= hits0 + Math.min(2, tough.hp - 1), 5000, 20); // one hit short of breaking it
       await page.mouse.up();
       const cracked = await page.evaluate(() => window.__scene.getObjects('Crack').length);
       await page.screenshot({ path: path.join(OUT, `art_${f.name}_2_cracked.png`) });
@@ -192,7 +192,7 @@ async function artScenario(browser) {
         cracks: window.__scene.getObjects('Crack').map((k) => [k.getX(), k.getY()]) }), tough);
       check('A.' + f.name + '.crack', f.name + `: a ${tough.hp}-HP cell shows cracks, then is destroyed with its crack`,
         cracked >= 1 && !left.cell && !left.cracks.some(([x, y]) => Math.abs(x + 6 - tough.x) < 1 && Math.abs(y + 6 - tough.y) < 1),
-        `cracks after 2 hits: ${cracked}; cell gone: ${!left.cell}; cracks left elsewhere: ${left.cracks.length}`);
+        `cracks after ${Math.min(2, tough.hp - 1)} hit(s): ${cracked}; cell gone: ${!left.cell}; cracks left elsewhere: ${left.cracks.length}`);
     }
     const x0 = (await snapshot(page)).towerX;
     const sd = await clearWithMouse(page, x0 + 160, 30000);
@@ -281,10 +281,21 @@ async function aimChecks(browser) {
   await ctx.close();
 }
 
+let LIGHT = -1;
+function lightestFormation() {
+  const d = JSON.parse(fs.readFileSync(path.join(DOCS, '..', 'data', 'art_formations.json'), 'utf8'));
+  const base = JSON.parse(fs.readFileSync(path.join(DOCS, '..', 'data', 'game_data.json'), 'utf8')).Formations.length;
+  const want = process.env.LIGHT_FORMATION || 'owner_rubble_01';
+  const i = d.findIndex((f) => f.Name === want);
+  return i < 0 ? -1 : base + i;
+}
+
 async function phase1(browser) {
+  LIGHT = lightestFormation();
   {
     // ---------------------------------------------------------------- desktop, mouse
-    let { ctx, page, errors } = await openGame(browser);
+    // Every obstacle is the lightest art formation, so the checks don't depend on which art comes up.
+    let { ctx, page, errors } = await openGame(browser, {}, LIGHT);
     let s0 = await snapshot(page);
     await wait(1500);
     let s1 = await snapshot(page);
@@ -344,33 +355,51 @@ async function phase1(browser) {
     }
     check(6, 'Bullets travel along the aim and damage only the cells they hit',
       after.hits - before.hits >= 1 && after.destroyed - before.destroyed <= after.hits - before.hits,
-      `hits ${after.hits - before.hits}, cells destroyed ${after.destroyed - before.destroyed} (Stone HP 1)`);
+      `hits ${after.hits - before.hits}, cells destroyed ${after.destroyed - before.destroyed} (1-shot material)`);
     const gone = await page.evaluate((t) => !window.__scene.getObjects('Cell').some(
       (c) => Math.abs(c.getX() + 6 - t.x) < 1 && Math.abs(c.getY() + 6 - t.y) < 1), target);
     check(7, 'Destroyed cells disappear', gone, `targeted cell at (${target.x}, ${target.y}) gone`);
     await page.screenshot({ path: path.join(OUT, '03_shooting.png') });
 
-    // Clear the gate lane and see the tower drive on.
+    // Clear the first obstacle's lane and see the tower drive on.
     const gateX = after.towerX;
     let sd = await clearWithMouse(page, gateX + 40, 25000);
     check(8, 'Tower resumes after a large enough passage is cleared', sd.towerX > gateX + 30,
       `x ${gateX.toFixed(0)} -> ${sd.towerX.toFixed(0)}; shots ${sd.shots}, destroyed ${sd.destroyed}`);
     await page.screenshot({ path: path.join(OUT, '04_through_gate.png') });
+    sd = await clearWithMouse(page, gateX + 120, 25000); // all the way through, onto open ground
 
-    // The Cave: a 6-cell-high opening is too small for the 80 px chassis (needs 7 cells).
-    let sk = await waitFor(page, (s) => s.blocked === 1 && s.formations >= 2 && s.towerX > gateX + 100, 20000);
-    // Only the cells right at the chassis front (the next formation may already be in view).
-    const lane = (await cellsInPath(page)).filter((c) => c.x - 6 < sk.towerX + 22 + 6);
-    const lowest = lane.length ? Math.max(...lane.map((c) => c.y)) : 0;
-    const groundY = 800;
+    // Clearance (any obstacle art): a test-only cell is placed just ahead of the tower in open ground.
+    // Its bottom 84 px above the ground (a 7-cell opening) must not block; 72 px (6 cells) must.
+    const place = (row) => page.evaluate((row) => {
+      const s = window.__scene; const t = s.getObjects('Tower')[0];
+      const c = s.createObject('Cell');
+      c.setPosition(t.getX() + 22 + 24, 800 - 12 * (row + 1));
+      c.getVariables().get('HP').setNumber(999); c.getVariables().get('MaxHP').setNumber(999);
+      window.__testCell = c;
+      return { x: c.getX(), top: c.getY(), bottom: c.getY() + 12 };
+    }, row);
+    const unplace = () => page.evaluate(() => { window.__testCell.deleteFromScene(); window.__testCell = null; });
+    const high = await place(7);
+    await wait(1200);
+    let sk = await snapshot(page);
+    const passedUnder = sk.towerX - 22 > high.x + 12 || (sk.blocked === 0 && sk.towerX + 22 > high.x + 12);
+    await unplace();
+    check(9.1, 'Tower passes under a piece whose bottom is 84 px up (7-cell opening)', passedUnder && sk.state === 'Run',
+      `piece y ${high.top}-${high.bottom}; tower front ${(sk.towerX + 22).toFixed(0)} vs piece right edge ${high.x + 12}, blocked ${sk.blocked}`);
+    const low = await place(6);
+    sk = await waitFor(page, (s) => s.blocked === 1, 3000, 50);
+    await wait(400);
+    const sk2 = await snapshot(page);
     check(9, 'Tower cannot pass an opening that is too small (6 cells = 72 px)',
-      sk.blocked === 1 && lane.length > 0 && lowest < groundY - 6 * 12,
-      `blocked at x=${sk.towerX.toFixed(0)}; lowest blocking cell centre y=${lowest} (opening ${(groundY - (lowest + 6)) / 12} cells high)`);
-    await page.screenshot({ path: path.join(OUT, '05_cave_too_small.png') });
-    const caveX = sk.towerX;
-    sd = await clearWithMouse(page, caveX + 140, 30000);
-    check(8.1, 'Tower drives through the cave once its ceiling row is shot away', sd.towerX > caveX + 100,
-      `x ${caveX.toFixed(0)} -> ${sd.towerX.toFixed(0)}`);
+      sk2.blocked === 1 && sk2.towerX + 22 <= low.x + 0.5,
+      `piece y ${low.top}-${low.bottom} (opening 72 px); tower stopped with its front at ${(sk2.towerX + 22).toFixed(1)}, piece at ${low.x}`);
+    await page.screenshot({ path: path.join(OUT, '05_too_small.png') });
+    await unplace();
+    await wait(600);
+    const sk3 = await snapshot(page);
+    check(8.1, 'Tower drives on once that piece is gone', sk3.towerX > sk2.towerX + 20,
+      `x ${sk2.towerX.toFixed(0)} -> ${sk3.towerX.toFixed(0)}`);
 
     // Distance only increases with forward progress.
     let s5 = await waitFor(page, (s) => s.blocked === 1, 20000);
@@ -424,7 +453,7 @@ async function phase1(browser) {
     await ctx.close();
 
     // ---------------------------------------------------------------- phone, touch (CDP touch events)
-    ({ ctx, page, errors } = await openGame(browser, { hasTouch: true, isMobile: true, deviceScaleFactor: 1 }));
+    ({ ctx, page, errors } = await openGame(browser, { hasTouch: true, isMobile: true, deviceScaleFactor: 1 }, LIGHT));
     const cdp = await ctx.newCDPSession(page);
     const touch = (type, x, y) => cdp.send('Input.dispatchTouchEvent', {
       type, touchPoints: type === 'touchEnd' ? [] : [{ x, y, id: 1 }] });

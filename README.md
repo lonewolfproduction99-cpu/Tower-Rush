@@ -35,7 +35,7 @@ Only the system that owns a variable writes to it. The others only read it.
 
 - **`Tuning`:** speeds, fire rate, damage, the cloud's start gap, spawn distances and so on. The defaults follow the design brief: tower 85 px/s, cloud 60 px/s, 450 px gap, 6 shots/s, 1 damage, bullets at 900 px/s.
 - **`Materials`:** one entry per cell type: `Char` (its letter in a formation), `HP`, `Tile` (a 12 × 12 image for text-grid formations), `MapColor` (its colour in material maps) and `DebrisColor`. The current types are Stone `#` (1 HP), Hardstone `H` (3), Concrete `C` (1) and Metal `M` (4).
-- **`Formations`:** each one has a `Name`, a `Shape` and `Art`. The shape is rows of characters separated by `|`, top row first; the bottom row sits on the ground. `.` is empty. Gate and Cave always come first, then the rest at random. `Tuning.TestFormation` (index, -1 = off) spawns only one formation, for previewing.
+- **`Formations`:** each one has a `Name`, a `Shape` and `Art`. The shape is rows of characters separated by `|`, top row first; the bottom row sits on the ground. `.` is empty. Currently empty: the game uses only the owner's art formations, in random order (`IntroFormations` 0). `Tuning.TestFormation` (index, -1 = off) spawns only one formation, for previewing.
 
 ### Your own pixel-art obstacles
 
@@ -49,7 +49,7 @@ Full guide: **[art/formations/README.md](art/formations/README.md)**.
   - A text-grid cell shows its material's tile. An art cell shows its slice of the picture through its X/Y offset.
   - Damage is a `Crack` overlay linked to the cell (GDevelop's Linked objects).
 - **Tower:** the collision mask is the chassis, 44 × 80 px. Each frame the tower moves and, if it overlaps a cell, moves back. A step is at most about 4 px, so it can't skip through a cell.
-  - It fits an opening at least **7 cells (84 px)** high. A 6-cell opening blocks it; the Cave formation shows this.
+  - It fits an opening at least **7 cells (84 px)** high. A 6-cell opening blocks it; the play-test checks both with a test-only piece.
 - **Bullets:** each frame a ray is cast for the distance the bullet travels. Only the first cell on that ray is hit.
   - A new bullet starts at the turret pivot, and its first ray covers the barrel. So it appears at the muzzle and still hits a cell touching the barrel.
 - **Turret:** it pivots on the tower sprite's `TurretMount` point (default (18, 10): set back so the level barrel ends at the chassis front). Move the point in GDevelop's sprite editor, or `TowerArt.TurretMount` in `data/game_data.json`, to match your art.

@@ -585,7 +585,7 @@
       {
        "name": "HP",
        "type": "number",
-       "value": 1
+       "value": 2
       },
       {
        "name": "Tile",
@@ -616,7 +616,7 @@
       {
        "name": "HP",
        "type": "number",
-       "value": 5
+       "value": 3
       },
       {
        "name": "Tile",
@@ -678,7 +678,7 @@
       {
        "name": "HP",
        "type": "number",
-       "value": 2
+       "value": 1
       },
       {
        "name": "Tile",

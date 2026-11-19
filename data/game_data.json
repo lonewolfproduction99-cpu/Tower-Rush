@@ -46,14 +46,14 @@
     },
     "Concrete": {
       "Char": "C",
-      "HP": 1,
+      "HP": 2,
       "Tile": "tile_concrete.png",
       "MapColor": "#808080",
       "DebrisColor": "170;170;164"
     },
     "Metal": {
       "Char": "M",
-      "HP": 5,
+      "HP": 3,
       "Tile": "tile_metal.png",
       "MapColor": "#ff0000",
       "DebrisColor": "150;90;60"
@@ -67,7 +67,7 @@
     },
     "Wood": {
       "Char": "W",
-      "HP": 2,
+      "HP": 1,
       "Tile": "tile_wood.png",
       "MapColor": "#ffff00",
       "DebrisColor": "140;99;58"

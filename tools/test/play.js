@@ -86,19 +86,25 @@ async function waitFor(page, pred, timeoutMs, stepMs = 100) {
   return s;
 }
 
-async function openGame(browser, opts = {}, testFormation = -1) {
+// Test-only tuning for the main run: the gas starts further back, so the mechanics checks have time to
+// work through whatever obstacle art there is (difficulty is not what they check).
+const TEST_GAP = 900;
+async function openGame(browser, opts = {}, testFormation = -1, gap = 0) {
   const ctx = await browser.newContext({ viewport: { width: 540, height: 960 }, ...opts });
   const page = await ctx.newPage();
   const errors = [];
   page.on('pageerror', (e) => errors.push(String(e)));
   page.on('console', (m) => { if (m.type() === 'error') errors.push(m.text()); });
   await page.addInitScript(HOOK);
-  if (testFormation >= 0) {
-    // Same as setting Tuning.TestFormation in GDevelop: only that formation spawns.
+  if (testFormation >= 0 || gap) {
+    // Same as setting Tuning.TestFormation (and CloudStartGap) in GDevelop.
     await page.route('**/data.js', async (route) => {
       const res = await route.fetch();
-      const body = (await res.text()).replace('"name":"TestFormation","type":"number","value":-1',
+      let body = await res.text();
+      if (testFormation >= 0) body = body.replace('"name":"TestFormation","type":"number","value":-1',
         '"name":"TestFormation","type":"number","value":' + testFormation);
+      if (gap) body = body.replace(/"name":"CloudStartGap","type":"number","value":\d+/,
+        '"name":"CloudStartGap","type":"number","value":' + gap);
       await route.fulfill({ response: res, body });
     });
   }
@@ -285,9 +291,14 @@ let LIGHT = -1;
 function lightestFormation() {
   const d = JSON.parse(fs.readFileSync(path.join(DOCS, '..', 'data', 'art_formations.json'), 'utf8'));
   const base = JSON.parse(fs.readFileSync(path.join(DOCS, '..', 'data', 'game_data.json'), 'utf8')).Formations.length;
-  const want = process.env.LIGHT_FORMATION || 'owner_rubble_01';
-  const i = d.findIndex((f) => f.Name === want);
-  return i < 0 ? -1 : base + i;
+  // The art formation with the fewest shots in the tower's lane (bottom 7 rows), unless LIGHT_FORMATION names one.
+  const mats = JSON.parse(fs.readFileSync(path.join(DOCS, '..', 'data', 'game_data.json'), 'utf8')).Materials;
+  const hp = {}; Object.values(mats).forEach((m) => { hp[m.Char] = m.HP; });
+  const cost = (f) => f.Rows.slice(-7).join('').split('').reduce((a, ch) => a + (hp[ch] || 0), 0);
+  let i = process.env.LIGHT_FORMATION ? d.findIndex((f) => f.Name === process.env.LIGHT_FORMATION) : -1;
+  if (i < 0) i = d.reduce((best, f, k) => (cost(f) < cost(d[best]) ? k : best), 0);
+  console.log('main run uses ' + d[i].Name + ' (' + cost(d[i]) + ' shots in the lane)');
+  return base + i;
 }
 
 async function phase1(browser) {
@@ -295,7 +306,7 @@ async function phase1(browser) {
   {
     // ---------------------------------------------------------------- desktop, mouse
     // Every obstacle is the lightest art formation, so the checks don't depend on which art comes up.
-    let { ctx, page, errors } = await openGame(browser, {}, LIGHT);
+    let { ctx, page, errors } = await openGame(browser, {}, LIGHT, TEST_GAP);
     let s0 = await snapshot(page);
     await wait(1500);
     let s1 = await snapshot(page);
@@ -403,6 +414,8 @@ async function phase1(browser) {
 
     // Distance only increases with forward progress.
     let s5 = await waitFor(page, (s) => s.blocked === 1, 20000);
+    await wait(500); // let bullets still in flight land first
+    s5 = await snapshot(page);
     const dist1 = s5.distance;
     await wait(1500);
     let s6 = await snapshot(page);
@@ -447,7 +460,7 @@ async function phase1(browser) {
     await page.mouse.down(); await wait(80); await page.mouse.up();
     const sr = await waitFor(page, (s) => s.state === 'Run' && s.time < 2, 5000);
     check(13, 'Restart resets the run', sr.state === 'Run' && sr.distance < 3 && sr.towerX < 200 &&
-      Math.abs(sr.cloudGap - 450) < 60 && !sr.gameOverVisible && sr.best >= Math.floor(so.distance),
+      Math.abs(sr.cloudGap - TEST_GAP) < 60 && !sr.gameOverVisible && sr.best >= Math.floor(so.distance),
       `distance ${sr.distance.toFixed(1)}, tower x ${sr.towerX.toFixed(0)}, gap ${sr.cloudGap.toFixed(0)}, best kept ${sr.best}`);
     check(15.1, 'No script errors in the desktop run', errors.length === 0, errors.slice(0, 3).join(' | '));
     await ctx.close();

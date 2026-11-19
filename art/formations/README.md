@@ -25,9 +25,9 @@ To add a material or change its colours, edit the reference sheet: add a sample 
    | Map colour | Material | Shots to break one cell |
    |---|---|---|
    | cyan `#00FFFF` | Glass (windows) | 1 |
-   | yellow `#FFFF00` | Wood (doors, boarding, planks) | 2 |
-   | grey `#808080` | Concrete | 1 for now (planned 3) |
-   | red `#FF0000` | Metal (beams, rebar, car bodies) | 5 |
+   | yellow `#FFFF00` | Wood (doors, boarding, planks) | 1 |
+   | grey `#808080` | Concrete | 2 |
+   | red `#FF0000` | Metal (beams, rebar, car bodies) | 3 |
    | brown `#8c7a64` | Stone (boulders, rock) | 1 |
    | dark blue `#3c4664` | Hardstone | 3 |
 

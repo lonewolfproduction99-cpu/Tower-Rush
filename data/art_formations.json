@@ -51,6 +51,21 @@
   "Intro": false
  },
  {
+  "Name": "owner_house_01",
+  "Texture": "formation_owner_house_01.png",
+  "Rows": [
+   "...MM....",
+   "..MMMM...",
+   ".MMMMMM..",
+   "MMMMMMMM.",
+   "WWWWWWWW.",
+   "WGGWWGGW.",
+   "WGGWWGGW.",
+   "WWWWWWWW."
+  ],
+  "Intro": false
+ },
+ {
   "Name": "owner_wall_01",
   "Texture": "formation_owner_wall_01.png",
   "Rows": [

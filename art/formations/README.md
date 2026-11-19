@@ -10,12 +10,16 @@ Draw an obstacle as one whole picture. The game cuts it into 12 × 12 px cells, 
 2. **Save it here** as `art/formations/<name>.png`, e.g. `ruin_office.png`. Use lower-case letters, digits and `_` only.
 3. **Optional: a material map**, `<name>_material.png`. It has the same size as your drawing, painted in flat colours: one colour per material. Without a map, the whole object uses one material (see below).
 
-   | Colour | Material | Hits to break one cell |
+   | Map colour | Material | Shots to break one cell |
    |---|---|---|
-   | grey `#808080` | Concrete | 1 |
-   | red `#ff0000` | Metal (beams, rebar, car bodies) | 4 |
+   | cyan `#00FFFF` | Glass (windows) | 1 |
+   | yellow `#FFFF00` | Wood (doors, boarding, planks) | 2 |
+   | grey `#808080` | Concrete | 1 for now (planned 3) |
+   | red `#FF0000` | Metal (beams, rebar, car bodies) | 5 |
    | brown `#8c7a64` | Stone (boulders, rock) | 1 |
    | dark blue `#3c4664` | Hardstone | 3 |
+
+   Drawing colours for each material: `art/templates/building_materials.png`.
 
    For each cell, the colour covering most of it wins. You can add new materials in `data/game_data.json` > `Materials`. Each needs a `Char` (one letter), `HP`, `MapColor`, `DebrisColor` and a 12 × 12 `Tile`.
 4. **Optional: the default material.** Add `<name>.json` containing `{"material": "Stone"}` to give the object one material without a map. Without either, it is Concrete.

@@ -93,7 +93,8 @@ def muzzle():
     return im
 
 
-TILE_COLORS = {"stone": (128, 116, 104), "hard": (82, 86, 102), "concrete": (150, 150, 146), "metal": (120, 70, 50)}
+TILE_COLORS = {"stone": (128, 116, 104), "hard": (82, 86, 102), "concrete": (150, 150, 146), "metal": (120, 70, 50),
+               "glass": (63, 86, 92), "wood": (140, 99, 58)}
 
 
 def tile(material):

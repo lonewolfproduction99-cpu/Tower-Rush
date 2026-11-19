@@ -53,10 +53,24 @@
     },
     "Metal": {
       "Char": "M",
-      "HP": 4,
+      "HP": 5,
       "Tile": "tile_metal.png",
       "MapColor": "#ff0000",
       "DebrisColor": "150;90;60"
+    },
+    "Glass": {
+      "Char": "G",
+      "HP": 1,
+      "Tile": "tile_glass.png",
+      "MapColor": "#00ffff",
+      "DebrisColor": "200;235;232"
+    },
+    "Wood": {
+      "Char": "W",
+      "HP": 2,
+      "Tile": "tile_wood.png",
+      "MapColor": "#ffff00",
+      "DebrisColor": "140;99;58"
     }
   },
   "Formations": [

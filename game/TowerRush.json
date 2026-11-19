@@ -1493,7 +1493,7 @@
        "directions": [
         {
          "looping": true,
-         "timeBetweenFrames": 0.09,
+         "timeBetweenFrames": 0.0235,
          "sprites": [
           {
            "hasCustomCollisionMask": true,

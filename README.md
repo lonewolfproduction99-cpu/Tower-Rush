@@ -110,3 +110,7 @@ Guides for all of these are in `art/templates/`. The backgrounds take whatever s
 All art in this repository is currently **code-drawn placeholder art**: `tools/make_placeholders.py` draws it with Pillow, using no generative AI. That includes `art/formations/placeholder_*`.
 
 Slicing your own drawings into cells (`tools/import_formations.py`) only cuts and copies your pixels. It doesn't generate or change any art.
+
+### Tower art
+
+Put the owner's tower frames in `art/tower/` as `tower_0.png`, `tower_1.png`, … (60 × 96 each). A sprite sheet of frames side by side also works: Claude slices it, and the original is kept in `art/tower/originals/`. `TowerArt.TrackFrameTime` in `data/game_data.json` sets the seconds per frame. To keep the treads in step with the ground: (pixels the marks move per frame) / 85. For example, 2 px gives 0.0235.

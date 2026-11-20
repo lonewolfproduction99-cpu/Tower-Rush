@@ -31,7 +31,13 @@ To add a material or change its colours, edit the reference sheet: add a sample 
    | brown `#8c7a64` | Stone (boulders, rock) | 1 |
    | dark blue `#3c4664` | Hardstone | 3 |
 
-   Drawing colours for each material: `art/templates/building_materials.png`.
+   | magenta `#FF00FF` | Explosive (barrels, gas tanks): blows up, chain reactions | 1 |
+   | orange `#FF8000` | Fracture point (cracked support): the section above it collapses | 1 |
+   | dark red `#800000` | Reinforced metal | 6 |
+   | green `#00FF00` | Growth (vines): regrows while its core lives | 1 |
+   | dark green `#008000` | Core (the growth's heart) | 6 |
+
+   Drawing colours for each material: `art/templates/building_materials.png`. The Phase 4 materials (explosive, fracture, reinforced, growth, core) aren't on your reference sheet yet. Use a hand-painted map for them, or add their samples to `material_reference.png`.
 
    For each cell, the colour covering most of it wins. You can add new materials in `data/game_data.json` > `Materials`. Each needs a `Char` (one letter), `HP`, `MapColor`, `DebrisColor` and a 12 × 12 `Tile`.
 4. **Optional: the default material.** Add `<name>.json` containing `{"material": "Stone"}` to give the object one material without a map. Without either, it is Concrete.

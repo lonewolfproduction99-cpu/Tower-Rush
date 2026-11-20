@@ -94,11 +94,15 @@ def muzzle():
 
 
 TILE_COLORS = {"stone": (128, 116, 104), "hard": (82, 86, 102), "concrete": (150, 150, 146), "metal": (120, 70, 50),
-               "glass": (63, 86, 92), "wood": (140, 99, 58)}
+               "glass": (63, 86, 92), "wood": (140, 99, 58),
+               "explosive": (200, 50, 40), "fracture": (190, 150, 100), "reinforced": (70, 64, 70),
+               "growth": (70, 150, 60), "core": (150, 230, 90)}
 
 
 def tile(material):
     """A 12 x 12 tile for formations typed as text grids (one per material)."""
+    if material in TILE_SPECIAL:
+        return TILE_SPECIAL[material]()
     base = TILE_COLORS[material]
     im = Image.new("RGBA", (12, 12), base + (255,))
     d = ImageDraw.Draw(im)
@@ -112,6 +116,56 @@ def tile(material):
     for _ in range(4):
         d.point((rnd.randint(2, 9), rnd.randint(2, 9)), fill=dark)
     return im
+
+
+def _special_explosive():
+    im = Image.new("RGBA", (12, 12), (200, 50, 40, 255))
+    d = ImageDraw.Draw(im)
+    d.rectangle([0, 0, 11, 11], outline=(90, 20, 15))
+    for x in range(-12, 12, 4):
+        d.line([(x, 11), (x + 11, 0)], fill=(240, 200, 40))
+    d.rectangle([3, 3, 8, 8], fill=(60, 20, 15))
+    d.point((5, 5), fill=(255, 220, 60)); d.point((6, 6), fill=(255, 220, 60))
+    return im
+
+
+def _special_fracture():
+    im = Image.new("RGBA", (12, 12), (190, 150, 100, 255))
+    d = ImageDraw.Draw(im)
+    d.rectangle([0, 0, 11, 11], outline=(100, 70, 40))
+    d.line([(1, 2), (5, 6), (3, 9), (7, 11)], fill=(50, 30, 20))
+    d.line([(10, 1), (6, 5), (9, 8)], fill=(50, 30, 20))
+    return im
+
+
+def _special_reinforced():
+    im = Image.new("RGBA", (12, 12), (70, 64, 70, 255))
+    d = ImageDraw.Draw(im)
+    d.rectangle([0, 0, 11, 11], outline=(30, 28, 32))
+    d.line([(1, 1), (10, 10)], fill=(110, 104, 110)); d.line([(10, 1), (1, 10)], fill=(110, 104, 110))
+    for p in ((2, 2), (9, 2), (2, 9), (9, 9)):
+        d.point(p, fill=(200, 200, 200))
+    return im
+
+
+def _special_growth():
+    im = Image.new("RGBA", (12, 12), (50, 110, 45, 255))
+    d = ImageDraw.Draw(im)
+    d.line([(2, 11), (4, 6), (3, 0)], fill=(110, 190, 70)); d.line([(8, 11), (9, 5), (7, 0)], fill=(110, 190, 70))
+    d.point((5, 4), fill=(170, 230, 90)); d.point((10, 7), fill=(170, 230, 90))
+    return im
+
+
+def _special_core():
+    im = Image.new("RGBA", (12, 12), (40, 90, 40, 255))
+    d = ImageDraw.Draw(im)
+    d.ellipse([1, 1, 10, 10], fill=(150, 230, 90), outline=(30, 70, 30))
+    d.ellipse([4, 4, 7, 7], fill=(240, 255, 200))
+    return im
+
+
+TILE_SPECIAL = {"explosive": _special_explosive, "fracture": _special_fracture, "reinforced": _special_reinforced,
+                "growth": _special_growth, "core": _special_core}
 
 
 def crack(stage):
@@ -381,6 +435,10 @@ def main():
         save(cloud(f), "cloud_%d.png" % f)
     save(ground(), "ground.png")
     save(sky(), "sky.png")
+    seed = rgba(12, 12)
+    sd = ImageDraw.Draw(seed)
+    sd.line([(6, 11), (6, 7)], fill=(90, 170, 60, 200)); sd.point((5, 7), fill=(140, 220, 90, 220)); sd.point((7, 6), fill=(140, 220, 90, 220))
+    save(seed, "regrowth.png")
     for name, im in power_art().items():
         save(im, name)
     for k in GEM_COLORS:

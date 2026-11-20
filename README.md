@@ -2,7 +2,7 @@
 
 A portrait-mode (540 × 960) side-scrolling arcade game made with **GDevelop 5**. You command a mechanical tower on tank tracks. It drives right on its own. You shoot paths through stone formations made of small cells. A gas cloud follows you from behind.
 
-**Status: Phases 1, 2 and 3.** Phase 1: the tower, turret, bullets, destructible cells, the cloud, distance and best distance, and restart. Phase 2: gems hidden in obstacles, collected for a saved total, and better obstacle selection. Phase 3: an upgrade shop spending saved gems, and three power-up weapons (ram, rocket salvo, laser). The tower, background, road and obstacles are the owner's art; the rest is code-drawn placeholder art.
+**Status: Phases 1–4.** Phase 1: the tower, turret, bullets, destructible cells, the cloud, distance and best distance, and restart. Phase 2: gems hidden in obstacles, collected for a saved total, and better obstacle selection. Phase 3: an upgrade shop spending saved gems, and three power-up weapons (ram, rocket salvo, laser). Phase 4: special materials (explosives with chain reactions, fracture points, reinforced metal, regrowing growth with a core) and five regions. The tower, background, road and obstacles are the owner's art; the rest is code-drawn placeholder art.
 
 ## Play it
 
@@ -22,6 +22,7 @@ All gameplay is **native GDevelop events**, with no JavaScript blocks. Each syst
 |---|---|---|
 | `UpgradeManager` | Lv_<Upgrade>, Damage, FireRate, Spread, TowerSpeed, PickupRadius | loads the bought levels; sets the stats the other systems read |
 | `RunManager` | State, Dt, StartX, Distance, BestDistance, OverTime | start, frame time, distance, game over, best distance (storage), restart |
+| `RegionManager` | Region, RegionCloudSpeed, RegionGemChance, RegionBannerTime | regions by distance: gas speed, gem chance, sky tint, banner |
 | `ObstacleGenerator` | NextFormationX, FormationCount, LastFormation, Shape… | picks and builds formations ahead of the camera, hides gems in them, removes cells left behind |
 | `PowerUps` | <Power>_Time, <Power>_Cool, Salvo_Left/Timer, PowerUsed, RocketsFired, Blasts | the power buttons, ram, rockets and blasts, laser beam |
 | `TowerController` | TowerStep, Blocked | auto-drive, stop on any cell in the way |
@@ -78,6 +79,7 @@ node tools/test/play.js docs test-output art                             # every
 node tools/test/play.js docs test-output gems                            # Phase 2 gem checks
 node tools/test/play.js docs test-output shop                            # Phase 3 shop checks
 node tools/test/play.js docs test-output power                           # Phase 3 power-up checks
+node tools/test/play.js docs test-output phase4                          # Phase 4 materials and regions
 ```
 
 `tools/gd/instructions.json` lists GDevelop's instructions and their parameters. It is dumped from the editor's own `libGD.js` by `tools/gd/dump_metadata.js`. The build checks every event against it.
@@ -166,3 +168,24 @@ Three buttons sit in the bottom strip, y 892–952 (`Tuning.ButtonStripY`). Taps
 Every damage source only lowers `Cell.HP`; ObstacleGrid breaks cells in one place, so gems and debris work the same for all weapons. Placeholder art: `power_ram.png`, `power_rocket.png`, `power_blast.png`, `power_laser.png` and `power_button_<power>.png` (150 × 60).
 
 Not handled yet: tapping a power button with a second finger while the first holds fire (multi-touch). A tap works when no other finger is down.
+
+## Special materials and regions (Phase 4)
+
+| Material | Char | Map colour | Shots | Special |
+|---|---|---|---|---|
+| Explosive | `X` | magenta `#FF00FF` | 1 | blows up when broken: `ExplosionDamage` (6) to every cell within `ExplosionRadius` (40 px). Explosives it breaks go off the next frame, so explosions chain. |
+| Fracture | `F` | orange `#FF8000` | 1 | holds up its section: when broken, every cell of the same formation above it, within `FractureReach` (30 px) to either side, collapses. |
+| Reinforced | `R` | dark red `#800000` | 6 | very tough metal |
+| Growth | `V` | green `#00FF00` | 1 | regrows `RegrowTime` (3 s) after breaking while a **Core** of the same formation survives. It never regrows into the tower. |
+| Core | `O` | dark green `#008000` | 6 | the growth's heart: destroy it and the growth stays broken |
+
+- **Where the logic lives:** every special runs in ObstacleGrid's break pass, so it works whatever broke the cell (bullet, rocket, ram, laser, another explosion).
+- **Using them in your art:** paint them in a hand-drawn `_material.png` with the map colours above, or add samples of them to `art/formations/material_reference.png`.
+- **Placement:** put fracture points and explosives where the gun can see them. A support hidden behind other pieces can't be hit.
+- **Test obstacles:** `test_explosive`, `test_fracture`, `test_growth` and `test_reinforced` are text-grid formations in `data/game_data.json` with `Weight` 0. They never spawn in normal play; use them with `Tuning.TestFormation` (indices 0–3).
+
+**Regions** (global variable `Regions`): Rocky Wasteland (0 m), Scrap Fields (300), Crystal Badlands (700), Toxic Expanse (1200), Fracture Zone (1800).
+- **Each region sets** the gas speed (60 → 68 px/s, a small ramp), the chance a formation hides gems (0.75 → 1.0) and the sky tint, and is announced by a banner.
+- **Not yet:** a different obstacle set per region. That needs more art and region tags on formations.
+
+**Not done in Phase 4:** general collapse, meaning any floating piece falling when everything under it is shot away. Fracture points give controlled collapse. Full support checking would be costly in native events, so it's left for a later decision.

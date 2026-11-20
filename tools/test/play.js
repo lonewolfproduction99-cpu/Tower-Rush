@@ -10,7 +10,7 @@ const fs = require('fs');
 
 const DOCS = path.resolve(process.argv[2] || 'docs');
 const OUT = path.resolve(process.argv[3] || 'test-output');
-const SCENARIO = process.argv[4] || 'phase1'; // phase1 | art | gems | shop | power
+const SCENARIO = process.argv[4] || 'phase1'; // phase1 | art | gems | shop | power | phase4
 const PORT = 8790 + Math.floor(Math.random() * 100);
 fs.mkdirSync(OUT, { recursive: true });
 
@@ -143,7 +143,7 @@ async function clearWithMouse(page, untilX, timeoutMs) {
 // Phase 2: gems embedded in cells, released only by breaking their cell, falling, bouncing, collected.
 async function gemScenario(browser) {
   const d = JSON.parse(fs.readFileSync(path.join(DOCS, '..', 'data', 'art_formations.json'), 'utf8'));
-  const idx = d.findIndex((f) => f.Name === 'owner_rubble_01');
+  const idx = artIndex('owner_rubble_01');
   const { ctx, page, errors } = await openGame(browser, {}, idx, 700,
     { GemChance: 1, GemsMin: 3, GemsMax: 3, GemAboveLaneChance: 0, ClusterChance: 0 });
   const gemState = () => page.evaluate(() => {
@@ -281,7 +281,7 @@ async function gemScenario(browser) {
 async function shopScenario(browser) {
   const d = JSON.parse(fs.readFileSync(path.join(DOCS, '..', 'data', 'art_formations.json'), 'utf8'));
   const up = JSON.parse(fs.readFileSync(path.join(DOCS, '..', 'data', 'game_data.json'), 'utf8')).Upgrades;
-  const idx = d.findIndex((f) => f.Name === 'owner_rubble_01');
+  const idx = artIndex('owner_rubble_01');
   const { ctx, page, errors } = await openGame(browser, {}, idx, 250, { ClusterChance: 0, GemChance: 0 },
     { TotalGems: { value: 300 } });
   const scene = () => page.evaluate(() => { const s = window.__scene; if (!s) return null;
@@ -357,7 +357,7 @@ async function shopScenario(browser) {
 async function powerScenario(browser) {
   const d = JSON.parse(fs.readFileSync(path.join(DOCS, '..', 'data', 'art_formations.json'), 'utf8'));
   const P = JSON.parse(fs.readFileSync(path.join(DOCS, '..', 'data', 'game_data.json'), 'utf8')).PowerUps;
-  const idx = d.findIndex((f) => f.Name === 'owner_rubble_01');
+  const idx = artIndex('owner_rubble_01');
   const { ctx, page, errors } = await openGame(browser, {}, idx, 900, { ClusterChance: 0, GemChance: 0, GapMin: 300, GapMax: 300 });
   const ps = () => page.evaluate(() => { const s = window.__scene, v = (n) => s.getVariables().get(n).getAsNumber();
     return { ram: v('Ram_Time'), ramCool: v('Ram_Cool'), salvoCool: v('Salvo_Cool'), laser: v('Laser_Time'), laserCool: v('Laser_Cool'),
@@ -438,6 +438,131 @@ async function powerScenario(browser) {
     l3.shades.every((h) => h > 0), `laser cool ${l3.laserCool.toFixed(1)} s, ram cool ${l3.ramCool.toFixed(1)} s, shades ${l3.shades.map((h) => h.toFixed(0))}`);
   check('P7', 'No script errors in the power-up run', errors.length === 0, errors.slice(0, 3).join(' | '));
   await ctx.close();
+}
+
+// Phase 4: special materials (test-only formations) and regions.
+async function phase4Scenario(browser) {
+  const G = JSON.parse(fs.readFileSync(path.join(DOCS, '..', 'data', 'game_data.json'), 'utf8'));
+  const fi = (n) => G.Formations.findIndex((f) => f.Name === n);
+  const st = (page) => page.evaluate(() => { const s = window.__scene, v = (n) => s.getVariables().get(n).getAsNumber();
+    const cells = s.getObjects('Cell');
+    return { explosions: v('Explosions'), fractures: v('Fractures'), regrowths: v('Regrowths'), destroyed: v('CellsDestroyed'),
+      hits: v('ShotsHit'), cells: cells.length, region: v('Region'), cloudSpeed: v('RegionCloudSpeed'),
+      banner: s.getObjects('RegionBanner')[0].getText(), bannerOpacity: s.getObjects('RegionBanner')[0].getOpacity(),
+      skyTint: s.getObjects('Sky')[0].getColor ? s.getObjects('Sky')[0].getColor() : '', distance: v('Distance'),
+      mats: cells.reduce((m, c) => { const k = c.getVariables().get('Material').getAsString() + '/' + c.getVariables().get('MaxHP').getAsNumber(); m[k] = (m[k] || 0) + 1; return m; }, {}) }; });
+  // Visible cell of a material, nearest the turret pivot (nothing else on the line).
+  const visibleOf = (page, material, maxX) => page.evaluate(([material, maxX]) => {
+    const s = window.__scene, vars = s.getVariables();
+    const px = vars.get('PivotX').getAsNumber(), py = vars.get('PivotY').getAsNumber();
+    const all = s.getObjects('Cell');
+    const inside = (o, x, y) => x >= o.getX() && x <= o.getX() + 12 && y >= o.getY() && y <= o.getY() + 12;
+    const vis = (c) => { const tx = c.getX() + 6, ty = c.getY() + 6, n = Math.ceil(Math.hypot(tx - px, ty - py) / 2);
+      for (let i = 1; i < n; i++) { const x = px + (tx - px) * i / n, y = py + (ty - py) * i / n; if (all.some((o) => o !== c && inside(o, x, y))) return false; } return true; };
+    const c = all.filter((o) => o.getVariables().get('Material').getAsString() === material && o.getX() < maxX && vis(o))
+      .sort((a, b) => Math.hypot(a.getX() - px, a.getY() - py) - Math.hypot(b.getX() - px, b.getY() - py))[0];
+    return c ? { x: c.getX() + 6, y: c.getY() + 6 } : null; }, [material, maxX]);
+  const shootUntil = async (page, target, pred, ms) => {
+    const sn = await snapshot(page); const p = toScreen(sn, target.x, target.y);
+    await page.mouse.move(p.x, p.y); await wait(250);
+    await page.mouse.down(); const end = Date.now() + ms; let s1;
+    while (Date.now() < end) { s1 = await st(page); if (pred(s1)) break; await wait(30); }
+    await page.mouse.up(); await wait(150); return s1;
+  };
+  // Explosives and a chain reaction
+  {
+    const { ctx, page, errors } = await openGame(browser, {}, fi('test_explosive'), 900, { ClusterChance: 0, GemChance: 0 });
+    const sb = await waitFor(page, (s) => s.blocked === 1, 20000);
+    const x0 = await st(page);
+    const t = await visibleOf(page, 'Explosive', sb.towerX + 120);
+    const x1 = t ? await shootUntil(page, t, (q) => q.explosions >= 1, 4000) : x0;
+    await wait(500);
+    const x2 = await st(page);
+    await page.screenshot({ path: path.join(OUT, 'p4_1_explosion.png') });
+    check('X1', 'Shooting an explosive blows up its surroundings and sets off the next explosive (chain)',
+      t && x2.explosions >= 2 && x2.destroyed - x0.destroyed >= 10 && x1.hits - x0.hits <= 3,
+      `explosions ${x2.explosions}, pieces destroyed ${x2.destroyed - x0.destroyed} for ${x1.hits - x0.hits} hit(s)`);
+    check('X1e', 'No script errors (explosives)', errors.length === 0, errors.slice(0, 3).join(' | '));
+    await ctx.close();
+  }
+  // Fracture point
+  {
+    const { ctx, page, errors } = await openGame(browser, {}, fi('test_fracture'), 900, { ClusterChance: 0, GemChance: 0 });
+    const sb = await waitFor(page, (s) => s.blocked === 1, 20000);
+    const f0 = await st(page);
+    const t = await visibleOf(page, 'Fracture', sb.towerX + 120);
+    await (t ? shootUntil(page, t, (q) => q.fractures >= 1, 4000) : null);
+    await wait(500);
+    const f1 = await st(page);
+    await page.screenshot({ path: path.join(OUT, 'p4_2_fracture.png') });
+    check('F1', 'Shooting a fracture point collapses the section above it',
+      t && f1.fractures === 1 && f1.destroyed - f0.destroyed >= 20 && f1.hits - f0.hits <= 3,
+      `fractures ${f1.fractures}, pieces collapsed ${f1.destroyed - f0.destroyed} for ${f1.hits - f0.hits} hit(s)`);
+    check('F1e', 'No script errors (fracture)', errors.length === 0, errors.slice(0, 3).join(' | '));
+    await ctx.close();
+  }
+  // Regrowing growth and its core
+  {
+    const { ctx, page, errors } = await openGame(browser, {}, fi('test_growth'), 900, { ClusterChance: 0, GemChance: 0 });
+    const sb = await waitFor(page, (s) => s.blocked === 1, 20000);
+    const front = sb.towerX + 22 + 60;
+    const count = () => page.evaluate((fx) => window.__scene.getObjects('Cell').filter((c) => c.getX() < fx && c.getVariables().get('Material').getAsString() === 'Growth').length, front);
+    const n0 = await count();
+    let t = await visibleOf(page, 'Growth', front);
+    const g0 = await st(page);
+    await shootUntil(page, t, (q) => q.destroyed > g0.destroyed, 3000);
+    const n1 = await count();
+    await wait(3800);
+    const n2 = await count(); const g2 = await st(page);
+    await page.screenshot({ path: path.join(OUT, 'p4_3_regrown.png') });
+    check('V1', 'Broken growth regrows after a few seconds while its core lives', n1 < n0 && n2 === n0 && g2.regrowths >= 1,
+      `growth pieces in front: ${n0} -> ${n1} after a shot -> ${n2} ${G.Tuning.RegrowTime + 0.8} s later; regrowths ${g2.regrowths}`);
+    // Destroy the cores (test-only shortcut), then a broken piece stays gone.
+    await page.evaluate(() => window.__scene.getObjects('Cell').forEach((c) => { if (c.getVariables().get('Material').getAsString() === 'Core') c.getVariables().get('HP').setNumber(0); }));
+    await wait(300);
+    const cores = await page.evaluate(() => window.__scene.getObjects('Cell').filter((c) => c.getVariables().get('Material').getAsString() === 'Core' && c.getX() < 2000).length);
+    t = await visibleOf(page, 'Growth', front);
+    const g3 = await st(page); const n3 = await count();
+    await shootUntil(page, t, (q) => q.destroyed > g3.destroyed, 3000);
+    const n4 = await count();
+    await wait(3800);
+    const n5 = await count(); const g5 = await st(page);
+    check('V2', 'With its core destroyed, growth stays broken', n4 < n3 && n5 <= n4 && g5.regrowths === g2.regrowths,
+      `cores of this pile left: ${cores}; growth ${n3} -> ${n4} -> ${n5} later; regrowths ${g2.regrowths} -> ${g5.regrowths}`);
+    check('V1e', 'No script errors (growth)', errors.length === 0, errors.slice(0, 3).join(' | '));
+    await ctx.close();
+  }
+  // Reinforced metal, and regions (second region moved to 3 m for the test)
+  {
+    const { ctx, page, errors } = await openGame(browser, {}, fi('test_reinforced'), 900, { ClusterChance: 0, GemChance: 0 });
+    await page.unroute('**/data.js');
+    const r0 = await st(page);
+    check('R1', 'Reinforced metal pieces take 6 shots', r0.mats['Reinforced/6'] > 0 && !Object.keys(r0.mats).some((k) => k.startsWith('Reinforced/') && k !== 'Reinforced/6'),
+      `materials on screen ${JSON.stringify(r0.mats)}`);
+    await ctx.close();
+  }
+  {
+    const ctxp = await browser.newContext({ viewport: { width: 540, height: 960 } });
+    const page = await ctxp.newPage(); const errors = [];
+    page.on('pageerror', (e) => errors.push(String(e)));
+    await page.addInitScript(HOOK);
+    await page.route('**/data.js', async (route) => { const res = await route.fetch();
+      const body = (await res.text()).replace('"name":"Start","type":"number","value":300', '"name":"Start","type":"number","value":3');
+      await route.fulfill({ response: res, body }); });
+    await page.goto(`http://127.0.0.1:${PORT}/index.html`);
+    await waitFor(page, (s) => s && s.frames > 5, 30000);
+    const a = await st(page);
+    await waitFor(page, (s) => s.distance > 6, 10000);
+    await wait(300);
+    const b = await st(page);
+    await page.screenshot({ path: path.join(OUT, 'p4_4_region.png') });
+    check('RG1', 'Regions change with distance: banner, gas speed, sky tint',
+      a.region === 0 && a.banner === G.Regions[0].Name && b.region === 1 && b.banner.indexOf(G.Regions[1].Name) >= 0 &&
+      b.cloudSpeed === G.Regions[1].CloudSpeed && b.bannerOpacity > 0 && b.skyTint === G.Regions[1].Tint,
+      `start: region ${a.region} "${a.banner}"; at ${b.distance.toFixed(1)} m: region ${b.region} "${b.banner}", gas ${b.cloudSpeed} px/s, sky tint ${b.skyTint}`);
+    check('RG1e', 'No script errors (regions)', errors.length === 0, errors.slice(0, 3).join(' | '));
+    await ctxp.close();
+  }
 }
 
 // Whole-object pixel art formations (tools/import_formations.py): pictures sliced into cells.
@@ -529,6 +654,7 @@ async function artScenario(browser) {
     else if (SCENARIO === 'gems') await gemScenario(browser);
     else if (SCENARIO === 'shop') await shopScenario(browser);
     else if (SCENARIO === 'power') await powerScenario(browser);
+    else if (SCENARIO === 'phase4') await phase4Scenario(browser);
     else { await aimChecks(browser); await phase1(browser); }
   } catch (e) {
     console.error(e);
@@ -596,6 +722,14 @@ async function aimChecks(browser) {
 
   check(15.0, 'No script errors in the aim session', errors.length === 0, errors.slice(0, 3).join(' | '));
   await ctx.close();
+}
+
+// Index in the game's Formations list of an art formation (the text-grid ones, e.g. test-only, come first).
+function artIndex(name) {
+  const d = JSON.parse(fs.readFileSync(path.join(DOCS, '..', 'data', 'art_formations.json'), 'utf8'));
+  const base = JSON.parse(fs.readFileSync(path.join(DOCS, '..', 'data', 'game_data.json'), 'utf8')).Formations.length;
+  const i = d.findIndex((f) => f.Name === name);
+  return i < 0 ? -1 : base + i;
 }
 
 let LIGHT = -1;

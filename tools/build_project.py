@@ -277,6 +277,7 @@ def obstacle_generator():
             setov("Cell", "MaxHP", "=", hp),
             setov("Cell", "HP", "=", hp),
             setov("Cell", "Batch", "=", V("FormationCount")),
+            setov("Cell", "FormIdx", "=", V("FormationIndex")),
             A("SetZOrder", "Cell", "=", "10"),
             setv("CellsSpawned", "+", "1"),
         ], [
@@ -391,7 +392,7 @@ def embed_gems():
         comment("GEMS (Phase 2): with chance Tuning.GemChance a new formation hides GemsMin..GemsMax gems. A gem "
                 "goes in a cell above the tower's lane with chance GemAboveLaneChance (more time to dig it out), "
                 "else anywhere in the formation. The type is drawn by the Weight of each entry in the global Gems."),
-        ev([cmp("RandomFloat(1)", "<", tune("GemChance"))],
+        ev([cmp("RandomFloat(1)", "<", V("RegionGemChance"))],
            [setv("GemsToPlace", "=", "RandomInRange(%s, %s)" % (tune("GemsMin"), tune("GemsMax")))], [
             repeat(V("GemsToPlace"), [setv("GemPlaced", "=", "0"), setv("GemRoll", "=", "RandomFloat(100)")],
                    type_events + [
@@ -741,9 +742,90 @@ def turret_controller():
     ]
 
 
+def special_break_events():
+    """Phase 4 materials: what extra happens when such a cell breaks."""
+    out = []
+    mat = lambda m: C("StringObjectVariable", "Cell", "Material", "=", q(m))
+    if "Explosive" in DATA["Materials"]:
+        out.append(ev([mat("Explosive")], [
+            A("Create", "Blast", "Cell.CenterX()", "Cell.CenterY()", q("")),
+            A("SetZOrder", "Blast", "=", "28"),
+            A("ResizableCapability::ResizableBehavior::SetSize", "Blast", "Resizable",
+              "%s * 2" % tune("ExplosionRadius"), "%s * 2" % tune("ExplosionRadius")),
+            setv("Explosions", "+", "1"),
+        ], [
+            comment("Everything within ExplosionRadius takes ExplosionDamage; explosives it breaks go off next "
+                    "frame (a chain reaction)."),
+            ev([C("PickAllInstances", "Cell"), C("Distance", "Cell", "Blast", tune("ExplosionRadius"))],
+               [setov("Cell", "HP", "-", tune("ExplosionDamage"))]),
+        ]))
+    if "Fracture" in DATA["Materials"]:
+        out.append(ev([mat("Fracture")], [
+            setv("FX", "=", "Cell.X()"), setv("FY", "=", "Cell.Y()"), setv("FB", "=", "Cell.Variable(Batch)"),
+            setv("Fractures", "+", "1"),
+        ], [
+            comment("A fracture point holds up its section: every cell of the same formation above it, within "
+                    "FractureReach px to either side, collapses (breaks next frame)."),
+            ev([C("PickAllInstances", "Cell"), isov("Cell", "Batch", "=", V("FB")), C("PosY", "Cell", "<", V("FY")),
+                C("PosX", "Cell", ">=", "Variable(FX) - %s" % tune("FractureReach")),
+                C("PosX", "Cell", "<=", "Variable(FX) + %s" % tune("FractureReach"))],
+               [setov("Cell", "HP", "=", "0")]),
+        ]))
+    if "Growth" in DATA["Materials"]:
+        out.append(ev([mat("Growth")], [
+            A("Create", "Regrowth", "Cell.X()", "Cell.Y()", q("")),
+            setov("Regrowth", "Batch", "=", "Cell.Variable(Batch)"),
+            setov("Regrowth", "FormIdx", "=", "Cell.Variable(FormIdx)"),
+            setov("Regrowth", "SliceX", "=", "Cell.Variable(SliceX)"),
+            setov("Regrowth", "SliceY", "=", "Cell.Variable(SliceY)"),
+            A("SetZOrder", "Regrowth", "=", "9"),
+        ]))
+    return out
+
+
+def regrowth_events():
+    """Growth cells come back RegrowTime s after breaking, while a Core of their formation survives."""
+    if "Growth" not in DATA["Materials"]:
+        return []
+    pictures = [ev([isov("Cell", "FormIdx", "=", str(i))],
+                   [A("TiledSpriteObject::SetImageFromResource", "Cell", f["Texture"]),
+                    A("TiledSpriteObject::XOffset", "Cell", "=", "Cell.Variable(SliceX)"),
+                    A("TiledSpriteObject::YOffset", "Cell", "=", "Cell.Variable(SliceY)")])
+                for i, f in enumerate(ALL_FORMATIONS) if f["Texture"]]
+    return [group("Regrowing growth (while its Core lives)", [
+        foreach("Regrowth", [], [setov("Regrowth", "Life", "+", DT), setv("CoreAlive", "=", "0"),
+                                 setv("RegrowBlocked", "=", "0")], [
+            ev([C("StringObjectVariable", "Cell", "Material", "=", q("Core")),
+                isov("Cell", "Batch", "=", "Regrowth.Variable(Batch)")], [setv("CoreAlive", "=", "1")]),
+            ev([cmp("Regrowth.X() + 12", ">", "Tower.X() - 22"), cmp("Regrowth.X()", "<", "Tower.X() + 21.5"),
+                cmp("Regrowth.Y() + 12", ">", "Tower.Y() - 80")], [setv("RegrowBlocked", "=", "1")]),
+            ev([isov("Regrowth", "Life", ">", tune("RegrowTime")), isv("CoreAlive", "=", "0")],
+               [A("Delete", "Regrowth")]),
+            comment("Wait while the tower is in the way (a cell growing into the tower would trap it)."),
+            ev([isov("Regrowth", "Life", ">", tune("RegrowTime")), isv("CoreAlive", "=", "1"),
+                isv("RegrowBlocked", "=", "0")], [
+                A("Create", "Cell", "Regrowth.X()", "Regrowth.Y()", q("")),
+                A("SetStringObjectVariable", "Cell", "Material", "=", q("Growth")),
+                setov("Cell", "MaxHP", "=", "GlobalVariable(Materials.Growth.HP)"),
+                setov("Cell", "HP", "=", "GlobalVariable(Materials.Growth.HP)"),
+                setov("Cell", "Batch", "=", "Regrowth.Variable(Batch)"),
+                setov("Cell", "FormIdx", "=", "Regrowth.Variable(FormIdx)"),
+                setov("Cell", "SliceX", "=", "Regrowth.Variable(SliceX)"),
+                setov("Cell", "SliceY", "=", "Regrowth.Variable(SliceY)"),
+                setov("Cell", "Regrown", "=", "1"),
+                A("SetZOrder", "Cell", "=", "10"),
+                A("TiledSpriteObject::SetImageFromResource", "Cell", DATA["Materials"]["Growth"]["Tile"]),
+                setv("Regrowths", "+", "1"),
+                A("Delete", "Regrowth"),
+            ], [ev([cmp("GlobalVariable(Formations[Cell.Variable(FormIdx)].Art)", "=", "1")], [], pictures)]),
+        ]),
+        ev([C("PosX", "Regrowth", "<", "%s - 330" % CAM_X)], [A("Delete", "Regrowth")]),
+    ])]
+
+
 def break_children():
     """What happens when a cell breaks (ObstacleGrid runs this for every cell whose HP reached 0)."""
-    return [
+    return special_break_events() + [
                     ev([C("LinkedObjects::PickObjectsLinkedTo", "Crack", "Cell")], [A("Delete", "Crack")]),
                     comment("A gem is released only when the cell holding it breaks; GemSystem takes it from here."),
                     ev([isov("Cell", "Gem", ">", "0")], [
@@ -842,6 +924,7 @@ def obstacle_grid():
                 foreach("Cell", [], [setv("CellsDestroyed", "+", "1")], break_children()),
             ]),
         ]),
+        *regrowth_events(),
         group("Hit flash", [
             ev([isov("Cell", "Flash", "=", "1"), C("CompareObjectTimer", "Cell", q("flash"), ">", "0.06")],
                [A("TiledSpriteObject::SetColor", "Cell", q("255;255;255")), setov("Cell", "Flash", "=", "0")]),
@@ -928,6 +1011,32 @@ def gem_system():
     ]
 
 
+def region_manager():
+    n = len(DATA["Regions"])
+    nxt = "GlobalVariable(Regions[Variable(Region) + 1].Start)"
+    return [
+        comment("REGION MANAGER - owns: Region, RegionCloudSpeed, RegionGemChance, RegionBannerTime.\n"
+                "The run passes through the regions in the global variable Regions (Start = distance in m). Each "
+                "sets the gas speed, the chance a formation hides gems and the sky tint, and is announced by a "
+                "banner."),
+        ev([C("SceneJustBegins")], [setv("Region", "=", "0"), setv("RegionBannerTime", "=", "2.5")], [
+            ev([], [set_text("RegionBanner", 'GlobalVariableString(Regions[0].Name)')]),
+        ]),
+        ev([isv("Region", "<", str(n - 1)), cmp(V("Distance"), ">=", nxt)],
+           [setv("Region", "+", "1"), setv("RegionBannerTime", "=", "2.5"),
+            set_text("RegionBanner", '"REGION " + ToString(Variable(Region) + 1) + ":  " + '
+                                     'GlobalVariableString(Regions[Variable(Region)].Name)')]),
+        ev([], [
+            setv("RegionCloudSpeed", "=", "GlobalVariable(Regions[Variable(Region)].CloudSpeed)"),
+            setv("RegionGemChance", "=", "GlobalVariable(Regions[Variable(Region)].GemChance)"),
+            A("ChangeColor", "Sky", "GlobalVariableString(Regions[Variable(Region)].Tint)"),
+            setv("RegionBannerTime", "=", "max(0, Variable(RegionBannerTime) - %s)" % DT),
+            A("TextObject::Opacity", "RegionBanner", "=", "255 * min(1, Variable(RegionBannerTime))"),
+            set_xy("RegionBanner", "270 - RegionBanner.Width() / 2", "190"),
+        ]),
+    ]
+
+
 def cloud_controller():
     return [
         comment("CLOUD CONTROLLER - owns: CloudX, CloudGap.\n"
@@ -935,10 +1044,10 @@ def cloud_controller():
                 "Tuning.CloudSpeed all the time, whatever the tower does; it starts Tuning.CloudStartGap px "
                 "behind the back of the chassis. When it reaches the chassis the run ends."),
         ev([C("SceneJustBegins")], [setv("CloudX", "=", "Tower.X() - 22 - %s" % tune("CloudStartGap"))]),
-        ev([iss("State", q("Run"))], [setv("CloudX", "+", "%s * %s" % (tune("CloudSpeed"), DT))]),
+        ev([iss("State", q("Run"))], [setv("CloudX", "+", "%s * %s" % (V("RegionCloudSpeed"), DT))]),
         comment("After the run ends the cloud rolls on a little to swallow the tower."),
         ev([iss("State", q("Over")), cmp(V("CloudX"), "<", "Tower.X() + 60")],
-           [setv("CloudX", "+", "%s * 2 * %s" % (tune("CloudSpeed"), DT))]),
+           [setv("CloudX", "+", "%s * 2 * %s" % (V("RegionCloudSpeed"), DT))]),
         ev([], [
             setv("CloudGap", "=", "Tower.X() - 22 - Variable(CloudX)"),
             set_xy("Cloud", V("CloudX"), "-20 + sin(TimeFromStart() * 1.7) * 8"),
@@ -984,10 +1093,10 @@ def camera_and_hud():
 
 
 SYSTEMS = [
-    ("UpgradeManager", upgrade_manager), ("RunManager", run_manager), ("ObstacleGenerator", obstacle_generator),
-    ("TurretController", turret_controller), ("PowerUps", power_ups), ("ProjectileSystem", projectile_system),
-    ("ObstacleGrid", obstacle_grid), ("TowerController", tower_controller), ("GemSystem", gem_system),
-    ("CloudController", cloud_controller), ("CameraAndHUD", camera_and_hud),
+    ("UpgradeManager", upgrade_manager), ("RunManager", run_manager), ("RegionManager", region_manager),
+    ("ObstacleGenerator", obstacle_generator), ("TurretController", turret_controller), ("PowerUps", power_ups),
+    ("ProjectileSystem", projectile_system), ("ObstacleGrid", obstacle_grid), ("TowerController", tower_controller),
+    ("GemSystem", gem_system), ("CloudController", cloud_controller), ("CameraAndHUD", camera_and_hud),
 ]
 
 SCENE_VARS = {
@@ -1005,6 +1114,8 @@ SCENE_VARS = {
     "GemDX": 0, "GemDY": 0, "GemDist": 0, "GemStep": 0,
     "Damage": 1, "FireRate": 6, "Spread": 0, "TowerSpeed": 85, "PickupRadius": 90,
     **{k + "_Time": 0 for k in DATA["PowerUps"]}, **{k + "_Cool": 0 for k in DATA["PowerUps"]},
+    "FX": 0, "FY": 0, "FB": 0, "CoreAlive": 0, "RegrowBlocked": 0, "Explosions": 0, "Fractures": 0, "Regrowths": 0,
+    "Region": 0, "RegionCloudSpeed": 60, "RegionGemChance": 0.75, "RegionBannerTime": 0,
     "Salvo_Left": 0, "Salvo_Timer": 0, "PowerUsed": 0, "RocketStep": 0, "RocketHit": 0, "RocketsFired": 0, "Blasts": 0,
 }
 
@@ -1084,7 +1195,7 @@ def build_objects():
     tower_mask = [(8, 16), (52, 16), (52, 96), (8, 96)]
     cell = tiled("Cell", "tile_stone.png", 12, 12)
     cell["variables"] = [var(k, v) for k, v in {"HP": 1, "MaxHP": 1, "Material": "Stone", "Flash": 0, "Stage": 0,
-                                                 "HasCrack": 0, "Batch": 0, "Gem": 0, "SliceX": 0, "SliceY": 0}.items()]
+                                                 "HasCrack": 0, "Batch": 0, "Gem": 0, "FormIdx": 0, "Regrown": 0, "SliceX": 0, "SliceY": 0}.items()]
     return [
         sprite("Tower", [("Drive", tower_frames())], loop_time=DATA.get("TowerArt", {}).get("TrackFrameTime", 0.09),
                origin=(30, 96),
@@ -1095,6 +1206,8 @@ def build_objects():
         cell,
         sprite("Crack", [("Crack1", ["crack_1.png"]), ("Crack2", ["crack_2.png"])]),
         sprite("Ram", [("Idle", ["power_ram.png"])]),
+        sprite("Regrowth", [("Seed", ["regrowth.png"])], {"Batch": 0, "FormIdx": 0, "SliceX": 0, "SliceY": 0, "Life": 0}),
+        text("RegionBanner", 30, "255;225;150", "ROCKY WASTELAND"),
         sprite("Rocket", [("Fly", ["power_rocket.png"])], {"Extra": 0}, origin=(13, 3)),
         sprite("Blast", [("Boom", ["power_blast.png"])], {"Life": 0}, origin=(32, 32)),
         # Rotates around its start (the centre point), not its middle: the beam leaves the muzzle.
@@ -1159,6 +1272,7 @@ def build_instances():
         inst("BestText", 18, 58, 5, "UI"),
         inst("GasText", 18, 84, 5, "UI"),
         inst("GemText", 18, 108, 5, "UI"),
+        inst("RegionBanner", 120, 190, 6, "UI"),
         inst("OffsetButton", 374, 14, 5, "UI"),
         inst("OffsetText", 398, 26, 6, "UI"),
         inst("HintText", 70, 820, 5, "UI"),
@@ -1217,10 +1331,11 @@ def global_variables():
         widths = {len(r) for r in f["Rows"]}
         assert len(widths) == 1, "Formation %s: every row needs the same width" % f["Name"]
     deck = [i for i, f in enumerate(ALL_FORMATIONS) for _ in range(int(f.get("Weight", 1)))]
-    easy = [i for i, f in enumerate(ALL_FORMATIONS) if lane_cost(f) <= T.get("EasyLaneShots", 40)]
+    easy = [i for i, f in enumerate(ALL_FORMATIONS)
+            if lane_cost(f) <= T.get("EasyLaneShots", 40) and int(f.get("Weight", 1)) > 0]
     return [var("Tuning", T), var("Materials", DATA["Materials"]), var("Formations", forms),
             var("FormationDeck", deck), var("EasyDeck", easy), var("Gems", DATA["Gems"]),
-            var("Upgrades", DATA["Upgrades"]), var("PowerUps", DATA["PowerUps"])]
+            var("Upgrades", DATA["Upgrades"]), var("PowerUps", DATA["PowerUps"]), var("Regions", DATA["Regions"])]
 
 
 def scene_json(name, objects, instances, events, layers, variables, groups, bg=(0, 0, 0)):

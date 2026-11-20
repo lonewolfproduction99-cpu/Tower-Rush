@@ -1,6 +1,6 @@
 # Tower Rush: notes for Claude sessions
 
-Portrait (540×960) GDevelop 5 arcade game: a tracked tower auto-drives right, the player shoots paths through cell-grid formations, a gas cloud pursues. The owner's brief has 5 phases; **Phases 1, 2 and 3 are done** (README "Gems", "Shop and upgrades", "Power-ups"); next: Phase 4 (special materials, explosives, regions) or charging power-ups / unlocking them in the shop (see README.md for the full layout).
+Portrait (540×960) GDevelop 5 arcade game: a tracked tower auto-drives right, the player shoots paths through cell-grid formations, a gas cloud pursues. The owner's brief has 5 phases; **Phases 1–4 are done** (README "Gems", "Shop and upgrades", "Power-ups", "Special materials and regions"); next: Phase 5 (final art, effects, balancing, UI polish, release) and open items (general collapse, per-region obstacle sets, power-up unlock/charging) (see README.md for the full layout).
 
 ## Rules from the brief
 
@@ -57,6 +57,13 @@ Portrait (540×960) GDevelop 5 arcade game: a tracked tower auto-drives right, t
 - Sprites rotate around their **centre point**, not the origin. A long rotated sprite (LaserBeam) needs a custom centre at its start (`frame(center=...)`).
 - Keyboard digit keys are `Num1`..`Num9` in GDevelop.
 - Test `power` (7 checks). A mouse moved outside the 540 × 960 viewport doesn't update the aim, so aim at on-screen points.
+
+## Phase 4
+
+- Specials live in `special_break_events()` (break pass) and `regrowth_events()`. Cells carry `FormIdx` (picture of regrown art cells) and `Batch`.
+- GDevelop expressions have no `||`/`&&`: use separate conditions.
+- Text-grid formations (data `Formations`) come first in the game's list; art formations follow. In tests, use `artIndex(name)`. Weight 0 keeps a formation out of both decks.
+- Test `phase4` (10 checks).
 
 ## Gotchas
 

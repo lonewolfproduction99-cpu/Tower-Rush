@@ -286,6 +286,47 @@ def gem(kind, size):
     return im
 
 
+def power_art():
+    """Placeholder power-up art: ram plough, rocket, blast, laser beam, buttons, recharge shade."""
+    from PIL import ImageFont
+    try:
+        font = ImageFont.load_default(size=18)
+    except TypeError:
+        font = ImageFont.load_default()
+    ram = rgba(16, 60)
+    d = ImageDraw.Draw(ram)
+    d.polygon([(0, 0), (6, 0), (15, 59), (0, 59)], fill=(150, 150, 140), outline=(40, 40, 40))
+    for y in range(6, 60, 10):
+        d.line([(1, y), (6 + y * 9 // 60, y)], fill=(90, 90, 84))
+    rocket = rgba(14, 6)
+    d = ImageDraw.Draw(rocket)
+    d.rectangle([3, 1, 11, 4], fill=(200, 200, 190), outline=(60, 60, 60))
+    d.polygon([(11, 0), (13, 3), (11, 5)], fill=(220, 60, 40))
+    d.rectangle([0, 2, 2, 3], fill=(255, 190, 60))
+    blast = rgba(64, 64)
+    d = ImageDraw.Draw(blast)
+    d.ellipse([0, 0, 63, 63], fill=(255, 140, 40, 170))
+    d.ellipse([12, 12, 51, 51], fill=(255, 220, 120, 220))
+    d.ellipse([24, 24, 39, 39], fill=(255, 255, 230, 255))
+    laser = rgba(32, 8)
+    d = ImageDraw.Draw(laser)
+    d.rectangle([0, 0, 31, 7], fill=(255, 40, 60, 140))
+    d.rectangle([0, 2, 31, 5], fill=(255, 140, 150, 230))
+    d.rectangle([0, 3, 31, 4], fill=(255, 255, 255, 255))
+    out = {"power_ram.png": ram, "power_rocket.png": rocket, "power_blast.png": blast, "power_laser.png": laser}
+    for key, label, col in (("ram", "1 RAM", (150, 150, 140)), ("salvo", "2 ROCKETS", (220, 110, 50)),
+                            ("laser", "3 LASER", (230, 60, 80))):
+        b = rgba(150, 60)
+        d = ImageDraw.Draw(b)
+        d.rectangle([0, 0, 149, 59], fill=(30, 32, 36, 235), outline=col, width=3)
+        d.rectangle([8, 12, 40, 47], fill=col)
+        w = d.textlength(label, font=font)
+        d.text((48 + (96 - w) / 2, 17), label, font=font, fill=(240, 240, 230))
+        out["power_button_%s.png" % key] = b
+    out["power_shade.png"] = Image.new("RGBA", (8, 8), (0, 0, 0, 160))
+    return out
+
+
 def sky():
     """540 x 960, does not scroll: a dusty gradient."""
     im = Image.new("RGBA", (540, 960))
@@ -340,6 +381,8 @@ def main():
         save(cloud(f), "cloud_%d.png" % f)
     save(ground(), "ground.png")
     save(sky(), "sky.png")
+    for name, im in power_art().items():
+        save(im, name)
     for k in GEM_COLORS:
         save(gem(k, 12), "gem_%s.png" % k)
         save(gem(k, 8), "gem_mark_%s.png" % k)

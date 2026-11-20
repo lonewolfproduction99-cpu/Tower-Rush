@@ -2,7 +2,7 @@
 
 A portrait-mode (540 × 960) side-scrolling arcade game made with **GDevelop 5**. You command a mechanical tower on tank tracks. It drives right on its own. You shoot paths through stone formations made of small cells. A gas cloud follows you from behind.
 
-**Status: Phases 1, 2 and the Phase 3 shop.** Phase 1: the tower, turret, bullets, destructible cells, the cloud, distance and best distance, and restart. Phase 2: gems hidden in obstacles, collected for a saved total, and better obstacle selection. Phase 3 (part 1): an upgrade shop spending saved gems. The tower, background, road and obstacles are the owner's art; the rest is code-drawn placeholder art.
+**Status: Phases 1, 2 and 3.** Phase 1: the tower, turret, bullets, destructible cells, the cloud, distance and best distance, and restart. Phase 2: gems hidden in obstacles, collected for a saved total, and better obstacle selection. Phase 3: an upgrade shop spending saved gems, and three power-up weapons (ram, rocket salvo, laser). The tower, background, road and obstacles are the owner's art; the rest is code-drawn placeholder art.
 
 ## Play it
 
@@ -23,10 +23,11 @@ All gameplay is **native GDevelop events**, with no JavaScript blocks. Each syst
 | `UpgradeManager` | Lv_<Upgrade>, Damage, FireRate, Spread, TowerSpeed, PickupRadius | loads the bought levels; sets the stats the other systems read |
 | `RunManager` | State, Dt, StartX, Distance, BestDistance, OverTime | start, frame time, distance, game over, best distance (storage), restart |
 | `ObstacleGenerator` | NextFormationX, FormationCount, LastFormation, Shape… | picks and builds formations ahead of the camera, hides gems in them, removes cells left behind |
+| `PowerUps` | <Power>_Time, <Power>_Cool, Salvo_Left/Timer, PowerUsed, RocketsFired, Blasts | the power buttons, ram, rockets and blasts, laser beam |
 | `TowerController` | TowerStep, Blocked | auto-drive, stop on any cell in the way |
 | `TurretController` | Aim*, Pivot*, TurretAngle, InputTouch, Firing, FireCooldown, AimOffset | mouse/touch aim, smooth turning, chassis-safe angles, firing, muzzle flash |
 | `ProjectileSystem` | BulletStep, BulletHit, HitX/Y | ray-cast bullets (no tunnelling), damage |
-| `ObstacleGrid` | CellsDestroyed + Cell variables | hit flash, debris, sparks |
+| `ObstacleGrid` | CellsDestroyed + Cell variables | breaks every cell whose HP reached 0 (from any weapon): gem release, debris; hit flash, sparks |
 | `GemSystem` | RunGems, TotalGems, GemsCollected, GemsLost, GemsSaved | loose gems: fall, bounce, pickup radius, collection, saved total |
 | `CloudController` | CloudX, CloudGap | the pursuing cloud, catching the tower |
 | `CameraAndHUD` | — (reads only) | camera follow, ground and hills, HUD, warning |
@@ -76,6 +77,7 @@ node tools/test/play.js docs test-output                                 # needs
 node tools/test/play.js docs test-output art                             # every art formation: slices, cracks, passable
 node tools/test/play.js docs test-output gems                            # Phase 2 gem checks
 node tools/test/play.js docs test-output shop                            # Phase 3 shop checks
+node tools/test/play.js docs test-output power                           # Phase 3 power-up checks
 ```
 
 `tools/gd/instructions.json` lists GDevelop's instructions and their parameters. It is dumped from the editor's own `libGD.js` by `tools/gd/dump_metadata.js`. The build checks every event against it.
@@ -149,4 +151,18 @@ Put the owner's tower frames in `art/tower/` as `tower_0.png`, `tower_1.png`, �
 
 - **Starting spread:** the gun starts with ±3° of spread (each bullet's angle is the turret's ± up to `Spread`), so Accuracy has something to improve.
 - **Saving:** levels are saved in storage `TowerRush` / `Up_<Upgrade>`, gems in `TotalGems`.
-- **Next:** the power-up weapons (DESIGN_NOTES.md).
+- **Power-ups:** see below.
+
+## Power-ups (Phase 3, part 2)
+
+Three buttons sit in the bottom strip, y 892–952 (`Tuning.ButtonStripY`). Taps there neither aim nor fire the main gun. Tap a button, or press 1, 2 or 3, when it is ready. It fires, then recharges for its `Cooldown`, and a dark shade drains as it does; it glows yellow while active. All settings are in the global variable `PowerUps`. All three are unlocked for testing (`Unlocked` 1; 0 hides a button). `Tuning.PowerStartCharged` 1 makes them start ready.
+
+| Power | What it does | Settings |
+|---|---|---|
+| RAM (1) | a plough on the tower front crushes the cells it touches in the bottom `Height` px while driving, for `Duration` s; higher cells in the lane must still be shot | Duration 5, Cooldown 18, Height 60, Reach 16, Dps 40 |
+| ROCKETS (2) | `Rockets` rockets toward the aim (± `Spread`°), each exploding on the first cell or the ground, `Damage` to every cell within `Radius` px | Cooldown 15, Rockets 6, Interval 0.15, Speed 520, Damage 4, Radius 34 |
+| LASER (3) | a beam along the aim, `Range` px long, cutting every cell it touches whatever the material, for `Duration` s; the main gun pauses | Duration 2.5, Cooldown 22, Range 480, Dps 14 |
+
+Every damage source only lowers `Cell.HP`; ObstacleGrid breaks cells in one place, so gems and debris work the same for all weapons. Placeholder art: `power_ram.png`, `power_rocket.png`, `power_blast.png`, `power_laser.png` and `power_button_<power>.png` (150 × 60).
+
+Not handled yet: tapping a power button with a second finger while the first holds fire (multi-touch). A tap works when no other finger is down.

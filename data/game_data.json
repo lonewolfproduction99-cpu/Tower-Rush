@@ -37,7 +37,9 @@
     "GemGravity": 900,
     "GemBounce": 0.45,
     "GemMagnetSpeed": 260,
-    "GemMagnetAccel": 1400
+    "GemMagnetAccel": 1400,
+    "PowerStartCharged": 1,
+    "ButtonStripY": 892
   },
   "Materials": {
     "Stone": {
@@ -206,6 +208,40 @@
         120,
         240
       ]
+    }
+  },
+  "PowerUps": {
+    "Ram": {
+      "Label": "RAM",
+      "Key": "Num1",
+      "Unlocked": 1,
+      "Duration": 5,
+      "Cooldown": 18,
+      "Height": 60,
+      "Reach": 16,
+      "Dps": 40
+    },
+    "Salvo": {
+      "Label": "ROCKETS",
+      "Key": "Num2",
+      "Unlocked": 1,
+      "Duration": 0,
+      "Cooldown": 15,
+      "Rockets": 6,
+      "Interval": 0.15,
+      "Speed": 520,
+      "Damage": 4,
+      "Radius": 34,
+      "Spread": 6
+    },
+    "Laser": {
+      "Label": "LASER",
+      "Key": "Num3",
+      "Unlocked": 1,
+      "Duration": 2.5,
+      "Cooldown": 22,
+      "Range": 480,
+      "Dps": 14
     }
   }
 }

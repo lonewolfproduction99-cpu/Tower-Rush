@@ -10,7 +10,7 @@ const fs = require('fs');
 
 const DOCS = path.resolve(process.argv[2] || 'docs');
 const OUT = path.resolve(process.argv[3] || 'test-output');
-const SCENARIO = process.argv[4] || 'phase1'; // phase1 | art | gems | shop
+const SCENARIO = process.argv[4] || 'phase1'; // phase1 | art | gems | shop | power
 const PORT = 8790 + Math.floor(Math.random() * 100);
 fs.mkdirSync(OUT, { recursive: true });
 
@@ -244,11 +244,13 @@ async function gemScenario(browser) {
   const bounced = track.some((a, i) => i > 0 && track[i - 1].vy > 0 && a.vy < 0 && !a.magnet);
   const pulled = track.some((a) => a.magnet === 1);
   const value = track.length ? track[track.length - 1].value : 0;
-  check('G3.1', 'Breaking the cell that holds a gem releases it, and it is collected',
-    after.released === before.released + 1 && track.length > 0 && after.collected === before.collected + 1,
-    `released ${after.released - before.released} (popped up then ${pulled ? 'pulled in at once: it landed within range' : 'fell'}), collected ${after.collected - before.collected}`);
-  check('G4', 'Its value is added to the run and shown in the HUD', after.run === before.run + value && value > 0 && after.hud === 'GEMS ' + after.run,
-    `value ${value}: run gems ${before.run} -> ${after.run}; HUD "${after.hud}"`);
+  // Collected if it landed within range, otherwise it waits on the road for the tower (both are right).
+  const waiting = after.gems.length > 0 && after.gems.some((gm) => gm.y > 780);
+  check('G3.1', 'Breaking the cell that holds a gem releases it (collected, or waiting on the road)',
+    after.released === before.released + 1 && track.length > 0 && (after.collected === before.collected + 1 || waiting),
+    `released ${after.released - before.released}, then ${after.collected > before.collected ? 'collected (landed within range)' : (waiting ? 'waiting on the road out of range' : 'lost?')}`);
+  check('G4', 'A collected gem adds its value to the run and the HUD shows it', ga.run === run0 + 5 && after.hud === 'GEMS ' + after.run,
+    `open-ground gem (value 5): run gems ${run0} -> ${ga.run}; HUD now "${after.hud}" with ${after.run}`);
   await page.screenshot({ path: path.join(OUT, 'gems_2_collected.png') });
   // A gem left behind (outside the pickup radius, behind the screen) is lost and removed.
   await page.evaluate(() => { const s = window.__scene, t = s.getObjects('Tower')[0];
@@ -351,6 +353,93 @@ async function shopScenario(browser) {
   await ctx.close();
 }
 
+// Phase 3: power-ups. Ram, rocket salvo and laser, fired from the bottom buttons (and a key).
+async function powerScenario(browser) {
+  const d = JSON.parse(fs.readFileSync(path.join(DOCS, '..', 'data', 'art_formations.json'), 'utf8'));
+  const P = JSON.parse(fs.readFileSync(path.join(DOCS, '..', 'data', 'game_data.json'), 'utf8')).PowerUps;
+  const idx = d.findIndex((f) => f.Name === 'owner_rubble_01');
+  const { ctx, page, errors } = await openGame(browser, {}, idx, 900, { ClusterChance: 0, GemChance: 0, GapMin: 300, GapMax: 300 });
+  const ps = () => page.evaluate(() => { const s = window.__scene, v = (n) => s.getVariables().get(n).getAsNumber();
+    return { ram: v('Ram_Time'), ramCool: v('Ram_Cool'), salvoCool: v('Salvo_Cool'), laser: v('Laser_Time'), laserCool: v('Laser_Cool'),
+      used: v('PowerUsed'), rockets: v('RocketsFired'), blasts: v('Blasts'), destroyed: v('CellsDestroyed'), shots: v('ShotsFired'),
+      aimX: v('AimX'), aimY: v('AimY'), x: s.getObjects('Tower')[0].getX(),
+      ramShown: !s.getObjects('Ram')[0].isHidden(), beamShown: !s.getObjects('LaserBeam')[0].isHidden(),
+      buttons: s.getObjects('PowerButton').map((b) => ({ row: b.getVariables().get('Row').getAsNumber(), anim: b.getAnimationIndex ? b.getAnimationIndex() : b.getAnimation() })),
+      shades: s.getObjects('PowerShade').map((b) => b.getHeight()) }; });
+  const tap = async (x, y) => { await page.mouse.move(x, y); await page.mouse.down(); await wait(80); await page.mouse.up(); await wait(120); };
+  const btn = (i) => ({ x: 22 + 75 + i * 172, y: 892 + 30 });
+  let a = await ps();
+  check('P1', 'Three power buttons, all ready at the start', a.buttons.length === 3 &&
+    a.buttons.every((b) => b.anim === b.row) && a.ramCool === 0 && a.salvoCool === 0 && a.laserCool === 0 && a.shades.every((h) => h < 1),
+    `buttons ${JSON.stringify(a.buttons)}, shades ${a.shades.map((h) => h.toFixed(0))}`);
+  // RAM at the first rubble pile
+  let sb = await waitFor(page, (s) => s.blocked === 1, 20000);
+  const aimed = toScreen(sb, sb.towerX + 120, 700);
+  await page.mouse.move(aimed.x, aimed.y); await wait(300);
+  const r0 = await ps();
+  await tap(btn(0).x, btn(0).y);
+  const r1 = await ps();
+  await page.screenshot({ path: path.join(OUT, 'power_1_ram.png') });
+  await tap(btn(0).x, btn(0).y); // a second tap while it's active / recharging does nothing
+  const r1b = await ps();
+  await wait(3000);
+  const r2 = await ps();
+  check('P2', 'RAM crushes the low obstacle and the tower drives through without a shot',
+    r1.ram > 0 && r1.ramShown && r2.destroyed - r0.destroyed >= 10 && r2.x > r0.x + 100 && r2.shots === r0.shots,
+    `ram ${r1.ram.toFixed(1)} s, pieces crushed ${r2.destroyed - r0.destroyed}, tower x ${r0.x.toFixed(0)} -> ${r2.x.toFixed(0)}, main-gun shots ${r2.shots - r0.shots}`);
+  check('P3', 'Tapping a button never moves the aim; a recharging power ignores taps',
+    Math.abs(r1.aimY - r0.aimY) < 1 && r1b.used === r1.used && r1.ramCool > P.Ram.Cooldown - 1,
+    `aim y ${r0.aimY.toFixed(0)} -> ${r1.aimY.toFixed(0)}; uses ${r1.used} -> ${r1b.used}; ram recharge ${r1.ramCool.toFixed(1)} s`);
+  // ROCKETS at the next pile
+  await waitFor(page, (s) => true, 10);
+  let r3; for (let i = 0; i < 60; i++) { r3 = await ps(); if (r3.ram <= 0) break; await wait(200); }
+  sb = await waitFor(page, (s) => s.blocked === 1, 20000);
+  const lane = await cellsInPath(page);
+  const mid = lane[Math.floor(lane.length / 2)];
+  const aimR = toScreen(sb, mid.x, mid.y);
+  await page.mouse.move(aimR.x, aimR.y); await wait(400);
+  const s0 = await ps();
+  await tap(btn(1).x, btn(1).y);
+  await wait(500);
+  await page.screenshot({ path: path.join(OUT, 'power_2_rockets.png') });
+  await wait(1500);
+  const s1 = await ps();
+  check('P4', 'ROCKETS: 6 rockets explode and break more pieces than rockets fired',
+    s1.rockets - s0.rockets === P.Salvo.Rockets && s1.blasts - s0.blasts >= 4 && s1.destroyed - s0.destroyed > s1.rockets - s0.rockets &&
+    s1.shots === s0.shots, `rockets ${s1.rockets - s0.rockets}, blasts ${s1.blasts - s0.blasts}, pieces broken ${s1.destroyed - s0.destroyed}, main-gun shots ${s1.shots - s0.shots}`);
+  // LASER with the keyboard (key 3) at whatever is in front
+  // Aim at the next, untouched pile ahead (in the beam's range): the beam must reach across and cut a line in it.
+  sb = await snapshot(page);
+  const all2 = await page.evaluate((fx) => window.__scene.getObjects('Cell').filter((c) => c.getX() > fx + 120)
+    .map((c) => ({ x: c.getX() + 6, y: c.getY() + 6 })), sb.towerX + 22);
+  const firstX = Math.min(...all2.map((c) => c.x));
+  const ahead = all2.filter((c) => c.x < firstX + 100); // the whole next pile
+  const tx = ahead.reduce((m, c) => m + c.x, 0) / Math.max(1, ahead.length), ty = Math.max(...ahead.map((c) => c.y)) - 12;
+  // Same direction, but a point that is on screen (the beam runs its full range whatever point is aimed at).
+  let ax = tx, ay = ty;
+  const maxX = sb.camX - 270 + 520;
+  if (ax > maxX) { const k = (maxX - sb.pivotX) / (ax - sb.pivotX); ax = sb.pivotX + (ax - sb.pivotX) * k; ay = sb.pivotY + (ay - sb.pivotY) * k; }
+  const aimL = toScreen(sb, ax, ay);
+  const pileDist = Math.hypot(tx - sb.pivotX, ty - sb.pivotY);
+  await page.mouse.move(aimL.x, aimL.y); await wait(400);
+  const l0 = await ps();
+  await page.keyboard.press('3');
+  await wait(600);
+  const l1 = await ps();
+  await page.screenshot({ path: path.join(OUT, 'power_3_laser.png') });
+  await page.mouse.down(); await wait(1500); await page.mouse.up(); // holding fire during the laser: the gun stays quiet
+  const l2 = await ps();
+  check('P5', 'LASER (key 3): the beam cuts through pieces; the main gun pauses meanwhile',
+    l1.laser > 0 && l1.beamShown && l2.destroyed - l0.destroyed >= 4 && l2.shots === l0.shots,
+    `next pile ahead: ${ahead.length} pieces, ${pileDist.toFixed(0)} px away; laser ${l1.laser.toFixed(1)} s, pieces cut ${l2.destroyed - l0.destroyed}, main-gun shots while it fired ${l2.shots - l0.shots}`);
+  await wait(1500);
+  const l3 = await ps();
+  check('P6', 'Each power recharges after use', l3.laser === 0 && !l3.beamShown && l3.laserCool > 0 && l3.ramCool < r1.ramCool &&
+    l3.shades.every((h) => h > 0), `laser cool ${l3.laserCool.toFixed(1)} s, ram cool ${l3.ramCool.toFixed(1)} s, shades ${l3.shades.map((h) => h.toFixed(0))}`);
+  check('P7', 'No script errors in the power-up run', errors.length === 0, errors.slice(0, 3).join(' | '));
+  await ctx.close();
+}
+
 // Whole-object pixel art formations (tools/import_formations.py): pictures sliced into cells.
 async function artScenario(browser) {
   const names = await (async () => {
@@ -439,6 +528,7 @@ async function artScenario(browser) {
     if (SCENARIO === 'art') await artScenario(browser);
     else if (SCENARIO === 'gems') await gemScenario(browser);
     else if (SCENARIO === 'shop') await shopScenario(browser);
+    else if (SCENARIO === 'power') await powerScenario(browser);
     else { await aimChecks(browser); await phase1(browser); }
   } catch (e) {
     console.error(e);

@@ -1,6 +1,6 @@
 # Tower Rush: notes for Claude sessions
 
-Portrait (540×960) GDevelop 5 arcade game: a tracked tower auto-drives right, the player shoots paths through cell-grid formations, a gas cloud pursues. The owner's brief has 5 phases; **Phases 1 and 2 are done, and the Phase 3 shop** (README "Gems", "Shop and upgrades"); next: power-up weapons (DESIGN_NOTES.md) (see README.md for the full layout).
+Portrait (540×960) GDevelop 5 arcade game: a tracked tower auto-drives right, the player shoots paths through cell-grid formations, a gas cloud pursues. The owner's brief has 5 phases; **Phases 1, 2 and 3 are done** (README "Gems", "Shop and upgrades", "Power-ups"); next: Phase 4 (special materials, explosives, regions) or charging power-ups / unlocking them in the shop (see README.md for the full layout).
 
 ## Rules from the brief
 
@@ -49,6 +49,14 @@ Portrait (540×960) GDevelop 5 arcade game: a tracked tower auto-drives right, t
 - The stats (Damage, FireRate, Spread, TowerSpeed, PickupRadius) are scene variables set by UpgradeManager from `Upgrades.<k>.Values[Lv_<k>]`. Don't read `Tuning` for them; those Tuning keys were removed.
 - The test seeds storage with `openGame(..., storage)` (localStorage `GDJS_TowerRush`, `{"Key": {"value": n}}`).
 - The console error "409 / Error while creating the session" is GDevelop's analytics, blocked by the sandbox, and the tests ignore it.
+
+## Power-ups
+
+- System order: UpgradeManager, RunManager, ObstacleGenerator, TurretController, PowerUps, ProjectileSystem, ObstacleGrid (breaks HP<=0 cells), TowerController, GemSystem, CloudController, CameraAndHUD.
+- Damage sources only lower `Cell.HP`; `break_children()` in ObstacleGrid does the breaking.
+- Sprites rotate around their **centre point**, not the origin. A long rotated sprite (LaserBeam) needs a custom centre at its start (`frame(center=...)`).
+- Keyboard digit keys are `Num1`..`Num9` in GDevelop.
+- Test `power` (7 checks). A mouse moved outside the 540 × 960 viewport doesn't update the aim, so aim at on-screen points.
 
 ## Gotchas
 

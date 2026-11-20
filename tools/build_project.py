@@ -496,6 +496,133 @@ def shop_events():
     ]
 
 
+POWERS = [(k, v) for k, v in DATA["PowerUps"].items() if v.get("Unlocked", 1)]
+POWER_KEYS = [k for k, _ in POWERS]
+
+
+def pu(k, f):
+    return "GlobalVariable(PowerUps.%s.%s)" % (k, f)
+
+
+def power_ups():
+    strip = tune("ButtonStripY")
+    out = [
+        comment("POWER-UPS - owns: <Power>_Time (seconds left active), <Power>_Cool (seconds until ready), "
+                "Salvo_Left, Salvo_Timer, PowerUsed, RocketsFired, Blasts, and the Ram, Rocket, Blast, LaserBeam "
+                "objects and the power buttons.\n"
+                "Tap a button in the bottom strip (or press 1/2/3) when it is ready: it fires, then recharges for "
+                "PowerUps.<Power>.Cooldown seconds (the dark shade drains). Settings: the global variable PowerUps "
+                "(Unlocked = 1 shows the button). Power-ups only lower Cell.HP; ObstacleGrid breaks the cells."),
+        ev([C("SceneJustBegins")],
+           [setv(k + "_Cool", "=", "%s * (1 - %s)" % (pu(k, "Cooldown"), tune("PowerStartCharged"))) for k in POWER_KEYS],
+           [ev([isov("PowerButton", "Row", "=", str(i))],
+               [A("AnimatableCapability::AnimatableBehavior::SetIndex", "PowerButton", "Animation", "=",
+                  str(list(DATA["PowerUps"]).index(k)))]) for i, k in enumerate(POWER_KEYS)]),
+        ev([], [setv(k + "_Cool", "=", "max(0, Variable(%s_Cool) - %s)" % (k, DT)) for k in POWER_KEYS]
+               + [setv(k + "_Time", "=", "max(0, Variable(%s_Time) - %s)" % (k, DT)) for k in POWER_KEYS]),
+    ]
+    for i, (k, v) in enumerate(POWERS):
+        start = [setv(k + "_Cool", "=", pu(k, "Cooldown")), setv(k + "_Time", "=", pu(k, "Duration")),
+                 setv("PowerUsed", "+", "1")]
+        if k == "Salvo":
+            start += [setv("Salvo_Left", "=", pu(k, "Rockets")), setv("Salvo_Timer", "=", "0")]
+        ready = [iss("State", q("Run")), isv(k + "_Cool", "<=", "0")]
+        out.append(group("Activate " + v["Label"], [
+            ev([C("MouseButtonFromTextReleased", q("Left")), C("IsCursorOnObject", "PowerButton"),
+                isov("PowerButton", "Row", "=", str(i)), cmp('CursorY("UI", 0)', ">=", strip)] + ready, start),
+            ev([C("KeyFromTextJustPressed", q(v["Key"]))] + ready, start),
+        ]))
+    if "Ram" in POWER_KEYS:
+        out.append(group("Ram: a plough on the tower front crushes the low cells it touches", [
+            ev([isv("Ram_Time", ">", "0"), iss("State", q("Run"))], [
+                A("Show", "Ram"),
+                set_xy("Ram", "Tower.X() + 22", "%s - %s" % (GROUND, pu("Ram", "Height"))),
+                A("ResizableCapability::ResizableBehavior::SetSize", "Ram", "Resizable", pu("Ram", "Reach"), pu("Ram", "Height")),
+            ], [
+                ev([C("CollisionNP", "Ram", "Cell", "")], [setov("Cell", "HP", "-", "%s * %s" % (pu("Ram", "Dps"), DT))]),
+            ]),
+            ev([isv("Ram_Time", "<=", "0")], [A("Hide", "Ram")]),
+        ]))
+    if "Salvo" in POWER_KEYS:
+        out.append(group("Rocket salvo: rockets toward the aim, each exploding on the first cell it meets", [
+            ev([isv("Salvo_Left", ">", "0"), iss("State", q("Run"))], [setv("Salvo_Timer", "-", DT)], [
+                ev([isv("Salvo_Timer", "<=", "0")], [
+                    A("Create", "Rocket", V("PivotX"), V("PivotY"), q("")),
+                    A("SetAngle", "Rocket", "=", "Variable(TurretAngle) + RandomFloatInRange(-%s, %s)"
+                      % (pu("Salvo", "Spread"), pu("Salvo", "Spread"))),
+                    setov("Rocket", "Extra", "=", tune("BarrelLength")),
+                    A("SetZOrder", "Rocket", "=", "23"),
+                    setv("Salvo_Left", "-", "1"),
+                    setv("Salvo_Timer", "+", pu("Salvo", "Interval")),
+                    setv("RocketsFired", "+", "1"),
+                ]),
+            ]),
+            ev([], [setv("RocketStep", "=", "%s * %s" % (pu("Salvo", "Speed"), DT))]),
+            foreach("Rocket", [], [setv("RocketHit", "=", "0")], [
+                ev([C("Raycast", "Cell", "Rocket.X()", "Rocket.Y()", "Rocket.Angle()",
+                      "Variable(RocketStep) + Rocket.Variable(Extra)", "HitX", "HitY")],
+                   [setv("RocketHit", "=", "1")]),
+                ev([isv("RocketHit", "=", "0"),
+                    cmp("Rocket.Y() + sin(ToRad(Rocket.Angle())) * Variable(RocketStep)", ">", GROUND)],
+                   [setv("RocketHit", "=", "1"), setv("HitX", "=", "Rocket.X()"), setv("HitY", "=", GROUND)]),
+                ev([isv("RocketHit", "=", "1")], [
+                    A("Create", "Blast", V("HitX"), V("HitY"), q("")),
+                    A("SetZOrder", "Blast", "=", "28"),
+                    A("ResizableCapability::ResizableBehavior::SetSize", "Blast", "Resizable",
+                      "%s * 2" % pu("Salvo", "Radius"), "%s * 2" % pu("Salvo", "Radius")),
+                    A("Delete", "Rocket"),
+                    setv("Blasts", "+", "1"),
+                ], [
+                    ev([C("PickAllInstances", "Cell"), C("Distance", "Cell", "Blast", pu("Salvo", "Radius"))],
+                       [setov("Cell", "HP", "-", pu("Salvo", "Damage"))]),
+                ]),
+                ev([isv("RocketHit", "=", "0")], [
+                    set_xy("Rocket", "Rocket.X() + cos(ToRad(Rocket.Angle())) * (Variable(RocketStep) + Rocket.Variable(Extra))",
+                           "Rocket.Y() + sin(ToRad(Rocket.Angle())) * (Variable(RocketStep) + Rocket.Variable(Extra))"),
+                    setov("Rocket", "Extra", "=", "0"),
+                ]),
+            ]),
+            ev([C("PosX", "Rocket", ">", "%s + 320" % CAM_X)], [A("Delete", "Rocket")]),
+            ev([C("PosY", "Rocket", "<", "-60")], [A("Delete", "Rocket")]),
+            ev([], [setov("Blast", "Life", "+", DT),
+                    A("OpacityCapability::OpacityBehavior::SetValue", "Blast", "Opacity", "=",
+                      "255 * (1 - Blast.Variable(Life) / 0.35)")]),
+            ev([isov("Blast", "Life", ">", "0.35")], [A("Delete", "Blast")]),
+        ]))
+    if "Laser" in POWER_KEYS:
+        out.append(group("Laser: a beam along the aim that cuts every cell it touches, any material", [
+            ev([isv("Laser_Time", ">", "0"), iss("State", q("Run"))], [
+                A("Show", "LaserBeam"),
+                set_xy("LaserBeam", "Variable(PivotX) + cos(ToRad(Variable(TurretAngle))) * %s" % tune("BarrelLength"),
+                       "Variable(PivotY) + sin(ToRad(Variable(TurretAngle))) * %s" % tune("BarrelLength")),
+                A("SetAngle", "LaserBeam", "=", V("TurretAngle")),
+                A("ResizableCapability::ResizableBehavior::SetSize", "LaserBeam", "Resizable", pu("Laser", "Range"),
+                  "6 + RandomFloat(4)"),
+            ], [
+                ev([C("CollisionNP", "LaserBeam", "Cell", "")],
+                   [setov("Cell", "HP", "-", "%s * %s" % (pu("Laser", "Dps"), DT))]),
+            ]),
+            ev([isv("Laser_Time", "<=", "0")], [A("Hide", "LaserBeam")]),
+        ]))
+    out.append(ev([iss("State", q("Over"))], [A("Hide", "LaserBeam"), A("Hide", "Ram")]))
+    btn = []
+    for i, (k, v) in enumerate(POWERS):
+        btn += [
+            ev([isov("PowerShade", "Row", "=", str(i))], [
+                A("ResizableCapability::ResizableBehavior::SetHeight", "PowerShade", "Resizable", "=",
+                  "60 * Variable(%s_Cool) / %s" % (k, pu(k, "Cooldown"))),
+            ]),
+            ev([isov("PowerButton", "Row", "=", str(i)), isv(k + "_Time", ">", "0")],
+               [A("ChangeColor", "PowerButton", q("255;240;120"))]),
+            ev([isov("PowerButton", "Row", "=", str(i)), isv(k + "_Time", "<=", "0"), isv(k + "_Cool", "<=", "0")],
+               [A("ChangeColor", "PowerButton", q("255;255;255"))]),
+            ev([isov("PowerButton", "Row", "=", str(i)), isv(k + "_Time", "<=", "0"), isv(k + "_Cool", ">", "0")],
+               [A("ChangeColor", "PowerButton", q("150;150;150"))]),
+        ]
+    out.append(group("Buttons: shade = recharge left, yellow = active", btn))
+    return out
+
+
 def tower_controller():
     return [
         comment("TOWER CONTROLLER - owns: TowerStep, Blocked.\n"
@@ -563,9 +690,9 @@ def turret_controller():
         group("Aim", [
             comment("CursorX/CursorY of the base layer are world coordinates: they already include the "
                     "camera scroll, so the aim stays exact while the world moves."),
-            ev([], [
-                setv("PivotX", "=", pivot_x),
-                setv("PivotY", "=", pivot_y),
+            ev([], [setv("PivotX", "=", pivot_x), setv("PivotY", "=", pivot_y)]),
+            comment("Taps in the button strip at the bottom (Tuning.ButtonStripY) don't move the aim."),
+            ev([cmp('CursorY("UI", 0)', "<", tune("ButtonStripY"))], [
                 setv("AimX", "=", 'CursorX("", 0)'),
                 setv("AimY", "=", 'CursorY("", 0) - Variable(AimOffset) * Variable(InputTouch)'),
             ]),
@@ -591,7 +718,8 @@ def turret_controller():
         group("Fire", [
             ev([], [setv("Firing", "=", "0"), setv("FireCooldown", "-", DT)]),
             ev([iss("State", q("Run")), isv("HasAimed", "=", "1"), C("MouseButtonFromTextPressed", q("Left")),
-                cmp('CursorY("UI", 0)', ">", "96")], [setv("Firing", "=", "1")]),
+                cmp('CursorY("UI", 0)', ">", "96"), cmp('CursorY("UI", 0)', "<", tune("ButtonStripY")),
+                isv("Laser_Time", "<=", "0")], [setv("Firing", "=", "1")]),
             ev([isv("Firing", "=", "0"), isv("FireCooldown", "<", "0")], [setv("FireCooldown", "=", "0")]),
             ev([isv("Firing", "=", "1"), isv("FireCooldown", "<=", "0")], [
                 setv("FireCooldown", "+", "1 / %s" % V("FireRate")),
@@ -613,28 +741,9 @@ def turret_controller():
     ]
 
 
-def projectile_system():
+def break_children():
+    """What happens when a cell breaks (ObstacleGrid runs this for every cell whose HP reached 0)."""
     return [
-        comment("PROJECTILE SYSTEM - owns: BulletStep, BulletHit, HitX, HitY.\n"
-                "Bullets are moved by a ray, not by forces: each frame a ray is cast from the bullet along its "
-                "path for the distance it travels this frame (BulletSpeed x Dt). The first Cell the ray meets is "
-                "hit - only that one - so a fast bullet can never pass through a thin cell. A new bullet starts "
-                "at the turret pivot and its first ray also covers the barrel (Extra), so it leaves at the muzzle "
-                "and still hits a cell touching the barrel."),
-        ev([], [setv("BulletStep", "=", "%s * %s" % (tune("BulletSpeed"), DT))]),
-        foreach("Bullet", [], [setv("BulletHit", "=", "0")], [
-            ev([C("Raycast", "Cell", "Bullet.X()", "Bullet.Y()", "Bullet.Angle()",
-                  "Variable(BulletStep) + Bullet.Variable(Extra)", "HitX", "HitY")], [
-                setv("BulletHit", "=", "1"),
-                setv("ShotsHit", "+", "1"),
-                setov("Cell", "HP", "-", V("Damage")),
-                A("Create", "Spark", V("HitX"), V("HitY"), q("")),
-                A("SetZOrder", "Spark", "=", "26"),
-                A("Delete", "Bullet"),
-            ], [
-                ev([isov("Cell", "HP", "<=", "0")], [
-                    setv("CellsDestroyed", "+", "1"),
-                ], [
                     ev([C("LinkedObjects::PickObjectsLinkedTo", "Crack", "Cell")], [A("Delete", "Crack")]),
                     comment("A gem is released only when the cell holding it breaks; GemSystem takes it from here."),
                     ev([isov("Cell", "Gem", ">", "0")], [
@@ -658,7 +767,28 @@ def projectile_system():
                         A("SetZOrder", "Debris", "=", "25"),
                     ]),
                     ev([], [A("Delete", "Cell")]),
-                ]),
+                    ]
+
+
+def projectile_system():
+    return [
+        comment("PROJECTILE SYSTEM - owns: BulletStep, BulletHit, HitX, HitY.\n"
+                "Bullets are moved by a ray, not by forces: each frame a ray is cast from the bullet along its "
+                "path for the distance it travels this frame (BulletSpeed x Dt). The first Cell the ray meets is "
+                "hit - only that one - so a fast bullet can never pass through a thin cell. A new bullet starts "
+                "at the turret pivot and its first ray also covers the barrel (Extra), so it leaves at the muzzle "
+                "and still hits a cell touching the barrel."),
+        ev([], [setv("BulletStep", "=", "%s * %s" % (tune("BulletSpeed"), DT))]),
+        foreach("Bullet", [], [setv("BulletHit", "=", "0")], [
+            ev([C("Raycast", "Cell", "Bullet.X()", "Bullet.Y()", "Bullet.Angle()",
+                  "Variable(BulletStep) + Bullet.Variable(Extra)", "HitX", "HitY")], [
+                setv("BulletHit", "=", "1"),
+                setv("ShotsHit", "+", "1"),
+                setov("Cell", "HP", "-", V("Damage")),
+                A("Create", "Spark", V("HitX"), V("HitY"), q("")),
+                A("SetZOrder", "Spark", "=", "26"),
+                A("Delete", "Bullet"),
+            ], [
                 ev([isov("Cell", "HP", ">", "0")], [
                     A("TiledSpriteObject::SetColor", "Cell", q("255;170;140")),
                     A("ResetObjectTimer", "Cell", q("flash")),
@@ -705,6 +835,13 @@ def obstacle_grid():
                 "Every Cell is its own 12 x 12 object with its own collision box, so a destroyed cell stops "
                 "blocking at once and the tower can drive through any tunnel big enough for its chassis. "
                 "Damage is shown by a Crack overlay (animations Crack1, Crack2) linked to the cell."),
+        group("Break cells with no HP left (bullets, rockets, ram, laser)", [
+            comment("Every damage source only lowers Cell.HP; this one place breaks the cells: crack and gem mark "
+                    "removed, the gem released, debris thrown, the cell deleted."),
+            ev([isov("Cell", "HP", "<=", "0")], [], [
+                foreach("Cell", [], [setv("CellsDestroyed", "+", "1")], break_children()),
+            ]),
+        ]),
         group("Hit flash", [
             ev([isov("Cell", "Flash", "=", "1"), C("CompareObjectTimer", "Cell", q("flash"), ">", "0.06")],
                [A("TiledSpriteObject::SetColor", "Cell", q("255;255;255")), setov("Cell", "Flash", "=", "0")]),
@@ -847,9 +984,10 @@ def camera_and_hud():
 
 
 SYSTEMS = [
-    ("UpgradeManager", upgrade_manager), ("RunManager", run_manager), ("ObstacleGenerator", obstacle_generator), ("TowerController", tower_controller),
-    ("TurretController", turret_controller), ("ProjectileSystem", projectile_system),
-    ("ObstacleGrid", obstacle_grid), ("GemSystem", gem_system), ("CloudController", cloud_controller), ("CameraAndHUD", camera_and_hud),
+    ("UpgradeManager", upgrade_manager), ("RunManager", run_manager), ("ObstacleGenerator", obstacle_generator),
+    ("TurretController", turret_controller), ("PowerUps", power_ups), ("ProjectileSystem", projectile_system),
+    ("ObstacleGrid", obstacle_grid), ("TowerController", tower_controller), ("GemSystem", gem_system),
+    ("CloudController", cloud_controller), ("CameraAndHUD", camera_and_hud),
 ]
 
 SCENE_VARS = {
@@ -866,6 +1004,8 @@ SCENE_VARS = {
     "RunGems": 0, "TotalGems": 0, "GemsCollected": 0, "GemsLost": 0, "GemsSaved": 0,
     "GemDX": 0, "GemDY": 0, "GemDist": 0, "GemStep": 0,
     "Damage": 1, "FireRate": 6, "Spread": 0, "TowerSpeed": 85, "PickupRadius": 90,
+    **{k + "_Time": 0 for k in DATA["PowerUps"]}, **{k + "_Cool": 0 for k in DATA["PowerUps"]},
+    "Salvo_Left": 0, "Salvo_Timer": 0, "PowerUsed": 0, "RocketStep": 0, "RocketHit": 0, "RocketsFired": 0, "Blasts": 0,
 }
 
 
@@ -895,11 +1035,12 @@ def base_obj(name, type_, variables=None):
             "variables": [var(k, v) for k, v in (variables or {}).items()], "effects": [], "behaviors": []}
 
 
-def frame(image, origin=(0, 0), points=None, mask=None):
+def frame(image, origin=(0, 0), points=None, mask=None, center=None):
     return {"hasCustomCollisionMask": mask is not None, "image": image,
             "points": [{"name": n, "x": x, "y": y} for n, (x, y) in (points or {}).items()],
             "originPoint": {"name": "origine", "x": origin[0], "y": origin[1]},
-            "centerPoint": {"automatic": True, "name": "centre", "x": 0, "y": 0},
+            "centerPoint": ({"automatic": False, "name": "centre", "x": center[0], "y": center[1]} if center
+                            else {"automatic": True, "name": "centre", "x": 0, "y": 0}),
             "customCollisionMask": [[{"x": x, "y": y} for x, y in mask]] if mask else []}
 
 
@@ -953,6 +1094,13 @@ def build_objects():
         sprite("MuzzleFlash", [("Flash", ["muzzle_flash.png"])], origin=(0, 8)),
         cell,
         sprite("Crack", [("Crack1", ["crack_1.png"]), ("Crack2", ["crack_2.png"])]),
+        sprite("Ram", [("Idle", ["power_ram.png"])]),
+        sprite("Rocket", [("Fly", ["power_rocket.png"])], {"Extra": 0}, origin=(13, 3)),
+        sprite("Blast", [("Boom", ["power_blast.png"])], {"Life": 0}, origin=(32, 32)),
+        # Rotates around its start (the centre point), not its middle: the beam leaves the muzzle.
+        sprite("LaserBeam", [("Beam", ["power_laser.png"])], origin=(0, 4), center=(0, 4)),
+        sprite("PowerButton", [(k, ["power_button_%s.png" % k.lower()]) for k in DATA["PowerUps"]], {"Row": 0}),
+        sprite("PowerShade", [("Idle", ["power_shade.png"])], {"Row": 0}),
         sprite("Gem", [(n, ["gem_%s.png" % n.lower()]) for n, _ in GEM_TYPES],
                {"Type": 1, "Value": 1, "VX": 0, "VY": 0, "Magnet": 0, "Speed": 0}, origin=(6, 6)),
         sprite("GemMark", [(n, ["gem_mark_%s.png" % n.lower()]) for n, _ in GEM_TYPES]),
@@ -1004,6 +1152,7 @@ def build_instances():
         inst("MuzzleFlash", tx + MOUNT[0] - 30 + 34, g - 96 + MOUNT[1], 24),
         inst("Cloud", tx - 22 - T["CloudStartGap"], -20, 40),
         inst("Crosshair", tx + 220, g - 86, 50),
+        *power_instances(),
         # UI (540 x 960)
         inst("WarningEdge", 0, 0, 0, "UI"),
         inst("DistanceText", 16, 10, 5, "UI"),
@@ -1012,7 +1161,7 @@ def build_instances():
         inst("GemText", 18, 108, 5, "UI"),
         inst("OffsetButton", 374, 14, 5, "UI"),
         inst("OffsetText", 398, 26, 6, "UI"),
-        inst("HintText", 70, 880, 5, "UI"),
+        inst("HintText", 70, 820, 5, "UI"),
         inst("Panel", 50, 300, 10, "UI"),
         inst("GameOverTitle", 150, 330, 11, "UI"),
         inst("ResultText", 110, 395, 11, "UI"),
@@ -1023,6 +1172,22 @@ def build_instances():
         inst("UpgradesButton", 280, 515, 11, "UI", w=200, h=64),
         inst("UpgradesText", 312, 531, 12, "UI"),
     ]
+
+
+def power_instances():
+    out = []
+    y = T.get("ButtonStripY", 892)
+    for i, (k, v) in enumerate(POWERS):
+        x = 22 + i * 172
+        b = inst("PowerButton", x, y, 20, "UI", w=150, h=60)
+        sh = inst("PowerShade", x, y, 21, "UI", w=150, h=60)
+        for o in (b, sh):
+            o["initialVariables"] = [var("Row", i)]
+            o["persistentUuid"] = uid("power-%s-%d" % (o["name"], i))
+        b["numberProperties"] = [{"name": "animation", "value": list(DATA["PowerUps"]).index(k)}]
+        out += [b, sh]
+    out += [inst("Ram", -500, -500, 24), inst("LaserBeam", -500, -800, 24)]
+    return out
 
 
 def layer(name):
@@ -1055,7 +1220,7 @@ def global_variables():
     easy = [i for i, f in enumerate(ALL_FORMATIONS) if lane_cost(f) <= T.get("EasyLaneShots", 40)]
     return [var("Tuning", T), var("Materials", DATA["Materials"]), var("Formations", forms),
             var("FormationDeck", deck), var("EasyDeck", easy), var("Gems", DATA["Gems"]),
-            var("Upgrades", DATA["Upgrades"])]
+            var("Upgrades", DATA["Upgrades"]), var("PowerUps", DATA["PowerUps"])]
 
 
 def scene_json(name, objects, instances, events, layers, variables, groups, bg=(0, 0, 0)):

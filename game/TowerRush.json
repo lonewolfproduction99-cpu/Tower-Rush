@@ -310,6 +310,70 @@
     "userAdded": true
    },
    {
+    "file": "assets/power_blast.png",
+    "kind": "image",
+    "metadata": "",
+    "name": "power_blast.png",
+    "smoothed": false,
+    "userAdded": true
+   },
+   {
+    "file": "assets/power_button_laser.png",
+    "kind": "image",
+    "metadata": "",
+    "name": "power_button_laser.png",
+    "smoothed": false,
+    "userAdded": true
+   },
+   {
+    "file": "assets/power_button_ram.png",
+    "kind": "image",
+    "metadata": "",
+    "name": "power_button_ram.png",
+    "smoothed": false,
+    "userAdded": true
+   },
+   {
+    "file": "assets/power_button_salvo.png",
+    "kind": "image",
+    "metadata": "",
+    "name": "power_button_salvo.png",
+    "smoothed": false,
+    "userAdded": true
+   },
+   {
+    "file": "assets/power_laser.png",
+    "kind": "image",
+    "metadata": "",
+    "name": "power_laser.png",
+    "smoothed": false,
+    "userAdded": true
+   },
+   {
+    "file": "assets/power_ram.png",
+    "kind": "image",
+    "metadata": "",
+    "name": "power_ram.png",
+    "smoothed": false,
+    "userAdded": true
+   },
+   {
+    "file": "assets/power_rocket.png",
+    "kind": "image",
+    "metadata": "",
+    "name": "power_rocket.png",
+    "smoothed": false,
+    "userAdded": true
+   },
+   {
+    "file": "assets/power_shade.png",
+    "kind": "image",
+    "metadata": "",
+    "name": "power_shade.png",
+    "smoothed": false,
+    "userAdded": true
+   },
+   {
     "file": "assets/sky.png",
     "kind": "image",
     "metadata": "",
@@ -618,6 +682,16 @@
      "name": "GemMagnetAccel",
      "type": "number",
      "value": 1400
+    },
+    {
+     "name": "PowerStartCharged",
+     "type": "number",
+     "value": 1
+    },
+    {
+     "name": "ButtonStripY",
+     "type": "number",
+     "value": 892
     }
    ]
   },
@@ -1507,6 +1581,160 @@
      ]
     }
    ]
+  },
+  {
+   "name": "PowerUps",
+   "type": "structure",
+   "children": [
+    {
+     "name": "Ram",
+     "type": "structure",
+     "children": [
+      {
+       "name": "Label",
+       "type": "string",
+       "value": "RAM"
+      },
+      {
+       "name": "Key",
+       "type": "string",
+       "value": "Num1"
+      },
+      {
+       "name": "Unlocked",
+       "type": "number",
+       "value": 1
+      },
+      {
+       "name": "Duration",
+       "type": "number",
+       "value": 5
+      },
+      {
+       "name": "Cooldown",
+       "type": "number",
+       "value": 18
+      },
+      {
+       "name": "Height",
+       "type": "number",
+       "value": 60
+      },
+      {
+       "name": "Reach",
+       "type": "number",
+       "value": 16
+      },
+      {
+       "name": "Dps",
+       "type": "number",
+       "value": 40
+      }
+     ]
+    },
+    {
+     "name": "Salvo",
+     "type": "structure",
+     "children": [
+      {
+       "name": "Label",
+       "type": "string",
+       "value": "ROCKETS"
+      },
+      {
+       "name": "Key",
+       "type": "string",
+       "value": "Num2"
+      },
+      {
+       "name": "Unlocked",
+       "type": "number",
+       "value": 1
+      },
+      {
+       "name": "Duration",
+       "type": "number",
+       "value": 0
+      },
+      {
+       "name": "Cooldown",
+       "type": "number",
+       "value": 15
+      },
+      {
+       "name": "Rockets",
+       "type": "number",
+       "value": 6
+      },
+      {
+       "name": "Interval",
+       "type": "number",
+       "value": 0.15
+      },
+      {
+       "name": "Speed",
+       "type": "number",
+       "value": 520
+      },
+      {
+       "name": "Damage",
+       "type": "number",
+       "value": 4
+      },
+      {
+       "name": "Radius",
+       "type": "number",
+       "value": 34
+      },
+      {
+       "name": "Spread",
+       "type": "number",
+       "value": 6
+      }
+     ]
+    },
+    {
+     "name": "Laser",
+     "type": "structure",
+     "children": [
+      {
+       "name": "Label",
+       "type": "string",
+       "value": "LASER"
+      },
+      {
+       "name": "Key",
+       "type": "string",
+       "value": "Num3"
+      },
+      {
+       "name": "Unlocked",
+       "type": "number",
+       "value": 1
+      },
+      {
+       "name": "Duration",
+       "type": "number",
+       "value": 2.5
+      },
+      {
+       "name": "Cooldown",
+       "type": "number",
+       "value": 22
+      },
+      {
+       "name": "Range",
+       "type": "number",
+       "value": 480
+      },
+      {
+       "name": "Dps",
+       "type": "number",
+       "value": 14
+      }
+     ]
+    }
+   ]
   }
  ],
  "layouts": [
@@ -1906,6 +2134,71 @@
      "name": "PickupRadius",
      "type": "number",
      "value": 90
+    },
+    {
+     "name": "Ram_Time",
+     "type": "number",
+     "value": 0
+    },
+    {
+     "name": "Salvo_Time",
+     "type": "number",
+     "value": 0
+    },
+    {
+     "name": "Laser_Time",
+     "type": "number",
+     "value": 0
+    },
+    {
+     "name": "Ram_Cool",
+     "type": "number",
+     "value": 0
+    },
+    {
+     "name": "Salvo_Cool",
+     "type": "number",
+     "value": 0
+    },
+    {
+     "name": "Laser_Cool",
+     "type": "number",
+     "value": 0
+    },
+    {
+     "name": "Salvo_Left",
+     "type": "number",
+     "value": 0
+    },
+    {
+     "name": "Salvo_Timer",
+     "type": "number",
+     "value": 0
+    },
+    {
+     "name": "PowerUsed",
+     "type": "number",
+     "value": 0
+    },
+    {
+     "name": "RocketStep",
+     "type": "number",
+     "value": 0
+    },
+    {
+     "name": "RocketHit",
+     "type": "number",
+     "value": 0
+    },
+    {
+     "name": "RocketsFired",
+     "type": "number",
+     "value": 0
+    },
+    {
+     "name": "Blasts",
+     "type": "number",
+     "value": 0
     }
    ],
    "instances": [
@@ -2039,6 +2332,185 @@
     },
     {
      "angle": 0,
+     "customSize": true,
+     "height": 60,
+     "width": 150,
+     "layer": "UI",
+     "locked": false,
+     "name": "PowerButton",
+     "persistentUuid": "84a462b7-b2b2-5a74-aefa-ff53158096d7",
+     "x": 22,
+     "y": 892,
+     "zOrder": 20,
+     "numberProperties": [
+      {
+       "name": "animation",
+       "value": 0
+      }
+     ],
+     "stringProperties": [],
+     "initialVariables": [
+      {
+       "name": "Row",
+       "type": "number",
+       "value": 0
+      }
+     ]
+    },
+    {
+     "angle": 0,
+     "customSize": true,
+     "height": 60,
+     "width": 150,
+     "layer": "UI",
+     "locked": false,
+     "name": "PowerShade",
+     "persistentUuid": "1d430281-7862-5aba-9b74-590a66656c11",
+     "x": 22,
+     "y": 892,
+     "zOrder": 21,
+     "numberProperties": [],
+     "stringProperties": [],
+     "initialVariables": [
+      {
+       "name": "Row",
+       "type": "number",
+       "value": 0
+      }
+     ]
+    },
+    {
+     "angle": 0,
+     "customSize": true,
+     "height": 60,
+     "width": 150,
+     "layer": "UI",
+     "locked": false,
+     "name": "PowerButton",
+     "persistentUuid": "bc14e33d-5ee8-563b-aadb-e9bd3cd3ff22",
+     "x": 194,
+     "y": 892,
+     "zOrder": 20,
+     "numberProperties": [
+      {
+       "name": "animation",
+       "value": 1
+      }
+     ],
+     "stringProperties": [],
+     "initialVariables": [
+      {
+       "name": "Row",
+       "type": "number",
+       "value": 1
+      }
+     ]
+    },
+    {
+     "angle": 0,
+     "customSize": true,
+     "height": 60,
+     "width": 150,
+     "layer": "UI",
+     "locked": false,
+     "name": "PowerShade",
+     "persistentUuid": "5c2c27c5-8cd2-5ebb-bf8b-1473108b6547",
+     "x": 194,
+     "y": 892,
+     "zOrder": 21,
+     "numberProperties": [],
+     "stringProperties": [],
+     "initialVariables": [
+      {
+       "name": "Row",
+       "type": "number",
+       "value": 1
+      }
+     ]
+    },
+    {
+     "angle": 0,
+     "customSize": true,
+     "height": 60,
+     "width": 150,
+     "layer": "UI",
+     "locked": false,
+     "name": "PowerButton",
+     "persistentUuid": "400dbb7a-394c-5dc4-91f3-6580b0882557",
+     "x": 366,
+     "y": 892,
+     "zOrder": 20,
+     "numberProperties": [
+      {
+       "name": "animation",
+       "value": 2
+      }
+     ],
+     "stringProperties": [],
+     "initialVariables": [
+      {
+       "name": "Row",
+       "type": "number",
+       "value": 2
+      }
+     ]
+    },
+    {
+     "angle": 0,
+     "customSize": true,
+     "height": 60,
+     "width": 150,
+     "layer": "UI",
+     "locked": false,
+     "name": "PowerShade",
+     "persistentUuid": "f6ba451d-06ce-5cfc-9976-e1e9466ab26a",
+     "x": 366,
+     "y": 892,
+     "zOrder": 21,
+     "numberProperties": [],
+     "stringProperties": [],
+     "initialVariables": [
+      {
+       "name": "Row",
+       "type": "number",
+       "value": 2
+      }
+     ]
+    },
+    {
+     "angle": 0,
+     "customSize": false,
+     "height": 0,
+     "width": 0,
+     "layer": "",
+     "locked": false,
+     "name": "Ram",
+     "persistentUuid": "e1f6d224-d634-5e22-9dd6-d199bf0b56eb",
+     "x": -500,
+     "y": -500,
+     "zOrder": 24,
+     "numberProperties": [],
+     "stringProperties": [],
+     "initialVariables": []
+    },
+    {
+     "angle": 0,
+     "customSize": false,
+     "height": 0,
+     "width": 0,
+     "layer": "",
+     "locked": false,
+     "name": "LaserBeam",
+     "persistentUuid": "8b49f626-08f6-5723-9a57-17325eeef28a",
+     "x": -500,
+     "y": -800,
+     "zOrder": 24,
+     "numberProperties": [],
+     "stringProperties": [],
+     "initialVariables": []
+    },
+    {
+     "angle": 0,
      "customSize": false,
      "height": 0,
      "width": 0,
@@ -2157,9 +2629,9 @@
      "layer": "UI",
      "locked": false,
      "name": "HintText",
-     "persistentUuid": "f76b5762-8e10-53ff-9083-01e6b57cdcb0",
+     "persistentUuid": "e7bd1bd7-1dd7-5261-943a-9c4807db7cb7",
      "x": 70,
-     "y": 880,
+     "y": 820,
      "zOrder": 5,
      "numberProperties": [],
      "stringProperties": [],
@@ -2756,6 +3228,340 @@
           {
            "hasCustomCollisionMask": false,
            "image": "crack_2.png",
+           "points": [],
+           "originPoint": {
+            "name": "origine",
+            "x": 0,
+            "y": 0
+           },
+           "centerPoint": {
+            "automatic": true,
+            "name": "centre",
+            "x": 0,
+            "y": 0
+           },
+           "customCollisionMask": []
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "assetStoreId": "",
+     "name": "Ram",
+     "persistentUuid": "c713a45e-2350-5f54-9c44-20ae4426ecbc",
+     "type": "Sprite",
+     "variables": [],
+     "effects": [],
+     "behaviors": [],
+     "adaptCollisionMaskAutomatically": false,
+     "updateIfNotVisible": false,
+     "animations": [
+      {
+       "name": "Idle",
+       "useMultipleDirections": false,
+       "directions": [
+        {
+         "looping": false,
+         "timeBetweenFrames": 1,
+         "sprites": [
+          {
+           "hasCustomCollisionMask": false,
+           "image": "power_ram.png",
+           "points": [],
+           "originPoint": {
+            "name": "origine",
+            "x": 0,
+            "y": 0
+           },
+           "centerPoint": {
+            "automatic": true,
+            "name": "centre",
+            "x": 0,
+            "y": 0
+           },
+           "customCollisionMask": []
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "assetStoreId": "",
+     "name": "Rocket",
+     "persistentUuid": "4c1a9e3d-56d6-527c-abcc-b2ca00fc6d2a",
+     "type": "Sprite",
+     "variables": [
+      {
+       "name": "Extra",
+       "type": "number",
+       "value": 0
+      }
+     ],
+     "effects": [],
+     "behaviors": [],
+     "adaptCollisionMaskAutomatically": false,
+     "updateIfNotVisible": false,
+     "animations": [
+      {
+       "name": "Fly",
+       "useMultipleDirections": false,
+       "directions": [
+        {
+         "looping": false,
+         "timeBetweenFrames": 1,
+         "sprites": [
+          {
+           "hasCustomCollisionMask": false,
+           "image": "power_rocket.png",
+           "points": [],
+           "originPoint": {
+            "name": "origine",
+            "x": 13,
+            "y": 3
+           },
+           "centerPoint": {
+            "automatic": true,
+            "name": "centre",
+            "x": 0,
+            "y": 0
+           },
+           "customCollisionMask": []
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "assetStoreId": "",
+     "name": "Blast",
+     "persistentUuid": "a5726543-8fac-5bfa-8fb0-9564ea596a03",
+     "type": "Sprite",
+     "variables": [
+      {
+       "name": "Life",
+       "type": "number",
+       "value": 0
+      }
+     ],
+     "effects": [],
+     "behaviors": [],
+     "adaptCollisionMaskAutomatically": false,
+     "updateIfNotVisible": false,
+     "animations": [
+      {
+       "name": "Boom",
+       "useMultipleDirections": false,
+       "directions": [
+        {
+         "looping": false,
+         "timeBetweenFrames": 1,
+         "sprites": [
+          {
+           "hasCustomCollisionMask": false,
+           "image": "power_blast.png",
+           "points": [],
+           "originPoint": {
+            "name": "origine",
+            "x": 32,
+            "y": 32
+           },
+           "centerPoint": {
+            "automatic": true,
+            "name": "centre",
+            "x": 0,
+            "y": 0
+           },
+           "customCollisionMask": []
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "assetStoreId": "",
+     "name": "LaserBeam",
+     "persistentUuid": "b163edfc-c77b-5dc5-9eda-6e8e26ec42a5",
+     "type": "Sprite",
+     "variables": [],
+     "effects": [],
+     "behaviors": [],
+     "adaptCollisionMaskAutomatically": false,
+     "updateIfNotVisible": false,
+     "animations": [
+      {
+       "name": "Beam",
+       "useMultipleDirections": false,
+       "directions": [
+        {
+         "looping": false,
+         "timeBetweenFrames": 1,
+         "sprites": [
+          {
+           "hasCustomCollisionMask": false,
+           "image": "power_laser.png",
+           "points": [],
+           "originPoint": {
+            "name": "origine",
+            "x": 0,
+            "y": 4
+           },
+           "centerPoint": {
+            "automatic": false,
+            "name": "centre",
+            "x": 0,
+            "y": 4
+           },
+           "customCollisionMask": []
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "assetStoreId": "",
+     "name": "PowerButton",
+     "persistentUuid": "b4740caa-47cd-521d-a90a-00edc1b3ae97",
+     "type": "Sprite",
+     "variables": [
+      {
+       "name": "Row",
+       "type": "number",
+       "value": 0
+      }
+     ],
+     "effects": [],
+     "behaviors": [],
+     "adaptCollisionMaskAutomatically": false,
+     "updateIfNotVisible": false,
+     "animations": [
+      {
+       "name": "Ram",
+       "useMultipleDirections": false,
+       "directions": [
+        {
+         "looping": false,
+         "timeBetweenFrames": 1,
+         "sprites": [
+          {
+           "hasCustomCollisionMask": false,
+           "image": "power_button_ram.png",
+           "points": [],
+           "originPoint": {
+            "name": "origine",
+            "x": 0,
+            "y": 0
+           },
+           "centerPoint": {
+            "automatic": true,
+            "name": "centre",
+            "x": 0,
+            "y": 0
+           },
+           "customCollisionMask": []
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "name": "Salvo",
+       "useMultipleDirections": false,
+       "directions": [
+        {
+         "looping": false,
+         "timeBetweenFrames": 1,
+         "sprites": [
+          {
+           "hasCustomCollisionMask": false,
+           "image": "power_button_salvo.png",
+           "points": [],
+           "originPoint": {
+            "name": "origine",
+            "x": 0,
+            "y": 0
+           },
+           "centerPoint": {
+            "automatic": true,
+            "name": "centre",
+            "x": 0,
+            "y": 0
+           },
+           "customCollisionMask": []
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "name": "Laser",
+       "useMultipleDirections": false,
+       "directions": [
+        {
+         "looping": false,
+         "timeBetweenFrames": 1,
+         "sprites": [
+          {
+           "hasCustomCollisionMask": false,
+           "image": "power_button_laser.png",
+           "points": [],
+           "originPoint": {
+            "name": "origine",
+            "x": 0,
+            "y": 0
+           },
+           "centerPoint": {
+            "automatic": true,
+            "name": "centre",
+            "x": 0,
+            "y": 0
+           },
+           "customCollisionMask": []
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "assetStoreId": "",
+     "name": "PowerShade",
+     "persistentUuid": "82ad0b7d-e00f-53f3-8ba9-16c70ddb635c",
+     "type": "Sprite",
+     "variables": [
+      {
+       "name": "Row",
+       "type": "number",
+       "value": 0
+      }
+     ],
+     "effects": [],
+     "behaviors": [],
+     "adaptCollisionMaskAutomatically": false,
+     "updateIfNotVisible": false,
+     "animations": [
+      {
+       "name": "Idle",
+       "useMultipleDirections": false,
+       "directions": [
+        {
+         "looping": false,
+         "timeBetweenFrames": 1,
+         "sprites": [
+          {
+           "hasCustomCollisionMask": false,
+           "image": "power_shade.png",
            "points": [],
            "originPoint": {
             "name": "origine",
@@ -3939,6 +4745,24 @@
       "objectName": "Crack"
      },
      {
+      "objectName": "Ram"
+     },
+     {
+      "objectName": "Rocket"
+     },
+     {
+      "objectName": "Blast"
+     },
+     {
+      "objectName": "LaserBeam"
+     },
+     {
+      "objectName": "PowerButton"
+     },
+     {
+      "objectName": "PowerShade"
+     },
+     {
       "objectName": "Gem"
      },
      {
@@ -4060,14 +4884,14 @@
      "include": {
       "includeConfig": 0
      },
-     "target": "TowerController"
+     "target": "TurretController"
     },
     {
      "type": "BuiltinCommonInstructions::Link",
      "include": {
       "includeConfig": 0
      },
-     "target": "TurretController"
+     "target": "PowerUps"
     },
     {
      "type": "BuiltinCommonInstructions::Link",
@@ -4082,6 +4906,13 @@
       "includeConfig": 0
      },
      "target": "ObstacleGrid"
+    },
+    {
+     "type": "BuiltinCommonInstructions::Link",
+     "include": {
+      "includeConfig": 0
+     },
+     "target": "TowerController"
     },
     {
      "type": "BuiltinCommonInstructions::Link",
@@ -10153,179 +10984,6 @@
   {
    "associatedLayout": "Game",
    "lastChangeTimeStamp": 0,
-   "name": "TowerController",
-   "events": [
-    {
-     "type": "BuiltinCommonInstructions::Comment",
-     "color": {
-      "b": 109,
-      "g": 230,
-      "r": 255,
-      "textB": 0,
-      "textG": 0,
-      "textR": 0
-     },
-     "comment": "TOWER CONTROLLER - owns: TowerStep, Blocked.\nThe tower drives right at Tuning.TowerSpeed. Each frame it moves, and if its collision mask (the chassis, 44 x 80 px) now overlaps any surviving Cell it moves back and counts as blocked. A step is at most TowerSpeed x MaxFrameTime (about 4 px), smaller than a cell, so it can never skip through one. The tower fits through an opening at least 7 cells (84 px) high."
-    },
-    {
-     "type": "BuiltinCommonInstructions::Standard",
-     "conditions": [
-      {
-       "type": {
-        "inverted": false,
-        "value": "StringVariable"
-       },
-       "parameters": [
-        "State",
-        "=",
-        "\"Run\""
-       ]
-      }
-     ],
-     "actions": [
-      {
-       "type": {
-        "inverted": false,
-        "value": "SetNumberVariable"
-       },
-       "parameters": [
-        "TowerStep",
-        "=",
-        "Variable(TowerSpeed) * Variable(Dt)"
-       ]
-      },
-      {
-       "type": {
-        "inverted": false,
-        "value": "SetNumberVariable"
-       },
-       "parameters": [
-        "Blocked",
-        "=",
-        "0"
-       ]
-      },
-      {
-       "type": {
-        "inverted": false,
-        "value": "MettreX"
-       },
-       "parameters": [
-        "Tower",
-        "+",
-        "Variable(TowerStep)"
-       ]
-      }
-     ],
-     "events": [
-      {
-       "type": "BuiltinCommonInstructions::Standard",
-       "conditions": [
-        {
-         "type": {
-          "inverted": false,
-          "value": "CollisionNP"
-         },
-         "parameters": [
-          "Tower",
-          "Cell",
-          "",
-          "",
-          ""
-         ]
-        }
-       ],
-       "actions": [
-        {
-         "type": {
-          "inverted": false,
-          "value": "MettreX"
-         },
-         "parameters": [
-          "Tower",
-          "-",
-          "Variable(TowerStep)"
-         ]
-        },
-        {
-         "type": {
-          "inverted": false,
-          "value": "SetNumberVariable"
-         },
-         "parameters": [
-          "Blocked",
-          "=",
-          "1"
-         ]
-        }
-       ],
-       "events": []
-      },
-      {
-       "type": "BuiltinCommonInstructions::Standard",
-       "conditions": [
-        {
-         "type": {
-          "inverted": false,
-          "value": "NumberVariable"
-         },
-         "parameters": [
-          "Blocked",
-          "=",
-          "0"
-         ]
-        }
-       ],
-       "actions": [
-        {
-         "type": {
-          "inverted": false,
-          "value": "AnimatableCapability::AnimatableBehavior::PlayAnimation"
-         },
-         "parameters": [
-          "Tower",
-          "Animation"
-         ]
-        }
-       ],
-       "events": []
-      },
-      {
-       "type": "BuiltinCommonInstructions::Standard",
-       "conditions": [
-        {
-         "type": {
-          "inverted": false,
-          "value": "NumberVariable"
-         },
-         "parameters": [
-          "Blocked",
-          "=",
-          "1"
-         ]
-        }
-       ],
-       "actions": [
-        {
-         "type": {
-          "inverted": false,
-          "value": "AnimatableCapability::AnimatableBehavior::PauseAnimation"
-         },
-         "parameters": [
-          "Tower",
-          "Animation"
-         ]
-        }
-       ],
-       "events": []
-      }
-     ]
-    }
-   ]
-  },
-  {
-   "associatedLayout": "Game",
-   "lastChangeTimeStamp": 0,
    "name": "TurretController",
    "events": [
     {
@@ -10781,7 +11439,38 @@
           "=",
           "Tower.PointY(\"TurretMount\")"
          ]
-        },
+        }
+       ],
+       "events": []
+      },
+      {
+       "type": "BuiltinCommonInstructions::Comment",
+       "color": {
+        "b": 109,
+        "g": 230,
+        "r": 255,
+        "textB": 0,
+        "textG": 0,
+        "textR": 0
+       },
+       "comment": "Taps in the button strip at the bottom (Tuning.ButtonStripY) don't move the aim."
+      },
+      {
+       "type": "BuiltinCommonInstructions::Standard",
+       "conditions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "BuiltinCommonInstructions::CompareNumbers"
+         },
+         "parameters": [
+          "CursorY(\"UI\", 0)",
+          "<",
+          "GlobalVariable(Tuning.ButtonStripY)"
+         ]
+        }
+       ],
+       "actions": [
         {
          "type": {
           "inverted": false,
@@ -11090,6 +11779,28 @@
           ">",
           "96"
          ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "BuiltinCommonInstructions::CompareNumbers"
+         },
+         "parameters": [
+          "CursorY(\"UI\", 0)",
+          "<",
+          "GlobalVariable(Tuning.ButtonStripY)"
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "NumberVariable"
+         },
+         "parameters": [
+          "Laser_Time",
+          "<=",
+          "0"
+         ]
         }
        ],
        "actions": [
@@ -11334,6 +12045,2308 @@
   {
    "associatedLayout": "Game",
    "lastChangeTimeStamp": 0,
+   "name": "PowerUps",
+   "events": [
+    {
+     "type": "BuiltinCommonInstructions::Comment",
+     "color": {
+      "b": 109,
+      "g": 230,
+      "r": 255,
+      "textB": 0,
+      "textG": 0,
+      "textR": 0
+     },
+     "comment": "POWER-UPS - owns: <Power>_Time (seconds left active), <Power>_Cool (seconds until ready), Salvo_Left, Salvo_Timer, PowerUsed, RocketsFired, Blasts, and the Ram, Rocket, Blast, LaserBeam objects and the power buttons.\nTap a button in the bottom strip (or press 1/2/3) when it is ready: it fires, then recharges for PowerUps.<Power>.Cooldown seconds (the dark shade drains). Settings: the global variable PowerUps (Unlocked = 1 shows the button). Power-ups only lower Cell.HP; ObstacleGrid breaks the cells."
+    },
+    {
+     "type": "BuiltinCommonInstructions::Standard",
+     "conditions": [
+      {
+       "type": {
+        "inverted": false,
+        "value": "SceneJustBegins"
+       },
+       "parameters": [
+        ""
+       ]
+      }
+     ],
+     "actions": [
+      {
+       "type": {
+        "inverted": false,
+        "value": "SetNumberVariable"
+       },
+       "parameters": [
+        "Ram_Cool",
+        "=",
+        "GlobalVariable(PowerUps.Ram.Cooldown) * (1 - GlobalVariable(Tuning.PowerStartCharged))"
+       ]
+      },
+      {
+       "type": {
+        "inverted": false,
+        "value": "SetNumberVariable"
+       },
+       "parameters": [
+        "Salvo_Cool",
+        "=",
+        "GlobalVariable(PowerUps.Salvo.Cooldown) * (1 - GlobalVariable(Tuning.PowerStartCharged))"
+       ]
+      },
+      {
+       "type": {
+        "inverted": false,
+        "value": "SetNumberVariable"
+       },
+       "parameters": [
+        "Laser_Cool",
+        "=",
+        "GlobalVariable(PowerUps.Laser.Cooldown) * (1 - GlobalVariable(Tuning.PowerStartCharged))"
+       ]
+      }
+     ],
+     "events": [
+      {
+       "type": "BuiltinCommonInstructions::Standard",
+       "conditions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "NumberObjectVariable"
+         },
+         "parameters": [
+          "PowerButton",
+          "Row",
+          "=",
+          "0"
+         ]
+        }
+       ],
+       "actions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "AnimatableCapability::AnimatableBehavior::SetIndex"
+         },
+         "parameters": [
+          "PowerButton",
+          "Animation",
+          "=",
+          "0"
+         ]
+        }
+       ],
+       "events": []
+      },
+      {
+       "type": "BuiltinCommonInstructions::Standard",
+       "conditions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "NumberObjectVariable"
+         },
+         "parameters": [
+          "PowerButton",
+          "Row",
+          "=",
+          "1"
+         ]
+        }
+       ],
+       "actions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "AnimatableCapability::AnimatableBehavior::SetIndex"
+         },
+         "parameters": [
+          "PowerButton",
+          "Animation",
+          "=",
+          "1"
+         ]
+        }
+       ],
+       "events": []
+      },
+      {
+       "type": "BuiltinCommonInstructions::Standard",
+       "conditions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "NumberObjectVariable"
+         },
+         "parameters": [
+          "PowerButton",
+          "Row",
+          "=",
+          "2"
+         ]
+        }
+       ],
+       "actions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "AnimatableCapability::AnimatableBehavior::SetIndex"
+         },
+         "parameters": [
+          "PowerButton",
+          "Animation",
+          "=",
+          "2"
+         ]
+        }
+       ],
+       "events": []
+      }
+     ]
+    },
+    {
+     "type": "BuiltinCommonInstructions::Standard",
+     "conditions": [],
+     "actions": [
+      {
+       "type": {
+        "inverted": false,
+        "value": "SetNumberVariable"
+       },
+       "parameters": [
+        "Ram_Cool",
+        "=",
+        "max(0, Variable(Ram_Cool) - Variable(Dt))"
+       ]
+      },
+      {
+       "type": {
+        "inverted": false,
+        "value": "SetNumberVariable"
+       },
+       "parameters": [
+        "Salvo_Cool",
+        "=",
+        "max(0, Variable(Salvo_Cool) - Variable(Dt))"
+       ]
+      },
+      {
+       "type": {
+        "inverted": false,
+        "value": "SetNumberVariable"
+       },
+       "parameters": [
+        "Laser_Cool",
+        "=",
+        "max(0, Variable(Laser_Cool) - Variable(Dt))"
+       ]
+      },
+      {
+       "type": {
+        "inverted": false,
+        "value": "SetNumberVariable"
+       },
+       "parameters": [
+        "Ram_Time",
+        "=",
+        "max(0, Variable(Ram_Time) - Variable(Dt))"
+       ]
+      },
+      {
+       "type": {
+        "inverted": false,
+        "value": "SetNumberVariable"
+       },
+       "parameters": [
+        "Salvo_Time",
+        "=",
+        "max(0, Variable(Salvo_Time) - Variable(Dt))"
+       ]
+      },
+      {
+       "type": {
+        "inverted": false,
+        "value": "SetNumberVariable"
+       },
+       "parameters": [
+        "Laser_Time",
+        "=",
+        "max(0, Variable(Laser_Time) - Variable(Dt))"
+       ]
+      }
+     ],
+     "events": []
+    },
+    {
+     "type": "BuiltinCommonInstructions::Group",
+     "name": "Activate RAM",
+     "source": "",
+     "folded": false,
+     "colorR": 74,
+     "colorG": 112,
+     "colorB": 150,
+     "creationTime": 0,
+     "events": [
+      {
+       "type": "BuiltinCommonInstructions::Standard",
+       "conditions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "MouseButtonFromTextReleased"
+         },
+         "parameters": [
+          "",
+          "\"Left\""
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "IsCursorOnObject"
+         },
+         "parameters": [
+          "PowerButton",
+          "",
+          "",
+          ""
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "NumberObjectVariable"
+         },
+         "parameters": [
+          "PowerButton",
+          "Row",
+          "=",
+          "0"
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "BuiltinCommonInstructions::CompareNumbers"
+         },
+         "parameters": [
+          "CursorY(\"UI\", 0)",
+          ">=",
+          "GlobalVariable(Tuning.ButtonStripY)"
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "StringVariable"
+         },
+         "parameters": [
+          "State",
+          "=",
+          "\"Run\""
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "NumberVariable"
+         },
+         "parameters": [
+          "Ram_Cool",
+          "<=",
+          "0"
+         ]
+        }
+       ],
+       "actions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "SetNumberVariable"
+         },
+         "parameters": [
+          "Ram_Cool",
+          "=",
+          "GlobalVariable(PowerUps.Ram.Cooldown)"
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "SetNumberVariable"
+         },
+         "parameters": [
+          "Ram_Time",
+          "=",
+          "GlobalVariable(PowerUps.Ram.Duration)"
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "SetNumberVariable"
+         },
+         "parameters": [
+          "PowerUsed",
+          "+",
+          "1"
+         ]
+        }
+       ],
+       "events": []
+      },
+      {
+       "type": "BuiltinCommonInstructions::Standard",
+       "conditions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "KeyFromTextJustPressed"
+         },
+         "parameters": [
+          "",
+          "\"Num1\""
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "StringVariable"
+         },
+         "parameters": [
+          "State",
+          "=",
+          "\"Run\""
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "NumberVariable"
+         },
+         "parameters": [
+          "Ram_Cool",
+          "<=",
+          "0"
+         ]
+        }
+       ],
+       "actions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "SetNumberVariable"
+         },
+         "parameters": [
+          "Ram_Cool",
+          "=",
+          "GlobalVariable(PowerUps.Ram.Cooldown)"
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "SetNumberVariable"
+         },
+         "parameters": [
+          "Ram_Time",
+          "=",
+          "GlobalVariable(PowerUps.Ram.Duration)"
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "SetNumberVariable"
+         },
+         "parameters": [
+          "PowerUsed",
+          "+",
+          "1"
+         ]
+        }
+       ],
+       "events": []
+      }
+     ]
+    },
+    {
+     "type": "BuiltinCommonInstructions::Group",
+     "name": "Activate ROCKETS",
+     "source": "",
+     "folded": false,
+     "colorR": 74,
+     "colorG": 112,
+     "colorB": 150,
+     "creationTime": 0,
+     "events": [
+      {
+       "type": "BuiltinCommonInstructions::Standard",
+       "conditions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "MouseButtonFromTextReleased"
+         },
+         "parameters": [
+          "",
+          "\"Left\""
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "IsCursorOnObject"
+         },
+         "parameters": [
+          "PowerButton",
+          "",
+          "",
+          ""
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "NumberObjectVariable"
+         },
+         "parameters": [
+          "PowerButton",
+          "Row",
+          "=",
+          "1"
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "BuiltinCommonInstructions::CompareNumbers"
+         },
+         "parameters": [
+          "CursorY(\"UI\", 0)",
+          ">=",
+          "GlobalVariable(Tuning.ButtonStripY)"
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "StringVariable"
+         },
+         "parameters": [
+          "State",
+          "=",
+          "\"Run\""
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "NumberVariable"
+         },
+         "parameters": [
+          "Salvo_Cool",
+          "<=",
+          "0"
+         ]
+        }
+       ],
+       "actions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "SetNumberVariable"
+         },
+         "parameters": [
+          "Salvo_Cool",
+          "=",
+          "GlobalVariable(PowerUps.Salvo.Cooldown)"
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "SetNumberVariable"
+         },
+         "parameters": [
+          "Salvo_Time",
+          "=",
+          "GlobalVariable(PowerUps.Salvo.Duration)"
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "SetNumberVariable"
+         },
+         "parameters": [
+          "PowerUsed",
+          "+",
+          "1"
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "SetNumberVariable"
+         },
+         "parameters": [
+          "Salvo_Left",
+          "=",
+          "GlobalVariable(PowerUps.Salvo.Rockets)"
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "SetNumberVariable"
+         },
+         "parameters": [
+          "Salvo_Timer",
+          "=",
+          "0"
+         ]
+        }
+       ],
+       "events": []
+      },
+      {
+       "type": "BuiltinCommonInstructions::Standard",
+       "conditions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "KeyFromTextJustPressed"
+         },
+         "parameters": [
+          "",
+          "\"Num2\""
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "StringVariable"
+         },
+         "parameters": [
+          "State",
+          "=",
+          "\"Run\""
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "NumberVariable"
+         },
+         "parameters": [
+          "Salvo_Cool",
+          "<=",
+          "0"
+         ]
+        }
+       ],
+       "actions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "SetNumberVariable"
+         },
+         "parameters": [
+          "Salvo_Cool",
+          "=",
+          "GlobalVariable(PowerUps.Salvo.Cooldown)"
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "SetNumberVariable"
+         },
+         "parameters": [
+          "Salvo_Time",
+          "=",
+          "GlobalVariable(PowerUps.Salvo.Duration)"
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "SetNumberVariable"
+         },
+         "parameters": [
+          "PowerUsed",
+          "+",
+          "1"
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "SetNumberVariable"
+         },
+         "parameters": [
+          "Salvo_Left",
+          "=",
+          "GlobalVariable(PowerUps.Salvo.Rockets)"
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "SetNumberVariable"
+         },
+         "parameters": [
+          "Salvo_Timer",
+          "=",
+          "0"
+         ]
+        }
+       ],
+       "events": []
+      }
+     ]
+    },
+    {
+     "type": "BuiltinCommonInstructions::Group",
+     "name": "Activate LASER",
+     "source": "",
+     "folded": false,
+     "colorR": 74,
+     "colorG": 112,
+     "colorB": 150,
+     "creationTime": 0,
+     "events": [
+      {
+       "type": "BuiltinCommonInstructions::Standard",
+       "conditions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "MouseButtonFromTextReleased"
+         },
+         "parameters": [
+          "",
+          "\"Left\""
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "IsCursorOnObject"
+         },
+         "parameters": [
+          "PowerButton",
+          "",
+          "",
+          ""
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "NumberObjectVariable"
+         },
+         "parameters": [
+          "PowerButton",
+          "Row",
+          "=",
+          "2"
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "BuiltinCommonInstructions::CompareNumbers"
+         },
+         "parameters": [
+          "CursorY(\"UI\", 0)",
+          ">=",
+          "GlobalVariable(Tuning.ButtonStripY)"
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "StringVariable"
+         },
+         "parameters": [
+          "State",
+          "=",
+          "\"Run\""
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "NumberVariable"
+         },
+         "parameters": [
+          "Laser_Cool",
+          "<=",
+          "0"
+         ]
+        }
+       ],
+       "actions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "SetNumberVariable"
+         },
+         "parameters": [
+          "Laser_Cool",
+          "=",
+          "GlobalVariable(PowerUps.Laser.Cooldown)"
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "SetNumberVariable"
+         },
+         "parameters": [
+          "Laser_Time",
+          "=",
+          "GlobalVariable(PowerUps.Laser.Duration)"
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "SetNumberVariable"
+         },
+         "parameters": [
+          "PowerUsed",
+          "+",
+          "1"
+         ]
+        }
+       ],
+       "events": []
+      },
+      {
+       "type": "BuiltinCommonInstructions::Standard",
+       "conditions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "KeyFromTextJustPressed"
+         },
+         "parameters": [
+          "",
+          "\"Num3\""
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "StringVariable"
+         },
+         "parameters": [
+          "State",
+          "=",
+          "\"Run\""
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "NumberVariable"
+         },
+         "parameters": [
+          "Laser_Cool",
+          "<=",
+          "0"
+         ]
+        }
+       ],
+       "actions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "SetNumberVariable"
+         },
+         "parameters": [
+          "Laser_Cool",
+          "=",
+          "GlobalVariable(PowerUps.Laser.Cooldown)"
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "SetNumberVariable"
+         },
+         "parameters": [
+          "Laser_Time",
+          "=",
+          "GlobalVariable(PowerUps.Laser.Duration)"
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "SetNumberVariable"
+         },
+         "parameters": [
+          "PowerUsed",
+          "+",
+          "1"
+         ]
+        }
+       ],
+       "events": []
+      }
+     ]
+    },
+    {
+     "type": "BuiltinCommonInstructions::Group",
+     "name": "Ram: a plough on the tower front crushes the low cells it touches",
+     "source": "",
+     "folded": false,
+     "colorR": 74,
+     "colorG": 112,
+     "colorB": 150,
+     "creationTime": 0,
+     "events": [
+      {
+       "type": "BuiltinCommonInstructions::Standard",
+       "conditions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "NumberVariable"
+         },
+         "parameters": [
+          "Ram_Time",
+          ">",
+          "0"
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "StringVariable"
+         },
+         "parameters": [
+          "State",
+          "=",
+          "\"Run\""
+         ]
+        }
+       ],
+       "actions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "Show"
+         },
+         "parameters": [
+          "Ram",
+          ""
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "SetXY"
+         },
+         "parameters": [
+          "Ram",
+          "=",
+          "Tower.X() + 22",
+          "=",
+          "GlobalVariable(Tuning.GroundY) - GlobalVariable(PowerUps.Ram.Height)"
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "ResizableCapability::ResizableBehavior::SetSize"
+         },
+         "parameters": [
+          "Ram",
+          "Resizable",
+          "GlobalVariable(PowerUps.Ram.Reach)",
+          "GlobalVariable(PowerUps.Ram.Height)"
+         ]
+        }
+       ],
+       "events": [
+        {
+         "type": "BuiltinCommonInstructions::Standard",
+         "conditions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "CollisionNP"
+           },
+           "parameters": [
+            "Ram",
+            "Cell",
+            "",
+            "",
+            ""
+           ]
+          }
+         ],
+         "actions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "SetNumberObjectVariable"
+           },
+           "parameters": [
+            "Cell",
+            "HP",
+            "-",
+            "GlobalVariable(PowerUps.Ram.Dps) * Variable(Dt)"
+           ]
+          }
+         ],
+         "events": []
+        }
+       ]
+      },
+      {
+       "type": "BuiltinCommonInstructions::Standard",
+       "conditions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "NumberVariable"
+         },
+         "parameters": [
+          "Ram_Time",
+          "<=",
+          "0"
+         ]
+        }
+       ],
+       "actions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "Hide"
+         },
+         "parameters": [
+          "Ram"
+         ]
+        }
+       ],
+       "events": []
+      }
+     ]
+    },
+    {
+     "type": "BuiltinCommonInstructions::Group",
+     "name": "Rocket salvo: rockets toward the aim, each exploding on the first cell it meets",
+     "source": "",
+     "folded": false,
+     "colorR": 74,
+     "colorG": 112,
+     "colorB": 150,
+     "creationTime": 0,
+     "events": [
+      {
+       "type": "BuiltinCommonInstructions::Standard",
+       "conditions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "NumberVariable"
+         },
+         "parameters": [
+          "Salvo_Left",
+          ">",
+          "0"
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "StringVariable"
+         },
+         "parameters": [
+          "State",
+          "=",
+          "\"Run\""
+         ]
+        }
+       ],
+       "actions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "SetNumberVariable"
+         },
+         "parameters": [
+          "Salvo_Timer",
+          "-",
+          "Variable(Dt)"
+         ]
+        }
+       ],
+       "events": [
+        {
+         "type": "BuiltinCommonInstructions::Standard",
+         "conditions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "NumberVariable"
+           },
+           "parameters": [
+            "Salvo_Timer",
+            "<=",
+            "0"
+           ]
+          }
+         ],
+         "actions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "Create"
+           },
+           "parameters": [
+            "",
+            "Rocket",
+            "Variable(PivotX)",
+            "Variable(PivotY)",
+            "\"\""
+           ]
+          },
+          {
+           "type": {
+            "inverted": false,
+            "value": "SetAngle"
+           },
+           "parameters": [
+            "Rocket",
+            "=",
+            "Variable(TurretAngle) + RandomFloatInRange(-GlobalVariable(PowerUps.Salvo.Spread), GlobalVariable(PowerUps.Salvo.Spread))"
+           ]
+          },
+          {
+           "type": {
+            "inverted": false,
+            "value": "SetNumberObjectVariable"
+           },
+           "parameters": [
+            "Rocket",
+            "Extra",
+            "=",
+            "GlobalVariable(Tuning.BarrelLength)"
+           ]
+          },
+          {
+           "type": {
+            "inverted": false,
+            "value": "SetZOrder"
+           },
+           "parameters": [
+            "Rocket",
+            "=",
+            "23"
+           ]
+          },
+          {
+           "type": {
+            "inverted": false,
+            "value": "SetNumberVariable"
+           },
+           "parameters": [
+            "Salvo_Left",
+            "-",
+            "1"
+           ]
+          },
+          {
+           "type": {
+            "inverted": false,
+            "value": "SetNumberVariable"
+           },
+           "parameters": [
+            "Salvo_Timer",
+            "+",
+            "GlobalVariable(PowerUps.Salvo.Interval)"
+           ]
+          },
+          {
+           "type": {
+            "inverted": false,
+            "value": "SetNumberVariable"
+           },
+           "parameters": [
+            "RocketsFired",
+            "+",
+            "1"
+           ]
+          }
+         ],
+         "events": []
+        }
+       ]
+      },
+      {
+       "type": "BuiltinCommonInstructions::Standard",
+       "conditions": [],
+       "actions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "SetNumberVariable"
+         },
+         "parameters": [
+          "RocketStep",
+          "=",
+          "GlobalVariable(PowerUps.Salvo.Speed) * Variable(Dt)"
+         ]
+        }
+       ],
+       "events": []
+      },
+      {
+       "type": "BuiltinCommonInstructions::ForEach",
+       "object": "Rocket",
+       "conditions": [],
+       "actions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "SetNumberVariable"
+         },
+         "parameters": [
+          "RocketHit",
+          "=",
+          "0"
+         ]
+        }
+       ],
+       "events": [
+        {
+         "type": "BuiltinCommonInstructions::Standard",
+         "conditions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "Raycast"
+           },
+           "parameters": [
+            "Cell",
+            "Rocket.X()",
+            "Rocket.Y()",
+            "Rocket.Angle()",
+            "Variable(RocketStep) + Rocket.Variable(Extra)",
+            "HitX",
+            "HitY",
+            ""
+           ]
+          }
+         ],
+         "actions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "SetNumberVariable"
+           },
+           "parameters": [
+            "RocketHit",
+            "=",
+            "1"
+           ]
+          }
+         ],
+         "events": []
+        },
+        {
+         "type": "BuiltinCommonInstructions::Standard",
+         "conditions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "NumberVariable"
+           },
+           "parameters": [
+            "RocketHit",
+            "=",
+            "0"
+           ]
+          },
+          {
+           "type": {
+            "inverted": false,
+            "value": "BuiltinCommonInstructions::CompareNumbers"
+           },
+           "parameters": [
+            "Rocket.Y() + sin(ToRad(Rocket.Angle())) * Variable(RocketStep)",
+            ">",
+            "GlobalVariable(Tuning.GroundY)"
+           ]
+          }
+         ],
+         "actions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "SetNumberVariable"
+           },
+           "parameters": [
+            "RocketHit",
+            "=",
+            "1"
+           ]
+          },
+          {
+           "type": {
+            "inverted": false,
+            "value": "SetNumberVariable"
+           },
+           "parameters": [
+            "HitX",
+            "=",
+            "Rocket.X()"
+           ]
+          },
+          {
+           "type": {
+            "inverted": false,
+            "value": "SetNumberVariable"
+           },
+           "parameters": [
+            "HitY",
+            "=",
+            "GlobalVariable(Tuning.GroundY)"
+           ]
+          }
+         ],
+         "events": []
+        },
+        {
+         "type": "BuiltinCommonInstructions::Standard",
+         "conditions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "NumberVariable"
+           },
+           "parameters": [
+            "RocketHit",
+            "=",
+            "1"
+           ]
+          }
+         ],
+         "actions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "Create"
+           },
+           "parameters": [
+            "",
+            "Blast",
+            "Variable(HitX)",
+            "Variable(HitY)",
+            "\"\""
+           ]
+          },
+          {
+           "type": {
+            "inverted": false,
+            "value": "SetZOrder"
+           },
+           "parameters": [
+            "Blast",
+            "=",
+            "28"
+           ]
+          },
+          {
+           "type": {
+            "inverted": false,
+            "value": "ResizableCapability::ResizableBehavior::SetSize"
+           },
+           "parameters": [
+            "Blast",
+            "Resizable",
+            "GlobalVariable(PowerUps.Salvo.Radius) * 2",
+            "GlobalVariable(PowerUps.Salvo.Radius) * 2"
+           ]
+          },
+          {
+           "type": {
+            "inverted": false,
+            "value": "Delete"
+           },
+           "parameters": [
+            "Rocket",
+            ""
+           ]
+          },
+          {
+           "type": {
+            "inverted": false,
+            "value": "SetNumberVariable"
+           },
+           "parameters": [
+            "Blasts",
+            "+",
+            "1"
+           ]
+          }
+         ],
+         "events": [
+          {
+           "type": "BuiltinCommonInstructions::Standard",
+           "conditions": [
+            {
+             "type": {
+              "inverted": false,
+              "value": "PickAllInstances"
+             },
+             "parameters": [
+              "",
+              "Cell"
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "Distance"
+             },
+             "parameters": [
+              "Cell",
+              "Blast",
+              "GlobalVariable(PowerUps.Salvo.Radius)",
+              ""
+             ]
+            }
+           ],
+           "actions": [
+            {
+             "type": {
+              "inverted": false,
+              "value": "SetNumberObjectVariable"
+             },
+             "parameters": [
+              "Cell",
+              "HP",
+              "-",
+              "GlobalVariable(PowerUps.Salvo.Damage)"
+             ]
+            }
+           ],
+           "events": []
+          }
+         ]
+        },
+        {
+         "type": "BuiltinCommonInstructions::Standard",
+         "conditions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "NumberVariable"
+           },
+           "parameters": [
+            "RocketHit",
+            "=",
+            "0"
+           ]
+          }
+         ],
+         "actions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "SetXY"
+           },
+           "parameters": [
+            "Rocket",
+            "=",
+            "Rocket.X() + cos(ToRad(Rocket.Angle())) * (Variable(RocketStep) + Rocket.Variable(Extra))",
+            "=",
+            "Rocket.Y() + sin(ToRad(Rocket.Angle())) * (Variable(RocketStep) + Rocket.Variable(Extra))"
+           ]
+          },
+          {
+           "type": {
+            "inverted": false,
+            "value": "SetNumberObjectVariable"
+           },
+           "parameters": [
+            "Rocket",
+            "Extra",
+            "=",
+            "0"
+           ]
+          }
+         ],
+         "events": []
+        }
+       ]
+      },
+      {
+       "type": "BuiltinCommonInstructions::Standard",
+       "conditions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "PosX"
+         },
+         "parameters": [
+          "Rocket",
+          ">",
+          "CameraX(\"\", 0) + 320"
+         ]
+        }
+       ],
+       "actions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "Delete"
+         },
+         "parameters": [
+          "Rocket",
+          ""
+         ]
+        }
+       ],
+       "events": []
+      },
+      {
+       "type": "BuiltinCommonInstructions::Standard",
+       "conditions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "PosY"
+         },
+         "parameters": [
+          "Rocket",
+          "<",
+          "-60"
+         ]
+        }
+       ],
+       "actions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "Delete"
+         },
+         "parameters": [
+          "Rocket",
+          ""
+         ]
+        }
+       ],
+       "events": []
+      },
+      {
+       "type": "BuiltinCommonInstructions::Standard",
+       "conditions": [],
+       "actions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "SetNumberObjectVariable"
+         },
+         "parameters": [
+          "Blast",
+          "Life",
+          "+",
+          "Variable(Dt)"
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "OpacityCapability::OpacityBehavior::SetValue"
+         },
+         "parameters": [
+          "Blast",
+          "Opacity",
+          "=",
+          "255 * (1 - Blast.Variable(Life) / 0.35)"
+         ]
+        }
+       ],
+       "events": []
+      },
+      {
+       "type": "BuiltinCommonInstructions::Standard",
+       "conditions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "NumberObjectVariable"
+         },
+         "parameters": [
+          "Blast",
+          "Life",
+          ">",
+          "0.35"
+         ]
+        }
+       ],
+       "actions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "Delete"
+         },
+         "parameters": [
+          "Blast",
+          ""
+         ]
+        }
+       ],
+       "events": []
+      }
+     ]
+    },
+    {
+     "type": "BuiltinCommonInstructions::Group",
+     "name": "Laser: a beam along the aim that cuts every cell it touches, any material",
+     "source": "",
+     "folded": false,
+     "colorR": 74,
+     "colorG": 112,
+     "colorB": 150,
+     "creationTime": 0,
+     "events": [
+      {
+       "type": "BuiltinCommonInstructions::Standard",
+       "conditions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "NumberVariable"
+         },
+         "parameters": [
+          "Laser_Time",
+          ">",
+          "0"
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "StringVariable"
+         },
+         "parameters": [
+          "State",
+          "=",
+          "\"Run\""
+         ]
+        }
+       ],
+       "actions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "Show"
+         },
+         "parameters": [
+          "LaserBeam",
+          ""
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "SetXY"
+         },
+         "parameters": [
+          "LaserBeam",
+          "=",
+          "Variable(PivotX) + cos(ToRad(Variable(TurretAngle))) * GlobalVariable(Tuning.BarrelLength)",
+          "=",
+          "Variable(PivotY) + sin(ToRad(Variable(TurretAngle))) * GlobalVariable(Tuning.BarrelLength)"
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "SetAngle"
+         },
+         "parameters": [
+          "LaserBeam",
+          "=",
+          "Variable(TurretAngle)"
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "ResizableCapability::ResizableBehavior::SetSize"
+         },
+         "parameters": [
+          "LaserBeam",
+          "Resizable",
+          "GlobalVariable(PowerUps.Laser.Range)",
+          "6 + RandomFloat(4)"
+         ]
+        }
+       ],
+       "events": [
+        {
+         "type": "BuiltinCommonInstructions::Standard",
+         "conditions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "CollisionNP"
+           },
+           "parameters": [
+            "LaserBeam",
+            "Cell",
+            "",
+            "",
+            ""
+           ]
+          }
+         ],
+         "actions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "SetNumberObjectVariable"
+           },
+           "parameters": [
+            "Cell",
+            "HP",
+            "-",
+            "GlobalVariable(PowerUps.Laser.Dps) * Variable(Dt)"
+           ]
+          }
+         ],
+         "events": []
+        }
+       ]
+      },
+      {
+       "type": "BuiltinCommonInstructions::Standard",
+       "conditions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "NumberVariable"
+         },
+         "parameters": [
+          "Laser_Time",
+          "<=",
+          "0"
+         ]
+        }
+       ],
+       "actions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "Hide"
+         },
+         "parameters": [
+          "LaserBeam"
+         ]
+        }
+       ],
+       "events": []
+      }
+     ]
+    },
+    {
+     "type": "BuiltinCommonInstructions::Standard",
+     "conditions": [
+      {
+       "type": {
+        "inverted": false,
+        "value": "StringVariable"
+       },
+       "parameters": [
+        "State",
+        "=",
+        "\"Over\""
+       ]
+      }
+     ],
+     "actions": [
+      {
+       "type": {
+        "inverted": false,
+        "value": "Hide"
+       },
+       "parameters": [
+        "LaserBeam"
+       ]
+      },
+      {
+       "type": {
+        "inverted": false,
+        "value": "Hide"
+       },
+       "parameters": [
+        "Ram"
+       ]
+      }
+     ],
+     "events": []
+    },
+    {
+     "type": "BuiltinCommonInstructions::Group",
+     "name": "Buttons: shade = recharge left, yellow = active",
+     "source": "",
+     "folded": false,
+     "colorR": 74,
+     "colorG": 112,
+     "colorB": 150,
+     "creationTime": 0,
+     "events": [
+      {
+       "type": "BuiltinCommonInstructions::Standard",
+       "conditions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "NumberObjectVariable"
+         },
+         "parameters": [
+          "PowerShade",
+          "Row",
+          "=",
+          "0"
+         ]
+        }
+       ],
+       "actions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "ResizableCapability::ResizableBehavior::SetHeight"
+         },
+         "parameters": [
+          "PowerShade",
+          "Resizable",
+          "=",
+          "60 * Variable(Ram_Cool) / GlobalVariable(PowerUps.Ram.Cooldown)"
+         ]
+        }
+       ],
+       "events": []
+      },
+      {
+       "type": "BuiltinCommonInstructions::Standard",
+       "conditions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "NumberObjectVariable"
+         },
+         "parameters": [
+          "PowerButton",
+          "Row",
+          "=",
+          "0"
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "NumberVariable"
+         },
+         "parameters": [
+          "Ram_Time",
+          ">",
+          "0"
+         ]
+        }
+       ],
+       "actions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "ChangeColor"
+         },
+         "parameters": [
+          "PowerButton",
+          "\"255;240;120\""
+         ]
+        }
+       ],
+       "events": []
+      },
+      {
+       "type": "BuiltinCommonInstructions::Standard",
+       "conditions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "NumberObjectVariable"
+         },
+         "parameters": [
+          "PowerButton",
+          "Row",
+          "=",
+          "0"
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "NumberVariable"
+         },
+         "parameters": [
+          "Ram_Time",
+          "<=",
+          "0"
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "NumberVariable"
+         },
+         "parameters": [
+          "Ram_Cool",
+          "<=",
+          "0"
+         ]
+        }
+       ],
+       "actions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "ChangeColor"
+         },
+         "parameters": [
+          "PowerButton",
+          "\"255;255;255\""
+         ]
+        }
+       ],
+       "events": []
+      },
+      {
+       "type": "BuiltinCommonInstructions::Standard",
+       "conditions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "NumberObjectVariable"
+         },
+         "parameters": [
+          "PowerButton",
+          "Row",
+          "=",
+          "0"
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "NumberVariable"
+         },
+         "parameters": [
+          "Ram_Time",
+          "<=",
+          "0"
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "NumberVariable"
+         },
+         "parameters": [
+          "Ram_Cool",
+          ">",
+          "0"
+         ]
+        }
+       ],
+       "actions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "ChangeColor"
+         },
+         "parameters": [
+          "PowerButton",
+          "\"150;150;150\""
+         ]
+        }
+       ],
+       "events": []
+      },
+      {
+       "type": "BuiltinCommonInstructions::Standard",
+       "conditions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "NumberObjectVariable"
+         },
+         "parameters": [
+          "PowerShade",
+          "Row",
+          "=",
+          "1"
+         ]
+        }
+       ],
+       "actions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "ResizableCapability::ResizableBehavior::SetHeight"
+         },
+         "parameters": [
+          "PowerShade",
+          "Resizable",
+          "=",
+          "60 * Variable(Salvo_Cool) / GlobalVariable(PowerUps.Salvo.Cooldown)"
+         ]
+        }
+       ],
+       "events": []
+      },
+      {
+       "type": "BuiltinCommonInstructions::Standard",
+       "conditions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "NumberObjectVariable"
+         },
+         "parameters": [
+          "PowerButton",
+          "Row",
+          "=",
+          "1"
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "NumberVariable"
+         },
+         "parameters": [
+          "Salvo_Time",
+          ">",
+          "0"
+         ]
+        }
+       ],
+       "actions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "ChangeColor"
+         },
+         "parameters": [
+          "PowerButton",
+          "\"255;240;120\""
+         ]
+        }
+       ],
+       "events": []
+      },
+      {
+       "type": "BuiltinCommonInstructions::Standard",
+       "conditions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "NumberObjectVariable"
+         },
+         "parameters": [
+          "PowerButton",
+          "Row",
+          "=",
+          "1"
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "NumberVariable"
+         },
+         "parameters": [
+          "Salvo_Time",
+          "<=",
+          "0"
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "NumberVariable"
+         },
+         "parameters": [
+          "Salvo_Cool",
+          "<=",
+          "0"
+         ]
+        }
+       ],
+       "actions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "ChangeColor"
+         },
+         "parameters": [
+          "PowerButton",
+          "\"255;255;255\""
+         ]
+        }
+       ],
+       "events": []
+      },
+      {
+       "type": "BuiltinCommonInstructions::Standard",
+       "conditions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "NumberObjectVariable"
+         },
+         "parameters": [
+          "PowerButton",
+          "Row",
+          "=",
+          "1"
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "NumberVariable"
+         },
+         "parameters": [
+          "Salvo_Time",
+          "<=",
+          "0"
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "NumberVariable"
+         },
+         "parameters": [
+          "Salvo_Cool",
+          ">",
+          "0"
+         ]
+        }
+       ],
+       "actions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "ChangeColor"
+         },
+         "parameters": [
+          "PowerButton",
+          "\"150;150;150\""
+         ]
+        }
+       ],
+       "events": []
+      },
+      {
+       "type": "BuiltinCommonInstructions::Standard",
+       "conditions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "NumberObjectVariable"
+         },
+         "parameters": [
+          "PowerShade",
+          "Row",
+          "=",
+          "2"
+         ]
+        }
+       ],
+       "actions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "ResizableCapability::ResizableBehavior::SetHeight"
+         },
+         "parameters": [
+          "PowerShade",
+          "Resizable",
+          "=",
+          "60 * Variable(Laser_Cool) / GlobalVariable(PowerUps.Laser.Cooldown)"
+         ]
+        }
+       ],
+       "events": []
+      },
+      {
+       "type": "BuiltinCommonInstructions::Standard",
+       "conditions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "NumberObjectVariable"
+         },
+         "parameters": [
+          "PowerButton",
+          "Row",
+          "=",
+          "2"
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "NumberVariable"
+         },
+         "parameters": [
+          "Laser_Time",
+          ">",
+          "0"
+         ]
+        }
+       ],
+       "actions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "ChangeColor"
+         },
+         "parameters": [
+          "PowerButton",
+          "\"255;240;120\""
+         ]
+        }
+       ],
+       "events": []
+      },
+      {
+       "type": "BuiltinCommonInstructions::Standard",
+       "conditions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "NumberObjectVariable"
+         },
+         "parameters": [
+          "PowerButton",
+          "Row",
+          "=",
+          "2"
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "NumberVariable"
+         },
+         "parameters": [
+          "Laser_Time",
+          "<=",
+          "0"
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "NumberVariable"
+         },
+         "parameters": [
+          "Laser_Cool",
+          "<=",
+          "0"
+         ]
+        }
+       ],
+       "actions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "ChangeColor"
+         },
+         "parameters": [
+          "PowerButton",
+          "\"255;255;255\""
+         ]
+        }
+       ],
+       "events": []
+      },
+      {
+       "type": "BuiltinCommonInstructions::Standard",
+       "conditions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "NumberObjectVariable"
+         },
+         "parameters": [
+          "PowerButton",
+          "Row",
+          "=",
+          "2"
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "NumberVariable"
+         },
+         "parameters": [
+          "Laser_Time",
+          "<=",
+          "0"
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "NumberVariable"
+         },
+         "parameters": [
+          "Laser_Cool",
+          ">",
+          "0"
+         ]
+        }
+       ],
+       "actions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "ChangeColor"
+         },
+         "parameters": [
+          "PowerButton",
+          "\"150;150;150\""
+         ]
+        }
+       ],
+       "events": []
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "associatedLayout": "Game",
+   "lastChangeTimeStamp": 0,
    "name": "ProjectileSystem",
    "events": [
     {
@@ -11475,393 +14488,6 @@
         }
        ],
        "events": [
-        {
-         "type": "BuiltinCommonInstructions::Standard",
-         "conditions": [
-          {
-           "type": {
-            "inverted": false,
-            "value": "NumberObjectVariable"
-           },
-           "parameters": [
-            "Cell",
-            "HP",
-            "<=",
-            "0"
-           ]
-          }
-         ],
-         "actions": [
-          {
-           "type": {
-            "inverted": false,
-            "value": "SetNumberVariable"
-           },
-           "parameters": [
-            "CellsDestroyed",
-            "+",
-            "1"
-           ]
-          }
-         ],
-         "events": [
-          {
-           "type": "BuiltinCommonInstructions::Standard",
-           "conditions": [
-            {
-             "type": {
-              "inverted": false,
-              "value": "LinkedObjects::PickObjectsLinkedTo"
-             },
-             "parameters": [
-              "",
-              "Crack",
-              "Cell",
-              ""
-             ]
-            }
-           ],
-           "actions": [
-            {
-             "type": {
-              "inverted": false,
-              "value": "Delete"
-             },
-             "parameters": [
-              "Crack",
-              ""
-             ]
-            }
-           ],
-           "events": []
-          },
-          {
-           "type": "BuiltinCommonInstructions::Comment",
-           "color": {
-            "b": 109,
-            "g": 230,
-            "r": 255,
-            "textB": 0,
-            "textG": 0,
-            "textR": 0
-           },
-           "comment": "A gem is released only when the cell holding it breaks; GemSystem takes it from here."
-          },
-          {
-           "type": "BuiltinCommonInstructions::Standard",
-           "conditions": [
-            {
-             "type": {
-              "inverted": false,
-              "value": "NumberObjectVariable"
-             },
-             "parameters": [
-              "Cell",
-              "Gem",
-              ">",
-              "0"
-             ]
-            }
-           ],
-           "actions": [
-            {
-             "type": {
-              "inverted": false,
-              "value": "Create"
-             },
-             "parameters": [
-              "",
-              "Gem",
-              "Cell.CenterX()",
-              "Cell.CenterY()",
-              "\"\""
-             ]
-            },
-            {
-             "type": {
-              "inverted": false,
-              "value": "SetNumberObjectVariable"
-             },
-             "parameters": [
-              "Gem",
-              "Type",
-              "=",
-              "Cell.Variable(Gem)"
-             ]
-            },
-            {
-             "type": {
-              "inverted": false,
-              "value": "SetNumberObjectVariable"
-             },
-             "parameters": [
-              "Gem",
-              "VX",
-              "=",
-              "RandomFloatInRange(-40, 90)"
-             ]
-            },
-            {
-             "type": {
-              "inverted": false,
-              "value": "SetNumberObjectVariable"
-             },
-             "parameters": [
-              "Gem",
-              "VY",
-              "=",
-              "RandomFloatInRange(-280, -170)"
-             ]
-            },
-            {
-             "type": {
-              "inverted": false,
-              "value": "SetZOrder"
-             },
-             "parameters": [
-              "Gem",
-              "=",
-              "27"
-             ]
-            },
-            {
-             "type": {
-              "inverted": false,
-              "value": "AnimatableCapability::AnimatableBehavior::SetIndex"
-             },
-             "parameters": [
-              "Gem",
-              "Animation",
-              "=",
-              "Gem.Variable(Type) - 1"
-             ]
-            },
-            {
-             "type": {
-              "inverted": false,
-              "value": "SetNumberVariable"
-             },
-             "parameters": [
-              "GemsReleased",
-              "+",
-              "1"
-             ]
-            }
-           ],
-           "events": [
-            {
-             "type": "BuiltinCommonInstructions::Standard",
-             "conditions": [
-              {
-               "type": {
-                "inverted": false,
-                "value": "LinkedObjects::PickObjectsLinkedTo"
-               },
-               "parameters": [
-                "",
-                "GemMark",
-                "Cell",
-                ""
-               ]
-              }
-             ],
-             "actions": [
-              {
-               "type": {
-                "inverted": false,
-                "value": "Delete"
-               },
-               "parameters": [
-                "GemMark",
-                ""
-               ]
-              }
-             ],
-             "events": []
-            },
-            {
-             "type": "BuiltinCommonInstructions::Standard",
-             "conditions": [
-              {
-               "type": {
-                "inverted": false,
-                "value": "NumberObjectVariable"
-               },
-               "parameters": [
-                "Gem",
-                "Type",
-                "=",
-                "1"
-               ]
-              }
-             ],
-             "actions": [
-              {
-               "type": {
-                "inverted": false,
-                "value": "SetNumberObjectVariable"
-               },
-               "parameters": [
-                "Gem",
-                "Value",
-                "=",
-                "GlobalVariable(Gems.Common.Value)"
-               ]
-              }
-             ],
-             "events": []
-            },
-            {
-             "type": "BuiltinCommonInstructions::Standard",
-             "conditions": [
-              {
-               "type": {
-                "inverted": false,
-                "value": "NumberObjectVariable"
-               },
-               "parameters": [
-                "Gem",
-                "Type",
-                "=",
-                "2"
-               ]
-              }
-             ],
-             "actions": [
-              {
-               "type": {
-                "inverted": false,
-                "value": "SetNumberObjectVariable"
-               },
-               "parameters": [
-                "Gem",
-                "Value",
-                "=",
-                "GlobalVariable(Gems.Rare.Value)"
-               ]
-              }
-             ],
-             "events": []
-            },
-            {
-             "type": "BuiltinCommonInstructions::Standard",
-             "conditions": [
-              {
-               "type": {
-                "inverted": false,
-                "value": "NumberObjectVariable"
-               },
-               "parameters": [
-                "Gem",
-                "Type",
-                "=",
-                "3"
-               ]
-              }
-             ],
-             "actions": [
-              {
-               "type": {
-                "inverted": false,
-                "value": "SetNumberObjectVariable"
-               },
-               "parameters": [
-                "Gem",
-                "Value",
-                "=",
-                "GlobalVariable(Gems.Legendary.Value)"
-               ]
-              }
-             ],
-             "events": []
-            }
-           ]
-          },
-          {
-           "type": "BuiltinCommonInstructions::Repeat",
-           "repeatExpression": "3",
-           "conditions": [],
-           "actions": [
-            {
-             "type": {
-              "inverted": false,
-              "value": "Create"
-             },
-             "parameters": [
-              "",
-              "Debris",
-              "Cell.CenterX()",
-              "Cell.CenterY()",
-              "\"\""
-             ]
-            },
-            {
-             "type": {
-              "inverted": false,
-              "value": "ChangeColor"
-             },
-             "parameters": [
-              "Debris",
-              "GlobalVariableString(Materials[Cell.VariableString(Material)].DebrisColor)"
-             ]
-            },
-            {
-             "type": {
-              "inverted": false,
-              "value": "SetNumberObjectVariable"
-             },
-             "parameters": [
-              "Debris",
-              "VX",
-              "=",
-              "RandomFloatInRange(-60, 160)"
-             ]
-            },
-            {
-             "type": {
-              "inverted": false,
-              "value": "SetNumberObjectVariable"
-             },
-             "parameters": [
-              "Debris",
-              "VY",
-              "=",
-              "RandomFloatInRange(-260, -60)"
-             ]
-            },
-            {
-             "type": {
-              "inverted": false,
-              "value": "SetZOrder"
-             },
-             "parameters": [
-              "Debris",
-              "=",
-              "25"
-             ]
-            }
-           ],
-           "events": []
-          },
-          {
-           "type": "BuiltinCommonInstructions::Standard",
-           "conditions": [],
-           "actions": [
-            {
-             "type": {
-              "inverted": false,
-              "value": "Delete"
-             },
-             "parameters": [
-              "Cell",
-              ""
-             ]
-            }
-           ],
-           "events": []
-          }
-         ]
-        },
         {
          "type": "BuiltinCommonInstructions::Standard",
          "conditions": [
@@ -12271,6 +14897,425 @@
     },
     {
      "type": "BuiltinCommonInstructions::Group",
+     "name": "Break cells with no HP left (bullets, rockets, ram, laser)",
+     "source": "",
+     "folded": false,
+     "colorR": 74,
+     "colorG": 112,
+     "colorB": 150,
+     "creationTime": 0,
+     "events": [
+      {
+       "type": "BuiltinCommonInstructions::Comment",
+       "color": {
+        "b": 109,
+        "g": 230,
+        "r": 255,
+        "textB": 0,
+        "textG": 0,
+        "textR": 0
+       },
+       "comment": "Every damage source only lowers Cell.HP; this one place breaks the cells: crack and gem mark removed, the gem released, debris thrown, the cell deleted."
+      },
+      {
+       "type": "BuiltinCommonInstructions::Standard",
+       "conditions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "NumberObjectVariable"
+         },
+         "parameters": [
+          "Cell",
+          "HP",
+          "<=",
+          "0"
+         ]
+        }
+       ],
+       "actions": [],
+       "events": [
+        {
+         "type": "BuiltinCommonInstructions::ForEach",
+         "object": "Cell",
+         "conditions": [],
+         "actions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "SetNumberVariable"
+           },
+           "parameters": [
+            "CellsDestroyed",
+            "+",
+            "1"
+           ]
+          }
+         ],
+         "events": [
+          {
+           "type": "BuiltinCommonInstructions::Standard",
+           "conditions": [
+            {
+             "type": {
+              "inverted": false,
+              "value": "LinkedObjects::PickObjectsLinkedTo"
+             },
+             "parameters": [
+              "",
+              "Crack",
+              "Cell",
+              ""
+             ]
+            }
+           ],
+           "actions": [
+            {
+             "type": {
+              "inverted": false,
+              "value": "Delete"
+             },
+             "parameters": [
+              "Crack",
+              ""
+             ]
+            }
+           ],
+           "events": []
+          },
+          {
+           "type": "BuiltinCommonInstructions::Comment",
+           "color": {
+            "b": 109,
+            "g": 230,
+            "r": 255,
+            "textB": 0,
+            "textG": 0,
+            "textR": 0
+           },
+           "comment": "A gem is released only when the cell holding it breaks; GemSystem takes it from here."
+          },
+          {
+           "type": "BuiltinCommonInstructions::Standard",
+           "conditions": [
+            {
+             "type": {
+              "inverted": false,
+              "value": "NumberObjectVariable"
+             },
+             "parameters": [
+              "Cell",
+              "Gem",
+              ">",
+              "0"
+             ]
+            }
+           ],
+           "actions": [
+            {
+             "type": {
+              "inverted": false,
+              "value": "Create"
+             },
+             "parameters": [
+              "",
+              "Gem",
+              "Cell.CenterX()",
+              "Cell.CenterY()",
+              "\"\""
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "SetNumberObjectVariable"
+             },
+             "parameters": [
+              "Gem",
+              "Type",
+              "=",
+              "Cell.Variable(Gem)"
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "SetNumberObjectVariable"
+             },
+             "parameters": [
+              "Gem",
+              "VX",
+              "=",
+              "RandomFloatInRange(-40, 90)"
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "SetNumberObjectVariable"
+             },
+             "parameters": [
+              "Gem",
+              "VY",
+              "=",
+              "RandomFloatInRange(-280, -170)"
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "SetZOrder"
+             },
+             "parameters": [
+              "Gem",
+              "=",
+              "27"
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "AnimatableCapability::AnimatableBehavior::SetIndex"
+             },
+             "parameters": [
+              "Gem",
+              "Animation",
+              "=",
+              "Gem.Variable(Type) - 1"
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "SetNumberVariable"
+             },
+             "parameters": [
+              "GemsReleased",
+              "+",
+              "1"
+             ]
+            }
+           ],
+           "events": [
+            {
+             "type": "BuiltinCommonInstructions::Standard",
+             "conditions": [
+              {
+               "type": {
+                "inverted": false,
+                "value": "LinkedObjects::PickObjectsLinkedTo"
+               },
+               "parameters": [
+                "",
+                "GemMark",
+                "Cell",
+                ""
+               ]
+              }
+             ],
+             "actions": [
+              {
+               "type": {
+                "inverted": false,
+                "value": "Delete"
+               },
+               "parameters": [
+                "GemMark",
+                ""
+               ]
+              }
+             ],
+             "events": []
+            },
+            {
+             "type": "BuiltinCommonInstructions::Standard",
+             "conditions": [
+              {
+               "type": {
+                "inverted": false,
+                "value": "NumberObjectVariable"
+               },
+               "parameters": [
+                "Gem",
+                "Type",
+                "=",
+                "1"
+               ]
+              }
+             ],
+             "actions": [
+              {
+               "type": {
+                "inverted": false,
+                "value": "SetNumberObjectVariable"
+               },
+               "parameters": [
+                "Gem",
+                "Value",
+                "=",
+                "GlobalVariable(Gems.Common.Value)"
+               ]
+              }
+             ],
+             "events": []
+            },
+            {
+             "type": "BuiltinCommonInstructions::Standard",
+             "conditions": [
+              {
+               "type": {
+                "inverted": false,
+                "value": "NumberObjectVariable"
+               },
+               "parameters": [
+                "Gem",
+                "Type",
+                "=",
+                "2"
+               ]
+              }
+             ],
+             "actions": [
+              {
+               "type": {
+                "inverted": false,
+                "value": "SetNumberObjectVariable"
+               },
+               "parameters": [
+                "Gem",
+                "Value",
+                "=",
+                "GlobalVariable(Gems.Rare.Value)"
+               ]
+              }
+             ],
+             "events": []
+            },
+            {
+             "type": "BuiltinCommonInstructions::Standard",
+             "conditions": [
+              {
+               "type": {
+                "inverted": false,
+                "value": "NumberObjectVariable"
+               },
+               "parameters": [
+                "Gem",
+                "Type",
+                "=",
+                "3"
+               ]
+              }
+             ],
+             "actions": [
+              {
+               "type": {
+                "inverted": false,
+                "value": "SetNumberObjectVariable"
+               },
+               "parameters": [
+                "Gem",
+                "Value",
+                "=",
+                "GlobalVariable(Gems.Legendary.Value)"
+               ]
+              }
+             ],
+             "events": []
+            }
+           ]
+          },
+          {
+           "type": "BuiltinCommonInstructions::Repeat",
+           "repeatExpression": "3",
+           "conditions": [],
+           "actions": [
+            {
+             "type": {
+              "inverted": false,
+              "value": "Create"
+             },
+             "parameters": [
+              "",
+              "Debris",
+              "Cell.CenterX()",
+              "Cell.CenterY()",
+              "\"\""
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "ChangeColor"
+             },
+             "parameters": [
+              "Debris",
+              "GlobalVariableString(Materials[Cell.VariableString(Material)].DebrisColor)"
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "SetNumberObjectVariable"
+             },
+             "parameters": [
+              "Debris",
+              "VX",
+              "=",
+              "RandomFloatInRange(-60, 160)"
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "SetNumberObjectVariable"
+             },
+             "parameters": [
+              "Debris",
+              "VY",
+              "=",
+              "RandomFloatInRange(-260, -60)"
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "SetZOrder"
+             },
+             "parameters": [
+              "Debris",
+              "=",
+              "25"
+             ]
+            }
+           ],
+           "events": []
+          },
+          {
+           "type": "BuiltinCommonInstructions::Standard",
+           "conditions": [],
+           "actions": [
+            {
+             "type": {
+              "inverted": false,
+              "value": "Delete"
+             },
+             "parameters": [
+              "Cell",
+              ""
+             ]
+            }
+           ],
+           "events": []
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "type": "BuiltinCommonInstructions::Group",
      "name": "Hit flash",
      "source": "",
      "folded": false,
@@ -12485,6 +15530,179 @@
          "parameters": [
           "Spark",
           ""
+         ]
+        }
+       ],
+       "events": []
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "associatedLayout": "Game",
+   "lastChangeTimeStamp": 0,
+   "name": "TowerController",
+   "events": [
+    {
+     "type": "BuiltinCommonInstructions::Comment",
+     "color": {
+      "b": 109,
+      "g": 230,
+      "r": 255,
+      "textB": 0,
+      "textG": 0,
+      "textR": 0
+     },
+     "comment": "TOWER CONTROLLER - owns: TowerStep, Blocked.\nThe tower drives right at Tuning.TowerSpeed. Each frame it moves, and if its collision mask (the chassis, 44 x 80 px) now overlaps any surviving Cell it moves back and counts as blocked. A step is at most TowerSpeed x MaxFrameTime (about 4 px), smaller than a cell, so it can never skip through one. The tower fits through an opening at least 7 cells (84 px) high."
+    },
+    {
+     "type": "BuiltinCommonInstructions::Standard",
+     "conditions": [
+      {
+       "type": {
+        "inverted": false,
+        "value": "StringVariable"
+       },
+       "parameters": [
+        "State",
+        "=",
+        "\"Run\""
+       ]
+      }
+     ],
+     "actions": [
+      {
+       "type": {
+        "inverted": false,
+        "value": "SetNumberVariable"
+       },
+       "parameters": [
+        "TowerStep",
+        "=",
+        "Variable(TowerSpeed) * Variable(Dt)"
+       ]
+      },
+      {
+       "type": {
+        "inverted": false,
+        "value": "SetNumberVariable"
+       },
+       "parameters": [
+        "Blocked",
+        "=",
+        "0"
+       ]
+      },
+      {
+       "type": {
+        "inverted": false,
+        "value": "MettreX"
+       },
+       "parameters": [
+        "Tower",
+        "+",
+        "Variable(TowerStep)"
+       ]
+      }
+     ],
+     "events": [
+      {
+       "type": "BuiltinCommonInstructions::Standard",
+       "conditions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "CollisionNP"
+         },
+         "parameters": [
+          "Tower",
+          "Cell",
+          "",
+          "",
+          ""
+         ]
+        }
+       ],
+       "actions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "MettreX"
+         },
+         "parameters": [
+          "Tower",
+          "-",
+          "Variable(TowerStep)"
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "SetNumberVariable"
+         },
+         "parameters": [
+          "Blocked",
+          "=",
+          "1"
+         ]
+        }
+       ],
+       "events": []
+      },
+      {
+       "type": "BuiltinCommonInstructions::Standard",
+       "conditions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "NumberVariable"
+         },
+         "parameters": [
+          "Blocked",
+          "=",
+          "0"
+         ]
+        }
+       ],
+       "actions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "AnimatableCapability::AnimatableBehavior::PlayAnimation"
+         },
+         "parameters": [
+          "Tower",
+          "Animation"
+         ]
+        }
+       ],
+       "events": []
+      },
+      {
+       "type": "BuiltinCommonInstructions::Standard",
+       "conditions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "NumberVariable"
+         },
+         "parameters": [
+          "Blocked",
+          "=",
+          "1"
+         ]
+        }
+       ],
+       "actions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "AnimatableCapability::AnimatableBehavior::PauseAnimation"
+         },
+         "parameters": [
+          "Tower",
+          "Animation"
          ]
         }
        ],

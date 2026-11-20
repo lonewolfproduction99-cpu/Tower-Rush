@@ -293,7 +293,8 @@ function lightestFormation() {
   const base = JSON.parse(fs.readFileSync(path.join(DOCS, '..', 'data', 'game_data.json'), 'utf8')).Formations.length;
   // The art formation with the fewest shots in the tower's lane (bottom 7 rows), unless LIGHT_FORMATION names one.
   const mats = JSON.parse(fs.readFileSync(path.join(DOCS, '..', 'data', 'game_data.json'), 'utf8')).Materials;
-  const hp = {}; Object.values(mats).forEach((m) => { hp[m.Char] = m.HP; });
+  const tun = JSON.parse(fs.readFileSync(path.join(DOCS, '..', 'data', 'game_data.json'), 'utf8')).Tuning;
+  const hp = {}; Object.values(mats).forEach((m) => { hp[m.Char] = m.HP; if (/[A-Z]/.test(m.Char)) hp[m.Char.toLowerCase()] = tun.PartialHP || 1; });
   const cost = (f) => f.Rows.slice(-7).join('').split('').reduce((a, ch) => a + (hp[ch] || 0), 0);
   let i = process.env.LIGHT_FORMATION ? d.findIndex((f) => f.Name === process.env.LIGHT_FORMATION) : -1;
   if (i < 0) i = d.reduce((best, f, k) => (cost(f) < cost(d[best]) ? k : best), 0);

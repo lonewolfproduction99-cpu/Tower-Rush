@@ -27,7 +27,8 @@
     "PixelsPerMeter": 10,
     "MaxFrameTime": 0.05,
     "TestFormation": -1,
-    "ShowFarLayer": 0
+    "ShowFarLayer": 0,
+    "PartialHP": 1
   },
   "Materials": {
     "Stone": {

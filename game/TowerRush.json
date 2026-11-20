@@ -174,6 +174,14 @@
     "userAdded": true
    },
    {
+    "file": "assets/formation_owner_building_04.png",
+    "kind": "image",
+    "metadata": "",
+    "name": "formation_owner_building_04.png",
+    "smoothed": false,
+    "userAdded": true
+   },
+   {
     "file": "assets/formation_owner_frame_01.png",
     "kind": "image",
     "metadata": "",
@@ -504,6 +512,11 @@
      "name": "ShowFarLayer",
      "type": "number",
      "value": 0
+    },
+    {
+     "name": "PartialHP",
+     "type": "number",
+     "value": 1
     }
    ]
   },
@@ -714,7 +727,7 @@
       {
        "name": "Shape",
        "type": "string",
-       "value": "CCCCCC....|CCCCCC....|CCCCCC....|CCCCCC....|CCCCCC....|CCCCCC....|CCCCCC....|CCCCCCC...|CCCCCCCCCC|CCCCCCCCCC|CCCCCCCCCC"
+       "value": "CCCCCc....|CCCCCC....|CCCCCC....|CCCCCC....|CCCCCC....|CCCCCC....|CCCCCC....|CCCCCCc...|CCCCCCCccc|CCCCCCCCCc|CCCCCCCCCC"
       },
       {
        "name": "Art",
@@ -734,7 +747,7 @@
       {
        "name": "Shape",
        "type": "string",
-       "value": "C..CC.|CCCCCC|CCCCCC|CCCCCC|CCCCCC|CCCCCC|CCCCCC|CCCCCC|CCCCCC"
+       "value": "c..cc.|CccCCc|CCCCCc|CCCCCC|CCCCCC|CCCCCC|CCCCCC|CCCCCC|CCCCCC"
       },
       {
        "name": "Art",
@@ -754,7 +767,27 @@
       {
        "name": "Shape",
        "type": "string",
-       "value": ".......|.CCCCC.|CCCCCC.|CCCCCC.|CCCCCC.|CCCCCC.|CCCCCC.|CCCCCC.|CCCCCC.|CCCCCC."
+       "value": ".......|.ccCcc.|cCCCCC.|CCCCCC.|CCCCCC.|CCCCCC.|CCCCCC.|CCCCCC.|CCCCCC.|CCCCCC."
+      },
+      {
+       "name": "Art",
+       "type": "number",
+       "value": 1
+      }
+     ]
+    },
+    {
+     "type": "structure",
+     "children": [
+      {
+       "name": "Name",
+       "type": "string",
+       "value": "owner_building_04"
+      },
+      {
+       "name": "Shape",
+       "type": "string",
+       "value": "cCCc...|C.C.C..|GGCGG..|C.cC...|GGCGG..|.CCC.C.|cwwwCC.|cWWWcc."
       },
       {
        "name": "Art",
@@ -854,7 +887,7 @@
       {
        "name": "Shape",
        "type": "string",
-       "value": ".....|CC...|CC...|CCC..|CCC..|CCC..|CCC..|CCCC.|CCCCC"
+       "value": ".....|cc...|Cc...|CCc..|CCc..|CCc..|CCc..|CCCc.|CCCCc"
       },
       {
        "name": "Art",
@@ -3561,7 +3594,7 @@
       "textG": 0,
       "textR": 0
      },
-     "comment": "OBSTACLE GENERATOR - owns: NextFormationX, FormationCount, FormationIndex, Shape, ShapeW, ShapeRows, SpawnX, Idx, Col, Row, Ch, CellsSpawned.\nFormations are text grids in the global variable Formations (one string per formation, rows separated by |, top row first, the bottom row sits on the ground). Each character is a cell: a material's Char (# Stone, H Hardstone, C Concrete, M Metal), . empty.\nCell is a 12 x 12 tiled sprite. Text-grid formations show their material's tile; art formations (Texture set, made by tools/import_formations.py from whole pixel-art pictures) show their own 12 x 12 slice of the picture: the cell's X/Y offset is its column/row times 12."
+     "comment": "OBSTACLE GENERATOR - owns: NextFormationX, FormationCount, FormationIndex, Shape, ShapeW, ShapeRows, SpawnX, Idx, Col, Row, Ch, CellsSpawned.\nFormations are text grids in the global variable Formations (one string per formation, rows separated by |, top row first, the bottom row sits on the ground). Each character is a cell: a material's Char (# Stone, H Hardstone, C Concrete, M Metal, G Glass, W Wood), . empty. A lower-case letter is a partly drawn square of that material: Tuning.PartialHP (1) shot whatever the material.\nCell is a 12 x 12 tiled sprite. Text-grid formations show their material's tile; art formations (Texture set, made by tools/import_formations.py from whole pixel-art pictures) show their own 12 x 12 slice of the picture: the cell's X/Y offset is its column/row times 12."
     },
     {
      "type": "BuiltinCommonInstructions::Group",
@@ -4241,6 +4274,182 @@
              "parameters": [
               "Ch",
               "=",
+              "\"h\""
+             ]
+            }
+           ],
+           "actions": [
+            {
+             "type": {
+              "inverted": false,
+              "value": "Create"
+             },
+             "parameters": [
+              "",
+              "Cell",
+              "Variable(SpawnX) + Variable(Col) * GlobalVariable(Tuning.CellSize)",
+              "GlobalVariable(Tuning.GroundY) - (Variable(ShapeRows) - Variable(Row)) * GlobalVariable(Tuning.CellSize)",
+              "\"\""
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "SetStringObjectVariable"
+             },
+             "parameters": [
+              "Cell",
+              "Material",
+              "=",
+              "\"Hardstone\""
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "SetNumberObjectVariable"
+             },
+             "parameters": [
+              "Cell",
+              "MaxHP",
+              "=",
+              "GlobalVariable(Tuning.PartialHP)"
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "SetNumberObjectVariable"
+             },
+             "parameters": [
+              "Cell",
+              "HP",
+              "=",
+              "GlobalVariable(Tuning.PartialHP)"
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "SetNumberObjectVariable"
+             },
+             "parameters": [
+              "Cell",
+              "Batch",
+              "=",
+              "Variable(FormationCount)"
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "SetZOrder"
+             },
+             "parameters": [
+              "Cell",
+              "=",
+              "10"
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "SetNumberVariable"
+             },
+             "parameters": [
+              "CellsSpawned",
+              "+",
+              "1"
+             ]
+            }
+           ],
+           "events": [
+            {
+             "type": "BuiltinCommonInstructions::Standard",
+             "conditions": [
+              {
+               "type": {
+                "inverted": false,
+                "value": "NumberVariable"
+               },
+               "parameters": [
+                "FormationArt",
+                "=",
+                "0"
+               ]
+              }
+             ],
+             "actions": [
+              {
+               "type": {
+                "inverted": false,
+                "value": "TiledSpriteObject::SetImageFromResource"
+               },
+               "parameters": [
+                "Cell",
+                "tile_hard.png",
+                ""
+               ]
+              }
+             ],
+             "events": []
+            },
+            {
+             "type": "BuiltinCommonInstructions::Standard",
+             "conditions": [
+              {
+               "type": {
+                "inverted": false,
+                "value": "NumberVariable"
+               },
+               "parameters": [
+                "FormationArt",
+                "=",
+                "1"
+               ]
+              }
+             ],
+             "actions": [
+              {
+               "type": {
+                "inverted": false,
+                "value": "SetNumberObjectVariable"
+               },
+               "parameters": [
+                "Cell",
+                "SliceX",
+                "=",
+                "Variable(Col) * GlobalVariable(Tuning.CellSize)"
+               ]
+              },
+              {
+               "type": {
+                "inverted": false,
+                "value": "SetNumberObjectVariable"
+               },
+               "parameters": [
+                "Cell",
+                "SliceY",
+                "=",
+                "Variable(Row) * GlobalVariable(Tuning.CellSize)"
+               ]
+              }
+             ],
+             "events": []
+            }
+           ]
+          },
+          {
+           "type": "BuiltinCommonInstructions::Standard",
+           "conditions": [
+            {
+             "type": {
+              "inverted": false,
+              "value": "StringVariable"
+             },
+             "parameters": [
+              "Ch",
+              "=",
               "\"C\""
              ]
             }
@@ -4293,6 +4502,182 @@
               "HP",
               "=",
               "GlobalVariable(Materials.Concrete.HP)"
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "SetNumberObjectVariable"
+             },
+             "parameters": [
+              "Cell",
+              "Batch",
+              "=",
+              "Variable(FormationCount)"
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "SetZOrder"
+             },
+             "parameters": [
+              "Cell",
+              "=",
+              "10"
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "SetNumberVariable"
+             },
+             "parameters": [
+              "CellsSpawned",
+              "+",
+              "1"
+             ]
+            }
+           ],
+           "events": [
+            {
+             "type": "BuiltinCommonInstructions::Standard",
+             "conditions": [
+              {
+               "type": {
+                "inverted": false,
+                "value": "NumberVariable"
+               },
+               "parameters": [
+                "FormationArt",
+                "=",
+                "0"
+               ]
+              }
+             ],
+             "actions": [
+              {
+               "type": {
+                "inverted": false,
+                "value": "TiledSpriteObject::SetImageFromResource"
+               },
+               "parameters": [
+                "Cell",
+                "tile_concrete.png",
+                ""
+               ]
+              }
+             ],
+             "events": []
+            },
+            {
+             "type": "BuiltinCommonInstructions::Standard",
+             "conditions": [
+              {
+               "type": {
+                "inverted": false,
+                "value": "NumberVariable"
+               },
+               "parameters": [
+                "FormationArt",
+                "=",
+                "1"
+               ]
+              }
+             ],
+             "actions": [
+              {
+               "type": {
+                "inverted": false,
+                "value": "SetNumberObjectVariable"
+               },
+               "parameters": [
+                "Cell",
+                "SliceX",
+                "=",
+                "Variable(Col) * GlobalVariable(Tuning.CellSize)"
+               ]
+              },
+              {
+               "type": {
+                "inverted": false,
+                "value": "SetNumberObjectVariable"
+               },
+               "parameters": [
+                "Cell",
+                "SliceY",
+                "=",
+                "Variable(Row) * GlobalVariable(Tuning.CellSize)"
+               ]
+              }
+             ],
+             "events": []
+            }
+           ]
+          },
+          {
+           "type": "BuiltinCommonInstructions::Standard",
+           "conditions": [
+            {
+             "type": {
+              "inverted": false,
+              "value": "StringVariable"
+             },
+             "parameters": [
+              "Ch",
+              "=",
+              "\"c\""
+             ]
+            }
+           ],
+           "actions": [
+            {
+             "type": {
+              "inverted": false,
+              "value": "Create"
+             },
+             "parameters": [
+              "",
+              "Cell",
+              "Variable(SpawnX) + Variable(Col) * GlobalVariable(Tuning.CellSize)",
+              "GlobalVariable(Tuning.GroundY) - (Variable(ShapeRows) - Variable(Row)) * GlobalVariable(Tuning.CellSize)",
+              "\"\""
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "SetStringObjectVariable"
+             },
+             "parameters": [
+              "Cell",
+              "Material",
+              "=",
+              "\"Concrete\""
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "SetNumberObjectVariable"
+             },
+             "parameters": [
+              "Cell",
+              "MaxHP",
+              "=",
+              "GlobalVariable(Tuning.PartialHP)"
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "SetNumberObjectVariable"
+             },
+             "parameters": [
+              "Cell",
+              "HP",
+              "=",
+              "GlobalVariable(Tuning.PartialHP)"
              ]
             },
             {
@@ -4593,6 +4978,182 @@
              "parameters": [
               "Ch",
               "=",
+              "\"m\""
+             ]
+            }
+           ],
+           "actions": [
+            {
+             "type": {
+              "inverted": false,
+              "value": "Create"
+             },
+             "parameters": [
+              "",
+              "Cell",
+              "Variable(SpawnX) + Variable(Col) * GlobalVariable(Tuning.CellSize)",
+              "GlobalVariable(Tuning.GroundY) - (Variable(ShapeRows) - Variable(Row)) * GlobalVariable(Tuning.CellSize)",
+              "\"\""
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "SetStringObjectVariable"
+             },
+             "parameters": [
+              "Cell",
+              "Material",
+              "=",
+              "\"Metal\""
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "SetNumberObjectVariable"
+             },
+             "parameters": [
+              "Cell",
+              "MaxHP",
+              "=",
+              "GlobalVariable(Tuning.PartialHP)"
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "SetNumberObjectVariable"
+             },
+             "parameters": [
+              "Cell",
+              "HP",
+              "=",
+              "GlobalVariable(Tuning.PartialHP)"
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "SetNumberObjectVariable"
+             },
+             "parameters": [
+              "Cell",
+              "Batch",
+              "=",
+              "Variable(FormationCount)"
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "SetZOrder"
+             },
+             "parameters": [
+              "Cell",
+              "=",
+              "10"
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "SetNumberVariable"
+             },
+             "parameters": [
+              "CellsSpawned",
+              "+",
+              "1"
+             ]
+            }
+           ],
+           "events": [
+            {
+             "type": "BuiltinCommonInstructions::Standard",
+             "conditions": [
+              {
+               "type": {
+                "inverted": false,
+                "value": "NumberVariable"
+               },
+               "parameters": [
+                "FormationArt",
+                "=",
+                "0"
+               ]
+              }
+             ],
+             "actions": [
+              {
+               "type": {
+                "inverted": false,
+                "value": "TiledSpriteObject::SetImageFromResource"
+               },
+               "parameters": [
+                "Cell",
+                "tile_metal.png",
+                ""
+               ]
+              }
+             ],
+             "events": []
+            },
+            {
+             "type": "BuiltinCommonInstructions::Standard",
+             "conditions": [
+              {
+               "type": {
+                "inverted": false,
+                "value": "NumberVariable"
+               },
+               "parameters": [
+                "FormationArt",
+                "=",
+                "1"
+               ]
+              }
+             ],
+             "actions": [
+              {
+               "type": {
+                "inverted": false,
+                "value": "SetNumberObjectVariable"
+               },
+               "parameters": [
+                "Cell",
+                "SliceX",
+                "=",
+                "Variable(Col) * GlobalVariable(Tuning.CellSize)"
+               ]
+              },
+              {
+               "type": {
+                "inverted": false,
+                "value": "SetNumberObjectVariable"
+               },
+               "parameters": [
+                "Cell",
+                "SliceY",
+                "=",
+                "Variable(Row) * GlobalVariable(Tuning.CellSize)"
+               ]
+              }
+             ],
+             "events": []
+            }
+           ]
+          },
+          {
+           "type": "BuiltinCommonInstructions::Standard",
+           "conditions": [
+            {
+             "type": {
+              "inverted": false,
+              "value": "StringVariable"
+             },
+             "parameters": [
+              "Ch",
+              "=",
               "\"G\""
              ]
             }
@@ -4769,6 +5330,182 @@
              "parameters": [
               "Ch",
               "=",
+              "\"g\""
+             ]
+            }
+           ],
+           "actions": [
+            {
+             "type": {
+              "inverted": false,
+              "value": "Create"
+             },
+             "parameters": [
+              "",
+              "Cell",
+              "Variable(SpawnX) + Variable(Col) * GlobalVariable(Tuning.CellSize)",
+              "GlobalVariable(Tuning.GroundY) - (Variable(ShapeRows) - Variable(Row)) * GlobalVariable(Tuning.CellSize)",
+              "\"\""
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "SetStringObjectVariable"
+             },
+             "parameters": [
+              "Cell",
+              "Material",
+              "=",
+              "\"Glass\""
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "SetNumberObjectVariable"
+             },
+             "parameters": [
+              "Cell",
+              "MaxHP",
+              "=",
+              "GlobalVariable(Tuning.PartialHP)"
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "SetNumberObjectVariable"
+             },
+             "parameters": [
+              "Cell",
+              "HP",
+              "=",
+              "GlobalVariable(Tuning.PartialHP)"
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "SetNumberObjectVariable"
+             },
+             "parameters": [
+              "Cell",
+              "Batch",
+              "=",
+              "Variable(FormationCount)"
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "SetZOrder"
+             },
+             "parameters": [
+              "Cell",
+              "=",
+              "10"
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "SetNumberVariable"
+             },
+             "parameters": [
+              "CellsSpawned",
+              "+",
+              "1"
+             ]
+            }
+           ],
+           "events": [
+            {
+             "type": "BuiltinCommonInstructions::Standard",
+             "conditions": [
+              {
+               "type": {
+                "inverted": false,
+                "value": "NumberVariable"
+               },
+               "parameters": [
+                "FormationArt",
+                "=",
+                "0"
+               ]
+              }
+             ],
+             "actions": [
+              {
+               "type": {
+                "inverted": false,
+                "value": "TiledSpriteObject::SetImageFromResource"
+               },
+               "parameters": [
+                "Cell",
+                "tile_glass.png",
+                ""
+               ]
+              }
+             ],
+             "events": []
+            },
+            {
+             "type": "BuiltinCommonInstructions::Standard",
+             "conditions": [
+              {
+               "type": {
+                "inverted": false,
+                "value": "NumberVariable"
+               },
+               "parameters": [
+                "FormationArt",
+                "=",
+                "1"
+               ]
+              }
+             ],
+             "actions": [
+              {
+               "type": {
+                "inverted": false,
+                "value": "SetNumberObjectVariable"
+               },
+               "parameters": [
+                "Cell",
+                "SliceX",
+                "=",
+                "Variable(Col) * GlobalVariable(Tuning.CellSize)"
+               ]
+              },
+              {
+               "type": {
+                "inverted": false,
+                "value": "SetNumberObjectVariable"
+               },
+               "parameters": [
+                "Cell",
+                "SliceY",
+                "=",
+                "Variable(Row) * GlobalVariable(Tuning.CellSize)"
+               ]
+              }
+             ],
+             "events": []
+            }
+           ]
+          },
+          {
+           "type": "BuiltinCommonInstructions::Standard",
+           "conditions": [
+            {
+             "type": {
+              "inverted": false,
+              "value": "StringVariable"
+             },
+             "parameters": [
+              "Ch",
+              "=",
               "\"W\""
              ]
             }
@@ -4821,6 +5558,182 @@
               "HP",
               "=",
               "GlobalVariable(Materials.Wood.HP)"
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "SetNumberObjectVariable"
+             },
+             "parameters": [
+              "Cell",
+              "Batch",
+              "=",
+              "Variable(FormationCount)"
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "SetZOrder"
+             },
+             "parameters": [
+              "Cell",
+              "=",
+              "10"
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "SetNumberVariable"
+             },
+             "parameters": [
+              "CellsSpawned",
+              "+",
+              "1"
+             ]
+            }
+           ],
+           "events": [
+            {
+             "type": "BuiltinCommonInstructions::Standard",
+             "conditions": [
+              {
+               "type": {
+                "inverted": false,
+                "value": "NumberVariable"
+               },
+               "parameters": [
+                "FormationArt",
+                "=",
+                "0"
+               ]
+              }
+             ],
+             "actions": [
+              {
+               "type": {
+                "inverted": false,
+                "value": "TiledSpriteObject::SetImageFromResource"
+               },
+               "parameters": [
+                "Cell",
+                "tile_wood.png",
+                ""
+               ]
+              }
+             ],
+             "events": []
+            },
+            {
+             "type": "BuiltinCommonInstructions::Standard",
+             "conditions": [
+              {
+               "type": {
+                "inverted": false,
+                "value": "NumberVariable"
+               },
+               "parameters": [
+                "FormationArt",
+                "=",
+                "1"
+               ]
+              }
+             ],
+             "actions": [
+              {
+               "type": {
+                "inverted": false,
+                "value": "SetNumberObjectVariable"
+               },
+               "parameters": [
+                "Cell",
+                "SliceX",
+                "=",
+                "Variable(Col) * GlobalVariable(Tuning.CellSize)"
+               ]
+              },
+              {
+               "type": {
+                "inverted": false,
+                "value": "SetNumberObjectVariable"
+               },
+               "parameters": [
+                "Cell",
+                "SliceY",
+                "=",
+                "Variable(Row) * GlobalVariable(Tuning.CellSize)"
+               ]
+              }
+             ],
+             "events": []
+            }
+           ]
+          },
+          {
+           "type": "BuiltinCommonInstructions::Standard",
+           "conditions": [
+            {
+             "type": {
+              "inverted": false,
+              "value": "StringVariable"
+             },
+             "parameters": [
+              "Ch",
+              "=",
+              "\"w\""
+             ]
+            }
+           ],
+           "actions": [
+            {
+             "type": {
+              "inverted": false,
+              "value": "Create"
+             },
+             "parameters": [
+              "",
+              "Cell",
+              "Variable(SpawnX) + Variable(Col) * GlobalVariable(Tuning.CellSize)",
+              "GlobalVariable(Tuning.GroundY) - (Variable(ShapeRows) - Variable(Row)) * GlobalVariable(Tuning.CellSize)",
+              "\"\""
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "SetStringObjectVariable"
+             },
+             "parameters": [
+              "Cell",
+              "Material",
+              "=",
+              "\"Wood\""
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "SetNumberObjectVariable"
+             },
+             "parameters": [
+              "Cell",
+              "MaxHP",
+              "=",
+              "GlobalVariable(Tuning.PartialHP)"
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "SetNumberObjectVariable"
+             },
+             "parameters": [
+              "Cell",
+              "HP",
+              "=",
+              "GlobalVariable(Tuning.PartialHP)"
              ]
             },
             {
@@ -5202,7 +6115,7 @@
              },
              "parameters": [
               "Cell",
-              "formation_owner_frame_01.png",
+              "formation_owner_building_04.png",
               ""
              ]
             },
@@ -5266,7 +6179,7 @@
              },
              "parameters": [
               "Cell",
-              "formation_owner_house_01.png",
+              "formation_owner_frame_01.png",
               ""
              ]
             },
@@ -5330,7 +6243,7 @@
              },
              "parameters": [
               "Cell",
-              "formation_owner_rubble_01.png",
+              "formation_owner_house_01.png",
               ""
              ]
             },
@@ -5394,7 +6307,7 @@
              },
              "parameters": [
               "Cell",
-              "formation_owner_tower_01.png",
+              "formation_owner_rubble_01.png",
               ""
              ]
             },
@@ -5435,6 +6348,70 @@
               "FormationIndex",
               "=",
               "7"
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "NumberObjectVariable"
+             },
+             "parameters": [
+              "Cell",
+              "Batch",
+              "=",
+              "Variable(FormationCount)"
+             ]
+            }
+           ],
+           "actions": [
+            {
+             "type": {
+              "inverted": false,
+              "value": "TiledSpriteObject::SetImageFromResource"
+             },
+             "parameters": [
+              "Cell",
+              "formation_owner_tower_01.png",
+              ""
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "TiledSpriteObject::XOffset"
+             },
+             "parameters": [
+              "Cell",
+              "=",
+              "Cell.Variable(SliceX)"
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "TiledSpriteObject::YOffset"
+             },
+             "parameters": [
+              "Cell",
+              "=",
+              "Cell.Variable(SliceY)"
+             ]
+            }
+           ],
+           "events": []
+          },
+          {
+           "type": "BuiltinCommonInstructions::Standard",
+           "conditions": [
+            {
+             "type": {
+              "inverted": false,
+              "value": "NumberVariable"
+             },
+             "parameters": [
+              "FormationIndex",
+              "=",
+              "8"
              ]
             },
             {

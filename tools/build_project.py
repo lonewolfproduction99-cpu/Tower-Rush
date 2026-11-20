@@ -246,14 +246,19 @@ def run_manager():
 def obstacle_generator():
     cs = tune("CellSize")
     cell_events = []
+    variants = []
     for mat, info in DATA["Materials"].items():
-        cell_events.append(ev([iss("Ch", q(info["Char"]))], [
+        variants.append((mat, info, info["Char"], "GlobalVariable(Materials.%s.HP)" % mat))
+        if info["Char"].isalpha():  # partly drawn square: lower-case letter, PartialHP whatever the material
+            variants.append((mat, info, info["Char"].lower(), tune("PartialHP")))
+    for mat, info, char, hp in variants:
+        cell_events.append(ev([iss("Ch", q(char))], [
             A("Create", "Cell", "Variable(SpawnX) + Variable(Col) * %s" % cs,
               "%s - (Variable(ShapeRows) - Variable(Row)) * %s" % (GROUND, cs), q("")),
             A("SetStringObjectVariable", "Cell", "Material", "=", q(mat)) if "A:SetStringObjectVariable" in META
             else A("ModVarObjetTxt", "Cell", "Material", "=", q(mat)),
-            setov("Cell", "MaxHP", "=", "GlobalVariable(Materials.%s.HP)" % mat),
-            setov("Cell", "HP", "=", "GlobalVariable(Materials.%s.HP)" % mat),
+            setov("Cell", "MaxHP", "=", hp),
+            setov("Cell", "HP", "=", hp),
             setov("Cell", "Batch", "=", V("FormationCount")),
             A("SetZOrder", "Cell", "=", "10"),
             setv("CellsSpawned", "+", "1"),
@@ -276,7 +281,8 @@ def obstacle_generator():
                 "ShapeRows, SpawnX, Idx, Col, Row, Ch, CellsSpawned.\n"
                 "Formations are text grids in the global variable Formations (one string per formation, rows "
                 "separated by |, top row first, the bottom row sits on the ground). Each character is a cell: "
-                "a material's Char (# Stone, H Hardstone, C Concrete, M Metal), . empty.\n"
+                "a material's Char (# Stone, H Hardstone, C Concrete, M Metal, G Glass, W Wood), . empty. A lower-case "
+                "letter is a partly drawn square of that material: Tuning.PartialHP (1) shot whatever the material.\n"
                 "Cell is a 12 x 12 tiled sprite. Text-grid formations show their material's tile; art formations "
                 "(Texture set, made by tools/import_formations.py from whole pixel-art pictures) show their own "
                 "12 x 12 slice of the picture: the cell's X/Y offset is its column/row times 12."),

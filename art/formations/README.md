@@ -43,6 +43,8 @@ To add a material or change its colours, edit the reference sheet: add a sample 
 
 ## Rules that matter for gameplay
 
+- **Partly drawn squares are weak.** A 12 × 12 square that is drawn but not completely filled (rounded tops, broken edges, jagged corners) takes 1 shot whatever its material (`Tuning.PartialHP`). In the formation grid it gets the lower-case letter of its material (`c`, `m`, `g`, `w`). Ragged, broken edges are therefore quicker to shoot through than clean straight ones.
+
 - **Cells are a 12 px grid.** A square becomes a solid cell when at least 25 % of its pixels are drawn. Thin bits on a nearly empty square are dropped, and the importer tells you how many pixels that was.
 - **The tower needs 7 cells (84 px) of clear height** above the ground to drive through. Everything in the bottom 84 px of your object blocks it until shot away.
   - A ground floor 84 px or taller, with thin walls, makes a quick passage.

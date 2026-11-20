@@ -3,16 +3,16 @@
   "Name": "owner_building_01",
   "Texture": "formation_owner_building_01.png",
   "Rows": [
+   "CCCCCc....",
    "CCCCCC....",
    "CCCCCC....",
    "CCCCCC....",
    "CCCCCC....",
    "CCCCCC....",
    "CCCCCC....",
-   "CCCCCC....",
-   "CCCCCCC...",
-   "CCCCCCCCCC",
-   "CCCCCCCCCC",
+   "CCCCCCc...",
+   "CCCCCCCccc",
+   "CCCCCCCCCc",
    "CCCCCCCCCC"
   ],
   "Intro": false
@@ -21,9 +21,9 @@
   "Name": "owner_building_02",
   "Texture": "formation_owner_building_02.png",
   "Rows": [
-   "C..CC.",
-   "CCCCCC",
-   "CCCCCC",
+   "c..cc.",
+   "CccCCc",
+   "CCCCCc",
    "CCCCCC",
    "CCCCCC",
    "CCCCCC",
@@ -38,8 +38,8 @@
   "Texture": "formation_owner_building_03.png",
   "Rows": [
    ".......",
-   ".CCCCC.",
-   "CCCCCC.",
+   ".ccCcc.",
+   "cCCCCC.",
    "CCCCCC.",
    "CCCCCC.",
    "CCCCCC.",
@@ -47,6 +47,21 @@
    "CCCCCC.",
    "CCCCCC.",
    "CCCCCC."
+  ],
+  "Intro": false
+ },
+ {
+  "Name": "owner_building_04",
+  "Texture": "formation_owner_building_04.png",
+  "Rows": [
+   "cCCc...",
+   "C.C.C..",
+   "GGCGG..",
+   "C.cC...",
+   "GGCGG..",
+   ".CCC.C.",
+   "cwwwCC.",
+   "cWWWcc."
   ],
   "Intro": false
  },
@@ -113,14 +128,14 @@
   "Texture": "formation_owner_wall_01.png",
   "Rows": [
    ".....",
-   "CC...",
-   "CC...",
-   "CCC..",
-   "CCC..",
-   "CCC..",
-   "CCC..",
-   "CCCC.",
-   "CCCCC"
+   "cc...",
+   "Cc...",
+   "CCc..",
+   "CCc..",
+   "CCc..",
+   "CCc..",
+   "CCCc.",
+   "CCCCc"
   ],
   "Intro": false
  }

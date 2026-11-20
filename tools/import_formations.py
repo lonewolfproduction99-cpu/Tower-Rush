@@ -17,6 +17,8 @@ For every art/formations/<name>.png (transparent background, drawn at 1x, its bo
     one colour per material (the "MapColor" of each entry in the Materials table of data/game_data.json:
     grey #808080 Concrete, red #ff0000 Metal, ...). The colour covering most of a cell wins. Without a map,
     every cell is the formation's default material (<name>.json {"material": "Stone"}, else Concrete);
+  - a square that is drawn but not completely filled is a "partial" piece: it gets the lower-case letter
+    of its material (c, m, g, w ...) and takes Tuning.PartialHP shots (1) whatever the material;
   - the padded image is copied to game/assets/formation_<name>.png.
 
 The result is written to data/art_formations.json; tools/build_project.py adds these formations to the game.
@@ -143,7 +145,7 @@ def import_one(path, min_cover, palette, ref):
     if os.path.exists(mpath):
         mat_im = pad(Image.open(mpath).convert("RGBA").crop(crop), cols * CELL, rows * CELL)
     alpha = im.getchannel("A").load()
-    grid, lost, counts = [], 0, {}
+    grid, lost, counts, partial = [], 0, {}, 0
     for r in range(rows):
         line = ""
         for c in range(cols):
@@ -167,16 +169,23 @@ def import_one(path, min_cover, palette, ref):
                 if votes:
                     mat = max(votes, key=votes.get)
             counts[mat] = counts.get(mat, 0) + 1
-            line += DATA["Materials"][mat]["Char"]
+            ch = DATA["Materials"][mat]["Char"]
+            if covered < CELL * CELL and ch.isalpha():
+                ch = ch.lower()  # a partly drawn square: 1 shot whatever the material (Tuning.PartialHP)
+                partial += 1
+            line += ch
         grid.append(line)
     texture = "formation_%s.png" % name
     im.save(os.path.join(ASSETS, texture))
     lane = sum(1 for line in grid[-CLEARANCE_ROWS:] for ch in line if ch != ".")
-    lane_hp = sum(DATA["Materials"][m]["HP"] for line in grid[-CLEARANCE_ROWS:] for ch in line if ch != "."
-                  for m, info in DATA["Materials"].items() if info["Char"] == ch)
+    hp = {info["Char"]: info["HP"] for info in DATA["Materials"].values()}
+    hp.update({c.lower(): DATA["Tuning"].get("PartialHP", 1) for c in list(hp) if c.isalpha()})
+    lane_hp = sum(hp[ch] for line in grid[-CLEARANCE_ROWS:] for ch in line if ch != ".")
     report = "%-22s %2d x %2d cells, %4d solid (%s); in the tower's lane: %d cells, %d shots" % (
         name, cols, rows, sum(counts.values()), ", ".join("%s %d" % kv for kv in sorted(counts.items())),
         lane, lane_hp)
+    if partial:
+        report += "; %d partial pieces (1 shot)" % partial
     if lost:
         report += "; %d px of thin edges dropped" % lost
     if lane_hp > 40:

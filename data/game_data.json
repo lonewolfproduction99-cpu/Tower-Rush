@@ -4,12 +4,9 @@
     "GroundY": 800,
     "CellSize": 12,
     "TowerStartX": 150,
-    "TowerSpeed": 85,
     "CloudSpeed": 60,
     "CloudStartGap": 450,
     "WarningDistance": 170,
-    "FireRate": 6,
-    "BulletDamage": 1,
     "BulletSpeed": 900,
     "BarrelLength": 34,
     "TurretTurnSpeed": 900,
@@ -37,7 +34,6 @@
     "GemsMin": 1,
     "GemsMax": 2,
     "GemAboveLaneChance": 0.7,
-    "PickupRadius": 90,
     "GemGravity": 900,
     "GemBounce": 0.45,
     "GemMagnetSpeed": 260,
@@ -108,6 +104,108 @@
     "Legendary": {
       "Value": 25,
       "Weight": 5
+    }
+  },
+  "Upgrades": {
+    "Damage": {
+      "Label": "Gun damage",
+      "Stat": "Damage",
+      "Unit": "",
+      "Values": [
+        1,
+        1.25,
+        1.5,
+        2,
+        2.5,
+        3
+      ],
+      "Costs": [
+        20,
+        50,
+        110,
+        220,
+        400
+      ]
+    },
+    "FireRate": {
+      "Label": "Fire rate",
+      "Stat": "FireRate",
+      "Unit": " shots/s",
+      "Values": [
+        6,
+        7,
+        8,
+        9,
+        10,
+        12
+      ],
+      "Costs": [
+        15,
+        40,
+        90,
+        180,
+        350
+      ]
+    },
+    "Accuracy": {
+      "Label": "Accuracy",
+      "Stat": "Spread",
+      "Unit": " deg",
+      "Values": [
+        3,
+        2.4,
+        1.8,
+        1.2,
+        0.6,
+        0
+      ],
+      "Costs": [
+        10,
+        30,
+        70,
+        150,
+        300
+      ]
+    },
+    "TrackSpeed": {
+      "Label": "Track speed",
+      "Stat": "TowerSpeed",
+      "Unit": " px/s",
+      "Values": [
+        85,
+        90,
+        95,
+        100,
+        106,
+        112
+      ],
+      "Costs": [
+        25,
+        60,
+        130,
+        260,
+        500
+      ]
+    },
+    "PickupRadius": {
+      "Label": "Gem magnet",
+      "Stat": "PickupRadius",
+      "Unit": " px",
+      "Values": [
+        90,
+        115,
+        140,
+        170,
+        200,
+        240
+      ],
+      "Costs": [
+        10,
+        25,
+        60,
+        120,
+        240
+      ]
     }
   }
 }

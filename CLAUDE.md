@@ -1,6 +1,6 @@
 # Tower Rush: notes for Claude sessions
 
-Portrait (540×960) GDevelop 5 arcade game: a tracked tower auto-drives right, the player shoots paths through cell-grid formations, a gas cloud pursues. The owner's brief has 5 phases; **Phases 1 and 2 are done** (gems: README "Gems") (see README.md for the full layout).
+Portrait (540×960) GDevelop 5 arcade game: a tracked tower auto-drives right, the player shoots paths through cell-grid formations, a gas cloud pursues. The owner's brief has 5 phases; **Phases 1 and 2 are done, and the Phase 3 shop** (README "Gems", "Shop and upgrades"); next: power-up weapons (DESIGN_NOTES.md) (see README.md for the full layout).
 
 ## Rules from the brief
 
@@ -42,6 +42,13 @@ Portrait (540×960) GDevelop 5 arcade game: a tracked tower auto-drives right, t
 - Decks are built at build time: `FormationDeck` (indices × weight), `EasyDeck` (lane cost ≤ EasyLaneShots). The build's `lane_cost()` and the importer's lane count must agree (partial pieces = PartialHP).
 - Tests: `gems` scenario (9 checks); the main run patches Tuning through `openGame(..., tuning)`.
 - Owner decisions: keep the game hard (gas 450 / 60), progression via points → upgrades. See DESIGN_NOTES.md.
+
+## Shop / upgrades
+
+- Two scenes: `Game` (first) and `Shop` (external events `ShopScreen`). Leave a scene only through real UI in tests: a scene change from `page.evaluate` is dropped.
+- The stats (Damage, FireRate, Spread, TowerSpeed, PickupRadius) are scene variables set by UpgradeManager from `Upgrades.<k>.Values[Lv_<k>]`. Don't read `Tuning` for them; those Tuning keys were removed.
+- The test seeds storage with `openGame(..., storage)` (localStorage `GDJS_TowerRush`, `{"Key": {"value": n}}`).
+- The console error "409 / Error while creating the session" is GDevelop's analytics, blocked by the sandbox, and the tests ignore it.
 
 ## Gotchas
 

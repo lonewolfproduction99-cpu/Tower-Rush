@@ -347,6 +347,9 @@ def main():
     save(button(240, 72, (230, 170, 60, 255), (110, 70, 20, 255)), "button.png")
     save(button(150, 50, (60, 70, 90, 220), (20, 24, 34, 255)), "button_small.png")
     save(warning_edge(), "warning_edge.png")
+    row = rgba(500, 110)
+    ImageDraw.Draw(row).rectangle([0, 0, 499, 109], fill=(20, 22, 26, 225), outline=(110, 120, 120, 255), width=3)
+    save(row, "panel_row.png")
     save(panel(), "panel.png")
     print("placeholders written to", os.path.relpath(OUT, ROOT))
 

@@ -2,7 +2,7 @@
 
 A portrait-mode (540 × 960) side-scrolling arcade game made with **GDevelop 5**. You command a mechanical tower on tank tracks. It drives right on its own. You shoot paths through stone formations made of small cells. A gas cloud follows you from behind.
 
-**Status: Phases 1 and 2.** Phase 1: the tower, turret, bullets, destructible cells, the cloud, distance and best distance, and restart. Phase 2: gems hidden in obstacles, collected for a saved total, and better obstacle selection. The tower, background, road and obstacles are the owner's art; the rest is code-drawn placeholder art.
+**Status: Phases 1, 2 and the Phase 3 shop.** Phase 1: the tower, turret, bullets, destructible cells, the cloud, distance and best distance, and restart. Phase 2: gems hidden in obstacles, collected for a saved total, and better obstacle selection. Phase 3 (part 1): an upgrade shop spending saved gems. The tower, background, road and obstacles are the owner's art; the rest is code-drawn placeholder art.
 
 ## Play it
 
@@ -20,6 +20,7 @@ All gameplay is **native GDevelop events**, with no JavaScript blocks. Each syst
 
 | External events | Owns (scene variables) | Does |
 |---|---|---|
+| `UpgradeManager` | Lv_<Upgrade>, Damage, FireRate, Spread, TowerSpeed, PickupRadius | loads the bought levels; sets the stats the other systems read |
 | `RunManager` | State, Dt, StartX, Distance, BestDistance, OverTime | start, frame time, distance, game over, best distance (storage), restart |
 | `ObstacleGenerator` | NextFormationX, FormationCount, LastFormation, Shape… | picks and builds formations ahead of the camera, hides gems in them, removes cells left behind |
 | `TowerController` | TowerStep, Blocked | auto-drive, stop on any cell in the way |
@@ -74,6 +75,7 @@ tools/export.sh <extracted GDevelop-5-5.6.285-linux.zip folder> docs   # needs x
 node tools/test/play.js docs test-output                                 # needs Playwright + Chromium
 node tools/test/play.js docs test-output art                             # every art formation: slices, cracks, passable
 node tools/test/play.js docs test-output gems                            # Phase 2 gem checks
+node tools/test/play.js docs test-output shop                            # Phase 3 shop checks
 ```
 
 `tools/gd/instructions.json` lists GDevelop's instructions and their parameters. It is dumped from the editor's own `libGD.js` by `tools/gd/dump_metadata.js`. The build checks every event against it.
@@ -131,3 +133,20 @@ Put the owner's tower frames in `art/tower/` as `tower_0.png`, `tower_1.png`, �
   - `art/formations/<name>.json` `{"weight": 2}` makes one come more often.
   - With chance `ClusterChance` the next obstacle follows right behind.
 - **Gem art:** `gem_common/rare/legendary.png` (12 × 12, loose gem, origin centre) and `gem_mark_*.png` (8 × 8, the glint on a piece) are placeholders.
+
+## Shop and upgrades (Phase 3, part 1)
+
+- **Getting there:** the game-over panel has **RESTART** and **UPGRADES**. UPGRADES opens the `Shop` scene (its events are the external events `ShopScreen`), and **PLAY** starts a new run.
+- **The upgrades:** the global variable `Upgrades` lists them in shop order. Each has `Label`, `Stat` (the scene variable it sets), `Unit`, `Values` (level 0..5) and `Costs` (price of the next level).
+
+  | Upgrade | Level 0 → 5 | Prices |
+  |---|---|---|
+  | Gun damage | 1 → 3 per shot | 20, 50, 110, 220, 400 |
+  | Fire rate | 6 → 12 shots/s | 15, 40, 90, 180, 350 |
+  | Accuracy | 3° → 0° spread | 10, 30, 70, 150, 300 |
+  | Track speed | 85 → 112 px/s | 25, 60, 130, 260, 500 |
+  | Gem magnet | 90 → 240 px | 10, 25, 60, 120, 240 |
+
+- **Starting spread:** the gun starts with ±3° of spread (each bullet's angle is the turret's ± up to `Spread`), so Accuracy has something to improve.
+- **Saving:** levels are saved in storage `TowerRush` / `Up_<Upgrade>`, gems in `TotalGems`.
+- **Next:** the power-up weapons (DESIGN_NOTES.md).

@@ -235,6 +235,9 @@ def run_manager():
             ev([iss("State", q("Over")), isv("OverTime", ">", "0.5"),
                 C("MouseButtonFromTextReleased", q("Left")), C("IsCursorOnObject", "RestartButton")],
                [A("Scene", q("Game"), "no")]),
+            ev([iss("State", q("Over")), isv("OverTime", ">", "0.5"),
+                C("MouseButtonFromTextReleased", q("Left")), C("IsCursorOnObject", "UpgradesButton")],
+               [A("Scene", q("Shop"), "no")]),
             ev([iss("State", q("Over")), isv("OverTime", ">", "0.5"), C("KeyFromTextJustPressed", q("r"))],
                [A("Scene", q("Game"), "no")]),
             ev([iss("State", q("Over")), isv("OverTime", ">", "0.5"), C("KeyFromTextJustPressed", q("Space"))],
@@ -401,6 +404,98 @@ def embed_gems():
     ]
 
 
+UPGRADES = list(DATA["Upgrades"].items())  # [(key, {Label, Stat, Unit, Values, Costs})], shop order
+
+
+def upgrade_manager():
+    """Game scene: loads the bought upgrade levels and sets the stats every other system reads."""
+    load = []
+    for key, u in UPGRADES:
+        load.append(ev([], [setv("Lv_" + key, "=", "0")], [
+            ev([C("GroupExists", q("TowerRush"), q("Up_" + key))],
+               [A("ReadNumberFromStorage", q("TowerRush"), q("Up_" + key), "Lv_" + key)]),
+            ev([], [setv("Lv_" + key, "=", "clamp(round(Variable(Lv_%s)), 0, %d)" % (key, len(u["Values"]) - 1)),
+                    setv(u["Stat"], "=", "GlobalVariable(Upgrades.%s.Values[Variable(Lv_%s)])" % (key, key))]),
+        ]))
+    return [
+        comment("UPGRADE MANAGER - owns: the upgrade levels Lv_<Upgrade> and the stats Damage, FireRate, Spread, "
+                "TowerSpeed, PickupRadius (read by the other systems).\n"
+                "Levels are bought in the Shop scene and saved in storage TowerRush / Up_<Upgrade>. Each stat is "
+                "the global Upgrades.<Upgrade>.Values[level]; prices are Upgrades.<Upgrade>.Costs[level]."),
+        ev([C("SceneJustBegins")], [], load),
+    ]
+
+
+def shop_events():
+    """Shop scene: one row per upgrade (objects carry the variable Row = their upgrade's position)."""
+    rows = []
+    for i, (key, u) in enumerate(UPGRADES):
+        mx = len(u["Values"]) - 1
+        lv, gv = V("Lv_" + key), "Upgrades.%s" % key
+        val = lambda idx: 'ToString(GlobalVariable(%s.Values[%s]))' % (gv, idx)
+        unit = q(u["Unit"])
+        rows.append(group(u["Label"], [
+            ev([isov("RowName", "Row", "=", str(i))],
+               [set_text("RowName", '"%s   LV " + ToString(%s) + "/%d"' % (u["Label"].upper(), lv, mx))]),
+            ev([isov("RowInfo", "Row", "=", str(i)), isv("Lv_" + key, "<", str(mx))],
+               [set_text("RowInfo", '%s + %s + "   >   " + %s + %s' % (val(lv), unit, val(lv + " + 1"), unit))]),
+            ev([isov("RowInfo", "Row", "=", str(i)), isv("Lv_" + key, ">=", str(mx))],
+               [set_text("RowInfo", '%s + %s + "   (max)"' % (val(lv), unit))]),
+            ev([isov("BuyText", "Row", "=", str(i)), isv("Lv_" + key, "<", str(mx))],
+               [set_text("BuyText", 'ToString(GlobalVariable(%s.Costs[%s])) + " GEMS"' % (gv, lv))], [
+            ]),
+            ev([isov("BuyText", "Row", "=", str(i)), isv("Lv_" + key, ">=", str(mx))], [set_text("BuyText", q("MAX"))]),
+            comment("The button is gold when you can buy the next level, grey when you can't (or at max)."),
+            ev([isov("BuyButton", "Row", "=", str(i)), isv("Lv_" + key, "<", str(mx)),
+                cmp(V("TotalGems"), ">=", "GlobalVariable(%s.Costs[%s])" % (gv, lv))],
+               [A("ChangeColor", "BuyButton", q("255;255;255"))]),
+            ev([isov("BuyButton", "Row", "=", str(i)), isv("Lv_" + key, "<", str(mx)),
+                cmp(V("TotalGems"), "<", "GlobalVariable(%s.Costs[%s])" % (gv, lv))],
+               [A("ChangeColor", "BuyButton", q("120;120;120"))]),
+            ev([isov("BuyButton", "Row", "=", str(i)), isv("Lv_" + key, ">=", str(mx))],
+               [A("ChangeColor", "BuyButton", q("120;120;120"))]),
+            comment("Buy the next level: tap the row's button (a fresh release, after the first 0.3 s)."),
+            ev([C("MouseButtonFromTextReleased", q("Left")), C("IsCursorOnObject", "BuyButton"),
+                isov("BuyButton", "Row", "=", str(i)), isv("ShopTime", ">", "0.3")], [], [
+                ev([isv("Lv_" + key, "<", str(mx)), cmp(V("TotalGems"), ">=", "GlobalVariable(%s.Costs[%s])" % (gv, lv))], [
+                    setv("TotalGems", "-", "GlobalVariable(%s.Costs[%s])" % (gv, lv)),
+                    setv("Lv_" + key, "+", "1"),
+                    A("EcrireFichierExp", q("TowerRush"), q("TotalGems"), V("TotalGems")),
+                    A("EcrireFichierExp", q("TowerRush"), q("Up_" + key), lv),
+                    setv("Purchases", "+", "1"),
+                    set_text("ShopMessage", q(u["Label"] + " upgraded!")),
+                ]),
+                ev([isv("Lv_" + key, "<", str(mx)), cmp(V("TotalGems"), "<", "GlobalVariable(%s.Costs[%s])" % (gv, lv))],
+                   [set_text("ShopMessage", q("Not enough gems"))]),
+            ]),
+        ]))
+    load = [ev([], [setv("Lv_" + key, "=", "0")], [
+        ev([C("GroupExists", q("TowerRush"), q("Up_" + key))],
+           [A("ReadNumberFromStorage", q("TowerRush"), q("Up_" + key), "Lv_" + key)]),
+        ev([], [setv("Lv_" + key, "=", "clamp(round(Variable(Lv_%s)), 0, %d)" % (key, len(u["Values"]) - 1))]),
+    ]) for key, u in UPGRADES]
+    return [
+        comment("SHOP - spend the saved gems (storage TowerRush / TotalGems) on upgrade levels (Up_<Upgrade>). "
+                "Rows, labels, values and prices come from the global variable Upgrades; the game reads the levels "
+                "in UpgradeManager."),
+        ev([C("SceneJustBegins")], [], [
+            ev([C("GroupExists", q("TowerRush"), q("TotalGems"))],
+               [A("ReadNumberFromStorage", q("TowerRush"), q("TotalGems"), "TotalGems")]),
+        ] + load),
+        ev([], [setv("ShopTime", "+", "TimeDelta()"),
+                set_text("ShopGems", '"GEMS  " + ToString(Variable(TotalGems))')]),
+        group("Rows", rows),
+        group("Centre the price on its button", [
+            foreach("BuyButton", [], [], [
+                ev([isov("BuyText", "Row", "=", "BuyButton.Variable(Row)")],
+                   [set_xy("BuyText", "BuyButton.CenterX() - BuyText.Width() / 2", "BuyButton.CenterY() - BuyText.Height() / 2")]),
+            ]),
+        ]),
+        ev([C("MouseButtonFromTextReleased", q("Left")), C("IsCursorOnObject", "PlayButton"), isv("ShopTime", ">", "0.3")],
+           [A("Scene", q("Game"), "no")]),
+    ]
+
+
 def tower_controller():
     return [
         comment("TOWER CONTROLLER - owns: TowerStep, Blocked.\n"
@@ -409,7 +504,7 @@ def tower_controller():
                 "A step is at most TowerSpeed x MaxFrameTime (about 4 px), smaller than a cell, so it can never "
                 "skip through one. The tower fits through an opening at least 7 cells (84 px) high."),
         ev([iss("State", q("Run"))], [
-            setv("TowerStep", "=", "%s * %s" % (tune("TowerSpeed"), DT)),
+            setv("TowerStep", "=", "%s * %s" % (V("TowerSpeed"), DT)),
             setv("Blocked", "=", "0"),
             A("MettreX", "Tower", "+", V("TowerStep")),
         ], [
@@ -499,10 +594,10 @@ def turret_controller():
                 cmp('CursorY("UI", 0)', ">", "96")], [setv("Firing", "=", "1")]),
             ev([isv("Firing", "=", "0"), isv("FireCooldown", "<", "0")], [setv("FireCooldown", "=", "0")]),
             ev([isv("Firing", "=", "1"), isv("FireCooldown", "<=", "0")], [
-                setv("FireCooldown", "+", "1 / %s" % tune("FireRate")),
+                setv("FireCooldown", "+", "1 / %s" % V("FireRate")),
                 setv("ShotsFired", "+", "1"),
                 A("Create", "Bullet", V("PivotX"), V("PivotY"), q("")),
-                A("SetAngle", "Bullet", "=", V("TurretAngle")),
+                A("SetAngle", "Bullet", "=", "Variable(TurretAngle) + RandomFloatInRange(-Variable(Spread), Variable(Spread))"),
                 setov("Bullet", "Extra", "=", tune("BarrelLength")),
                 A("SetZOrder", "Bullet", "=", "22"),
                 A("Show", "MuzzleFlash"),
@@ -532,7 +627,7 @@ def projectile_system():
                   "Variable(BulletStep) + Bullet.Variable(Extra)", "HitX", "HitY")], [
                 setv("BulletHit", "=", "1"),
                 setv("ShotsHit", "+", "1"),
-                setov("Cell", "HP", "-", tune("BulletDamage")),
+                setov("Cell", "HP", "-", V("Damage")),
                 A("Create", "Spark", V("HitX"), V("HitY"), q("")),
                 A("SetZOrder", "Spark", "=", "26"),
                 A("Delete", "Bullet"),
@@ -659,7 +754,7 @@ def gem_system():
                 setv("GemDY", "=", "%s - Gem.Y()" % tcy),
                 setv("GemDist", "=", "sqrt(Variable(GemDX) * Variable(GemDX) + Variable(GemDY) * Variable(GemDY))"),
             ]),
-            ev([isov("Gem", "Magnet", "=", "0"), isv("GemDist", "<", tune("PickupRadius")), iss("State", q("Run"))], [
+            ev([isov("Gem", "Magnet", "=", "0"), isv("GemDist", "<", V("PickupRadius")), iss("State", q("Run"))], [
                 setov("Gem", "Magnet", "=", "1"), setov("Gem", "Speed", "=", tune("GemMagnetSpeed")),
             ]),
             ev([isov("Gem", "Magnet", "=", "1"), isv("GemDist", "<", "14")], [
@@ -752,12 +847,13 @@ def camera_and_hud():
 
 
 SYSTEMS = [
-    ("RunManager", run_manager), ("ObstacleGenerator", obstacle_generator), ("TowerController", tower_controller),
+    ("UpgradeManager", upgrade_manager), ("RunManager", run_manager), ("ObstacleGenerator", obstacle_generator), ("TowerController", tower_controller),
     ("TurretController", turret_controller), ("ProjectileSystem", projectile_system),
     ("ObstacleGrid", obstacle_grid), ("GemSystem", gem_system), ("CloudController", cloud_controller), ("CameraAndHUD", camera_and_hud),
 ]
 
 SCENE_VARS = {
+    **{"Lv_" + k: 0 for k in DATA["Upgrades"]},
     "State": "", "Dt": 0, "StartX": 0, "Distance": 0, "BestDistance": 0, "OverTime": 0,
     "NextFormationX": 0, "FormationCount": 0, "FormationIndex": 0, "Shape": "", "ShapeW": 0, "ShapeRows": 0,
     "SpawnX": 0, "FormationArt": 0, "Idx": 0, "Col": 0, "Row": 0, "Ch": "", "CellsSpawned": 0,
@@ -769,6 +865,7 @@ SCENE_VARS = {
     "GemsToPlace": 0, "GemPlaced": 0, "GemRoll": 0, "GemType": 0, "GemsReleased": 0,
     "RunGems": 0, "TotalGems": 0, "GemsCollected": 0, "GemsLost": 0, "GemsSaved": 0,
     "GemDX": 0, "GemDY": 0, "GemDist": 0, "GemStep": 0,
+    "Damage": 1, "FireRate": 6, "Spread": 0, "TowerSpeed": 85, "PickupRadius": 90,
 }
 
 
@@ -823,9 +920,9 @@ def tiled(name, image, w, h):
     return o
 
 
-def text(name, size, color="255;255;255", string="", bold=True):
+def text(name, size, color="255;255;255", string="", bold=True, outline=True):
     o = base_obj(name, "TextObject::Text")
-    o["content"] = {"bold": bold, "isOutlineEnabled": True, "isShadowEnabled": False, "italic": False,
+    o["content"] = {"bold": bold, "isOutlineEnabled": outline, "isShadowEnabled": False, "italic": False,
                     "outlineColor": "20;16;24", "outlineThickness": 3, "shadowAngle": 90, "shadowBlurRadius": 0,
                     "shadowColor": "0;0;0", "shadowDistance": 3, "shadowOpacity": 160, "smoothed": True,
                     "underlined": False, "text": string, "font": "", "textAlignment": "left",
@@ -882,7 +979,9 @@ def build_objects():
         text("ResultText", 30, string="DISTANCE 0 m"),
         text("BestResultText", 26, "255;225;150", "BEST 0 m"),
         sprite("RestartButton", [("Idle", ["button.png"])]),
-        text("RestartText", 32, "40;24;8", "RESTART"),
+        text("RestartText", 28, "40;24;8", "RESTART", outline=False),
+        sprite("UpgradesButton", [("Idle", ["button.png"])]),
+        text("UpgradesText", 26, "40;24;8", "UPGRADES", outline=False),
     ]
 
 
@@ -919,8 +1018,10 @@ def build_instances():
         inst("ResultText", 110, 395, 11, "UI"),
         inst("BestResultText", 110, 436, 11, "UI"),
         inst("GemsResultText", 110, 474, 11, "UI"),
-        inst("RestartButton", 150, 515, 11, "UI"),
-        inst("RestartText", 205, 533, 12, "UI"),
+        inst("RestartButton", 60, 515, 11, "UI", w=200, h=64),
+        inst("RestartText", 103, 530, 12, "UI"),
+        inst("UpgradesButton", 280, 515, 11, "UI", w=200, h=64),
+        inst("UpgradesText", 312, 531, 12, "UI"),
     ]
 
 
@@ -953,32 +1054,69 @@ def global_variables():
     deck = [i for i, f in enumerate(ALL_FORMATIONS) for _ in range(int(f.get("Weight", 1)))]
     easy = [i for i, f in enumerate(ALL_FORMATIONS) if lane_cost(f) <= T.get("EasyLaneShots", 40)]
     return [var("Tuning", T), var("Materials", DATA["Materials"]), var("Formations", forms),
-            var("FormationDeck", deck), var("EasyDeck", easy), var("Gems", DATA["Gems"])]
+            var("FormationDeck", deck), var("EasyDeck", easy), var("Gems", DATA["Gems"]),
+            var("Upgrades", DATA["Upgrades"])]
 
 
-def build_project():
-    objects = build_objects()
-    scene_events = [
-        comment("TOWER RUSH - Phase 1 prototype. Every system is an external event (Project manager > External "
-                "events), included here in this order. Tuning numbers are the global variable Tuning; "
-                "formations are the global variable Formations."),
-    ] + [link(name) for name, _ in SYSTEMS]
-    scene = {
-        "b": 150, "v": 196, "r": 236,
-        "disableInputWhenNotFocused": True, "mangledName": "Game", "name": "Game",
+def scene_json(name, objects, instances, events, layers, variables, groups, bg=(0, 0, 0)):
+    return {
+        "b": bg[2], "v": bg[1], "r": bg[0],
+        "disableInputWhenNotFocused": True, "mangledName": name, "name": name,
         "standardSortMethod": True, "stopSoundsOnStartup": True, "title": "",
         "uiSettings": {"grid": False, "gridType": "rectangular", "gridWidth": 12, "gridHeight": 12, "gridDepth": 32,
                        "gridOffsetX": 0, "gridOffsetY": 0, "gridOffsetZ": 0, "gridColor": 10401023, "gridAlpha": 0.8,
                        "snap": False, "zoomFactor": 0.8, "windowMask": False, "selectedLayer": "",
                        "gameEditorMode": "instances-editor"},
-        "objectsGroups": [{"name": "GameOverUI", "objects": [{"name": n} for n in (
-            "Panel", "GameOverTitle", "ResultText", "BestResultText", "GemsResultText", "RestartButton",
-            "RestartText")]}],
-        "variables": [var(k, v) for k, v in SCENE_VARS.items()],
-        "instances": build_instances(), "objects": objects,
+        "objectsGroups": groups, "variables": variables, "instances": instances, "objects": objects,
         "objectsFolderStructure": {"folderName": "__ROOT", "children": [{"objectName": o["name"]} for o in objects]},
-        "events": scene_events, "layers": [layer("Sky"), layer(""), layer("UI")], "behaviorsSharedData": [],
+        "events": events, "layers": layers, "behaviorsSharedData": [],
     }
+
+
+def build_shop():
+    """Shop scene objects and layout (540 x 960): title, gem count, one row per upgrade, PLAY."""
+    objs = [
+        text("ShopTitle", 44, "255;225;150", "UPGRADES"),
+        text("ShopGems", 28, "120;230;255", "GEMS 0"),
+        text("ShopMessage", 22, "230;230;230", "Tap a price to buy the next level"),
+        sprite("RowPanel", [("Idle", ["panel_row.png"])], {"Row": 0}),
+        dict(text("RowName", 24, "255;255;255", "NAME"), variables=[var("Row", 0)]),
+        dict(text("RowInfo", 20, "200;235;150", "INFO"), variables=[var("Row", 0)]),
+        sprite("BuyButton", [("Idle", ["button.png"])], {"Row": 0}),
+        dict(text("BuyText", 22, "40;24;8", "0 GEMS", outline=False), variables=[var("Row", 0)]),
+        sprite("PlayButton", [("Idle", ["button.png"])]),
+        text("PlayText", 34, "40;24;8", "PLAY", outline=False),
+    ]
+    insts = [inst("ShopTitle", 150, 34, 5), inst("ShopGems", 30, 108, 5), inst("ShopMessage", 30, 150, 5)]
+    for i in range(len(UPGRADES)):
+        y = 200 + i * 124
+        for o in (inst("RowPanel", 20, y, 1, w=500, h=110), inst("RowName", 38, y + 14, 5),
+                  inst("RowInfo", 38, y + 58, 5), inst("BuyButton", 352, y + 26, 4, w=150, h=58),
+                  inst("BuyText", 372, y + 44, 6)):
+            o["initialVariables"] = [var("Row", i)]
+            o["persistentUuid"] = uid("shop-%s-%d" % (o["name"], i))
+            insts.append(o)
+    insts += [inst("PlayButton", 150, 840, 5), inst("PlayText", 228, 856, 6)]
+    return objs, insts
+
+
+def build_project():
+    objects = build_objects()
+    scene_events = [
+        comment("TOWER RUSH. Every system is an external event (Project manager > External "
+                "events), included here in this order. Tuning numbers are the global variable Tuning; "
+                "formations are the global variable Formations."),
+    ] + [link(name) for name, _ in SYSTEMS]
+    scene = scene_json("Game", objects, build_instances(), scene_events, [layer("Sky"), layer(""), layer("UI")],
+                       [var(k, v) for k, v in SCENE_VARS.items()],
+                       [{"name": "GameOverUI", "objects": [{"name": n} for n in (
+                           "Panel", "GameOverTitle", "ResultText", "BestResultText", "GemsResultText", "RestartButton",
+                           "RestartText", "UpgradesButton", "UpgradesText")]}], bg=(236, 196, 150))
+    shop_objs, shop_insts = build_shop()
+    shop = scene_json("Shop", shop_objs, shop_insts, [comment("The shop screen's events are the external events "
+                      "\"ShopScreen\"."), link("ShopScreen")], [layer("")],
+                      [var(k, v) for k, v in {**{"Lv_" + k: 0 for k in DATA["Upgrades"]}, "TotalGems": 0,
+                                               "ShopTime": 0, "Purchases": 0}.items()], [], bg=(34, 40, 42))
     return {
         "firstLayout": "Game",
         "gdVersion": {"build": 285, "major": 5, "minor": 6, "revision": 0},
@@ -1005,9 +1143,11 @@ def build_project():
         "resources": {"resources": build_resources()},
         "objects": [], "objectsFolderStructure": {"folderName": "__ROOT", "children": []}, "objectsGroups": [],
         "variables": global_variables(),
-        "layouts": [scene],
+        "layouts": [scene, shop],
         "externalEvents": [{"associatedLayout": "Game", "lastChangeTimeStamp": 0, "name": n, "events": f()}
-                           for n, f in SYSTEMS],
+                           for n, f in SYSTEMS]
+                          + [{"associatedLayout": "Shop", "lastChangeTimeStamp": 0, "name": "ShopScreen",
+                              "events": shop_events()}],
         "tests": [], "eventsFunctionsExtensions": [], "externalLayouts": [],
     }
 

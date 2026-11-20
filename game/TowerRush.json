@@ -302,6 +302,14 @@
     "userAdded": true
    },
    {
+    "file": "assets/panel_row.png",
+    "kind": "image",
+    "metadata": "",
+    "name": "panel_row.png",
+    "smoothed": false,
+    "userAdded": true
+   },
+   {
     "file": "assets/sky.png",
     "kind": "image",
     "metadata": "",
@@ -442,11 +450,6 @@
      "value": 150
     },
     {
-     "name": "TowerSpeed",
-     "type": "number",
-     "value": 85
-    },
-    {
      "name": "CloudSpeed",
      "type": "number",
      "value": 60
@@ -460,16 +463,6 @@
      "name": "WarningDistance",
      "type": "number",
      "value": 170
-    },
-    {
-     "name": "FireRate",
-     "type": "number",
-     "value": 6
-    },
-    {
-     "name": "BulletDamage",
-     "type": "number",
-     "value": 1
     },
     {
      "name": "BulletSpeed",
@@ -605,11 +598,6 @@
      "name": "GemAboveLaneChance",
      "type": "number",
      "value": 0.7
-    },
-    {
-     "name": "PickupRadius",
-     "type": "number",
-     "value": 90
     },
     {
      "name": "GemGravity",
@@ -1128,6 +1116,397 @@
      ]
     }
    ]
+  },
+  {
+   "name": "Upgrades",
+   "type": "structure",
+   "children": [
+    {
+     "name": "Damage",
+     "type": "structure",
+     "children": [
+      {
+       "name": "Label",
+       "type": "string",
+       "value": "Gun damage"
+      },
+      {
+       "name": "Stat",
+       "type": "string",
+       "value": "Damage"
+      },
+      {
+       "name": "Unit",
+       "type": "string",
+       "value": ""
+      },
+      {
+       "name": "Values",
+       "type": "array",
+       "children": [
+        {
+         "type": "number",
+         "value": 1
+        },
+        {
+         "type": "number",
+         "value": 1.25
+        },
+        {
+         "type": "number",
+         "value": 1.5
+        },
+        {
+         "type": "number",
+         "value": 2
+        },
+        {
+         "type": "number",
+         "value": 2.5
+        },
+        {
+         "type": "number",
+         "value": 3
+        }
+       ]
+      },
+      {
+       "name": "Costs",
+       "type": "array",
+       "children": [
+        {
+         "type": "number",
+         "value": 20
+        },
+        {
+         "type": "number",
+         "value": 50
+        },
+        {
+         "type": "number",
+         "value": 110
+        },
+        {
+         "type": "number",
+         "value": 220
+        },
+        {
+         "type": "number",
+         "value": 400
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "name": "FireRate",
+     "type": "structure",
+     "children": [
+      {
+       "name": "Label",
+       "type": "string",
+       "value": "Fire rate"
+      },
+      {
+       "name": "Stat",
+       "type": "string",
+       "value": "FireRate"
+      },
+      {
+       "name": "Unit",
+       "type": "string",
+       "value": " shots/s"
+      },
+      {
+       "name": "Values",
+       "type": "array",
+       "children": [
+        {
+         "type": "number",
+         "value": 6
+        },
+        {
+         "type": "number",
+         "value": 7
+        },
+        {
+         "type": "number",
+         "value": 8
+        },
+        {
+         "type": "number",
+         "value": 9
+        },
+        {
+         "type": "number",
+         "value": 10
+        },
+        {
+         "type": "number",
+         "value": 12
+        }
+       ]
+      },
+      {
+       "name": "Costs",
+       "type": "array",
+       "children": [
+        {
+         "type": "number",
+         "value": 15
+        },
+        {
+         "type": "number",
+         "value": 40
+        },
+        {
+         "type": "number",
+         "value": 90
+        },
+        {
+         "type": "number",
+         "value": 180
+        },
+        {
+         "type": "number",
+         "value": 350
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "name": "Accuracy",
+     "type": "structure",
+     "children": [
+      {
+       "name": "Label",
+       "type": "string",
+       "value": "Accuracy"
+      },
+      {
+       "name": "Stat",
+       "type": "string",
+       "value": "Spread"
+      },
+      {
+       "name": "Unit",
+       "type": "string",
+       "value": " deg"
+      },
+      {
+       "name": "Values",
+       "type": "array",
+       "children": [
+        {
+         "type": "number",
+         "value": 3
+        },
+        {
+         "type": "number",
+         "value": 2.4
+        },
+        {
+         "type": "number",
+         "value": 1.8
+        },
+        {
+         "type": "number",
+         "value": 1.2
+        },
+        {
+         "type": "number",
+         "value": 0.6
+        },
+        {
+         "type": "number",
+         "value": 0
+        }
+       ]
+      },
+      {
+       "name": "Costs",
+       "type": "array",
+       "children": [
+        {
+         "type": "number",
+         "value": 10
+        },
+        {
+         "type": "number",
+         "value": 30
+        },
+        {
+         "type": "number",
+         "value": 70
+        },
+        {
+         "type": "number",
+         "value": 150
+        },
+        {
+         "type": "number",
+         "value": 300
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "name": "TrackSpeed",
+     "type": "structure",
+     "children": [
+      {
+       "name": "Label",
+       "type": "string",
+       "value": "Track speed"
+      },
+      {
+       "name": "Stat",
+       "type": "string",
+       "value": "TowerSpeed"
+      },
+      {
+       "name": "Unit",
+       "type": "string",
+       "value": " px/s"
+      },
+      {
+       "name": "Values",
+       "type": "array",
+       "children": [
+        {
+         "type": "number",
+         "value": 85
+        },
+        {
+         "type": "number",
+         "value": 90
+        },
+        {
+         "type": "number",
+         "value": 95
+        },
+        {
+         "type": "number",
+         "value": 100
+        },
+        {
+         "type": "number",
+         "value": 106
+        },
+        {
+         "type": "number",
+         "value": 112
+        }
+       ]
+      },
+      {
+       "name": "Costs",
+       "type": "array",
+       "children": [
+        {
+         "type": "number",
+         "value": 25
+        },
+        {
+         "type": "number",
+         "value": 60
+        },
+        {
+         "type": "number",
+         "value": 130
+        },
+        {
+         "type": "number",
+         "value": 260
+        },
+        {
+         "type": "number",
+         "value": 500
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "name": "PickupRadius",
+     "type": "structure",
+     "children": [
+      {
+       "name": "Label",
+       "type": "string",
+       "value": "Gem magnet"
+      },
+      {
+       "name": "Stat",
+       "type": "string",
+       "value": "PickupRadius"
+      },
+      {
+       "name": "Unit",
+       "type": "string",
+       "value": " px"
+      },
+      {
+       "name": "Values",
+       "type": "array",
+       "children": [
+        {
+         "type": "number",
+         "value": 90
+        },
+        {
+         "type": "number",
+         "value": 115
+        },
+        {
+         "type": "number",
+         "value": 140
+        },
+        {
+         "type": "number",
+         "value": 170
+        },
+        {
+         "type": "number",
+         "value": 200
+        },
+        {
+         "type": "number",
+         "value": 240
+        }
+       ]
+      },
+      {
+       "name": "Costs",
+       "type": "array",
+       "children": [
+        {
+         "type": "number",
+         "value": 10
+        },
+        {
+         "type": "number",
+         "value": 25
+        },
+        {
+         "type": "number",
+         "value": 60
+        },
+        {
+         "type": "number",
+         "value": 120
+        },
+        {
+         "type": "number",
+         "value": 240
+        }
+       ]
+      }
+     ]
+    }
+   ]
   }
  ],
  "layouts": [
@@ -1182,11 +1561,42 @@
       },
       {
        "name": "RestartText"
+      },
+      {
+       "name": "UpgradesButton"
+      },
+      {
+       "name": "UpgradesText"
       }
      ]
     }
    ],
    "variables": [
+    {
+     "name": "Lv_Damage",
+     "type": "number",
+     "value": 0
+    },
+    {
+     "name": "Lv_FireRate",
+     "type": "number",
+     "value": 0
+    },
+    {
+     "name": "Lv_Accuracy",
+     "type": "number",
+     "value": 0
+    },
+    {
+     "name": "Lv_TrackSpeed",
+     "type": "number",
+     "value": 0
+    },
+    {
+     "name": "Lv_PickupRadius",
+     "type": "number",
+     "value": 0
+    },
     {
      "name": "State",
      "type": "string",
@@ -1471,6 +1881,31 @@
      "name": "GemStep",
      "type": "number",
      "value": 0
+    },
+    {
+     "name": "Damage",
+     "type": "number",
+     "value": 1
+    },
+    {
+     "name": "FireRate",
+     "type": "number",
+     "value": 6
+    },
+    {
+     "name": "Spread",
+     "type": "number",
+     "value": 0
+    },
+    {
+     "name": "TowerSpeed",
+     "type": "number",
+     "value": 85
+    },
+    {
+     "name": "PickupRadius",
+     "type": "number",
+     "value": 90
     }
    ],
    "instances": [
@@ -1812,14 +2247,14 @@
     },
     {
      "angle": 0,
-     "customSize": false,
-     "height": 0,
-     "width": 0,
+     "customSize": true,
+     "height": 64,
+     "width": 200,
      "layer": "UI",
      "locked": false,
      "name": "RestartButton",
-     "persistentUuid": "584556a8-72e0-55b6-829d-35547abb2f60",
-     "x": 150,
+     "persistentUuid": "560e5b1a-df4c-5d1f-99d4-22f55336ed84",
+     "x": 60,
      "y": 515,
      "zOrder": 11,
      "numberProperties": [],
@@ -1834,9 +2269,41 @@
      "layer": "UI",
      "locked": false,
      "name": "RestartText",
-     "persistentUuid": "5cddb8fd-c613-5d7d-8a2a-b4e5845c7db5",
-     "x": 205,
-     "y": 533,
+     "persistentUuid": "bf2201df-3a62-5832-92c3-b801249dfd3a",
+     "x": 103,
+     "y": 530,
+     "zOrder": 12,
+     "numberProperties": [],
+     "stringProperties": [],
+     "initialVariables": []
+    },
+    {
+     "angle": 0,
+     "customSize": true,
+     "height": 64,
+     "width": 200,
+     "layer": "UI",
+     "locked": false,
+     "name": "UpgradesButton",
+     "persistentUuid": "2ef23244-5e5f-5b06-861b-7a166675cdb5",
+     "x": 280,
+     "y": 515,
+     "zOrder": 11,
+     "numberProperties": [],
+     "stringProperties": [],
+     "initialVariables": []
+    },
+    {
+     "angle": 0,
+     "customSize": false,
+     "height": 0,
+     "width": 0,
+     "layer": "UI",
+     "locked": false,
+     "name": "UpgradesText",
+     "persistentUuid": "9e86f9b1-a507-540b-9303-1bef239cdd73",
+     "x": 312,
+     "y": 531,
      "zOrder": 12,
      "numberProperties": [],
      "stringProperties": [],
@@ -3355,7 +3822,7 @@
      "behaviors": [],
      "content": {
       "bold": true,
-      "isOutlineEnabled": true,
+      "isOutlineEnabled": false,
       "isShadowEnabled": false,
       "italic": false,
       "outlineColor": "20;16;24",
@@ -3371,7 +3838,80 @@
       "font": "",
       "textAlignment": "left",
       "verticalTextAlignment": "top",
-      "characterSize": 32,
+      "characterSize": 28,
+      "lineHeight": 0,
+      "color": "40;24;8"
+     }
+    },
+    {
+     "assetStoreId": "",
+     "name": "UpgradesButton",
+     "persistentUuid": "321cfe19-a731-556f-a612-702fc38208f5",
+     "type": "Sprite",
+     "variables": [],
+     "effects": [],
+     "behaviors": [],
+     "adaptCollisionMaskAutomatically": false,
+     "updateIfNotVisible": false,
+     "animations": [
+      {
+       "name": "Idle",
+       "useMultipleDirections": false,
+       "directions": [
+        {
+         "looping": false,
+         "timeBetweenFrames": 1,
+         "sprites": [
+          {
+           "hasCustomCollisionMask": false,
+           "image": "button.png",
+           "points": [],
+           "originPoint": {
+            "name": "origine",
+            "x": 0,
+            "y": 0
+           },
+           "centerPoint": {
+            "automatic": true,
+            "name": "centre",
+            "x": 0,
+            "y": 0
+           },
+           "customCollisionMask": []
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "assetStoreId": "",
+     "name": "UpgradesText",
+     "persistentUuid": "3a4ebb82-af16-5609-bfc2-3d8fd5b12469",
+     "type": "TextObject::Text",
+     "variables": [],
+     "effects": [],
+     "behaviors": [],
+     "content": {
+      "bold": true,
+      "isOutlineEnabled": false,
+      "isShadowEnabled": false,
+      "italic": false,
+      "outlineColor": "20;16;24",
+      "outlineThickness": 3,
+      "shadowAngle": 90,
+      "shadowBlurRadius": 0,
+      "shadowColor": "0;0;0",
+      "shadowDistance": 3,
+      "shadowOpacity": 160,
+      "smoothed": true,
+      "underlined": false,
+      "text": "UPGRADES",
+      "font": "",
+      "textAlignment": "left",
+      "verticalTextAlignment": "top",
+      "characterSize": 26,
       "lineHeight": 0,
       "color": "40;24;8"
      }
@@ -3472,6 +4012,12 @@
      },
      {
       "objectName": "RestartText"
+     },
+     {
+      "objectName": "UpgradesButton"
+     },
+     {
+      "objectName": "UpgradesText"
      }
     ]
    },
@@ -3486,7 +4032,14 @@
       "textG": 0,
       "textR": 0
      },
-     "comment": "TOWER RUSH - Phase 1 prototype. Every system is an external event (Project manager > External events), included here in this order. Tuning numbers are the global variable Tuning; formations are the global variable Formations."
+     "comment": "TOWER RUSH. Every system is an external event (Project manager > External events), included here in this order. Tuning numbers are the global variable Tuning; formations are the global variable Formations."
+    },
+    {
+     "type": "BuiltinCommonInstructions::Link",
+     "include": {
+      "includeConfig": 0
+     },
+     "target": "UpgradeManager"
     },
     {
      "type": "BuiltinCommonInstructions::Link",
@@ -3642,9 +4195,1601 @@
     }
    ],
    "behaviorsSharedData": []
+  },
+  {
+   "b": 42,
+   "v": 40,
+   "r": 34,
+   "disableInputWhenNotFocused": true,
+   "mangledName": "Shop",
+   "name": "Shop",
+   "standardSortMethod": true,
+   "stopSoundsOnStartup": true,
+   "title": "",
+   "uiSettings": {
+    "grid": false,
+    "gridType": "rectangular",
+    "gridWidth": 12,
+    "gridHeight": 12,
+    "gridDepth": 32,
+    "gridOffsetX": 0,
+    "gridOffsetY": 0,
+    "gridOffsetZ": 0,
+    "gridColor": 10401023,
+    "gridAlpha": 0.8,
+    "snap": false,
+    "zoomFactor": 0.8,
+    "windowMask": false,
+    "selectedLayer": "",
+    "gameEditorMode": "instances-editor"
+   },
+   "objectsGroups": [],
+   "variables": [
+    {
+     "name": "Lv_Damage",
+     "type": "number",
+     "value": 0
+    },
+    {
+     "name": "Lv_FireRate",
+     "type": "number",
+     "value": 0
+    },
+    {
+     "name": "Lv_Accuracy",
+     "type": "number",
+     "value": 0
+    },
+    {
+     "name": "Lv_TrackSpeed",
+     "type": "number",
+     "value": 0
+    },
+    {
+     "name": "Lv_PickupRadius",
+     "type": "number",
+     "value": 0
+    },
+    {
+     "name": "TotalGems",
+     "type": "number",
+     "value": 0
+    },
+    {
+     "name": "ShopTime",
+     "type": "number",
+     "value": 0
+    },
+    {
+     "name": "Purchases",
+     "type": "number",
+     "value": 0
+    }
+   ],
+   "instances": [
+    {
+     "angle": 0,
+     "customSize": false,
+     "height": 0,
+     "width": 0,
+     "layer": "",
+     "locked": false,
+     "name": "ShopTitle",
+     "persistentUuid": "e549c157-fd63-55b7-9131-e9e972b1bf1e",
+     "x": 150,
+     "y": 34,
+     "zOrder": 5,
+     "numberProperties": [],
+     "stringProperties": [],
+     "initialVariables": []
+    },
+    {
+     "angle": 0,
+     "customSize": false,
+     "height": 0,
+     "width": 0,
+     "layer": "",
+     "locked": false,
+     "name": "ShopGems",
+     "persistentUuid": "8194318a-feca-56bd-98b4-60b481c22a13",
+     "x": 30,
+     "y": 108,
+     "zOrder": 5,
+     "numberProperties": [],
+     "stringProperties": [],
+     "initialVariables": []
+    },
+    {
+     "angle": 0,
+     "customSize": false,
+     "height": 0,
+     "width": 0,
+     "layer": "",
+     "locked": false,
+     "name": "ShopMessage",
+     "persistentUuid": "67e91c00-cf98-5d11-9b60-d7d3b66eff4c",
+     "x": 30,
+     "y": 150,
+     "zOrder": 5,
+     "numberProperties": [],
+     "stringProperties": [],
+     "initialVariables": []
+    },
+    {
+     "angle": 0,
+     "customSize": true,
+     "height": 110,
+     "width": 500,
+     "layer": "",
+     "locked": false,
+     "name": "RowPanel",
+     "persistentUuid": "0af9702e-280e-5971-a8b5-c80eab2ed041",
+     "x": 20,
+     "y": 200,
+     "zOrder": 1,
+     "numberProperties": [],
+     "stringProperties": [],
+     "initialVariables": [
+      {
+       "name": "Row",
+       "type": "number",
+       "value": 0
+      }
+     ]
+    },
+    {
+     "angle": 0,
+     "customSize": false,
+     "height": 0,
+     "width": 0,
+     "layer": "",
+     "locked": false,
+     "name": "RowName",
+     "persistentUuid": "71b0db60-2b6f-56f5-924e-8a7266f0383d",
+     "x": 38,
+     "y": 214,
+     "zOrder": 5,
+     "numberProperties": [],
+     "stringProperties": [],
+     "initialVariables": [
+      {
+       "name": "Row",
+       "type": "number",
+       "value": 0
+      }
+     ]
+    },
+    {
+     "angle": 0,
+     "customSize": false,
+     "height": 0,
+     "width": 0,
+     "layer": "",
+     "locked": false,
+     "name": "RowInfo",
+     "persistentUuid": "1e27db49-806a-576b-801a-c58b2bef71a6",
+     "x": 38,
+     "y": 258,
+     "zOrder": 5,
+     "numberProperties": [],
+     "stringProperties": [],
+     "initialVariables": [
+      {
+       "name": "Row",
+       "type": "number",
+       "value": 0
+      }
+     ]
+    },
+    {
+     "angle": 0,
+     "customSize": true,
+     "height": 58,
+     "width": 150,
+     "layer": "",
+     "locked": false,
+     "name": "BuyButton",
+     "persistentUuid": "c0aa5e73-7eae-5c1d-b623-dd1c719b4124",
+     "x": 352,
+     "y": 226,
+     "zOrder": 4,
+     "numberProperties": [],
+     "stringProperties": [],
+     "initialVariables": [
+      {
+       "name": "Row",
+       "type": "number",
+       "value": 0
+      }
+     ]
+    },
+    {
+     "angle": 0,
+     "customSize": false,
+     "height": 0,
+     "width": 0,
+     "layer": "",
+     "locked": false,
+     "name": "BuyText",
+     "persistentUuid": "31308c5b-2a67-545d-8998-6401b3af1fb2",
+     "x": 372,
+     "y": 244,
+     "zOrder": 6,
+     "numberProperties": [],
+     "stringProperties": [],
+     "initialVariables": [
+      {
+       "name": "Row",
+       "type": "number",
+       "value": 0
+      }
+     ]
+    },
+    {
+     "angle": 0,
+     "customSize": true,
+     "height": 110,
+     "width": 500,
+     "layer": "",
+     "locked": false,
+     "name": "RowPanel",
+     "persistentUuid": "8e777b8c-c1ad-565e-8ad6-8d6baaa98afe",
+     "x": 20,
+     "y": 324,
+     "zOrder": 1,
+     "numberProperties": [],
+     "stringProperties": [],
+     "initialVariables": [
+      {
+       "name": "Row",
+       "type": "number",
+       "value": 1
+      }
+     ]
+    },
+    {
+     "angle": 0,
+     "customSize": false,
+     "height": 0,
+     "width": 0,
+     "layer": "",
+     "locked": false,
+     "name": "RowName",
+     "persistentUuid": "5d11a822-d01d-5662-beb8-49cc728ee12e",
+     "x": 38,
+     "y": 338,
+     "zOrder": 5,
+     "numberProperties": [],
+     "stringProperties": [],
+     "initialVariables": [
+      {
+       "name": "Row",
+       "type": "number",
+       "value": 1
+      }
+     ]
+    },
+    {
+     "angle": 0,
+     "customSize": false,
+     "height": 0,
+     "width": 0,
+     "layer": "",
+     "locked": false,
+     "name": "RowInfo",
+     "persistentUuid": "84c7a083-5074-5d67-b7d8-5b5dd901dac9",
+     "x": 38,
+     "y": 382,
+     "zOrder": 5,
+     "numberProperties": [],
+     "stringProperties": [],
+     "initialVariables": [
+      {
+       "name": "Row",
+       "type": "number",
+       "value": 1
+      }
+     ]
+    },
+    {
+     "angle": 0,
+     "customSize": true,
+     "height": 58,
+     "width": 150,
+     "layer": "",
+     "locked": false,
+     "name": "BuyButton",
+     "persistentUuid": "d1ad809b-1720-5499-87b5-a167a6f2262a",
+     "x": 352,
+     "y": 350,
+     "zOrder": 4,
+     "numberProperties": [],
+     "stringProperties": [],
+     "initialVariables": [
+      {
+       "name": "Row",
+       "type": "number",
+       "value": 1
+      }
+     ]
+    },
+    {
+     "angle": 0,
+     "customSize": false,
+     "height": 0,
+     "width": 0,
+     "layer": "",
+     "locked": false,
+     "name": "BuyText",
+     "persistentUuid": "09e29441-e379-5a63-89f5-41e39d67b918",
+     "x": 372,
+     "y": 368,
+     "zOrder": 6,
+     "numberProperties": [],
+     "stringProperties": [],
+     "initialVariables": [
+      {
+       "name": "Row",
+       "type": "number",
+       "value": 1
+      }
+     ]
+    },
+    {
+     "angle": 0,
+     "customSize": true,
+     "height": 110,
+     "width": 500,
+     "layer": "",
+     "locked": false,
+     "name": "RowPanel",
+     "persistentUuid": "799966e3-6e29-55af-abac-d8e737a8908d",
+     "x": 20,
+     "y": 448,
+     "zOrder": 1,
+     "numberProperties": [],
+     "stringProperties": [],
+     "initialVariables": [
+      {
+       "name": "Row",
+       "type": "number",
+       "value": 2
+      }
+     ]
+    },
+    {
+     "angle": 0,
+     "customSize": false,
+     "height": 0,
+     "width": 0,
+     "layer": "",
+     "locked": false,
+     "name": "RowName",
+     "persistentUuid": "2e5ecf6e-cd64-5c15-a15c-81cc90e7f1da",
+     "x": 38,
+     "y": 462,
+     "zOrder": 5,
+     "numberProperties": [],
+     "stringProperties": [],
+     "initialVariables": [
+      {
+       "name": "Row",
+       "type": "number",
+       "value": 2
+      }
+     ]
+    },
+    {
+     "angle": 0,
+     "customSize": false,
+     "height": 0,
+     "width": 0,
+     "layer": "",
+     "locked": false,
+     "name": "RowInfo",
+     "persistentUuid": "05030fa5-f24b-5e41-9b12-907403c4eff2",
+     "x": 38,
+     "y": 506,
+     "zOrder": 5,
+     "numberProperties": [],
+     "stringProperties": [],
+     "initialVariables": [
+      {
+       "name": "Row",
+       "type": "number",
+       "value": 2
+      }
+     ]
+    },
+    {
+     "angle": 0,
+     "customSize": true,
+     "height": 58,
+     "width": 150,
+     "layer": "",
+     "locked": false,
+     "name": "BuyButton",
+     "persistentUuid": "ca0655fb-f6ce-5197-8cca-8cdafc916518",
+     "x": 352,
+     "y": 474,
+     "zOrder": 4,
+     "numberProperties": [],
+     "stringProperties": [],
+     "initialVariables": [
+      {
+       "name": "Row",
+       "type": "number",
+       "value": 2
+      }
+     ]
+    },
+    {
+     "angle": 0,
+     "customSize": false,
+     "height": 0,
+     "width": 0,
+     "layer": "",
+     "locked": false,
+     "name": "BuyText",
+     "persistentUuid": "cc376605-977d-57e9-ac01-2b9136aac1c0",
+     "x": 372,
+     "y": 492,
+     "zOrder": 6,
+     "numberProperties": [],
+     "stringProperties": [],
+     "initialVariables": [
+      {
+       "name": "Row",
+       "type": "number",
+       "value": 2
+      }
+     ]
+    },
+    {
+     "angle": 0,
+     "customSize": true,
+     "height": 110,
+     "width": 500,
+     "layer": "",
+     "locked": false,
+     "name": "RowPanel",
+     "persistentUuid": "000be117-d98d-53e7-8922-c354504528b9",
+     "x": 20,
+     "y": 572,
+     "zOrder": 1,
+     "numberProperties": [],
+     "stringProperties": [],
+     "initialVariables": [
+      {
+       "name": "Row",
+       "type": "number",
+       "value": 3
+      }
+     ]
+    },
+    {
+     "angle": 0,
+     "customSize": false,
+     "height": 0,
+     "width": 0,
+     "layer": "",
+     "locked": false,
+     "name": "RowName",
+     "persistentUuid": "f3ad337d-0194-5f2d-bbf7-3794e723f191",
+     "x": 38,
+     "y": 586,
+     "zOrder": 5,
+     "numberProperties": [],
+     "stringProperties": [],
+     "initialVariables": [
+      {
+       "name": "Row",
+       "type": "number",
+       "value": 3
+      }
+     ]
+    },
+    {
+     "angle": 0,
+     "customSize": false,
+     "height": 0,
+     "width": 0,
+     "layer": "",
+     "locked": false,
+     "name": "RowInfo",
+     "persistentUuid": "e7f05b72-3793-5aa8-ab22-1842af4a1cd5",
+     "x": 38,
+     "y": 630,
+     "zOrder": 5,
+     "numberProperties": [],
+     "stringProperties": [],
+     "initialVariables": [
+      {
+       "name": "Row",
+       "type": "number",
+       "value": 3
+      }
+     ]
+    },
+    {
+     "angle": 0,
+     "customSize": true,
+     "height": 58,
+     "width": 150,
+     "layer": "",
+     "locked": false,
+     "name": "BuyButton",
+     "persistentUuid": "749a1a42-8ab5-5556-b831-7982635db587",
+     "x": 352,
+     "y": 598,
+     "zOrder": 4,
+     "numberProperties": [],
+     "stringProperties": [],
+     "initialVariables": [
+      {
+       "name": "Row",
+       "type": "number",
+       "value": 3
+      }
+     ]
+    },
+    {
+     "angle": 0,
+     "customSize": false,
+     "height": 0,
+     "width": 0,
+     "layer": "",
+     "locked": false,
+     "name": "BuyText",
+     "persistentUuid": "c4a68236-6b2e-579f-8941-ed2a7f82bbc4",
+     "x": 372,
+     "y": 616,
+     "zOrder": 6,
+     "numberProperties": [],
+     "stringProperties": [],
+     "initialVariables": [
+      {
+       "name": "Row",
+       "type": "number",
+       "value": 3
+      }
+     ]
+    },
+    {
+     "angle": 0,
+     "customSize": true,
+     "height": 110,
+     "width": 500,
+     "layer": "",
+     "locked": false,
+     "name": "RowPanel",
+     "persistentUuid": "da8a6a9c-29f3-56ad-909e-5110b32917d9",
+     "x": 20,
+     "y": 696,
+     "zOrder": 1,
+     "numberProperties": [],
+     "stringProperties": [],
+     "initialVariables": [
+      {
+       "name": "Row",
+       "type": "number",
+       "value": 4
+      }
+     ]
+    },
+    {
+     "angle": 0,
+     "customSize": false,
+     "height": 0,
+     "width": 0,
+     "layer": "",
+     "locked": false,
+     "name": "RowName",
+     "persistentUuid": "435abdd4-b610-5e3d-a7b5-6f41ad90614c",
+     "x": 38,
+     "y": 710,
+     "zOrder": 5,
+     "numberProperties": [],
+     "stringProperties": [],
+     "initialVariables": [
+      {
+       "name": "Row",
+       "type": "number",
+       "value": 4
+      }
+     ]
+    },
+    {
+     "angle": 0,
+     "customSize": false,
+     "height": 0,
+     "width": 0,
+     "layer": "",
+     "locked": false,
+     "name": "RowInfo",
+     "persistentUuid": "a0fd7208-fbda-5cb6-94bf-f44eb86b9e24",
+     "x": 38,
+     "y": 754,
+     "zOrder": 5,
+     "numberProperties": [],
+     "stringProperties": [],
+     "initialVariables": [
+      {
+       "name": "Row",
+       "type": "number",
+       "value": 4
+      }
+     ]
+    },
+    {
+     "angle": 0,
+     "customSize": true,
+     "height": 58,
+     "width": 150,
+     "layer": "",
+     "locked": false,
+     "name": "BuyButton",
+     "persistentUuid": "b24ade1e-ec91-56d4-b41c-295e99d162c5",
+     "x": 352,
+     "y": 722,
+     "zOrder": 4,
+     "numberProperties": [],
+     "stringProperties": [],
+     "initialVariables": [
+      {
+       "name": "Row",
+       "type": "number",
+       "value": 4
+      }
+     ]
+    },
+    {
+     "angle": 0,
+     "customSize": false,
+     "height": 0,
+     "width": 0,
+     "layer": "",
+     "locked": false,
+     "name": "BuyText",
+     "persistentUuid": "a2fb4406-ba97-5197-9ae0-860f3bf8fe3a",
+     "x": 372,
+     "y": 740,
+     "zOrder": 6,
+     "numberProperties": [],
+     "stringProperties": [],
+     "initialVariables": [
+      {
+       "name": "Row",
+       "type": "number",
+       "value": 4
+      }
+     ]
+    },
+    {
+     "angle": 0,
+     "customSize": false,
+     "height": 0,
+     "width": 0,
+     "layer": "",
+     "locked": false,
+     "name": "PlayButton",
+     "persistentUuid": "2ec5a00a-c110-5856-bd39-9167abd8146d",
+     "x": 150,
+     "y": 840,
+     "zOrder": 5,
+     "numberProperties": [],
+     "stringProperties": [],
+     "initialVariables": []
+    },
+    {
+     "angle": 0,
+     "customSize": false,
+     "height": 0,
+     "width": 0,
+     "layer": "",
+     "locked": false,
+     "name": "PlayText",
+     "persistentUuid": "fdbcebf0-7f90-5d76-a084-c0862ac3b480",
+     "x": 228,
+     "y": 856,
+     "zOrder": 6,
+     "numberProperties": [],
+     "stringProperties": [],
+     "initialVariables": []
+    }
+   ],
+   "objects": [
+    {
+     "assetStoreId": "",
+     "name": "ShopTitle",
+     "persistentUuid": "c14126ab-e6a2-5902-b74d-901007b5d727",
+     "type": "TextObject::Text",
+     "variables": [],
+     "effects": [],
+     "behaviors": [],
+     "content": {
+      "bold": true,
+      "isOutlineEnabled": true,
+      "isShadowEnabled": false,
+      "italic": false,
+      "outlineColor": "20;16;24",
+      "outlineThickness": 3,
+      "shadowAngle": 90,
+      "shadowBlurRadius": 0,
+      "shadowColor": "0;0;0",
+      "shadowDistance": 3,
+      "shadowOpacity": 160,
+      "smoothed": true,
+      "underlined": false,
+      "text": "UPGRADES",
+      "font": "",
+      "textAlignment": "left",
+      "verticalTextAlignment": "top",
+      "characterSize": 44,
+      "lineHeight": 0,
+      "color": "255;225;150"
+     }
+    },
+    {
+     "assetStoreId": "",
+     "name": "ShopGems",
+     "persistentUuid": "378cff56-be37-5ad0-ae5f-cd67a239d632",
+     "type": "TextObject::Text",
+     "variables": [],
+     "effects": [],
+     "behaviors": [],
+     "content": {
+      "bold": true,
+      "isOutlineEnabled": true,
+      "isShadowEnabled": false,
+      "italic": false,
+      "outlineColor": "20;16;24",
+      "outlineThickness": 3,
+      "shadowAngle": 90,
+      "shadowBlurRadius": 0,
+      "shadowColor": "0;0;0",
+      "shadowDistance": 3,
+      "shadowOpacity": 160,
+      "smoothed": true,
+      "underlined": false,
+      "text": "GEMS 0",
+      "font": "",
+      "textAlignment": "left",
+      "verticalTextAlignment": "top",
+      "characterSize": 28,
+      "lineHeight": 0,
+      "color": "120;230;255"
+     }
+    },
+    {
+     "assetStoreId": "",
+     "name": "ShopMessage",
+     "persistentUuid": "eb5ca72f-f384-5567-bded-993cc6d03234",
+     "type": "TextObject::Text",
+     "variables": [],
+     "effects": [],
+     "behaviors": [],
+     "content": {
+      "bold": true,
+      "isOutlineEnabled": true,
+      "isShadowEnabled": false,
+      "italic": false,
+      "outlineColor": "20;16;24",
+      "outlineThickness": 3,
+      "shadowAngle": 90,
+      "shadowBlurRadius": 0,
+      "shadowColor": "0;0;0",
+      "shadowDistance": 3,
+      "shadowOpacity": 160,
+      "smoothed": true,
+      "underlined": false,
+      "text": "Tap a price to buy the next level",
+      "font": "",
+      "textAlignment": "left",
+      "verticalTextAlignment": "top",
+      "characterSize": 22,
+      "lineHeight": 0,
+      "color": "230;230;230"
+     }
+    },
+    {
+     "assetStoreId": "",
+     "name": "RowPanel",
+     "persistentUuid": "19b1f100-204b-5f06-9996-599dc977e250",
+     "type": "Sprite",
+     "variables": [
+      {
+       "name": "Row",
+       "type": "number",
+       "value": 0
+      }
+     ],
+     "effects": [],
+     "behaviors": [],
+     "adaptCollisionMaskAutomatically": false,
+     "updateIfNotVisible": false,
+     "animations": [
+      {
+       "name": "Idle",
+       "useMultipleDirections": false,
+       "directions": [
+        {
+         "looping": false,
+         "timeBetweenFrames": 1,
+         "sprites": [
+          {
+           "hasCustomCollisionMask": false,
+           "image": "panel_row.png",
+           "points": [],
+           "originPoint": {
+            "name": "origine",
+            "x": 0,
+            "y": 0
+           },
+           "centerPoint": {
+            "automatic": true,
+            "name": "centre",
+            "x": 0,
+            "y": 0
+           },
+           "customCollisionMask": []
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "assetStoreId": "",
+     "name": "RowName",
+     "persistentUuid": "c09203a9-ef02-50f7-ab5e-dc6e9fe1174f",
+     "type": "TextObject::Text",
+     "variables": [
+      {
+       "name": "Row",
+       "type": "number",
+       "value": 0
+      }
+     ],
+     "effects": [],
+     "behaviors": [],
+     "content": {
+      "bold": true,
+      "isOutlineEnabled": true,
+      "isShadowEnabled": false,
+      "italic": false,
+      "outlineColor": "20;16;24",
+      "outlineThickness": 3,
+      "shadowAngle": 90,
+      "shadowBlurRadius": 0,
+      "shadowColor": "0;0;0",
+      "shadowDistance": 3,
+      "shadowOpacity": 160,
+      "smoothed": true,
+      "underlined": false,
+      "text": "NAME",
+      "font": "",
+      "textAlignment": "left",
+      "verticalTextAlignment": "top",
+      "characterSize": 24,
+      "lineHeight": 0,
+      "color": "255;255;255"
+     }
+    },
+    {
+     "assetStoreId": "",
+     "name": "RowInfo",
+     "persistentUuid": "de69f551-b7a1-5a45-9bc5-7027eb159a5b",
+     "type": "TextObject::Text",
+     "variables": [
+      {
+       "name": "Row",
+       "type": "number",
+       "value": 0
+      }
+     ],
+     "effects": [],
+     "behaviors": [],
+     "content": {
+      "bold": true,
+      "isOutlineEnabled": true,
+      "isShadowEnabled": false,
+      "italic": false,
+      "outlineColor": "20;16;24",
+      "outlineThickness": 3,
+      "shadowAngle": 90,
+      "shadowBlurRadius": 0,
+      "shadowColor": "0;0;0",
+      "shadowDistance": 3,
+      "shadowOpacity": 160,
+      "smoothed": true,
+      "underlined": false,
+      "text": "INFO",
+      "font": "",
+      "textAlignment": "left",
+      "verticalTextAlignment": "top",
+      "characterSize": 20,
+      "lineHeight": 0,
+      "color": "200;235;150"
+     }
+    },
+    {
+     "assetStoreId": "",
+     "name": "BuyButton",
+     "persistentUuid": "5dd2e171-3b19-5fbc-b5ec-a1712aa392b9",
+     "type": "Sprite",
+     "variables": [
+      {
+       "name": "Row",
+       "type": "number",
+       "value": 0
+      }
+     ],
+     "effects": [],
+     "behaviors": [],
+     "adaptCollisionMaskAutomatically": false,
+     "updateIfNotVisible": false,
+     "animations": [
+      {
+       "name": "Idle",
+       "useMultipleDirections": false,
+       "directions": [
+        {
+         "looping": false,
+         "timeBetweenFrames": 1,
+         "sprites": [
+          {
+           "hasCustomCollisionMask": false,
+           "image": "button.png",
+           "points": [],
+           "originPoint": {
+            "name": "origine",
+            "x": 0,
+            "y": 0
+           },
+           "centerPoint": {
+            "automatic": true,
+            "name": "centre",
+            "x": 0,
+            "y": 0
+           },
+           "customCollisionMask": []
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "assetStoreId": "",
+     "name": "BuyText",
+     "persistentUuid": "15cde77a-8bd9-5bd1-9cf4-4499d52c5644",
+     "type": "TextObject::Text",
+     "variables": [
+      {
+       "name": "Row",
+       "type": "number",
+       "value": 0
+      }
+     ],
+     "effects": [],
+     "behaviors": [],
+     "content": {
+      "bold": true,
+      "isOutlineEnabled": false,
+      "isShadowEnabled": false,
+      "italic": false,
+      "outlineColor": "20;16;24",
+      "outlineThickness": 3,
+      "shadowAngle": 90,
+      "shadowBlurRadius": 0,
+      "shadowColor": "0;0;0",
+      "shadowDistance": 3,
+      "shadowOpacity": 160,
+      "smoothed": true,
+      "underlined": false,
+      "text": "0 GEMS",
+      "font": "",
+      "textAlignment": "left",
+      "verticalTextAlignment": "top",
+      "characterSize": 22,
+      "lineHeight": 0,
+      "color": "40;24;8"
+     }
+    },
+    {
+     "assetStoreId": "",
+     "name": "PlayButton",
+     "persistentUuid": "a72c66e9-230d-5c62-8c82-f1f319fd4488",
+     "type": "Sprite",
+     "variables": [],
+     "effects": [],
+     "behaviors": [],
+     "adaptCollisionMaskAutomatically": false,
+     "updateIfNotVisible": false,
+     "animations": [
+      {
+       "name": "Idle",
+       "useMultipleDirections": false,
+       "directions": [
+        {
+         "looping": false,
+         "timeBetweenFrames": 1,
+         "sprites": [
+          {
+           "hasCustomCollisionMask": false,
+           "image": "button.png",
+           "points": [],
+           "originPoint": {
+            "name": "origine",
+            "x": 0,
+            "y": 0
+           },
+           "centerPoint": {
+            "automatic": true,
+            "name": "centre",
+            "x": 0,
+            "y": 0
+           },
+           "customCollisionMask": []
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "assetStoreId": "",
+     "name": "PlayText",
+     "persistentUuid": "d4e206c9-7f36-56b7-b398-c2504bdab5f9",
+     "type": "TextObject::Text",
+     "variables": [],
+     "effects": [],
+     "behaviors": [],
+     "content": {
+      "bold": true,
+      "isOutlineEnabled": false,
+      "isShadowEnabled": false,
+      "italic": false,
+      "outlineColor": "20;16;24",
+      "outlineThickness": 3,
+      "shadowAngle": 90,
+      "shadowBlurRadius": 0,
+      "shadowColor": "0;0;0",
+      "shadowDistance": 3,
+      "shadowOpacity": 160,
+      "smoothed": true,
+      "underlined": false,
+      "text": "PLAY",
+      "font": "",
+      "textAlignment": "left",
+      "verticalTextAlignment": "top",
+      "characterSize": 34,
+      "lineHeight": 0,
+      "color": "40;24;8"
+     }
+    }
+   ],
+   "objectsFolderStructure": {
+    "folderName": "__ROOT",
+    "children": [
+     {
+      "objectName": "ShopTitle"
+     },
+     {
+      "objectName": "ShopGems"
+     },
+     {
+      "objectName": "ShopMessage"
+     },
+     {
+      "objectName": "RowPanel"
+     },
+     {
+      "objectName": "RowName"
+     },
+     {
+      "objectName": "RowInfo"
+     },
+     {
+      "objectName": "BuyButton"
+     },
+     {
+      "objectName": "BuyText"
+     },
+     {
+      "objectName": "PlayButton"
+     },
+     {
+      "objectName": "PlayText"
+     }
+    ]
+   },
+   "events": [
+    {
+     "type": "BuiltinCommonInstructions::Comment",
+     "color": {
+      "b": 109,
+      "g": 230,
+      "r": 255,
+      "textB": 0,
+      "textG": 0,
+      "textR": 0
+     },
+     "comment": "The shop screen's events are the external events \"ShopScreen\"."
+    },
+    {
+     "type": "BuiltinCommonInstructions::Link",
+     "include": {
+      "includeConfig": 0
+     },
+     "target": "ShopScreen"
+    }
+   ],
+   "layers": [
+    {
+     "ambientLightColorB": 200,
+     "ambientLightColorG": 200,
+     "ambientLightColorR": 200,
+     "camera2DPlaneMaxDrawingDistance": 5000,
+     "camera3DFarPlaneDistance": 10000,
+     "camera3DFieldOfView": 45,
+     "camera3DNearPlaneDistance": 3,
+     "cameraType": "",
+     "followBaseLayerCamera": false,
+     "isLightingLayer": false,
+     "isLocked": false,
+     "name": "",
+     "renderingType": "2d",
+     "visibility": true,
+     "cameras": [
+      {
+       "defaultSize": true,
+       "defaultViewport": true,
+       "height": 0,
+       "viewportBottom": 1,
+       "viewportLeft": 0,
+       "viewportRight": 1,
+       "viewportTop": 0,
+       "width": 0
+      }
+     ],
+     "effects": []
+    }
+   ],
+   "behaviorsSharedData": []
   }
  ],
  "externalEvents": [
+  {
+   "associatedLayout": "Game",
+   "lastChangeTimeStamp": 0,
+   "name": "UpgradeManager",
+   "events": [
+    {
+     "type": "BuiltinCommonInstructions::Comment",
+     "color": {
+      "b": 109,
+      "g": 230,
+      "r": 255,
+      "textB": 0,
+      "textG": 0,
+      "textR": 0
+     },
+     "comment": "UPGRADE MANAGER - owns: the upgrade levels Lv_<Upgrade> and the stats Damage, FireRate, Spread, TowerSpeed, PickupRadius (read by the other systems).\nLevels are bought in the Shop scene and saved in storage TowerRush / Up_<Upgrade>. Each stat is the global Upgrades.<Upgrade>.Values[level]; prices are Upgrades.<Upgrade>.Costs[level]."
+    },
+    {
+     "type": "BuiltinCommonInstructions::Standard",
+     "conditions": [
+      {
+       "type": {
+        "inverted": false,
+        "value": "SceneJustBegins"
+       },
+       "parameters": [
+        ""
+       ]
+      }
+     ],
+     "actions": [],
+     "events": [
+      {
+       "type": "BuiltinCommonInstructions::Standard",
+       "conditions": [],
+       "actions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "SetNumberVariable"
+         },
+         "parameters": [
+          "Lv_Damage",
+          "=",
+          "0"
+         ]
+        }
+       ],
+       "events": [
+        {
+         "type": "BuiltinCommonInstructions::Standard",
+         "conditions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "GroupExists"
+           },
+           "parameters": [
+            "\"TowerRush\"",
+            "\"Up_Damage\""
+           ]
+          }
+         ],
+         "actions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "ReadNumberFromStorage"
+           },
+           "parameters": [
+            "\"TowerRush\"",
+            "\"Up_Damage\"",
+            "",
+            "Lv_Damage"
+           ]
+          }
+         ],
+         "events": []
+        },
+        {
+         "type": "BuiltinCommonInstructions::Standard",
+         "conditions": [],
+         "actions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "SetNumberVariable"
+           },
+           "parameters": [
+            "Lv_Damage",
+            "=",
+            "clamp(round(Variable(Lv_Damage)), 0, 5)"
+           ]
+          },
+          {
+           "type": {
+            "inverted": false,
+            "value": "SetNumberVariable"
+           },
+           "parameters": [
+            "Damage",
+            "=",
+            "GlobalVariable(Upgrades.Damage.Values[Variable(Lv_Damage)])"
+           ]
+          }
+         ],
+         "events": []
+        }
+       ]
+      },
+      {
+       "type": "BuiltinCommonInstructions::Standard",
+       "conditions": [],
+       "actions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "SetNumberVariable"
+         },
+         "parameters": [
+          "Lv_FireRate",
+          "=",
+          "0"
+         ]
+        }
+       ],
+       "events": [
+        {
+         "type": "BuiltinCommonInstructions::Standard",
+         "conditions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "GroupExists"
+           },
+           "parameters": [
+            "\"TowerRush\"",
+            "\"Up_FireRate\""
+           ]
+          }
+         ],
+         "actions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "ReadNumberFromStorage"
+           },
+           "parameters": [
+            "\"TowerRush\"",
+            "\"Up_FireRate\"",
+            "",
+            "Lv_FireRate"
+           ]
+          }
+         ],
+         "events": []
+        },
+        {
+         "type": "BuiltinCommonInstructions::Standard",
+         "conditions": [],
+         "actions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "SetNumberVariable"
+           },
+           "parameters": [
+            "Lv_FireRate",
+            "=",
+            "clamp(round(Variable(Lv_FireRate)), 0, 5)"
+           ]
+          },
+          {
+           "type": {
+            "inverted": false,
+            "value": "SetNumberVariable"
+           },
+           "parameters": [
+            "FireRate",
+            "=",
+            "GlobalVariable(Upgrades.FireRate.Values[Variable(Lv_FireRate)])"
+           ]
+          }
+         ],
+         "events": []
+        }
+       ]
+      },
+      {
+       "type": "BuiltinCommonInstructions::Standard",
+       "conditions": [],
+       "actions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "SetNumberVariable"
+         },
+         "parameters": [
+          "Lv_Accuracy",
+          "=",
+          "0"
+         ]
+        }
+       ],
+       "events": [
+        {
+         "type": "BuiltinCommonInstructions::Standard",
+         "conditions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "GroupExists"
+           },
+           "parameters": [
+            "\"TowerRush\"",
+            "\"Up_Accuracy\""
+           ]
+          }
+         ],
+         "actions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "ReadNumberFromStorage"
+           },
+           "parameters": [
+            "\"TowerRush\"",
+            "\"Up_Accuracy\"",
+            "",
+            "Lv_Accuracy"
+           ]
+          }
+         ],
+         "events": []
+        },
+        {
+         "type": "BuiltinCommonInstructions::Standard",
+         "conditions": [],
+         "actions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "SetNumberVariable"
+           },
+           "parameters": [
+            "Lv_Accuracy",
+            "=",
+            "clamp(round(Variable(Lv_Accuracy)), 0, 5)"
+           ]
+          },
+          {
+           "type": {
+            "inverted": false,
+            "value": "SetNumberVariable"
+           },
+           "parameters": [
+            "Spread",
+            "=",
+            "GlobalVariable(Upgrades.Accuracy.Values[Variable(Lv_Accuracy)])"
+           ]
+          }
+         ],
+         "events": []
+        }
+       ]
+      },
+      {
+       "type": "BuiltinCommonInstructions::Standard",
+       "conditions": [],
+       "actions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "SetNumberVariable"
+         },
+         "parameters": [
+          "Lv_TrackSpeed",
+          "=",
+          "0"
+         ]
+        }
+       ],
+       "events": [
+        {
+         "type": "BuiltinCommonInstructions::Standard",
+         "conditions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "GroupExists"
+           },
+           "parameters": [
+            "\"TowerRush\"",
+            "\"Up_TrackSpeed\""
+           ]
+          }
+         ],
+         "actions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "ReadNumberFromStorage"
+           },
+           "parameters": [
+            "\"TowerRush\"",
+            "\"Up_TrackSpeed\"",
+            "",
+            "Lv_TrackSpeed"
+           ]
+          }
+         ],
+         "events": []
+        },
+        {
+         "type": "BuiltinCommonInstructions::Standard",
+         "conditions": [],
+         "actions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "SetNumberVariable"
+           },
+           "parameters": [
+            "Lv_TrackSpeed",
+            "=",
+            "clamp(round(Variable(Lv_TrackSpeed)), 0, 5)"
+           ]
+          },
+          {
+           "type": {
+            "inverted": false,
+            "value": "SetNumberVariable"
+           },
+           "parameters": [
+            "TowerSpeed",
+            "=",
+            "GlobalVariable(Upgrades.TrackSpeed.Values[Variable(Lv_TrackSpeed)])"
+           ]
+          }
+         ],
+         "events": []
+        }
+       ]
+      },
+      {
+       "type": "BuiltinCommonInstructions::Standard",
+       "conditions": [],
+       "actions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "SetNumberVariable"
+         },
+         "parameters": [
+          "Lv_PickupRadius",
+          "=",
+          "0"
+         ]
+        }
+       ],
+       "events": [
+        {
+         "type": "BuiltinCommonInstructions::Standard",
+         "conditions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "GroupExists"
+           },
+           "parameters": [
+            "\"TowerRush\"",
+            "\"Up_PickupRadius\""
+           ]
+          }
+         ],
+         "actions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "ReadNumberFromStorage"
+           },
+           "parameters": [
+            "\"TowerRush\"",
+            "\"Up_PickupRadius\"",
+            "",
+            "Lv_PickupRadius"
+           ]
+          }
+         ],
+         "events": []
+        },
+        {
+         "type": "BuiltinCommonInstructions::Standard",
+         "conditions": [],
+         "actions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "SetNumberVariable"
+           },
+           "parameters": [
+            "Lv_PickupRadius",
+            "=",
+            "clamp(round(Variable(Lv_PickupRadius)), 0, 5)"
+           ]
+          },
+          {
+           "type": {
+            "inverted": false,
+            "value": "SetNumberVariable"
+           },
+           "parameters": [
+            "PickupRadius",
+            "=",
+            "GlobalVariable(Upgrades.PickupRadius.Values[Variable(Lv_PickupRadius)])"
+           ]
+          }
+         ],
+         "events": []
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
   {
    "associatedLayout": "Game",
    "lastChangeTimeStamp": 0,
@@ -4165,6 +6310,69 @@
          "parameters": [
           "",
           "\"Game\"",
+          "no"
+         ]
+        }
+       ],
+       "events": []
+      },
+      {
+       "type": "BuiltinCommonInstructions::Standard",
+       "conditions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "StringVariable"
+         },
+         "parameters": [
+          "State",
+          "=",
+          "\"Over\""
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "NumberVariable"
+         },
+         "parameters": [
+          "OverTime",
+          ">",
+          "0.5"
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "MouseButtonFromTextReleased"
+         },
+         "parameters": [
+          "",
+          "\"Left\""
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "IsCursorOnObject"
+         },
+         "parameters": [
+          "UpgradesButton",
+          "",
+          "",
+          ""
+         ]
+        }
+       ],
+       "actions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "Scene"
+         },
+         "parameters": [
+          "",
+          "\"Shop\"",
           "no"
          ]
         }
@@ -7983,7 +10191,7 @@
        "parameters": [
         "TowerStep",
         "=",
-        "GlobalVariable(Tuning.TowerSpeed) * Variable(Dt)"
+        "Variable(TowerSpeed) * Variable(Dt)"
        ]
       },
       {
@@ -8975,7 +11183,7 @@
          "parameters": [
           "FireCooldown",
           "+",
-          "1 / GlobalVariable(Tuning.FireRate)"
+          "1 / Variable(FireRate)"
          ]
         },
         {
@@ -9010,7 +11218,7 @@
          "parameters": [
           "Bullet",
           "=",
-          "Variable(TurretAngle)"
+          "Variable(TurretAngle) + RandomFloatInRange(-Variable(Spread), Variable(Spread))"
          ]
         },
         {
@@ -9228,7 +11436,7 @@
           "Cell",
           "HP",
           "-",
-          "GlobalVariable(Tuning.BulletDamage)"
+          "Variable(Damage)"
          ]
         },
         {
@@ -10565,7 +12773,7 @@
          "parameters": [
           "GemDist",
           "<",
-          "GlobalVariable(Tuning.PickupRadius)"
+          "Variable(PickupRadius)"
          ]
         },
         {
@@ -11509,6 +13717,3439 @@
        "events": []
       }
      ]
+    }
+   ]
+  },
+  {
+   "associatedLayout": "Shop",
+   "lastChangeTimeStamp": 0,
+   "name": "ShopScreen",
+   "events": [
+    {
+     "type": "BuiltinCommonInstructions::Comment",
+     "color": {
+      "b": 109,
+      "g": 230,
+      "r": 255,
+      "textB": 0,
+      "textG": 0,
+      "textR": 0
+     },
+     "comment": "SHOP - spend the saved gems (storage TowerRush / TotalGems) on upgrade levels (Up_<Upgrade>). Rows, labels, values and prices come from the global variable Upgrades; the game reads the levels in UpgradeManager."
+    },
+    {
+     "type": "BuiltinCommonInstructions::Standard",
+     "conditions": [
+      {
+       "type": {
+        "inverted": false,
+        "value": "SceneJustBegins"
+       },
+       "parameters": [
+        ""
+       ]
+      }
+     ],
+     "actions": [],
+     "events": [
+      {
+       "type": "BuiltinCommonInstructions::Standard",
+       "conditions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "GroupExists"
+         },
+         "parameters": [
+          "\"TowerRush\"",
+          "\"TotalGems\""
+         ]
+        }
+       ],
+       "actions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "ReadNumberFromStorage"
+         },
+         "parameters": [
+          "\"TowerRush\"",
+          "\"TotalGems\"",
+          "",
+          "TotalGems"
+         ]
+        }
+       ],
+       "events": []
+      },
+      {
+       "type": "BuiltinCommonInstructions::Standard",
+       "conditions": [],
+       "actions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "SetNumberVariable"
+         },
+         "parameters": [
+          "Lv_Damage",
+          "=",
+          "0"
+         ]
+        }
+       ],
+       "events": [
+        {
+         "type": "BuiltinCommonInstructions::Standard",
+         "conditions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "GroupExists"
+           },
+           "parameters": [
+            "\"TowerRush\"",
+            "\"Up_Damage\""
+           ]
+          }
+         ],
+         "actions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "ReadNumberFromStorage"
+           },
+           "parameters": [
+            "\"TowerRush\"",
+            "\"Up_Damage\"",
+            "",
+            "Lv_Damage"
+           ]
+          }
+         ],
+         "events": []
+        },
+        {
+         "type": "BuiltinCommonInstructions::Standard",
+         "conditions": [],
+         "actions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "SetNumberVariable"
+           },
+           "parameters": [
+            "Lv_Damage",
+            "=",
+            "clamp(round(Variable(Lv_Damage)), 0, 5)"
+           ]
+          }
+         ],
+         "events": []
+        }
+       ]
+      },
+      {
+       "type": "BuiltinCommonInstructions::Standard",
+       "conditions": [],
+       "actions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "SetNumberVariable"
+         },
+         "parameters": [
+          "Lv_FireRate",
+          "=",
+          "0"
+         ]
+        }
+       ],
+       "events": [
+        {
+         "type": "BuiltinCommonInstructions::Standard",
+         "conditions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "GroupExists"
+           },
+           "parameters": [
+            "\"TowerRush\"",
+            "\"Up_FireRate\""
+           ]
+          }
+         ],
+         "actions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "ReadNumberFromStorage"
+           },
+           "parameters": [
+            "\"TowerRush\"",
+            "\"Up_FireRate\"",
+            "",
+            "Lv_FireRate"
+           ]
+          }
+         ],
+         "events": []
+        },
+        {
+         "type": "BuiltinCommonInstructions::Standard",
+         "conditions": [],
+         "actions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "SetNumberVariable"
+           },
+           "parameters": [
+            "Lv_FireRate",
+            "=",
+            "clamp(round(Variable(Lv_FireRate)), 0, 5)"
+           ]
+          }
+         ],
+         "events": []
+        }
+       ]
+      },
+      {
+       "type": "BuiltinCommonInstructions::Standard",
+       "conditions": [],
+       "actions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "SetNumberVariable"
+         },
+         "parameters": [
+          "Lv_Accuracy",
+          "=",
+          "0"
+         ]
+        }
+       ],
+       "events": [
+        {
+         "type": "BuiltinCommonInstructions::Standard",
+         "conditions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "GroupExists"
+           },
+           "parameters": [
+            "\"TowerRush\"",
+            "\"Up_Accuracy\""
+           ]
+          }
+         ],
+         "actions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "ReadNumberFromStorage"
+           },
+           "parameters": [
+            "\"TowerRush\"",
+            "\"Up_Accuracy\"",
+            "",
+            "Lv_Accuracy"
+           ]
+          }
+         ],
+         "events": []
+        },
+        {
+         "type": "BuiltinCommonInstructions::Standard",
+         "conditions": [],
+         "actions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "SetNumberVariable"
+           },
+           "parameters": [
+            "Lv_Accuracy",
+            "=",
+            "clamp(round(Variable(Lv_Accuracy)), 0, 5)"
+           ]
+          }
+         ],
+         "events": []
+        }
+       ]
+      },
+      {
+       "type": "BuiltinCommonInstructions::Standard",
+       "conditions": [],
+       "actions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "SetNumberVariable"
+         },
+         "parameters": [
+          "Lv_TrackSpeed",
+          "=",
+          "0"
+         ]
+        }
+       ],
+       "events": [
+        {
+         "type": "BuiltinCommonInstructions::Standard",
+         "conditions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "GroupExists"
+           },
+           "parameters": [
+            "\"TowerRush\"",
+            "\"Up_TrackSpeed\""
+           ]
+          }
+         ],
+         "actions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "ReadNumberFromStorage"
+           },
+           "parameters": [
+            "\"TowerRush\"",
+            "\"Up_TrackSpeed\"",
+            "",
+            "Lv_TrackSpeed"
+           ]
+          }
+         ],
+         "events": []
+        },
+        {
+         "type": "BuiltinCommonInstructions::Standard",
+         "conditions": [],
+         "actions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "SetNumberVariable"
+           },
+           "parameters": [
+            "Lv_TrackSpeed",
+            "=",
+            "clamp(round(Variable(Lv_TrackSpeed)), 0, 5)"
+           ]
+          }
+         ],
+         "events": []
+        }
+       ]
+      },
+      {
+       "type": "BuiltinCommonInstructions::Standard",
+       "conditions": [],
+       "actions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "SetNumberVariable"
+         },
+         "parameters": [
+          "Lv_PickupRadius",
+          "=",
+          "0"
+         ]
+        }
+       ],
+       "events": [
+        {
+         "type": "BuiltinCommonInstructions::Standard",
+         "conditions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "GroupExists"
+           },
+           "parameters": [
+            "\"TowerRush\"",
+            "\"Up_PickupRadius\""
+           ]
+          }
+         ],
+         "actions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "ReadNumberFromStorage"
+           },
+           "parameters": [
+            "\"TowerRush\"",
+            "\"Up_PickupRadius\"",
+            "",
+            "Lv_PickupRadius"
+           ]
+          }
+         ],
+         "events": []
+        },
+        {
+         "type": "BuiltinCommonInstructions::Standard",
+         "conditions": [],
+         "actions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "SetNumberVariable"
+           },
+           "parameters": [
+            "Lv_PickupRadius",
+            "=",
+            "clamp(round(Variable(Lv_PickupRadius)), 0, 5)"
+           ]
+          }
+         ],
+         "events": []
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "type": "BuiltinCommonInstructions::Standard",
+     "conditions": [],
+     "actions": [
+      {
+       "type": {
+        "inverted": false,
+        "value": "SetNumberVariable"
+       },
+       "parameters": [
+        "ShopTime",
+        "+",
+        "TimeDelta()"
+       ]
+      },
+      {
+       "type": {
+        "inverted": false,
+        "value": "TextContainerCapability::TextContainerBehavior::SetValue"
+       },
+       "parameters": [
+        "ShopGems",
+        "Text",
+        "=",
+        "\"GEMS  \" + ToString(Variable(TotalGems))"
+       ]
+      }
+     ],
+     "events": []
+    },
+    {
+     "type": "BuiltinCommonInstructions::Group",
+     "name": "Rows",
+     "source": "",
+     "folded": false,
+     "colorR": 74,
+     "colorG": 112,
+     "colorB": 150,
+     "creationTime": 0,
+     "events": [
+      {
+       "type": "BuiltinCommonInstructions::Group",
+       "name": "Gun damage",
+       "source": "",
+       "folded": false,
+       "colorR": 74,
+       "colorG": 112,
+       "colorB": 150,
+       "creationTime": 0,
+       "events": [
+        {
+         "type": "BuiltinCommonInstructions::Standard",
+         "conditions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "NumberObjectVariable"
+           },
+           "parameters": [
+            "RowName",
+            "Row",
+            "=",
+            "0"
+           ]
+          }
+         ],
+         "actions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "TextContainerCapability::TextContainerBehavior::SetValue"
+           },
+           "parameters": [
+            "RowName",
+            "Text",
+            "=",
+            "\"GUN DAMAGE   LV \" + ToString(Variable(Lv_Damage)) + \"/5\""
+           ]
+          }
+         ],
+         "events": []
+        },
+        {
+         "type": "BuiltinCommonInstructions::Standard",
+         "conditions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "NumberObjectVariable"
+           },
+           "parameters": [
+            "RowInfo",
+            "Row",
+            "=",
+            "0"
+           ]
+          },
+          {
+           "type": {
+            "inverted": false,
+            "value": "NumberVariable"
+           },
+           "parameters": [
+            "Lv_Damage",
+            "<",
+            "5"
+           ]
+          }
+         ],
+         "actions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "TextContainerCapability::TextContainerBehavior::SetValue"
+           },
+           "parameters": [
+            "RowInfo",
+            "Text",
+            "=",
+            "ToString(GlobalVariable(Upgrades.Damage.Values[Variable(Lv_Damage)])) + \"\" + \"   >   \" + ToString(GlobalVariable(Upgrades.Damage.Values[Variable(Lv_Damage) + 1])) + \"\""
+           ]
+          }
+         ],
+         "events": []
+        },
+        {
+         "type": "BuiltinCommonInstructions::Standard",
+         "conditions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "NumberObjectVariable"
+           },
+           "parameters": [
+            "RowInfo",
+            "Row",
+            "=",
+            "0"
+           ]
+          },
+          {
+           "type": {
+            "inverted": false,
+            "value": "NumberVariable"
+           },
+           "parameters": [
+            "Lv_Damage",
+            ">=",
+            "5"
+           ]
+          }
+         ],
+         "actions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "TextContainerCapability::TextContainerBehavior::SetValue"
+           },
+           "parameters": [
+            "RowInfo",
+            "Text",
+            "=",
+            "ToString(GlobalVariable(Upgrades.Damage.Values[Variable(Lv_Damage)])) + \"\" + \"   (max)\""
+           ]
+          }
+         ],
+         "events": []
+        },
+        {
+         "type": "BuiltinCommonInstructions::Standard",
+         "conditions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "NumberObjectVariable"
+           },
+           "parameters": [
+            "BuyText",
+            "Row",
+            "=",
+            "0"
+           ]
+          },
+          {
+           "type": {
+            "inverted": false,
+            "value": "NumberVariable"
+           },
+           "parameters": [
+            "Lv_Damage",
+            "<",
+            "5"
+           ]
+          }
+         ],
+         "actions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "TextContainerCapability::TextContainerBehavior::SetValue"
+           },
+           "parameters": [
+            "BuyText",
+            "Text",
+            "=",
+            "ToString(GlobalVariable(Upgrades.Damage.Costs[Variable(Lv_Damage)])) + \" GEMS\""
+           ]
+          }
+         ],
+         "events": []
+        },
+        {
+         "type": "BuiltinCommonInstructions::Standard",
+         "conditions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "NumberObjectVariable"
+           },
+           "parameters": [
+            "BuyText",
+            "Row",
+            "=",
+            "0"
+           ]
+          },
+          {
+           "type": {
+            "inverted": false,
+            "value": "NumberVariable"
+           },
+           "parameters": [
+            "Lv_Damage",
+            ">=",
+            "5"
+           ]
+          }
+         ],
+         "actions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "TextContainerCapability::TextContainerBehavior::SetValue"
+           },
+           "parameters": [
+            "BuyText",
+            "Text",
+            "=",
+            "\"MAX\""
+           ]
+          }
+         ],
+         "events": []
+        },
+        {
+         "type": "BuiltinCommonInstructions::Comment",
+         "color": {
+          "b": 109,
+          "g": 230,
+          "r": 255,
+          "textB": 0,
+          "textG": 0,
+          "textR": 0
+         },
+         "comment": "The button is gold when you can buy the next level, grey when you can't (or at max)."
+        },
+        {
+         "type": "BuiltinCommonInstructions::Standard",
+         "conditions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "NumberObjectVariable"
+           },
+           "parameters": [
+            "BuyButton",
+            "Row",
+            "=",
+            "0"
+           ]
+          },
+          {
+           "type": {
+            "inverted": false,
+            "value": "NumberVariable"
+           },
+           "parameters": [
+            "Lv_Damage",
+            "<",
+            "5"
+           ]
+          },
+          {
+           "type": {
+            "inverted": false,
+            "value": "BuiltinCommonInstructions::CompareNumbers"
+           },
+           "parameters": [
+            "Variable(TotalGems)",
+            ">=",
+            "GlobalVariable(Upgrades.Damage.Costs[Variable(Lv_Damage)])"
+           ]
+          }
+         ],
+         "actions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "ChangeColor"
+           },
+           "parameters": [
+            "BuyButton",
+            "\"255;255;255\""
+           ]
+          }
+         ],
+         "events": []
+        },
+        {
+         "type": "BuiltinCommonInstructions::Standard",
+         "conditions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "NumberObjectVariable"
+           },
+           "parameters": [
+            "BuyButton",
+            "Row",
+            "=",
+            "0"
+           ]
+          },
+          {
+           "type": {
+            "inverted": false,
+            "value": "NumberVariable"
+           },
+           "parameters": [
+            "Lv_Damage",
+            "<",
+            "5"
+           ]
+          },
+          {
+           "type": {
+            "inverted": false,
+            "value": "BuiltinCommonInstructions::CompareNumbers"
+           },
+           "parameters": [
+            "Variable(TotalGems)",
+            "<",
+            "GlobalVariable(Upgrades.Damage.Costs[Variable(Lv_Damage)])"
+           ]
+          }
+         ],
+         "actions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "ChangeColor"
+           },
+           "parameters": [
+            "BuyButton",
+            "\"120;120;120\""
+           ]
+          }
+         ],
+         "events": []
+        },
+        {
+         "type": "BuiltinCommonInstructions::Standard",
+         "conditions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "NumberObjectVariable"
+           },
+           "parameters": [
+            "BuyButton",
+            "Row",
+            "=",
+            "0"
+           ]
+          },
+          {
+           "type": {
+            "inverted": false,
+            "value": "NumberVariable"
+           },
+           "parameters": [
+            "Lv_Damage",
+            ">=",
+            "5"
+           ]
+          }
+         ],
+         "actions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "ChangeColor"
+           },
+           "parameters": [
+            "BuyButton",
+            "\"120;120;120\""
+           ]
+          }
+         ],
+         "events": []
+        },
+        {
+         "type": "BuiltinCommonInstructions::Comment",
+         "color": {
+          "b": 109,
+          "g": 230,
+          "r": 255,
+          "textB": 0,
+          "textG": 0,
+          "textR": 0
+         },
+         "comment": "Buy the next level: tap the row's button (a fresh release, after the first 0.3 s)."
+        },
+        {
+         "type": "BuiltinCommonInstructions::Standard",
+         "conditions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "MouseButtonFromTextReleased"
+           },
+           "parameters": [
+            "",
+            "\"Left\""
+           ]
+          },
+          {
+           "type": {
+            "inverted": false,
+            "value": "IsCursorOnObject"
+           },
+           "parameters": [
+            "BuyButton",
+            "",
+            "",
+            ""
+           ]
+          },
+          {
+           "type": {
+            "inverted": false,
+            "value": "NumberObjectVariable"
+           },
+           "parameters": [
+            "BuyButton",
+            "Row",
+            "=",
+            "0"
+           ]
+          },
+          {
+           "type": {
+            "inverted": false,
+            "value": "NumberVariable"
+           },
+           "parameters": [
+            "ShopTime",
+            ">",
+            "0.3"
+           ]
+          }
+         ],
+         "actions": [],
+         "events": [
+          {
+           "type": "BuiltinCommonInstructions::Standard",
+           "conditions": [
+            {
+             "type": {
+              "inverted": false,
+              "value": "NumberVariable"
+             },
+             "parameters": [
+              "Lv_Damage",
+              "<",
+              "5"
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "BuiltinCommonInstructions::CompareNumbers"
+             },
+             "parameters": [
+              "Variable(TotalGems)",
+              ">=",
+              "GlobalVariable(Upgrades.Damage.Costs[Variable(Lv_Damage)])"
+             ]
+            }
+           ],
+           "actions": [
+            {
+             "type": {
+              "inverted": false,
+              "value": "SetNumberVariable"
+             },
+             "parameters": [
+              "TotalGems",
+              "-",
+              "GlobalVariable(Upgrades.Damage.Costs[Variable(Lv_Damage)])"
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "SetNumberVariable"
+             },
+             "parameters": [
+              "Lv_Damage",
+              "+",
+              "1"
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "EcrireFichierExp"
+             },
+             "parameters": [
+              "\"TowerRush\"",
+              "\"TotalGems\"",
+              "Variable(TotalGems)"
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "EcrireFichierExp"
+             },
+             "parameters": [
+              "\"TowerRush\"",
+              "\"Up_Damage\"",
+              "Variable(Lv_Damage)"
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "SetNumberVariable"
+             },
+             "parameters": [
+              "Purchases",
+              "+",
+              "1"
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "TextContainerCapability::TextContainerBehavior::SetValue"
+             },
+             "parameters": [
+              "ShopMessage",
+              "Text",
+              "=",
+              "\"Gun damage upgraded!\""
+             ]
+            }
+           ],
+           "events": []
+          },
+          {
+           "type": "BuiltinCommonInstructions::Standard",
+           "conditions": [
+            {
+             "type": {
+              "inverted": false,
+              "value": "NumberVariable"
+             },
+             "parameters": [
+              "Lv_Damage",
+              "<",
+              "5"
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "BuiltinCommonInstructions::CompareNumbers"
+             },
+             "parameters": [
+              "Variable(TotalGems)",
+              "<",
+              "GlobalVariable(Upgrades.Damage.Costs[Variable(Lv_Damage)])"
+             ]
+            }
+           ],
+           "actions": [
+            {
+             "type": {
+              "inverted": false,
+              "value": "TextContainerCapability::TextContainerBehavior::SetValue"
+             },
+             "parameters": [
+              "ShopMessage",
+              "Text",
+              "=",
+              "\"Not enough gems\""
+             ]
+            }
+           ],
+           "events": []
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "type": "BuiltinCommonInstructions::Group",
+       "name": "Fire rate",
+       "source": "",
+       "folded": false,
+       "colorR": 74,
+       "colorG": 112,
+       "colorB": 150,
+       "creationTime": 0,
+       "events": [
+        {
+         "type": "BuiltinCommonInstructions::Standard",
+         "conditions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "NumberObjectVariable"
+           },
+           "parameters": [
+            "RowName",
+            "Row",
+            "=",
+            "1"
+           ]
+          }
+         ],
+         "actions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "TextContainerCapability::TextContainerBehavior::SetValue"
+           },
+           "parameters": [
+            "RowName",
+            "Text",
+            "=",
+            "\"FIRE RATE   LV \" + ToString(Variable(Lv_FireRate)) + \"/5\""
+           ]
+          }
+         ],
+         "events": []
+        },
+        {
+         "type": "BuiltinCommonInstructions::Standard",
+         "conditions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "NumberObjectVariable"
+           },
+           "parameters": [
+            "RowInfo",
+            "Row",
+            "=",
+            "1"
+           ]
+          },
+          {
+           "type": {
+            "inverted": false,
+            "value": "NumberVariable"
+           },
+           "parameters": [
+            "Lv_FireRate",
+            "<",
+            "5"
+           ]
+          }
+         ],
+         "actions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "TextContainerCapability::TextContainerBehavior::SetValue"
+           },
+           "parameters": [
+            "RowInfo",
+            "Text",
+            "=",
+            "ToString(GlobalVariable(Upgrades.FireRate.Values[Variable(Lv_FireRate)])) + \" shots/s\" + \"   >   \" + ToString(GlobalVariable(Upgrades.FireRate.Values[Variable(Lv_FireRate) + 1])) + \" shots/s\""
+           ]
+          }
+         ],
+         "events": []
+        },
+        {
+         "type": "BuiltinCommonInstructions::Standard",
+         "conditions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "NumberObjectVariable"
+           },
+           "parameters": [
+            "RowInfo",
+            "Row",
+            "=",
+            "1"
+           ]
+          },
+          {
+           "type": {
+            "inverted": false,
+            "value": "NumberVariable"
+           },
+           "parameters": [
+            "Lv_FireRate",
+            ">=",
+            "5"
+           ]
+          }
+         ],
+         "actions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "TextContainerCapability::TextContainerBehavior::SetValue"
+           },
+           "parameters": [
+            "RowInfo",
+            "Text",
+            "=",
+            "ToString(GlobalVariable(Upgrades.FireRate.Values[Variable(Lv_FireRate)])) + \" shots/s\" + \"   (max)\""
+           ]
+          }
+         ],
+         "events": []
+        },
+        {
+         "type": "BuiltinCommonInstructions::Standard",
+         "conditions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "NumberObjectVariable"
+           },
+           "parameters": [
+            "BuyText",
+            "Row",
+            "=",
+            "1"
+           ]
+          },
+          {
+           "type": {
+            "inverted": false,
+            "value": "NumberVariable"
+           },
+           "parameters": [
+            "Lv_FireRate",
+            "<",
+            "5"
+           ]
+          }
+         ],
+         "actions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "TextContainerCapability::TextContainerBehavior::SetValue"
+           },
+           "parameters": [
+            "BuyText",
+            "Text",
+            "=",
+            "ToString(GlobalVariable(Upgrades.FireRate.Costs[Variable(Lv_FireRate)])) + \" GEMS\""
+           ]
+          }
+         ],
+         "events": []
+        },
+        {
+         "type": "BuiltinCommonInstructions::Standard",
+         "conditions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "NumberObjectVariable"
+           },
+           "parameters": [
+            "BuyText",
+            "Row",
+            "=",
+            "1"
+           ]
+          },
+          {
+           "type": {
+            "inverted": false,
+            "value": "NumberVariable"
+           },
+           "parameters": [
+            "Lv_FireRate",
+            ">=",
+            "5"
+           ]
+          }
+         ],
+         "actions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "TextContainerCapability::TextContainerBehavior::SetValue"
+           },
+           "parameters": [
+            "BuyText",
+            "Text",
+            "=",
+            "\"MAX\""
+           ]
+          }
+         ],
+         "events": []
+        },
+        {
+         "type": "BuiltinCommonInstructions::Comment",
+         "color": {
+          "b": 109,
+          "g": 230,
+          "r": 255,
+          "textB": 0,
+          "textG": 0,
+          "textR": 0
+         },
+         "comment": "The button is gold when you can buy the next level, grey when you can't (or at max)."
+        },
+        {
+         "type": "BuiltinCommonInstructions::Standard",
+         "conditions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "NumberObjectVariable"
+           },
+           "parameters": [
+            "BuyButton",
+            "Row",
+            "=",
+            "1"
+           ]
+          },
+          {
+           "type": {
+            "inverted": false,
+            "value": "NumberVariable"
+           },
+           "parameters": [
+            "Lv_FireRate",
+            "<",
+            "5"
+           ]
+          },
+          {
+           "type": {
+            "inverted": false,
+            "value": "BuiltinCommonInstructions::CompareNumbers"
+           },
+           "parameters": [
+            "Variable(TotalGems)",
+            ">=",
+            "GlobalVariable(Upgrades.FireRate.Costs[Variable(Lv_FireRate)])"
+           ]
+          }
+         ],
+         "actions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "ChangeColor"
+           },
+           "parameters": [
+            "BuyButton",
+            "\"255;255;255\""
+           ]
+          }
+         ],
+         "events": []
+        },
+        {
+         "type": "BuiltinCommonInstructions::Standard",
+         "conditions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "NumberObjectVariable"
+           },
+           "parameters": [
+            "BuyButton",
+            "Row",
+            "=",
+            "1"
+           ]
+          },
+          {
+           "type": {
+            "inverted": false,
+            "value": "NumberVariable"
+           },
+           "parameters": [
+            "Lv_FireRate",
+            "<",
+            "5"
+           ]
+          },
+          {
+           "type": {
+            "inverted": false,
+            "value": "BuiltinCommonInstructions::CompareNumbers"
+           },
+           "parameters": [
+            "Variable(TotalGems)",
+            "<",
+            "GlobalVariable(Upgrades.FireRate.Costs[Variable(Lv_FireRate)])"
+           ]
+          }
+         ],
+         "actions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "ChangeColor"
+           },
+           "parameters": [
+            "BuyButton",
+            "\"120;120;120\""
+           ]
+          }
+         ],
+         "events": []
+        },
+        {
+         "type": "BuiltinCommonInstructions::Standard",
+         "conditions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "NumberObjectVariable"
+           },
+           "parameters": [
+            "BuyButton",
+            "Row",
+            "=",
+            "1"
+           ]
+          },
+          {
+           "type": {
+            "inverted": false,
+            "value": "NumberVariable"
+           },
+           "parameters": [
+            "Lv_FireRate",
+            ">=",
+            "5"
+           ]
+          }
+         ],
+         "actions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "ChangeColor"
+           },
+           "parameters": [
+            "BuyButton",
+            "\"120;120;120\""
+           ]
+          }
+         ],
+         "events": []
+        },
+        {
+         "type": "BuiltinCommonInstructions::Comment",
+         "color": {
+          "b": 109,
+          "g": 230,
+          "r": 255,
+          "textB": 0,
+          "textG": 0,
+          "textR": 0
+         },
+         "comment": "Buy the next level: tap the row's button (a fresh release, after the first 0.3 s)."
+        },
+        {
+         "type": "BuiltinCommonInstructions::Standard",
+         "conditions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "MouseButtonFromTextReleased"
+           },
+           "parameters": [
+            "",
+            "\"Left\""
+           ]
+          },
+          {
+           "type": {
+            "inverted": false,
+            "value": "IsCursorOnObject"
+           },
+           "parameters": [
+            "BuyButton",
+            "",
+            "",
+            ""
+           ]
+          },
+          {
+           "type": {
+            "inverted": false,
+            "value": "NumberObjectVariable"
+           },
+           "parameters": [
+            "BuyButton",
+            "Row",
+            "=",
+            "1"
+           ]
+          },
+          {
+           "type": {
+            "inverted": false,
+            "value": "NumberVariable"
+           },
+           "parameters": [
+            "ShopTime",
+            ">",
+            "0.3"
+           ]
+          }
+         ],
+         "actions": [],
+         "events": [
+          {
+           "type": "BuiltinCommonInstructions::Standard",
+           "conditions": [
+            {
+             "type": {
+              "inverted": false,
+              "value": "NumberVariable"
+             },
+             "parameters": [
+              "Lv_FireRate",
+              "<",
+              "5"
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "BuiltinCommonInstructions::CompareNumbers"
+             },
+             "parameters": [
+              "Variable(TotalGems)",
+              ">=",
+              "GlobalVariable(Upgrades.FireRate.Costs[Variable(Lv_FireRate)])"
+             ]
+            }
+           ],
+           "actions": [
+            {
+             "type": {
+              "inverted": false,
+              "value": "SetNumberVariable"
+             },
+             "parameters": [
+              "TotalGems",
+              "-",
+              "GlobalVariable(Upgrades.FireRate.Costs[Variable(Lv_FireRate)])"
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "SetNumberVariable"
+             },
+             "parameters": [
+              "Lv_FireRate",
+              "+",
+              "1"
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "EcrireFichierExp"
+             },
+             "parameters": [
+              "\"TowerRush\"",
+              "\"TotalGems\"",
+              "Variable(TotalGems)"
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "EcrireFichierExp"
+             },
+             "parameters": [
+              "\"TowerRush\"",
+              "\"Up_FireRate\"",
+              "Variable(Lv_FireRate)"
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "SetNumberVariable"
+             },
+             "parameters": [
+              "Purchases",
+              "+",
+              "1"
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "TextContainerCapability::TextContainerBehavior::SetValue"
+             },
+             "parameters": [
+              "ShopMessage",
+              "Text",
+              "=",
+              "\"Fire rate upgraded!\""
+             ]
+            }
+           ],
+           "events": []
+          },
+          {
+           "type": "BuiltinCommonInstructions::Standard",
+           "conditions": [
+            {
+             "type": {
+              "inverted": false,
+              "value": "NumberVariable"
+             },
+             "parameters": [
+              "Lv_FireRate",
+              "<",
+              "5"
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "BuiltinCommonInstructions::CompareNumbers"
+             },
+             "parameters": [
+              "Variable(TotalGems)",
+              "<",
+              "GlobalVariable(Upgrades.FireRate.Costs[Variable(Lv_FireRate)])"
+             ]
+            }
+           ],
+           "actions": [
+            {
+             "type": {
+              "inverted": false,
+              "value": "TextContainerCapability::TextContainerBehavior::SetValue"
+             },
+             "parameters": [
+              "ShopMessage",
+              "Text",
+              "=",
+              "\"Not enough gems\""
+             ]
+            }
+           ],
+           "events": []
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "type": "BuiltinCommonInstructions::Group",
+       "name": "Accuracy",
+       "source": "",
+       "folded": false,
+       "colorR": 74,
+       "colorG": 112,
+       "colorB": 150,
+       "creationTime": 0,
+       "events": [
+        {
+         "type": "BuiltinCommonInstructions::Standard",
+         "conditions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "NumberObjectVariable"
+           },
+           "parameters": [
+            "RowName",
+            "Row",
+            "=",
+            "2"
+           ]
+          }
+         ],
+         "actions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "TextContainerCapability::TextContainerBehavior::SetValue"
+           },
+           "parameters": [
+            "RowName",
+            "Text",
+            "=",
+            "\"ACCURACY   LV \" + ToString(Variable(Lv_Accuracy)) + \"/5\""
+           ]
+          }
+         ],
+         "events": []
+        },
+        {
+         "type": "BuiltinCommonInstructions::Standard",
+         "conditions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "NumberObjectVariable"
+           },
+           "parameters": [
+            "RowInfo",
+            "Row",
+            "=",
+            "2"
+           ]
+          },
+          {
+           "type": {
+            "inverted": false,
+            "value": "NumberVariable"
+           },
+           "parameters": [
+            "Lv_Accuracy",
+            "<",
+            "5"
+           ]
+          }
+         ],
+         "actions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "TextContainerCapability::TextContainerBehavior::SetValue"
+           },
+           "parameters": [
+            "RowInfo",
+            "Text",
+            "=",
+            "ToString(GlobalVariable(Upgrades.Accuracy.Values[Variable(Lv_Accuracy)])) + \" deg\" + \"   >   \" + ToString(GlobalVariable(Upgrades.Accuracy.Values[Variable(Lv_Accuracy) + 1])) + \" deg\""
+           ]
+          }
+         ],
+         "events": []
+        },
+        {
+         "type": "BuiltinCommonInstructions::Standard",
+         "conditions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "NumberObjectVariable"
+           },
+           "parameters": [
+            "RowInfo",
+            "Row",
+            "=",
+            "2"
+           ]
+          },
+          {
+           "type": {
+            "inverted": false,
+            "value": "NumberVariable"
+           },
+           "parameters": [
+            "Lv_Accuracy",
+            ">=",
+            "5"
+           ]
+          }
+         ],
+         "actions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "TextContainerCapability::TextContainerBehavior::SetValue"
+           },
+           "parameters": [
+            "RowInfo",
+            "Text",
+            "=",
+            "ToString(GlobalVariable(Upgrades.Accuracy.Values[Variable(Lv_Accuracy)])) + \" deg\" + \"   (max)\""
+           ]
+          }
+         ],
+         "events": []
+        },
+        {
+         "type": "BuiltinCommonInstructions::Standard",
+         "conditions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "NumberObjectVariable"
+           },
+           "parameters": [
+            "BuyText",
+            "Row",
+            "=",
+            "2"
+           ]
+          },
+          {
+           "type": {
+            "inverted": false,
+            "value": "NumberVariable"
+           },
+           "parameters": [
+            "Lv_Accuracy",
+            "<",
+            "5"
+           ]
+          }
+         ],
+         "actions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "TextContainerCapability::TextContainerBehavior::SetValue"
+           },
+           "parameters": [
+            "BuyText",
+            "Text",
+            "=",
+            "ToString(GlobalVariable(Upgrades.Accuracy.Costs[Variable(Lv_Accuracy)])) + \" GEMS\""
+           ]
+          }
+         ],
+         "events": []
+        },
+        {
+         "type": "BuiltinCommonInstructions::Standard",
+         "conditions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "NumberObjectVariable"
+           },
+           "parameters": [
+            "BuyText",
+            "Row",
+            "=",
+            "2"
+           ]
+          },
+          {
+           "type": {
+            "inverted": false,
+            "value": "NumberVariable"
+           },
+           "parameters": [
+            "Lv_Accuracy",
+            ">=",
+            "5"
+           ]
+          }
+         ],
+         "actions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "TextContainerCapability::TextContainerBehavior::SetValue"
+           },
+           "parameters": [
+            "BuyText",
+            "Text",
+            "=",
+            "\"MAX\""
+           ]
+          }
+         ],
+         "events": []
+        },
+        {
+         "type": "BuiltinCommonInstructions::Comment",
+         "color": {
+          "b": 109,
+          "g": 230,
+          "r": 255,
+          "textB": 0,
+          "textG": 0,
+          "textR": 0
+         },
+         "comment": "The button is gold when you can buy the next level, grey when you can't (or at max)."
+        },
+        {
+         "type": "BuiltinCommonInstructions::Standard",
+         "conditions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "NumberObjectVariable"
+           },
+           "parameters": [
+            "BuyButton",
+            "Row",
+            "=",
+            "2"
+           ]
+          },
+          {
+           "type": {
+            "inverted": false,
+            "value": "NumberVariable"
+           },
+           "parameters": [
+            "Lv_Accuracy",
+            "<",
+            "5"
+           ]
+          },
+          {
+           "type": {
+            "inverted": false,
+            "value": "BuiltinCommonInstructions::CompareNumbers"
+           },
+           "parameters": [
+            "Variable(TotalGems)",
+            ">=",
+            "GlobalVariable(Upgrades.Accuracy.Costs[Variable(Lv_Accuracy)])"
+           ]
+          }
+         ],
+         "actions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "ChangeColor"
+           },
+           "parameters": [
+            "BuyButton",
+            "\"255;255;255\""
+           ]
+          }
+         ],
+         "events": []
+        },
+        {
+         "type": "BuiltinCommonInstructions::Standard",
+         "conditions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "NumberObjectVariable"
+           },
+           "parameters": [
+            "BuyButton",
+            "Row",
+            "=",
+            "2"
+           ]
+          },
+          {
+           "type": {
+            "inverted": false,
+            "value": "NumberVariable"
+           },
+           "parameters": [
+            "Lv_Accuracy",
+            "<",
+            "5"
+           ]
+          },
+          {
+           "type": {
+            "inverted": false,
+            "value": "BuiltinCommonInstructions::CompareNumbers"
+           },
+           "parameters": [
+            "Variable(TotalGems)",
+            "<",
+            "GlobalVariable(Upgrades.Accuracy.Costs[Variable(Lv_Accuracy)])"
+           ]
+          }
+         ],
+         "actions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "ChangeColor"
+           },
+           "parameters": [
+            "BuyButton",
+            "\"120;120;120\""
+           ]
+          }
+         ],
+         "events": []
+        },
+        {
+         "type": "BuiltinCommonInstructions::Standard",
+         "conditions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "NumberObjectVariable"
+           },
+           "parameters": [
+            "BuyButton",
+            "Row",
+            "=",
+            "2"
+           ]
+          },
+          {
+           "type": {
+            "inverted": false,
+            "value": "NumberVariable"
+           },
+           "parameters": [
+            "Lv_Accuracy",
+            ">=",
+            "5"
+           ]
+          }
+         ],
+         "actions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "ChangeColor"
+           },
+           "parameters": [
+            "BuyButton",
+            "\"120;120;120\""
+           ]
+          }
+         ],
+         "events": []
+        },
+        {
+         "type": "BuiltinCommonInstructions::Comment",
+         "color": {
+          "b": 109,
+          "g": 230,
+          "r": 255,
+          "textB": 0,
+          "textG": 0,
+          "textR": 0
+         },
+         "comment": "Buy the next level: tap the row's button (a fresh release, after the first 0.3 s)."
+        },
+        {
+         "type": "BuiltinCommonInstructions::Standard",
+         "conditions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "MouseButtonFromTextReleased"
+           },
+           "parameters": [
+            "",
+            "\"Left\""
+           ]
+          },
+          {
+           "type": {
+            "inverted": false,
+            "value": "IsCursorOnObject"
+           },
+           "parameters": [
+            "BuyButton",
+            "",
+            "",
+            ""
+           ]
+          },
+          {
+           "type": {
+            "inverted": false,
+            "value": "NumberObjectVariable"
+           },
+           "parameters": [
+            "BuyButton",
+            "Row",
+            "=",
+            "2"
+           ]
+          },
+          {
+           "type": {
+            "inverted": false,
+            "value": "NumberVariable"
+           },
+           "parameters": [
+            "ShopTime",
+            ">",
+            "0.3"
+           ]
+          }
+         ],
+         "actions": [],
+         "events": [
+          {
+           "type": "BuiltinCommonInstructions::Standard",
+           "conditions": [
+            {
+             "type": {
+              "inverted": false,
+              "value": "NumberVariable"
+             },
+             "parameters": [
+              "Lv_Accuracy",
+              "<",
+              "5"
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "BuiltinCommonInstructions::CompareNumbers"
+             },
+             "parameters": [
+              "Variable(TotalGems)",
+              ">=",
+              "GlobalVariable(Upgrades.Accuracy.Costs[Variable(Lv_Accuracy)])"
+             ]
+            }
+           ],
+           "actions": [
+            {
+             "type": {
+              "inverted": false,
+              "value": "SetNumberVariable"
+             },
+             "parameters": [
+              "TotalGems",
+              "-",
+              "GlobalVariable(Upgrades.Accuracy.Costs[Variable(Lv_Accuracy)])"
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "SetNumberVariable"
+             },
+             "parameters": [
+              "Lv_Accuracy",
+              "+",
+              "1"
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "EcrireFichierExp"
+             },
+             "parameters": [
+              "\"TowerRush\"",
+              "\"TotalGems\"",
+              "Variable(TotalGems)"
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "EcrireFichierExp"
+             },
+             "parameters": [
+              "\"TowerRush\"",
+              "\"Up_Accuracy\"",
+              "Variable(Lv_Accuracy)"
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "SetNumberVariable"
+             },
+             "parameters": [
+              "Purchases",
+              "+",
+              "1"
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "TextContainerCapability::TextContainerBehavior::SetValue"
+             },
+             "parameters": [
+              "ShopMessage",
+              "Text",
+              "=",
+              "\"Accuracy upgraded!\""
+             ]
+            }
+           ],
+           "events": []
+          },
+          {
+           "type": "BuiltinCommonInstructions::Standard",
+           "conditions": [
+            {
+             "type": {
+              "inverted": false,
+              "value": "NumberVariable"
+             },
+             "parameters": [
+              "Lv_Accuracy",
+              "<",
+              "5"
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "BuiltinCommonInstructions::CompareNumbers"
+             },
+             "parameters": [
+              "Variable(TotalGems)",
+              "<",
+              "GlobalVariable(Upgrades.Accuracy.Costs[Variable(Lv_Accuracy)])"
+             ]
+            }
+           ],
+           "actions": [
+            {
+             "type": {
+              "inverted": false,
+              "value": "TextContainerCapability::TextContainerBehavior::SetValue"
+             },
+             "parameters": [
+              "ShopMessage",
+              "Text",
+              "=",
+              "\"Not enough gems\""
+             ]
+            }
+           ],
+           "events": []
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "type": "BuiltinCommonInstructions::Group",
+       "name": "Track speed",
+       "source": "",
+       "folded": false,
+       "colorR": 74,
+       "colorG": 112,
+       "colorB": 150,
+       "creationTime": 0,
+       "events": [
+        {
+         "type": "BuiltinCommonInstructions::Standard",
+         "conditions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "NumberObjectVariable"
+           },
+           "parameters": [
+            "RowName",
+            "Row",
+            "=",
+            "3"
+           ]
+          }
+         ],
+         "actions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "TextContainerCapability::TextContainerBehavior::SetValue"
+           },
+           "parameters": [
+            "RowName",
+            "Text",
+            "=",
+            "\"TRACK SPEED   LV \" + ToString(Variable(Lv_TrackSpeed)) + \"/5\""
+           ]
+          }
+         ],
+         "events": []
+        },
+        {
+         "type": "BuiltinCommonInstructions::Standard",
+         "conditions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "NumberObjectVariable"
+           },
+           "parameters": [
+            "RowInfo",
+            "Row",
+            "=",
+            "3"
+           ]
+          },
+          {
+           "type": {
+            "inverted": false,
+            "value": "NumberVariable"
+           },
+           "parameters": [
+            "Lv_TrackSpeed",
+            "<",
+            "5"
+           ]
+          }
+         ],
+         "actions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "TextContainerCapability::TextContainerBehavior::SetValue"
+           },
+           "parameters": [
+            "RowInfo",
+            "Text",
+            "=",
+            "ToString(GlobalVariable(Upgrades.TrackSpeed.Values[Variable(Lv_TrackSpeed)])) + \" px/s\" + \"   >   \" + ToString(GlobalVariable(Upgrades.TrackSpeed.Values[Variable(Lv_TrackSpeed) + 1])) + \" px/s\""
+           ]
+          }
+         ],
+         "events": []
+        },
+        {
+         "type": "BuiltinCommonInstructions::Standard",
+         "conditions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "NumberObjectVariable"
+           },
+           "parameters": [
+            "RowInfo",
+            "Row",
+            "=",
+            "3"
+           ]
+          },
+          {
+           "type": {
+            "inverted": false,
+            "value": "NumberVariable"
+           },
+           "parameters": [
+            "Lv_TrackSpeed",
+            ">=",
+            "5"
+           ]
+          }
+         ],
+         "actions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "TextContainerCapability::TextContainerBehavior::SetValue"
+           },
+           "parameters": [
+            "RowInfo",
+            "Text",
+            "=",
+            "ToString(GlobalVariable(Upgrades.TrackSpeed.Values[Variable(Lv_TrackSpeed)])) + \" px/s\" + \"   (max)\""
+           ]
+          }
+         ],
+         "events": []
+        },
+        {
+         "type": "BuiltinCommonInstructions::Standard",
+         "conditions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "NumberObjectVariable"
+           },
+           "parameters": [
+            "BuyText",
+            "Row",
+            "=",
+            "3"
+           ]
+          },
+          {
+           "type": {
+            "inverted": false,
+            "value": "NumberVariable"
+           },
+           "parameters": [
+            "Lv_TrackSpeed",
+            "<",
+            "5"
+           ]
+          }
+         ],
+         "actions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "TextContainerCapability::TextContainerBehavior::SetValue"
+           },
+           "parameters": [
+            "BuyText",
+            "Text",
+            "=",
+            "ToString(GlobalVariable(Upgrades.TrackSpeed.Costs[Variable(Lv_TrackSpeed)])) + \" GEMS\""
+           ]
+          }
+         ],
+         "events": []
+        },
+        {
+         "type": "BuiltinCommonInstructions::Standard",
+         "conditions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "NumberObjectVariable"
+           },
+           "parameters": [
+            "BuyText",
+            "Row",
+            "=",
+            "3"
+           ]
+          },
+          {
+           "type": {
+            "inverted": false,
+            "value": "NumberVariable"
+           },
+           "parameters": [
+            "Lv_TrackSpeed",
+            ">=",
+            "5"
+           ]
+          }
+         ],
+         "actions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "TextContainerCapability::TextContainerBehavior::SetValue"
+           },
+           "parameters": [
+            "BuyText",
+            "Text",
+            "=",
+            "\"MAX\""
+           ]
+          }
+         ],
+         "events": []
+        },
+        {
+         "type": "BuiltinCommonInstructions::Comment",
+         "color": {
+          "b": 109,
+          "g": 230,
+          "r": 255,
+          "textB": 0,
+          "textG": 0,
+          "textR": 0
+         },
+         "comment": "The button is gold when you can buy the next level, grey when you can't (or at max)."
+        },
+        {
+         "type": "BuiltinCommonInstructions::Standard",
+         "conditions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "NumberObjectVariable"
+           },
+           "parameters": [
+            "BuyButton",
+            "Row",
+            "=",
+            "3"
+           ]
+          },
+          {
+           "type": {
+            "inverted": false,
+            "value": "NumberVariable"
+           },
+           "parameters": [
+            "Lv_TrackSpeed",
+            "<",
+            "5"
+           ]
+          },
+          {
+           "type": {
+            "inverted": false,
+            "value": "BuiltinCommonInstructions::CompareNumbers"
+           },
+           "parameters": [
+            "Variable(TotalGems)",
+            ">=",
+            "GlobalVariable(Upgrades.TrackSpeed.Costs[Variable(Lv_TrackSpeed)])"
+           ]
+          }
+         ],
+         "actions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "ChangeColor"
+           },
+           "parameters": [
+            "BuyButton",
+            "\"255;255;255\""
+           ]
+          }
+         ],
+         "events": []
+        },
+        {
+         "type": "BuiltinCommonInstructions::Standard",
+         "conditions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "NumberObjectVariable"
+           },
+           "parameters": [
+            "BuyButton",
+            "Row",
+            "=",
+            "3"
+           ]
+          },
+          {
+           "type": {
+            "inverted": false,
+            "value": "NumberVariable"
+           },
+           "parameters": [
+            "Lv_TrackSpeed",
+            "<",
+            "5"
+           ]
+          },
+          {
+           "type": {
+            "inverted": false,
+            "value": "BuiltinCommonInstructions::CompareNumbers"
+           },
+           "parameters": [
+            "Variable(TotalGems)",
+            "<",
+            "GlobalVariable(Upgrades.TrackSpeed.Costs[Variable(Lv_TrackSpeed)])"
+           ]
+          }
+         ],
+         "actions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "ChangeColor"
+           },
+           "parameters": [
+            "BuyButton",
+            "\"120;120;120\""
+           ]
+          }
+         ],
+         "events": []
+        },
+        {
+         "type": "BuiltinCommonInstructions::Standard",
+         "conditions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "NumberObjectVariable"
+           },
+           "parameters": [
+            "BuyButton",
+            "Row",
+            "=",
+            "3"
+           ]
+          },
+          {
+           "type": {
+            "inverted": false,
+            "value": "NumberVariable"
+           },
+           "parameters": [
+            "Lv_TrackSpeed",
+            ">=",
+            "5"
+           ]
+          }
+         ],
+         "actions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "ChangeColor"
+           },
+           "parameters": [
+            "BuyButton",
+            "\"120;120;120\""
+           ]
+          }
+         ],
+         "events": []
+        },
+        {
+         "type": "BuiltinCommonInstructions::Comment",
+         "color": {
+          "b": 109,
+          "g": 230,
+          "r": 255,
+          "textB": 0,
+          "textG": 0,
+          "textR": 0
+         },
+         "comment": "Buy the next level: tap the row's button (a fresh release, after the first 0.3 s)."
+        },
+        {
+         "type": "BuiltinCommonInstructions::Standard",
+         "conditions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "MouseButtonFromTextReleased"
+           },
+           "parameters": [
+            "",
+            "\"Left\""
+           ]
+          },
+          {
+           "type": {
+            "inverted": false,
+            "value": "IsCursorOnObject"
+           },
+           "parameters": [
+            "BuyButton",
+            "",
+            "",
+            ""
+           ]
+          },
+          {
+           "type": {
+            "inverted": false,
+            "value": "NumberObjectVariable"
+           },
+           "parameters": [
+            "BuyButton",
+            "Row",
+            "=",
+            "3"
+           ]
+          },
+          {
+           "type": {
+            "inverted": false,
+            "value": "NumberVariable"
+           },
+           "parameters": [
+            "ShopTime",
+            ">",
+            "0.3"
+           ]
+          }
+         ],
+         "actions": [],
+         "events": [
+          {
+           "type": "BuiltinCommonInstructions::Standard",
+           "conditions": [
+            {
+             "type": {
+              "inverted": false,
+              "value": "NumberVariable"
+             },
+             "parameters": [
+              "Lv_TrackSpeed",
+              "<",
+              "5"
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "BuiltinCommonInstructions::CompareNumbers"
+             },
+             "parameters": [
+              "Variable(TotalGems)",
+              ">=",
+              "GlobalVariable(Upgrades.TrackSpeed.Costs[Variable(Lv_TrackSpeed)])"
+             ]
+            }
+           ],
+           "actions": [
+            {
+             "type": {
+              "inverted": false,
+              "value": "SetNumberVariable"
+             },
+             "parameters": [
+              "TotalGems",
+              "-",
+              "GlobalVariable(Upgrades.TrackSpeed.Costs[Variable(Lv_TrackSpeed)])"
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "SetNumberVariable"
+             },
+             "parameters": [
+              "Lv_TrackSpeed",
+              "+",
+              "1"
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "EcrireFichierExp"
+             },
+             "parameters": [
+              "\"TowerRush\"",
+              "\"TotalGems\"",
+              "Variable(TotalGems)"
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "EcrireFichierExp"
+             },
+             "parameters": [
+              "\"TowerRush\"",
+              "\"Up_TrackSpeed\"",
+              "Variable(Lv_TrackSpeed)"
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "SetNumberVariable"
+             },
+             "parameters": [
+              "Purchases",
+              "+",
+              "1"
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "TextContainerCapability::TextContainerBehavior::SetValue"
+             },
+             "parameters": [
+              "ShopMessage",
+              "Text",
+              "=",
+              "\"Track speed upgraded!\""
+             ]
+            }
+           ],
+           "events": []
+          },
+          {
+           "type": "BuiltinCommonInstructions::Standard",
+           "conditions": [
+            {
+             "type": {
+              "inverted": false,
+              "value": "NumberVariable"
+             },
+             "parameters": [
+              "Lv_TrackSpeed",
+              "<",
+              "5"
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "BuiltinCommonInstructions::CompareNumbers"
+             },
+             "parameters": [
+              "Variable(TotalGems)",
+              "<",
+              "GlobalVariable(Upgrades.TrackSpeed.Costs[Variable(Lv_TrackSpeed)])"
+             ]
+            }
+           ],
+           "actions": [
+            {
+             "type": {
+              "inverted": false,
+              "value": "TextContainerCapability::TextContainerBehavior::SetValue"
+             },
+             "parameters": [
+              "ShopMessage",
+              "Text",
+              "=",
+              "\"Not enough gems\""
+             ]
+            }
+           ],
+           "events": []
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "type": "BuiltinCommonInstructions::Group",
+       "name": "Gem magnet",
+       "source": "",
+       "folded": false,
+       "colorR": 74,
+       "colorG": 112,
+       "colorB": 150,
+       "creationTime": 0,
+       "events": [
+        {
+         "type": "BuiltinCommonInstructions::Standard",
+         "conditions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "NumberObjectVariable"
+           },
+           "parameters": [
+            "RowName",
+            "Row",
+            "=",
+            "4"
+           ]
+          }
+         ],
+         "actions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "TextContainerCapability::TextContainerBehavior::SetValue"
+           },
+           "parameters": [
+            "RowName",
+            "Text",
+            "=",
+            "\"GEM MAGNET   LV \" + ToString(Variable(Lv_PickupRadius)) + \"/5\""
+           ]
+          }
+         ],
+         "events": []
+        },
+        {
+         "type": "BuiltinCommonInstructions::Standard",
+         "conditions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "NumberObjectVariable"
+           },
+           "parameters": [
+            "RowInfo",
+            "Row",
+            "=",
+            "4"
+           ]
+          },
+          {
+           "type": {
+            "inverted": false,
+            "value": "NumberVariable"
+           },
+           "parameters": [
+            "Lv_PickupRadius",
+            "<",
+            "5"
+           ]
+          }
+         ],
+         "actions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "TextContainerCapability::TextContainerBehavior::SetValue"
+           },
+           "parameters": [
+            "RowInfo",
+            "Text",
+            "=",
+            "ToString(GlobalVariable(Upgrades.PickupRadius.Values[Variable(Lv_PickupRadius)])) + \" px\" + \"   >   \" + ToString(GlobalVariable(Upgrades.PickupRadius.Values[Variable(Lv_PickupRadius) + 1])) + \" px\""
+           ]
+          }
+         ],
+         "events": []
+        },
+        {
+         "type": "BuiltinCommonInstructions::Standard",
+         "conditions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "NumberObjectVariable"
+           },
+           "parameters": [
+            "RowInfo",
+            "Row",
+            "=",
+            "4"
+           ]
+          },
+          {
+           "type": {
+            "inverted": false,
+            "value": "NumberVariable"
+           },
+           "parameters": [
+            "Lv_PickupRadius",
+            ">=",
+            "5"
+           ]
+          }
+         ],
+         "actions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "TextContainerCapability::TextContainerBehavior::SetValue"
+           },
+           "parameters": [
+            "RowInfo",
+            "Text",
+            "=",
+            "ToString(GlobalVariable(Upgrades.PickupRadius.Values[Variable(Lv_PickupRadius)])) + \" px\" + \"   (max)\""
+           ]
+          }
+         ],
+         "events": []
+        },
+        {
+         "type": "BuiltinCommonInstructions::Standard",
+         "conditions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "NumberObjectVariable"
+           },
+           "parameters": [
+            "BuyText",
+            "Row",
+            "=",
+            "4"
+           ]
+          },
+          {
+           "type": {
+            "inverted": false,
+            "value": "NumberVariable"
+           },
+           "parameters": [
+            "Lv_PickupRadius",
+            "<",
+            "5"
+           ]
+          }
+         ],
+         "actions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "TextContainerCapability::TextContainerBehavior::SetValue"
+           },
+           "parameters": [
+            "BuyText",
+            "Text",
+            "=",
+            "ToString(GlobalVariable(Upgrades.PickupRadius.Costs[Variable(Lv_PickupRadius)])) + \" GEMS\""
+           ]
+          }
+         ],
+         "events": []
+        },
+        {
+         "type": "BuiltinCommonInstructions::Standard",
+         "conditions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "NumberObjectVariable"
+           },
+           "parameters": [
+            "BuyText",
+            "Row",
+            "=",
+            "4"
+           ]
+          },
+          {
+           "type": {
+            "inverted": false,
+            "value": "NumberVariable"
+           },
+           "parameters": [
+            "Lv_PickupRadius",
+            ">=",
+            "5"
+           ]
+          }
+         ],
+         "actions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "TextContainerCapability::TextContainerBehavior::SetValue"
+           },
+           "parameters": [
+            "BuyText",
+            "Text",
+            "=",
+            "\"MAX\""
+           ]
+          }
+         ],
+         "events": []
+        },
+        {
+         "type": "BuiltinCommonInstructions::Comment",
+         "color": {
+          "b": 109,
+          "g": 230,
+          "r": 255,
+          "textB": 0,
+          "textG": 0,
+          "textR": 0
+         },
+         "comment": "The button is gold when you can buy the next level, grey when you can't (or at max)."
+        },
+        {
+         "type": "BuiltinCommonInstructions::Standard",
+         "conditions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "NumberObjectVariable"
+           },
+           "parameters": [
+            "BuyButton",
+            "Row",
+            "=",
+            "4"
+           ]
+          },
+          {
+           "type": {
+            "inverted": false,
+            "value": "NumberVariable"
+           },
+           "parameters": [
+            "Lv_PickupRadius",
+            "<",
+            "5"
+           ]
+          },
+          {
+           "type": {
+            "inverted": false,
+            "value": "BuiltinCommonInstructions::CompareNumbers"
+           },
+           "parameters": [
+            "Variable(TotalGems)",
+            ">=",
+            "GlobalVariable(Upgrades.PickupRadius.Costs[Variable(Lv_PickupRadius)])"
+           ]
+          }
+         ],
+         "actions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "ChangeColor"
+           },
+           "parameters": [
+            "BuyButton",
+            "\"255;255;255\""
+           ]
+          }
+         ],
+         "events": []
+        },
+        {
+         "type": "BuiltinCommonInstructions::Standard",
+         "conditions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "NumberObjectVariable"
+           },
+           "parameters": [
+            "BuyButton",
+            "Row",
+            "=",
+            "4"
+           ]
+          },
+          {
+           "type": {
+            "inverted": false,
+            "value": "NumberVariable"
+           },
+           "parameters": [
+            "Lv_PickupRadius",
+            "<",
+            "5"
+           ]
+          },
+          {
+           "type": {
+            "inverted": false,
+            "value": "BuiltinCommonInstructions::CompareNumbers"
+           },
+           "parameters": [
+            "Variable(TotalGems)",
+            "<",
+            "GlobalVariable(Upgrades.PickupRadius.Costs[Variable(Lv_PickupRadius)])"
+           ]
+          }
+         ],
+         "actions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "ChangeColor"
+           },
+           "parameters": [
+            "BuyButton",
+            "\"120;120;120\""
+           ]
+          }
+         ],
+         "events": []
+        },
+        {
+         "type": "BuiltinCommonInstructions::Standard",
+         "conditions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "NumberObjectVariable"
+           },
+           "parameters": [
+            "BuyButton",
+            "Row",
+            "=",
+            "4"
+           ]
+          },
+          {
+           "type": {
+            "inverted": false,
+            "value": "NumberVariable"
+           },
+           "parameters": [
+            "Lv_PickupRadius",
+            ">=",
+            "5"
+           ]
+          }
+         ],
+         "actions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "ChangeColor"
+           },
+           "parameters": [
+            "BuyButton",
+            "\"120;120;120\""
+           ]
+          }
+         ],
+         "events": []
+        },
+        {
+         "type": "BuiltinCommonInstructions::Comment",
+         "color": {
+          "b": 109,
+          "g": 230,
+          "r": 255,
+          "textB": 0,
+          "textG": 0,
+          "textR": 0
+         },
+         "comment": "Buy the next level: tap the row's button (a fresh release, after the first 0.3 s)."
+        },
+        {
+         "type": "BuiltinCommonInstructions::Standard",
+         "conditions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "MouseButtonFromTextReleased"
+           },
+           "parameters": [
+            "",
+            "\"Left\""
+           ]
+          },
+          {
+           "type": {
+            "inverted": false,
+            "value": "IsCursorOnObject"
+           },
+           "parameters": [
+            "BuyButton",
+            "",
+            "",
+            ""
+           ]
+          },
+          {
+           "type": {
+            "inverted": false,
+            "value": "NumberObjectVariable"
+           },
+           "parameters": [
+            "BuyButton",
+            "Row",
+            "=",
+            "4"
+           ]
+          },
+          {
+           "type": {
+            "inverted": false,
+            "value": "NumberVariable"
+           },
+           "parameters": [
+            "ShopTime",
+            ">",
+            "0.3"
+           ]
+          }
+         ],
+         "actions": [],
+         "events": [
+          {
+           "type": "BuiltinCommonInstructions::Standard",
+           "conditions": [
+            {
+             "type": {
+              "inverted": false,
+              "value": "NumberVariable"
+             },
+             "parameters": [
+              "Lv_PickupRadius",
+              "<",
+              "5"
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "BuiltinCommonInstructions::CompareNumbers"
+             },
+             "parameters": [
+              "Variable(TotalGems)",
+              ">=",
+              "GlobalVariable(Upgrades.PickupRadius.Costs[Variable(Lv_PickupRadius)])"
+             ]
+            }
+           ],
+           "actions": [
+            {
+             "type": {
+              "inverted": false,
+              "value": "SetNumberVariable"
+             },
+             "parameters": [
+              "TotalGems",
+              "-",
+              "GlobalVariable(Upgrades.PickupRadius.Costs[Variable(Lv_PickupRadius)])"
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "SetNumberVariable"
+             },
+             "parameters": [
+              "Lv_PickupRadius",
+              "+",
+              "1"
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "EcrireFichierExp"
+             },
+             "parameters": [
+              "\"TowerRush\"",
+              "\"TotalGems\"",
+              "Variable(TotalGems)"
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "EcrireFichierExp"
+             },
+             "parameters": [
+              "\"TowerRush\"",
+              "\"Up_PickupRadius\"",
+              "Variable(Lv_PickupRadius)"
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "SetNumberVariable"
+             },
+             "parameters": [
+              "Purchases",
+              "+",
+              "1"
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "TextContainerCapability::TextContainerBehavior::SetValue"
+             },
+             "parameters": [
+              "ShopMessage",
+              "Text",
+              "=",
+              "\"Gem magnet upgraded!\""
+             ]
+            }
+           ],
+           "events": []
+          },
+          {
+           "type": "BuiltinCommonInstructions::Standard",
+           "conditions": [
+            {
+             "type": {
+              "inverted": false,
+              "value": "NumberVariable"
+             },
+             "parameters": [
+              "Lv_PickupRadius",
+              "<",
+              "5"
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "BuiltinCommonInstructions::CompareNumbers"
+             },
+             "parameters": [
+              "Variable(TotalGems)",
+              "<",
+              "GlobalVariable(Upgrades.PickupRadius.Costs[Variable(Lv_PickupRadius)])"
+             ]
+            }
+           ],
+           "actions": [
+            {
+             "type": {
+              "inverted": false,
+              "value": "TextContainerCapability::TextContainerBehavior::SetValue"
+             },
+             "parameters": [
+              "ShopMessage",
+              "Text",
+              "=",
+              "\"Not enough gems\""
+             ]
+            }
+           ],
+           "events": []
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "type": "BuiltinCommonInstructions::Group",
+     "name": "Centre the price on its button",
+     "source": "",
+     "folded": false,
+     "colorR": 74,
+     "colorG": 112,
+     "colorB": 150,
+     "creationTime": 0,
+     "events": [
+      {
+       "type": "BuiltinCommonInstructions::ForEach",
+       "object": "BuyButton",
+       "conditions": [],
+       "actions": [],
+       "events": [
+        {
+         "type": "BuiltinCommonInstructions::Standard",
+         "conditions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "NumberObjectVariable"
+           },
+           "parameters": [
+            "BuyText",
+            "Row",
+            "=",
+            "BuyButton.Variable(Row)"
+           ]
+          }
+         ],
+         "actions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "SetXY"
+           },
+           "parameters": [
+            "BuyText",
+            "=",
+            "BuyButton.CenterX() - BuyText.Width() / 2",
+            "=",
+            "BuyButton.CenterY() - BuyText.Height() / 2"
+           ]
+          }
+         ],
+         "events": []
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "type": "BuiltinCommonInstructions::Standard",
+     "conditions": [
+      {
+       "type": {
+        "inverted": false,
+        "value": "MouseButtonFromTextReleased"
+       },
+       "parameters": [
+        "",
+        "\"Left\""
+       ]
+      },
+      {
+       "type": {
+        "inverted": false,
+        "value": "IsCursorOnObject"
+       },
+       "parameters": [
+        "PlayButton",
+        "",
+        "",
+        ""
+       ]
+      },
+      {
+       "type": {
+        "inverted": false,
+        "value": "NumberVariable"
+       },
+       "parameters": [
+        "ShopTime",
+        ">",
+        "0.3"
+       ]
+      }
+     ],
+     "actions": [
+      {
+       "type": {
+        "inverted": false,
+        "value": "Scene"
+       },
+       "parameters": [
+        "",
+        "\"Game\"",
+        "no"
+       ]
+      }
+     ],
+     "events": []
     }
    ]
   }

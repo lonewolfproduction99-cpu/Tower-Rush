@@ -10,7 +10,7 @@ const fs = require('fs');
 
 const DOCS = path.resolve(process.argv[2] || 'docs');
 const OUT = path.resolve(process.argv[3] || 'test-output');
-const SCENARIO = process.argv[4] || 'phase1'; // phase1 | art | gems
+const SCENARIO = process.argv[4] || 'phase1'; // phase1 | art | gems | shop
 const PORT = 8790 + Math.floor(Math.random() * 100);
 fs.mkdirSync(OUT, { recursive: true });
 
@@ -89,13 +89,17 @@ async function waitFor(page, pred, timeoutMs, stepMs = 100) {
 // Test-only tuning for the main run: the gas starts further back, so the mechanics checks have time to
 // work through whatever obstacle art there is (difficulty is not what they check).
 const TEST_GAP = 900;
-async function openGame(browser, opts = {}, testFormation = -1, gap = 0, tuning = {}) {
+async function openGame(browser, opts = {}, testFormation = -1, gap = 0, tuning = {}, storage = null) {
   const ctx = await browser.newContext({ viewport: { width: 540, height: 960 }, ...opts });
   const page = await ctx.newPage();
   const errors = [];
   page.on('pageerror', (e) => errors.push(String(e)));
-  page.on('console', (m) => { if (m.type() === 'error') errors.push(m.text()); });
+  // GDevelop's own analytics call is blocked by the sandbox (409 / "Error while creating the session"): not a game error.
+  const harmless = (t) => /409|Error while creating the session/.test(t);
+  page.on('console', (m) => { if (m.type() === 'error' && !harmless(m.text())) errors.push(m.text()); });
   await page.addInitScript(HOOK);
+  if (storage) await page.addInitScript((st) => { if (!sessionStorage.getItem('seeded')) {
+    localStorage.setItem('GDJS_TowerRush', JSON.stringify(st)); sessionStorage.setItem('seeded', '1'); } }, storage);
   if (testFormation >= 0 || gap || Object.keys(tuning).length) {
     // Same as setting Tuning.TestFormation (and CloudStartGap) in GDevelop.
     await page.route('**/data.js', async (route) => {
@@ -261,13 +265,89 @@ async function gemScenario(browser) {
     `panel "${g6.result}", total ${g6.total}`);
   await page.screenshot({ path: path.join(OUT, 'gems_3_game_over.png') });
   await wait(300);
-  await page.mouse.move(270, 551); await page.mouse.down(); await wait(80); await page.mouse.up();
+  await page.mouse.move(160, 547); await page.mouse.down(); await wait(80); await page.mouse.up();
   await waitFor(page, (s) => s.state === 'Run' && s.time < 2, 5000);
   await wait(300);
   const g7 = await gemState();
   check('G7', 'The gem total is saved (still there after a restart)', g7.total === g6.total && g7.run === 0,
     `after restart: total ${g7.total}, run ${g7.run}`);
   check('G8', 'No script errors in the gem run', errors.length === 0, errors.slice(0, 3).join(' | '));
+  await ctx.close();
+}
+
+// Phase 3: the shop. Seeded gems, game over, UPGRADES, buy levels, PLAY, upgrades applied in the game.
+async function shopScenario(browser) {
+  const d = JSON.parse(fs.readFileSync(path.join(DOCS, '..', 'data', 'art_formations.json'), 'utf8'));
+  const up = JSON.parse(fs.readFileSync(path.join(DOCS, '..', 'data', 'game_data.json'), 'utf8')).Upgrades;
+  const idx = d.findIndex((f) => f.Name === 'owner_rubble_01');
+  const { ctx, page, errors } = await openGame(browser, {}, idx, 250, { ClusterChance: 0, GemChance: 0 },
+    { TotalGems: { value: 300 } });
+  const scene = () => page.evaluate(() => { const s = window.__scene; if (!s) return null;
+    const v = (n) => s.getVariables().has(n) ? s.getVariables().get(n).getAsNumber() : null;
+    const texts = (o) => s.getObjects(o).map((t) => ({ row: t.getVariables().get('Row').getAsNumber(), text: t.getText() })).sort((a, b) => a.row - b.row);
+    return { name: s.getName(), gems: v('TotalGems'), lv: { Damage: v('Lv_Damage'), FireRate: v('Lv_FireRate'), Accuracy: v('Lv_Accuracy'),
+        TrackSpeed: v('Lv_TrackSpeed'), PickupRadius: v('Lv_PickupRadius') },
+      stats: { Damage: v('Damage'), FireRate: v('FireRate'), Spread: v('Spread'), TowerSpeed: v('TowerSpeed'), PickupRadius: v('PickupRadius') },
+      names: s.getName() === 'Shop' ? texts('RowName') : [], info: s.getName() === 'Shop' ? texts('RowInfo') : [],
+      prices: s.getName() === 'Shop' ? texts('BuyText') : [], msg: s.getName() === 'Shop' ? s.getObjects('ShopMessage')[0].getText() : '',
+      storage: localStorage.getItem('GDJS_TowerRush') }; });
+  const tap = async (x, y) => { await page.mouse.move(x, y); await page.mouse.down(); await wait(80); await page.mouse.up(); await wait(250); };
+  const so = await waitFor(page, (s) => s.state === 'Over', 30000, 200);
+  const g0 = await scene();
+  check('S0', 'Base stats before any upgrade', g0.stats.Damage === 1 && g0.stats.FireRate === 6 && g0.stats.Spread === 3 && g0.stats.TowerSpeed === 85 && g0.stats.PickupRadius === 90,
+    JSON.stringify(g0.stats));
+  await wait(700);
+  await tap(380, 547); // UPGRADES on the game-over panel
+  let sh = null; for (let i = 0; i < 30; i++) { sh = await scene(); if (sh && sh.name === 'Shop') break; await wait(150); }
+  await wait(500);
+  sh = await scene();
+  await page.screenshot({ path: path.join(OUT, 'shop_1.png') });
+  check('S1', 'UPGRADES opens the shop with every upgrade, its level, effect and price',
+    sh.name === 'Shop' && sh.gems === 300 && sh.names.length === 5 && sh.names[0].text.indexOf('LV 0/5') >= 0 &&
+    sh.info[0].text.indexOf('>') >= 0 && sh.prices[0].text === up.Damage.Costs[0] + ' GEMS',
+    `${sh.name}: gems ${sh.gems}; "${sh.names[0] && sh.names[0].text}" / "${sh.info[0] && sh.info[0].text}" / "${sh.prices[0] && sh.prices[0].text}"`);
+  const buy = async (row) => tap(352 + 75, 200 + row * 124 + 26 + 29);
+  await buy(0); let a = await scene();
+  check('S2', 'Buying a level takes its price and raises the level', a.lv.Damage === 1 && a.gems === 300 - up.Damage.Costs[0] && a.msg.indexOf('upgraded') >= 0,
+    `damage level ${a.lv.Damage}, gems ${a.gems}, message "${a.msg}"`);
+  await buy(0); await buy(0); await buy(0); a = await scene();
+  const spent = up.Damage.Costs[0] + up.Damage.Costs[1] + up.Damage.Costs[2];
+  check('S3', 'A level that costs more than you have is refused', a.lv.Damage === 3 && a.gems === 300 - spent && a.msg === 'Not enough gems',
+    `damage level ${a.lv.Damage}, gems ${a.gems} (spent ${spent}), price now ${a.prices[0].text}, message "${a.msg}"`);
+  await buy(2); a = await scene();
+  const saved = JSON.parse(a.storage || '{}');
+  check('S4', 'Levels and gems are saved', saved.Up_Damage && saved.Up_Damage.value === 3 && saved.Up_Accuracy && saved.Up_Accuracy.value === 1 &&
+    saved.TotalGems.value === a.gems, `storage ${a.storage}`);
+  await page.screenshot({ path: path.join(OUT, 'shop_2_bought.png') });
+  await tap(270, 876); // PLAY
+  let gm = null; for (let i = 0; i < 30; i++) { gm = await scene(); if (gm && gm.name === 'Game') break; await wait(150); }
+  await wait(400);
+  gm = await scene();
+  const want = { Damage: up.Damage.Values[3], Spread: up.Accuracy.Values[1] };
+  check('S5', 'PLAY starts a run with the upgraded stats', gm.name === 'Game' && gm.stats.Damage === want.Damage && gm.stats.Spread === want.Spread &&
+    gm.stats.FireRate === up.FireRate.Values[0], `stats ${JSON.stringify(gm.stats)}; expected damage ${want.Damage}, spread ${want.Spread}`);
+  // Spread: fire into open air (up and back) and record each new bullet's angle against the turret's.
+  const sa = await snapshot(page); const air = toScreen(sa, sa.pivotX - 80, sa.pivotY - 220);
+  await page.mouse.move(air.x, air.y); await wait(400);
+  const angles = page.evaluate(() => new Promise((resolve) => { const s = window.__scene, seen = new Set(), out = [];
+    const iv = setInterval(() => { s.getObjects('Bullet').forEach((b) => { if (!seen.has(b)) { seen.add(b);
+      out.push(b.getAngle() - s.getVariables().get('TurretAngle').getAsNumber()); } }); }, 1);
+    setTimeout(() => { clearInterval(iv); resolve(out); }, 2500); }));
+  await page.mouse.down(); await wait(2000); await page.mouse.up();
+  const devs = await angles;
+  // In play: damage 2 breaks a 2-HP concrete piece with every hit; bullets spread within the accuracy.
+  await waitFor(page, (s) => s && s.blocked === 1, 20000);
+  const sn = await snapshot(page); const c0 = (await cellsInPath(page))[0]; const pt = toScreen(sn, c0.x, c0.y);
+  await page.mouse.move(pt.x, pt.y); await wait(250);
+  const b0 = await snapshot(page);
+  await page.mouse.down(); await wait(1500); await page.mouse.up(); await wait(200);
+  const b1 = await snapshot(page);
+  const maxDev = devs.length ? Math.max(...devs.map(Math.abs)) : 0;
+  check('S6', 'Gun damage 2: every hit breaks a 2-shot concrete piece', b1.hits - b0.hits >= 3 && b1.destroyed - b0.destroyed === b1.hits - b0.hits,
+    `${b1.hits - b0.hits} hits, ${b1.destroyed - b0.destroyed} pieces broken`);
+  check('S7', 'Bullets spread within the accuracy (2.4 deg at level 1)', devs.length >= 3 && maxDev <= want.Spread + 0.01 && maxDev > 0,
+    `${devs.length} bullets seen at spawn, largest deviation ${maxDev.toFixed(2)} deg`);
+  check('S8', 'No script errors in the shop run', errors.length === 0, errors.slice(0, 3).join(' | '));
   await ctx.close();
 }
 
@@ -358,6 +438,7 @@ async function artScenario(browser) {
   try {
     if (SCENARIO === 'art') await artScenario(browser);
     else if (SCENARIO === 'gems') await gemScenario(browser);
+    else if (SCENARIO === 'shop') await shopScenario(browser);
     else { await aimChecks(browser); await phase1(browser); }
   } catch (e) {
     console.error(e);
@@ -597,7 +678,7 @@ async function phase1(browser) {
       `shots ${shotsAtDeath} -> ${so2.shots}`);
 
     // Restart through the button.
-    await page.mouse.move(270, 551);
+    await page.mouse.move(160, 547);
     await page.mouse.down(); await wait(80); await page.mouse.up();
     const sr = await waitFor(page, (s) => s.state === 'Run' && s.time < 2, 5000);
     check(13, 'Restart resets the run', sr.state === 'Run' && sr.distance < 3 && sr.towerX < 200 &&

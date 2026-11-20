@@ -15,7 +15,7 @@
    "CCCCCCCCCc",
    "CCCCCCCCCC"
   ],
-  "Intro": false
+  "Weight": 1
  },
  {
   "Name": "owner_building_02",
@@ -31,7 +31,7 @@
    "CCCCCC",
    "CCCCCC"
   ],
-  "Intro": false
+  "Weight": 1
  },
  {
   "Name": "owner_building_03",
@@ -48,7 +48,7 @@
    "CCCCCC.",
    "CCCCCC."
   ],
-  "Intro": false
+  "Weight": 1
  },
  {
   "Name": "owner_building_04",
@@ -63,7 +63,7 @@
    "cwwwCC.",
    "cWWWcc."
   ],
-  "Intro": false
+  "Weight": 1
  },
  {
   "Name": "owner_frame_01",
@@ -78,7 +78,7 @@
    "CWWC.",
    "C..C."
   ],
-  "Intro": false
+  "Weight": 1
  },
  {
   "Name": "owner_house_01",
@@ -93,7 +93,7 @@
    "WGGWWGGW.",
    "WWWWWWWW."
   ],
-  "Intro": false
+  "Weight": 1
  },
  {
   "Name": "owner_rubble_01",
@@ -104,7 +104,7 @@
    ".CCCCCC..",
    "CCCCCCCC."
   ],
-  "Intro": false
+  "Weight": 1
  },
  {
   "Name": "owner_tower_01",
@@ -121,7 +121,7 @@
    "...WC..",
    "...WC.."
   ],
-  "Intro": false
+  "Weight": 1
  },
  {
   "Name": "owner_wall_01",
@@ -137,6 +137,6 @@
    "CCCc.",
    "CCCCc"
   ],
-  "Intro": false
+  "Weight": 1
  }
 ]

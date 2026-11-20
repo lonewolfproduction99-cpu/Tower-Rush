@@ -10,7 +10,7 @@ const fs = require('fs');
 
 const DOCS = path.resolve(process.argv[2] || 'docs');
 const OUT = path.resolve(process.argv[3] || 'test-output');
-const SCENARIO = process.argv[4] || 'phase1'; // phase1 | art
+const SCENARIO = process.argv[4] || 'phase1'; // phase1 | art | gems
 const PORT = 8790 + Math.floor(Math.random() * 100);
 fs.mkdirSync(OUT, { recursive: true });
 
@@ -89,14 +89,14 @@ async function waitFor(page, pred, timeoutMs, stepMs = 100) {
 // Test-only tuning for the main run: the gas starts further back, so the mechanics checks have time to
 // work through whatever obstacle art there is (difficulty is not what they check).
 const TEST_GAP = 900;
-async function openGame(browser, opts = {}, testFormation = -1, gap = 0) {
+async function openGame(browser, opts = {}, testFormation = -1, gap = 0, tuning = {}) {
   const ctx = await browser.newContext({ viewport: { width: 540, height: 960 }, ...opts });
   const page = await ctx.newPage();
   const errors = [];
   page.on('pageerror', (e) => errors.push(String(e)));
   page.on('console', (m) => { if (m.type() === 'error') errors.push(m.text()); });
   await page.addInitScript(HOOK);
-  if (testFormation >= 0 || gap) {
+  if (testFormation >= 0 || gap || Object.keys(tuning).length) {
     // Same as setting Tuning.TestFormation (and CloudStartGap) in GDevelop.
     await page.route('**/data.js', async (route) => {
       const res = await route.fetch();
@@ -105,6 +105,10 @@ async function openGame(browser, opts = {}, testFormation = -1, gap = 0) {
         '"name":"TestFormation","type":"number","value":' + testFormation);
       if (gap) body = body.replace(/"name":"CloudStartGap","type":"number","value":\d+/,
         '"name":"CloudStartGap","type":"number","value":' + gap);
+      for (const [k, v] of Object.entries(tuning)) {
+        body = body.replace(new RegExp('"name":"' + k + '","type":"number","value":[-0-9.]+'),
+          '"name":"' + k + '","type":"number","value":' + v);
+      }
       await route.fulfill({ response: res, body });
     });
   }
@@ -130,6 +134,141 @@ async function clearWithMouse(page, untilX, timeoutMs) {
   }
   await page.mouse.up();
   return s;
+}
+
+// Phase 2: gems embedded in cells, released only by breaking their cell, falling, bouncing, collected.
+async function gemScenario(browser) {
+  const d = JSON.parse(fs.readFileSync(path.join(DOCS, '..', 'data', 'art_formations.json'), 'utf8'));
+  const idx = d.findIndex((f) => f.Name === 'owner_rubble_01');
+  const { ctx, page, errors } = await openGame(browser, {}, idx, 700,
+    { GemChance: 1, GemsMin: 3, GemsMax: 3, GemAboveLaneChance: 0, ClusterChance: 0 });
+  const gemState = () => page.evaluate(() => {
+    const s = window.__scene, v = (n) => s.getVariables().get(n).getAsNumber();
+    const t = s.getObjects('Tower')[0];
+    const cells = s.getObjects('Cell');
+    const marks = s.getObjects('GemMark');
+    const gemCells = cells.filter((c) => c.getVariables().get('Gem').getAsNumber() > 0);
+    const markOnCell = marks.every((m) => gemCells.some((c) => Math.abs(m.getX() - c.getX() - 2) < 0.5 && Math.abs(m.getY() - c.getY() - 2) < 0.5));
+    return { run: v('RunGems'), total: v('TotalGems'), collected: v('GemsCollected'), released: v('GemsReleased'), lost: v('GemsLost'),
+      marks: marks.length, gemCells: gemCells.length, markOnCell, gems: s.getObjects('Gem').map((g) => ({ x: g.getX(), y: g.getY(),
+      vy: g.getVariables().get('VY').getAsNumber(), value: g.getVariables().get('Value').getAsNumber(), magnet: g.getVariables().get('Magnet').getAsNumber() })),
+      towerX: t.getX(), state: s.getVariables().get('State').getAsString(),
+      hud: s.getObjects('GemText')[0].getText(), result: s.getObjects('GemsResultText')[0].getText() };
+  });
+  // Visible lane cells (nothing else on the line from the pivot), gem cells flagged.
+  const targets = () => page.evaluate(() => {
+    const s = window.__scene, vars = s.getVariables();
+    const px = vars.get('PivotX').getAsNumber(), py = vars.get('PivotY').getAsNumber();
+    const all = s.getObjects('Cell'), t = s.getObjects('Tower')[0];
+    const inside = (o, x, y) => x >= o.getX() && x <= o.getX() + 12 && y >= o.getY() && y <= o.getY() + 12;
+    const visible = (c) => { const tx = c.getX() + 6, ty = c.getY() + 6, n = Math.ceil(Math.hypot(tx - px, ty - py) / 2);
+      for (let i = 1; i < n; i++) { const x = px + (tx - px) * i / n, y = py + (ty - py) * i / n; if (all.some((o) => o !== c && inside(o, x, y))) return false; } return true; };
+    return all.filter((c) => c.getX() < t.getX() + 200 && visible(c)).map((c) => ({ x: c.getX() + 6, y: c.getY() + 6,
+      gem: c.getVariables().get('Gem').getAsNumber() }));
+  });
+  // Physics and pickup on open ground: a test gem dropped ahead of the tower, out of pickup range.
+  await wait(300);
+  const drop = await page.evaluate(() => { const s = window.__scene, t = s.getObjects('Tower')[0];
+    const g = s.createObject('Gem'); g.setPosition(t.getX() + 200, 600); g.setZOrder(27);
+    g.getVariables().get('Value').setNumber(5); g.getVariables().get('Type').setNumber(2); g.getVariables().get('VY').setNumber(-150);
+    return { x: g.getX() }; });
+  const trackA = [];
+  const tA = Date.now();
+  let run0 = (await gemState()).run;
+  while (Date.now() - tA < 6000) {
+    const g = await gemState();
+    const t = await page.evaluate(() => { const s = window.__scene, t = s.getObjects('Tower')[0]; return { x: t.getX(), y: t.getY() }; });
+    if (g.gems.length) { const a = g.gems[0]; trackA.push({ ...a, dist: Math.hypot(t.x - a.x, t.y - 48 - a.y) }); }
+    if (g.run > run0) break;
+    await wait(20);
+  }
+  const ga = await gemState();
+  const fellA = trackA.some((a) => a.y > 760);
+  const bouncedA = trackA.some((a, i) => i > 0 && trackA[i - 1].vy > 0 && a.vy < 0 && !a.magnet);
+  const firstPull = trackA.find((a) => a.magnet === 1);
+  const restedOutside = trackA.some((a) => !a.magnet && a.dist > 90 && a.y > 780); // on/near the ground, out of range
+  check('G3', 'A loose gem falls, bounces, waits on the ground and is pulled in only within 90 px',
+    fellA && bouncedA && restedOutside && firstPull && firstPull.dist <= 95 && ga.run === run0 + 5,
+    `samples ${trackA.length}: fell ${fellA}, bounced ${bouncedA}, on the ground out of range ${restedOutside}, pull started at ${firstPull ? firstPull.dist.toFixed(0) : '-'} px, run gems ${run0} -> ${ga.run}`);
+
+  let s0 = await waitFor(page, (s) => s.blocked === 1, 20000);
+  let g0 = await gemState();
+  check('G1', 'Gems are embedded in some cells and shown on them',
+    g0.marks >= 3 && g0.marks % 3 === 0 && g0.marks === g0.gemCells && g0.markOnCell,
+    `${g0.marks} gem marks on screen (3 per formation forced by the test), ${g0.gemCells} cells hold a gem, every mark sits on its cell: ${g0.markOnCell}`);
+  await page.screenshot({ path: path.join(OUT, 'gems_1_embedded.png') });
+  // Break a visible cell WITHOUT a gem: nothing may be awarded or released.
+  let tg = (await targets()).filter((c) => !c.gem)[0];
+  const runBefore = g0.run;
+  let p = toScreen(s0, tg.x, tg.y);
+  await page.mouse.move(p.x, p.y); await wait(250);
+  const h0 = (await snapshot(page)).hits;
+  await page.mouse.down(); await waitFor(page, (q) => q.hits >= h0 + 2, 4000, 20); await page.mouse.up(); await wait(200);
+  let g1 = await gemState();
+  check('G2', 'Breaking a cell without a gem releases nothing', g1.run === runBefore && g1.released === 0 && g1.marks === g0.marks,
+    `run gems ${runBefore} -> ${g1.run}, released ${g1.released}, marks ${g0.marks} -> ${g1.marks}`);
+  // Shoot until a gem cell is visible, then shoot it and follow the gem.
+  let gemTarget = null;
+  for (let i = 0; i < 40 && !gemTarget; i++) {
+    const ts = await targets();
+    gemTarget = ts.find((c) => c.gem);
+    if (!gemTarget && ts.length) {
+      const sn = await snapshot(page); const q = toScreen(sn, ts[0].x, ts[0].y);
+      await page.mouse.move(q.x, q.y); await page.mouse.down(); await wait(180); await page.mouse.up();
+    }
+  }
+  if (!gemTarget) { check('G3', 'A gem pops out, falls, bounces and is collected', false, 'no gem cell became visible'); await ctx.close(); return; }
+  const sn = await snapshot(page);
+  p = toScreen(sn, gemTarget.x, gemTarget.y);
+  await page.mouse.move(p.x, p.y); await wait(200);
+  const before = await gemState();
+  await page.mouse.down();
+  await waitFor(page, () => true, 10, 10);
+  let track = [];
+  const t0 = Date.now();
+  let released = false;
+  while (Date.now() - t0 < 6000) {
+    const g = await gemState();
+    if (g.released > before.released) { if (!released) await page.mouse.up(); released = true; }
+    if (g.gems.length) track.push(g.gems[0]);
+    if (released && g.collected > before.collected) break;
+    await wait(25);
+  }
+  await page.mouse.up();
+  const after = await gemState();
+  const fell = track.some((a, i) => i > 0 && a.y > track[0].y + 5);
+  const bounced = track.some((a, i) => i > 0 && track[i - 1].vy > 0 && a.vy < 0 && !a.magnet);
+  const pulled = track.some((a) => a.magnet === 1);
+  const value = track.length ? track[track.length - 1].value : 0;
+  check('G3.1', 'Breaking the cell that holds a gem releases it, and it is collected',
+    after.released === before.released + 1 && track.length > 0 && after.collected === before.collected + 1,
+    `released ${after.released - before.released} (popped up then ${pulled ? 'pulled in at once: it landed within range' : 'fell'}), collected ${after.collected - before.collected}`);
+  check('G4', 'Its value is added to the run and shown in the HUD', after.run === before.run + value && value > 0 && after.hud === 'GEMS ' + after.run,
+    `value ${value}: run gems ${before.run} -> ${after.run}; HUD "${after.hud}"`);
+  await page.screenshot({ path: path.join(OUT, 'gems_2_collected.png') });
+  // A gem left behind (outside the pickup radius, behind the screen) is lost and removed.
+  await page.evaluate(() => { const s = window.__scene, t = s.getObjects('Tower')[0];
+    const g = s.createObject('Gem'); g.setPosition(t.getX() - 260, 794); g.getVariables().get('Value').setNumber(5); });
+  await wait(400);
+  const g5 = await gemState();
+  check('G5', 'Gems left behind are cleaned up', g5.lost >= 1 && g5.run === after.run,
+    `lost ${g5.lost}, run gems still ${g5.run}`);
+  // Game over: the run's gems are added to the saved total, shown on the panel, and kept after restart.
+  const so = await waitFor(page, (s) => s.state === 'Over', 40000, 250);
+  await wait(400);
+  const g6 = await gemState();
+  check('G6', 'At game over the run gems are banked and shown', g6.total >= g6.run && g6.result.indexOf('+' + g6.run) >= 0,
+    `panel "${g6.result}", total ${g6.total}`);
+  await page.screenshot({ path: path.join(OUT, 'gems_3_game_over.png') });
+  await wait(300);
+  await page.mouse.move(270, 551); await page.mouse.down(); await wait(80); await page.mouse.up();
+  await waitFor(page, (s) => s.state === 'Run' && s.time < 2, 5000);
+  await wait(300);
+  const g7 = await gemState();
+  check('G7', 'The gem total is saved (still there after a restart)', g7.total === g6.total && g7.run === 0,
+    `after restart: total ${g7.total}, run ${g7.run}`);
+  check('G8', 'No script errors in the gem run', errors.length === 0, errors.slice(0, 3).join(' | '));
+  await ctx.close();
 }
 
 // Whole-object pixel art formations (tools/import_formations.py): pictures sliced into cells.
@@ -218,6 +357,7 @@ async function artScenario(browser) {
   const browser = await chromium.launch();
   try {
     if (SCENARIO === 'art') await artScenario(browser);
+    else if (SCENARIO === 'gems') await gemScenario(browser);
     else { await aimChecks(browser); await phase1(browser); }
   } catch (e) {
     console.error(e);
@@ -307,7 +447,7 @@ async function phase1(browser) {
   {
     // ---------------------------------------------------------------- desktop, mouse
     // Every obstacle is the lightest art formation, so the checks don't depend on which art comes up.
-    let { ctx, page, errors } = await openGame(browser, {}, LIGHT, TEST_GAP);
+    let { ctx, page, errors } = await openGame(browser, {}, LIGHT, TEST_GAP, { ClusterChance: 0 });
     let s0 = await snapshot(page);
     await wait(1500);
     let s1 = await snapshot(page);
@@ -457,7 +597,7 @@ async function phase1(browser) {
       `shots ${shotsAtDeath} -> ${so2.shots}`);
 
     // Restart through the button.
-    await page.mouse.move(270, 536);
+    await page.mouse.move(270, 551);
     await page.mouse.down(); await wait(80); await page.mouse.up();
     const sr = await waitFor(page, (s) => s.state === 'Run' && s.time < 2, 5000);
     check(13, 'Restart resets the run', sr.state === 'Run' && sr.distance < 3 && sr.towerX < 200 &&
@@ -467,7 +607,7 @@ async function phase1(browser) {
     await ctx.close();
 
     // ---------------------------------------------------------------- phone, touch (CDP touch events)
-    ({ ctx, page, errors } = await openGame(browser, { hasTouch: true, isMobile: true, deviceScaleFactor: 1 }, LIGHT));
+    ({ ctx, page, errors } = await openGame(browser, { hasTouch: true, isMobile: true, deviceScaleFactor: 1 }, LIGHT, 0, { ClusterChance: 0 }));
     const cdp = await ctx.newCDPSession(page);
     const touch = (type, x, y) => cdp.send('Input.dispatchTouchEvent', {
       type, touchPoints: type === 'touchEnd' ? [] : [{ x, y, id: 1 }] });

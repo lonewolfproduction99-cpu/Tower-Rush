@@ -2,7 +2,7 @@
 
 A portrait-mode (540 × 960) side-scrolling arcade game made with **GDevelop 5**. You command a mechanical tower on tank tracks. It drives right on its own. You shoot paths through stone formations made of small cells. A gas cloud follows you from behind.
 
-**Status: Phase 1 prototype.** It has the tower, the turret, bullets, destructible cells, the cloud, distance and best distance, and restart. All art is a temporary placeholder drawn by code.
+**Status: Phases 1 and 2.** Phase 1: the tower, turret, bullets, destructible cells, the cloud, distance and best distance, and restart. Phase 2: gems hidden in obstacles, collected for a saved total, and better obstacle selection. The tower, background, road and obstacles are the owner's art; the rest is code-drawn placeholder art.
 
 ## Play it
 
@@ -21,11 +21,12 @@ All gameplay is **native GDevelop events**, with no JavaScript blocks. Each syst
 | External events | Owns (scene variables) | Does |
 |---|---|---|
 | `RunManager` | State, Dt, StartX, Distance, BestDistance, OverTime | start, frame time, distance, game over, best distance (storage), restart |
-| `ObstacleGenerator` | NextFormationX, FormationCount, Shape… | builds formations from text grids ahead of the camera, removes cells left behind |
+| `ObstacleGenerator` | NextFormationX, FormationCount, LastFormation, Shape… | picks and builds formations ahead of the camera, hides gems in them, removes cells left behind |
 | `TowerController` | TowerStep, Blocked | auto-drive, stop on any cell in the way |
 | `TurretController` | Aim*, Pivot*, TurretAngle, InputTouch, Firing, FireCooldown, AimOffset | mouse/touch aim, smooth turning, chassis-safe angles, firing, muzzle flash |
 | `ProjectileSystem` | BulletStep, BulletHit, HitX/Y | ray-cast bullets (no tunnelling), damage |
 | `ObstacleGrid` | CellsDestroyed + Cell variables | hit flash, debris, sparks |
+| `GemSystem` | RunGems, TotalGems, GemsCollected, GemsLost, GemsSaved | loose gems: fall, bounce, pickup radius, collection, saved total |
 | `CloudController` | CloudX, CloudGap | the pursuing cloud, catching the tower |
 | `CameraAndHUD` | — (reads only) | camera follow, ground and hills, HUD, warning |
 
@@ -72,6 +73,7 @@ python3 tools/build_project.py
 tools/export.sh <extracted GDevelop-5-5.6.285-linux.zip folder> docs   # needs xvfb-run
 node tools/test/play.js docs test-output                                 # needs Playwright + Chromium
 node tools/test/play.js docs test-output art                             # every art formation: slices, cracks, passable
+node tools/test/play.js docs test-output gems                            # Phase 2 gem checks
 ```
 
 `tools/gd/instructions.json` lists GDevelop's instructions and their parameters. It is dumped from the editor's own `libGD.js` by `tools/gd/dump_metadata.js`. The build checks every event against it.
@@ -114,3 +116,18 @@ Slicing your own drawings into cells (`tools/import_formations.py`) only cuts an
 ### Tower art
 
 Put the owner's tower frames in `art/tower/` as `tower_0.png`, `tower_1.png`, … (60 × 96 each). A sprite sheet of frames side by side also works: Claude slices it, and the original is kept in `art/tower/originals/`. `TowerArt.TrackFrameTime` in `data/game_data.json` sets the seconds per frame. To keep the treads in step with the ground: (pixels the marks move per frame) / 85. For example, 2 px gives 0.0235.
+
+## Gems (Phase 2)
+
+- **Hiding:** when an obstacle appears, with chance `Tuning.GemChance` it hides `GemsMin`–`GemsMax` gems in random pieces, shown as a small glint (`GemMark`).
+  - With chance `GemAboveLaneChance` a gem goes in a piece above the tower's lane, so digging it out costs time.
+- **Types:** from the global `Gems`: Common 1, Rare 5, Legendary 25, drawn by `Weight` (70 / 25 / 5).
+- **Release:** a gem comes out only when the piece holding it breaks. It pops up, falls and bounces on the road.
+- **Pickup:** within `PickupRadius` (90 px) of the tower's centre it flies to the tower and is counted. Gems left behind the screen are lost.
+- **Banking:** at game over the run's gems are added to the saved total (storage `TowerRush` / `TotalGems`), shown on the panel. Phase 3's shop will spend them.
+- **Obstacle selection:**
+  - The first `EasyStart` (2) obstacles come from those taking at most `EasyLaneShots` (40) shots in the lane.
+  - The same obstacle never comes twice in a row.
+  - `art/formations/<name>.json` `{"weight": 2}` makes one come more often.
+  - With chance `ClusterChance` the next obstacle follows right behind.
+- **Gem art:** `gem_common/rare/legendary.png` (12 × 12, loose gem, origin centre) and `gem_mark_*.png` (8 × 8, the glint on a piece) are placeholders.

@@ -243,6 +243,20 @@ def run_manager():
     ]
 
 
+GEM_TYPES = list(DATA["Gems"].items())  # [(name, {Value, Weight})], type number = position + 1
+
+
+def lane_cost(f):
+    """Shots to clear the tower's lane (bottom 7 rows) of a formation."""
+    hp = {info["Char"]: info["HP"] for info in DATA["Materials"].values()}
+    hp.update({c.lower(): T.get("PartialHP", 1) for c in list(hp) if c.isalpha()})
+    return sum(hp.get(ch, 0) for row in f["Rows"][-7:] for ch in row if ch != ".")
+
+
+def deck_pick(deck):
+    return "GlobalVariable(%s[RandomInRange(0, GlobalVariableChildCount(%s) - 1)])" % (deck, deck)
+
+
 def obstacle_generator():
     cs = tune("CellSize")
     cell_events = []
@@ -288,12 +302,21 @@ def obstacle_generator():
                 "12 x 12 slice of the picture: the cell's X/Y offset is its column/row times 12."),
         group("Spawn the next formation ahead of the camera", [
             ev([cmp(V("NextFormationX"), "<", "%s + 270 + %s" % (CAM_X, tune("SpawnAhead")))], [
-                setv("FormationIndex", "=",
-                     "RandomInRange(%s, GlobalVariableChildCount(Formations) - 1)" % tune("IntroFormations")),
+                setv("FormationIndex", "=", deck_pick("FormationDeck")),
             ], [
-                comment("The first formations are always the intro ones, in order (Gate, then Cave)."),
-                ev([cmp(V("FormationCount"), "<", tune("IntroFormations"))],
-                   [setv("FormationIndex", "=", V("FormationCount"))]),
+                comment("FormationDeck lists every formation as many times as its Weight (art/formations/<name>.json "
+                        "{\"weight\": 2}). The first Tuning.EasyStart formations of a run come from EasyDeck (lane "
+                        "cost up to Tuning.EasyLaneShots shots). The same formation never comes twice in a row."),
+                ev([cmp(V("FormationCount"), "<", tune("EasyStart")), cmp("GlobalVariableChildCount(EasyDeck)", ">", "0")],
+                   [setv("FormationIndex", "=", deck_pick("EasyDeck"))]),
+                repeat("6", [], [
+                    ev([cmp(V("FormationIndex"), "=", V("LastFormation")), cmp(V("FormationCount"), ">=", tune("EasyStart")),
+                        cmp("GlobalVariableChildCount(Formations)", ">", "1")],
+                       [setv("FormationIndex", "=", deck_pick("FormationDeck"))]),
+                    ev([cmp(V("FormationIndex"), "=", V("LastFormation")), cmp(V("FormationCount"), "<", tune("EasyStart")),
+                        cmp("GlobalVariableChildCount(EasyDeck)", ">", "1")],
+                       [setv("FormationIndex", "=", deck_pick("EasyDeck"))]),
+                ]),
                 comment("Preview one formation (e.g. your new art): set Tuning.TestFormation to its index in "
                         "Formations. -1 = normal game."),
                 ev([cmp(tune("TestFormation"), ">=", "0")], [setv("FormationIndex", "=", tune("TestFormation"))]),
@@ -316,10 +339,18 @@ def obstacle_generator():
                        + cell_events
                        + [ev([], [setv("Col", "+", "1"), setv("Idx", "+", "1")])]),
                 group("Art formations: give the new cells their picture", art_events),
+                group("Embed gems in some of the new cells", embed_gems()),
                 ev([], [
                     setv("NextFormationX", "=", "Variable(SpawnX) + Variable(ShapeW) * %s + RandomInRange(%s, %s)"
                          % (cs, tune("GapMin"), tune("GapMax"))),
+                    setv("LastFormation", "=", V("FormationIndex")),
                     setv("FormationCount", "+", "1"),
+                ], [
+                    comment("Sometimes the next formation follows right behind (a cluster)."),
+                    ev([cmp("RandomFloat(1)", "<", tune("ClusterChance"))], [
+                        setv("NextFormationX", "=", "Variable(SpawnX) + Variable(ShapeW) * %s + RandomInRange(%s, %s)"
+                             % (cs, tune("ClusterGapMin"), tune("ClusterGapMax"))),
+                    ]),
                 ]),
             ]),
         ]),
@@ -327,6 +358,45 @@ def obstacle_generator():
             comment("Everything behind the left edge of the screen is gone for good (the cloud is there)."),
             ev([C("PosX", "Cell", "<", "%s - 330" % CAM_X)], [A("Delete", "Cell")]),
             ev([C("PosX", "Crack", "<", "%s - 330" % CAM_X)], [A("Delete", "Crack")]),
+            ev([C("PosX", "GemMark", "<", "%s - 330" % CAM_X)], [A("Delete", "GemMark")]),
+        ]),
+    ]
+
+
+
+
+def embed_gems():
+    """Events placing gems in the cells just spawned (Batch = FormationCount)."""
+    total = sum(g["Weight"] for _, g in GEM_TYPES)
+    roll, type_events = 0, []
+    for i, (name, g) in enumerate(GEM_TYPES):
+        lo, roll = roll, roll + g["Weight"]
+        conds = [isv("GemRoll", ">=", str(lo * 100.0 / total))]
+        if i < len(GEM_TYPES) - 1:
+            conds.append(isv("GemRoll", "<", str(roll * 100.0 / total)))
+        type_events.append(ev(conds, [setv("GemType", "=", str(i + 1))]))
+    embed = [
+        setov("Cell", "Gem", "=", V("GemType")),
+        A("Create", "GemMark", "Cell.X() + 2", "Cell.Y() + 2", q("")),
+        A("SetZOrder", "GemMark", "=", "12"),
+        A("AnimatableCapability::AnimatableBehavior::SetIndex", "GemMark", "Animation", "=", "Variable(GemType) - 1"),
+        A("LinkedObjects::LinkObjects", "Cell", "GemMark"),
+        setv("GemPlaced", "=", "1"),
+    ]
+    mine = [isov("Cell", "Batch", "=", V("FormationCount")), isov("Cell", "Gem", "=", "0")]
+    return [
+        comment("GEMS (Phase 2): with chance Tuning.GemChance a new formation hides GemsMin..GemsMax gems. A gem "
+                "goes in a cell above the tower's lane with chance GemAboveLaneChance (more time to dig it out), "
+                "else anywhere in the formation. The type is drawn by the Weight of each entry in the global Gems."),
+        ev([cmp("RandomFloat(1)", "<", tune("GemChance"))],
+           [setv("GemsToPlace", "=", "RandomInRange(%s, %s)" % (tune("GemsMin"), tune("GemsMax")))], [
+            repeat(V("GemsToPlace"), [setv("GemPlaced", "=", "0"), setv("GemRoll", "=", "RandomFloat(100)")],
+                   type_events + [
+                       ev([cmp("RandomFloat(1)", "<", tune("GemAboveLaneChance"))] + mine +
+                          [C("PosY", "Cell", "<=", "%s - 96" % GROUND)],
+                          [A("PickRandomInstance", "Cell")] + embed),
+                       ev([isv("GemPlaced", "=", "0")] + mine, [A("PickRandomInstance", "Cell")] + embed),
+                   ]),
         ]),
     ]
 
@@ -471,6 +541,19 @@ def projectile_system():
                     setv("CellsDestroyed", "+", "1"),
                 ], [
                     ev([C("LinkedObjects::PickObjectsLinkedTo", "Crack", "Cell")], [A("Delete", "Crack")]),
+                    comment("A gem is released only when the cell holding it breaks; GemSystem takes it from here."),
+                    ev([isov("Cell", "Gem", ">", "0")], [
+                        A("Create", "Gem", "Cell.CenterX()", "Cell.CenterY()", q("")),
+                        setov("Gem", "Type", "=", "Cell.Variable(Gem)"),
+                        setov("Gem", "VX", "=", "RandomFloatInRange(-40, 90)"),
+                        setov("Gem", "VY", "=", "RandomFloatInRange(-280, -170)"),
+                        A("SetZOrder", "Gem", "=", "27"),
+                        A("AnimatableCapability::AnimatableBehavior::SetIndex", "Gem", "Animation", "=",
+                          "Gem.Variable(Type) - 1"),
+                        setv("GemsReleased", "+", "1"),
+                    ], [ev([C("LinkedObjects::PickObjectsLinkedTo", "GemMark", "Cell")], [A("Delete", "GemMark")])]
+                       + [ev([isov("Gem", "Type", "=", str(i + 1))], [setov("Gem", "Value", "=", "GlobalVariable(Gems.%s.Value)" % n)])
+                          for i, (n, _) in enumerate(GEM_TYPES)]),
                     repeat("3", [
                         A("Create", "Debris", "Cell.CenterX()", "Cell.CenterY()", q("")),
                         A("ChangeColor", "Debris",
@@ -546,6 +629,73 @@ def obstacle_grid():
     ]
 
 
+def gem_system():
+    tcx, tcy = "Tower.X()", "Tower.Y() - 48"
+    return [
+        comment("GEM SYSTEM - owns: RunGems, TotalGems, GemsCollected, GemsLost, GemsSaved, GemDX/DY/Dist/Step and the "
+                "Gem / GemPopup objects once a gem is released (ProjectileSystem creates it when its cell breaks).\n"
+                "A released gem pops out, falls and bounces on the ground. Once within Tuning.PickupRadius of the "
+                "tower's centre it flies to the tower and its value is added to the run (no tapping). Gems left "
+                "behind the screen are lost. At game over the run's gems are added to TotalGems (storage)."),
+        ev([C("SceneJustBegins")], [], [
+            ev([C("GroupExists", q("TowerRush"), q("TotalGems"))],
+               [A("ReadNumberFromStorage", q("TowerRush"), q("TotalGems"), "TotalGems")]),
+        ]),
+        foreach("Gem", [], [], [
+            ev([isov("Gem", "Magnet", "=", "0")], [
+                setov("Gem", "VY", "+", "%s * %s" % (tune("GemGravity"), DT)),
+                set_xy("Gem", "Gem.X() + Gem.Variable(VX) * %s" % DT, "Gem.Y() + Gem.Variable(VY) * %s" % DT),
+            ], [
+                ev([C("PosY", "Gem", ">", "%s - 6" % GROUND)], [
+                    set_xy("Gem", "Gem.X()", "%s - 6" % GROUND),
+                    setov("Gem", "VY", "=", "-Gem.Variable(VY) * %s" % tune("GemBounce")),
+                    setov("Gem", "VX", "*", "0.7"),
+                ], [
+                    ev([cmp("abs(Gem.Variable(VY))", "<", "60")], [setov("Gem", "VY", "=", "0"), setov("Gem", "VX", "=", "0")]),
+                ]),
+            ]),
+            ev([], [
+                setv("GemDX", "=", "%s - Gem.X()" % tcx),
+                setv("GemDY", "=", "%s - Gem.Y()" % tcy),
+                setv("GemDist", "=", "sqrt(Variable(GemDX) * Variable(GemDX) + Variable(GemDY) * Variable(GemDY))"),
+            ]),
+            ev([isov("Gem", "Magnet", "=", "0"), isv("GemDist", "<", tune("PickupRadius")), iss("State", q("Run"))], [
+                setov("Gem", "Magnet", "=", "1"), setov("Gem", "Speed", "=", tune("GemMagnetSpeed")),
+            ]),
+            ev([isov("Gem", "Magnet", "=", "1"), isv("GemDist", "<", "14")], [
+                setv("RunGems", "+", "Gem.Variable(Value)"),
+                setv("GemsCollected", "+", "1"),
+                A("Create", "GemPopup", "Tower.X() - 10", "Tower.Y() - 120", q("")),
+                set_text("GemPopup", '"+" + ToString(Gem.Variable(Value))'),
+                A("SetZOrder", "GemPopup", "=", "60"),
+                A("Delete", "Gem"),
+            ]),
+            ev([isov("Gem", "Magnet", "=", "1"), isv("GemDist", ">=", "14")], [
+                setov("Gem", "Speed", "+", "%s * %s" % (tune("GemMagnetAccel"), DT)),
+                setv("GemStep", "=", "min(Variable(GemDist), Gem.Variable(Speed) * %s)" % DT),
+                set_xy("Gem", "Gem.X() + Variable(GemDX) / Variable(GemDist) * Variable(GemStep)",
+                       "Gem.Y() + Variable(GemDY) / Variable(GemDist) * Variable(GemStep)"),
+            ]),
+        ]),
+        ev([C("PosX", "Gem", "<", "%s - 330" % CAM_X)], [setv("GemsLost", "+", "1"), A("Delete", "Gem")]),
+        group("Gem popups", [
+            ev([], [setov("GemPopup", "Life", "+", DT),
+                    set_xy("GemPopup", "GemPopup.X()", "GemPopup.Y() - 50 * %s" % DT),
+                    A("TextObject::Opacity", "GemPopup", "=", "255 * (1 - GemPopup.Variable(Life) / 0.8)")]),
+            ev([isov("GemPopup", "Life", ">", "0.8")], [A("Delete", "GemPopup")]),
+        ]),
+        group("Bank the run's gems at game over", [
+            ev([iss("State", q("Over")), isv("GemsSaved", "=", "0")], [
+                setv("TotalGems", "+", V("RunGems")),
+                A("EcrireFichierExp", q("TowerRush"), q("TotalGems"), V("TotalGems")),
+                setv("GemsSaved", "=", "1"),
+                set_text("GemsResultText", '"GEMS  +" + ToString(Variable(RunGems)) + "   (TOTAL " + '
+                                           'ToString(Variable(TotalGems)) + ")"'),
+            ]),
+        ]),
+    ]
+
+
 def cloud_controller():
     return [
         comment("CLOUD CONTROLLER - owns: CloudX, CloudGap.\n"
@@ -593,6 +743,7 @@ def camera_and_hud():
                             "clamp((%s - Variable(CloudGap)) / %s, 0, 1) * (190 + 65 * sin(TimeFromStart() * 14))"
                             % (warn, warn)),
             ]),
+            ev([], [set_text("GemText", '"GEMS " + ToString(Variable(RunGems))')]),
             ev([isv("CloudGap", "<", warn)], [A("TextObject::ChangeColor", "GasText", q("255;80;60"))]),
             ev([isv("CloudGap", ">=", warn)], [A("TextObject::ChangeColor", "GasText", q("200;235;150"))]),
             ev([isv("ShotsFired", ">", "0")], [A("Hide", "HintText")]),
@@ -603,7 +754,7 @@ def camera_and_hud():
 SYSTEMS = [
     ("RunManager", run_manager), ("ObstacleGenerator", obstacle_generator), ("TowerController", tower_controller),
     ("TurretController", turret_controller), ("ProjectileSystem", projectile_system),
-    ("ObstacleGrid", obstacle_grid), ("CloudController", cloud_controller), ("CameraAndHUD", camera_and_hud),
+    ("ObstacleGrid", obstacle_grid), ("GemSystem", gem_system), ("CloudController", cloud_controller), ("CameraAndHUD", camera_and_hud),
 ]
 
 SCENE_VARS = {
@@ -614,7 +765,10 @@ SCENE_VARS = {
     "PivotX": 0, "PivotY": 0, "AimX": 0, "AimY": 0, "TargetAngle": 0, "TurretAngle": 0, "InputTouch": 0,
     "LastTouchTime": -10, "HasAimed": 0, "Firing": 0, "FireCooldown": 0, "AimOffset": 0, "ShotsFired": 0,
     "BulletStep": 0, "BulletHit": 0, "HitX": 0, "HitY": 0, "ShotsHit": 0,
-    "CellsDestroyed": 0, "CloudX": 0, "CloudGap": 0,
+    "CellsDestroyed": 0, "CloudX": 0, "CloudGap": 0, "LastFormation": -1,
+    "GemsToPlace": 0, "GemPlaced": 0, "GemRoll": 0, "GemType": 0, "GemsReleased": 0,
+    "RunGems": 0, "TotalGems": 0, "GemsCollected": 0, "GemsLost": 0, "GemsSaved": 0,
+    "GemDX": 0, "GemDY": 0, "GemDist": 0, "GemStep": 0,
 }
 
 
@@ -692,7 +846,7 @@ def build_objects():
     tower_mask = [(8, 16), (52, 16), (52, 96), (8, 96)]
     cell = tiled("Cell", "tile_stone.png", 12, 12)
     cell["variables"] = [var(k, v) for k, v in {"HP": 1, "MaxHP": 1, "Material": "Stone", "Flash": 0, "Stage": 0,
-                                                 "HasCrack": 0, "Batch": 0, "SliceX": 0, "SliceY": 0}.items()]
+                                                 "HasCrack": 0, "Batch": 0, "Gem": 0, "SliceX": 0, "SliceY": 0}.items()]
     return [
         sprite("Tower", [("Drive", tower_frames())], loop_time=DATA.get("TowerArt", {}).get("TrackFrameTime", 0.09),
                origin=(30, 96),
@@ -702,6 +856,10 @@ def build_objects():
         sprite("MuzzleFlash", [("Flash", ["muzzle_flash.png"])], origin=(0, 8)),
         cell,
         sprite("Crack", [("Crack1", ["crack_1.png"]), ("Crack2", ["crack_2.png"])]),
+        sprite("Gem", [(n, ["gem_%s.png" % n.lower()]) for n, _ in GEM_TYPES],
+               {"Type": 1, "Value": 1, "VX": 0, "VY": 0, "Magnet": 0, "Speed": 0}, origin=(6, 6)),
+        sprite("GemMark", [(n, ["gem_mark_%s.png" % n.lower()]) for n, _ in GEM_TYPES]),
+        dict(text("GemPopup", 24, "120;230;255", "+1"), variables=[var("Life", 0)]),
         sprite("Debris", [("Chip", ["debris.png"])], {"VX": 0, "VY": 0, "Life": 0}, origin=(2, 2)),
         sprite("Spark", [("Hit", ["spark.png"])], {"Life": 0}, origin=(5, 5)),
         sprite("Crosshair", [("Aim", ["crosshair.png"])], origin=(16, 16)),
@@ -713,6 +871,8 @@ def build_objects():
         text("DistanceText", 40, string="0 m"),
         text("BestText", 20, "255;225;150", "BEST 0 m"),
         text("GasText", 20, "200;235;150", "GAS"),
+        text("GemText", 20, "120;230;255", "GEMS 0"),
+        text("GemsResultText", 22, "120;230;255", "GEMS +0"),
         sprite("OffsetButton", [("Idle", ["button_small.png"])]),
         text("OffsetText", 20, string="AIM +80"),
         text("HintText", 22, "255;255;255", "Hold and drag to aim and fire\nMouse: aim, hold left button"),
@@ -750,15 +910,17 @@ def build_instances():
         inst("DistanceText", 16, 10, 5, "UI"),
         inst("BestText", 18, 58, 5, "UI"),
         inst("GasText", 18, 84, 5, "UI"),
+        inst("GemText", 18, 108, 5, "UI"),
         inst("OffsetButton", 374, 14, 5, "UI"),
         inst("OffsetText", 398, 26, 6, "UI"),
         inst("HintText", 70, 880, 5, "UI"),
         inst("Panel", 50, 300, 10, "UI"),
         inst("GameOverTitle", 150, 330, 11, "UI"),
-        inst("ResultText", 110, 400, 11, "UI"),
-        inst("BestResultText", 110, 444, 11, "UI"),
-        inst("RestartButton", 150, 500, 11, "UI"),
-        inst("RestartText", 205, 518, 12, "UI"),
+        inst("ResultText", 110, 395, 11, "UI"),
+        inst("BestResultText", 110, 436, 11, "UI"),
+        inst("GemsResultText", 110, 474, 11, "UI"),
+        inst("RestartButton", 150, 515, 11, "UI"),
+        inst("RestartText", 205, 533, 12, "UI"),
     ]
 
 
@@ -788,7 +950,10 @@ def global_variables():
     for f in ALL_FORMATIONS:
         widths = {len(r) for r in f["Rows"]}
         assert len(widths) == 1, "Formation %s: every row needs the same width" % f["Name"]
-    return [var("Tuning", T), var("Materials", DATA["Materials"]), var("Formations", forms)]
+    deck = [i for i, f in enumerate(ALL_FORMATIONS) for _ in range(int(f.get("Weight", 1)))]
+    easy = [i for i, f in enumerate(ALL_FORMATIONS) if lane_cost(f) <= T.get("EasyLaneShots", 40)]
+    return [var("Tuning", T), var("Materials", DATA["Materials"]), var("Formations", forms),
+            var("FormationDeck", deck), var("EasyDeck", easy), var("Gems", DATA["Gems"])]
 
 
 def build_project():
@@ -807,7 +972,8 @@ def build_project():
                        "snap": False, "zoomFactor": 0.8, "windowMask": False, "selectedLayer": "",
                        "gameEditorMode": "instances-editor"},
         "objectsGroups": [{"name": "GameOverUI", "objects": [{"name": n} for n in (
-            "Panel", "GameOverTitle", "ResultText", "BestResultText", "RestartButton", "RestartText")]}],
+            "Panel", "GameOverTitle", "ResultText", "BestResultText", "GemsResultText", "RestartButton",
+            "RestartText")]}],
         "variables": [var(k, v) for k, v in SCENE_VARS.items()],
         "instances": build_instances(), "objects": objects,
         "objectsFolderStructure": {"folderName": "__ROOT", "children": [{"objectName": o["name"]} for o in objects]},

@@ -222,6 +222,54 @@
     "userAdded": true
    },
    {
+    "file": "assets/gem_common.png",
+    "kind": "image",
+    "metadata": "",
+    "name": "gem_common.png",
+    "smoothed": false,
+    "userAdded": true
+   },
+   {
+    "file": "assets/gem_legendary.png",
+    "kind": "image",
+    "metadata": "",
+    "name": "gem_legendary.png",
+    "smoothed": false,
+    "userAdded": true
+   },
+   {
+    "file": "assets/gem_mark_common.png",
+    "kind": "image",
+    "metadata": "",
+    "name": "gem_mark_common.png",
+    "smoothed": false,
+    "userAdded": true
+   },
+   {
+    "file": "assets/gem_mark_legendary.png",
+    "kind": "image",
+    "metadata": "",
+    "name": "gem_mark_legendary.png",
+    "smoothed": false,
+    "userAdded": true
+   },
+   {
+    "file": "assets/gem_mark_rare.png",
+    "kind": "image",
+    "metadata": "",
+    "name": "gem_mark_rare.png",
+    "smoothed": false,
+    "userAdded": true
+   },
+   {
+    "file": "assets/gem_rare.png",
+    "kind": "image",
+    "metadata": "",
+    "name": "gem_rare.png",
+    "smoothed": false,
+    "userAdded": true
+   },
+   {
     "file": "assets/ground.png",
     "kind": "image",
     "metadata": "",
@@ -474,11 +522,6 @@
      "value": 360
     },
     {
-     "name": "IntroFormations",
-     "type": "number",
-     "value": 0
-    },
-    {
      "name": "GapMin",
      "type": "number",
      "value": 240
@@ -517,6 +560,76 @@
      "name": "PartialHP",
      "type": "number",
      "value": 1
+    },
+    {
+     "name": "EasyStart",
+     "type": "number",
+     "value": 2
+    },
+    {
+     "name": "EasyLaneShots",
+     "type": "number",
+     "value": 40
+    },
+    {
+     "name": "ClusterChance",
+     "type": "number",
+     "value": 0.2
+    },
+    {
+     "name": "ClusterGapMin",
+     "type": "number",
+     "value": 36
+    },
+    {
+     "name": "ClusterGapMax",
+     "type": "number",
+     "value": 72
+    },
+    {
+     "name": "GemChance",
+     "type": "number",
+     "value": 0.75
+    },
+    {
+     "name": "GemsMin",
+     "type": "number",
+     "value": 1
+    },
+    {
+     "name": "GemsMax",
+     "type": "number",
+     "value": 2
+    },
+    {
+     "name": "GemAboveLaneChance",
+     "type": "number",
+     "value": 0.7
+    },
+    {
+     "name": "PickupRadius",
+     "type": "number",
+     "value": 90
+    },
+    {
+     "name": "GemGravity",
+     "type": "number",
+     "value": 900
+    },
+    {
+     "name": "GemBounce",
+     "type": "number",
+     "value": 0.45
+    },
+    {
+     "name": "GemMagnetSpeed",
+     "type": "number",
+     "value": 260
+    },
+    {
+     "name": "GemMagnetAccel",
+     "type": "number",
+     "value": 1400
     }
    ]
   },
@@ -897,6 +1010,124 @@
      ]
     }
    ]
+  },
+  {
+   "name": "FormationDeck",
+   "type": "array",
+   "children": [
+    {
+     "type": "number",
+     "value": 0
+    },
+    {
+     "type": "number",
+     "value": 1
+    },
+    {
+     "type": "number",
+     "value": 2
+    },
+    {
+     "type": "number",
+     "value": 3
+    },
+    {
+     "type": "number",
+     "value": 4
+    },
+    {
+     "type": "number",
+     "value": 5
+    },
+    {
+     "type": "number",
+     "value": 6
+    },
+    {
+     "type": "number",
+     "value": 7
+    },
+    {
+     "type": "number",
+     "value": 8
+    }
+   ]
+  },
+  {
+   "name": "EasyDeck",
+   "type": "array",
+   "children": [
+    {
+     "type": "number",
+     "value": 4
+    },
+    {
+     "type": "number",
+     "value": 6
+    },
+    {
+     "type": "number",
+     "value": 7
+    },
+    {
+     "type": "number",
+     "value": 8
+    }
+   ]
+  },
+  {
+   "name": "Gems",
+   "type": "structure",
+   "children": [
+    {
+     "name": "Common",
+     "type": "structure",
+     "children": [
+      {
+       "name": "Value",
+       "type": "number",
+       "value": 1
+      },
+      {
+       "name": "Weight",
+       "type": "number",
+       "value": 70
+      }
+     ]
+    },
+    {
+     "name": "Rare",
+     "type": "structure",
+     "children": [
+      {
+       "name": "Value",
+       "type": "number",
+       "value": 5
+      },
+      {
+       "name": "Weight",
+       "type": "number",
+       "value": 25
+      }
+     ]
+    },
+    {
+     "name": "Legendary",
+     "type": "structure",
+     "children": [
+      {
+       "name": "Value",
+       "type": "number",
+       "value": 25
+      },
+      {
+       "name": "Weight",
+       "type": "number",
+       "value": 5
+      }
+     ]
+    }
+   ]
   }
  ],
  "layouts": [
@@ -942,6 +1173,9 @@
       },
       {
        "name": "BestResultText"
+      },
+      {
+       "name": "GemsResultText"
       },
       {
        "name": "RestartButton"
@@ -1162,6 +1396,81 @@
      "name": "CloudGap",
      "type": "number",
      "value": 0
+    },
+    {
+     "name": "LastFormation",
+     "type": "number",
+     "value": -1
+    },
+    {
+     "name": "GemsToPlace",
+     "type": "number",
+     "value": 0
+    },
+    {
+     "name": "GemPlaced",
+     "type": "number",
+     "value": 0
+    },
+    {
+     "name": "GemRoll",
+     "type": "number",
+     "value": 0
+    },
+    {
+     "name": "GemType",
+     "type": "number",
+     "value": 0
+    },
+    {
+     "name": "GemsReleased",
+     "type": "number",
+     "value": 0
+    },
+    {
+     "name": "RunGems",
+     "type": "number",
+     "value": 0
+    },
+    {
+     "name": "TotalGems",
+     "type": "number",
+     "value": 0
+    },
+    {
+     "name": "GemsCollected",
+     "type": "number",
+     "value": 0
+    },
+    {
+     "name": "GemsLost",
+     "type": "number",
+     "value": 0
+    },
+    {
+     "name": "GemsSaved",
+     "type": "number",
+     "value": 0
+    },
+    {
+     "name": "GemDX",
+     "type": "number",
+     "value": 0
+    },
+    {
+     "name": "GemDY",
+     "type": "number",
+     "value": 0
+    },
+    {
+     "name": "GemDist",
+     "type": "number",
+     "value": 0
+    },
+    {
+     "name": "GemStep",
+     "type": "number",
+     "value": 0
     }
    ],
    "instances": [
@@ -1364,6 +1673,22 @@
      "width": 0,
      "layer": "UI",
      "locked": false,
+     "name": "GemText",
+     "persistentUuid": "098ca21a-03a0-5c17-b092-5edfc8bcdab6",
+     "x": 18,
+     "y": 108,
+     "zOrder": 5,
+     "numberProperties": [],
+     "stringProperties": [],
+     "initialVariables": []
+    },
+    {
+     "angle": 0,
+     "customSize": false,
+     "height": 0,
+     "width": 0,
+     "layer": "UI",
+     "locked": false,
      "name": "OffsetButton",
      "persistentUuid": "c7192913-0780-59d0-b3d0-495b1f6e00a6",
      "x": 374,
@@ -1445,9 +1770,9 @@
      "layer": "UI",
      "locked": false,
      "name": "ResultText",
-     "persistentUuid": "3fb4f268-1358-5012-9b26-a0443dbf4409",
+     "persistentUuid": "2adb14b1-389d-57bd-8c08-f448c1faffdb",
      "x": 110,
-     "y": 400,
+     "y": 395,
      "zOrder": 11,
      "numberProperties": [],
      "stringProperties": [],
@@ -1461,9 +1786,25 @@
      "layer": "UI",
      "locked": false,
      "name": "BestResultText",
-     "persistentUuid": "c62655fb-8416-55b4-a673-ba99c443f1da",
+     "persistentUuid": "34665d3a-e2c0-5ace-9116-7a2687131858",
      "x": 110,
-     "y": 444,
+     "y": 436,
+     "zOrder": 11,
+     "numberProperties": [],
+     "stringProperties": [],
+     "initialVariables": []
+    },
+    {
+     "angle": 0,
+     "customSize": false,
+     "height": 0,
+     "width": 0,
+     "layer": "UI",
+     "locked": false,
+     "name": "GemsResultText",
+     "persistentUuid": "9c6e4342-bb6b-5778-b219-1e5b5c04e737",
+     "x": 110,
+     "y": 474,
      "zOrder": 11,
      "numberProperties": [],
      "stringProperties": [],
@@ -1477,9 +1818,9 @@
      "layer": "UI",
      "locked": false,
      "name": "RestartButton",
-     "persistentUuid": "7093b04f-bb4e-5076-9d42-749ba1441a4b",
+     "persistentUuid": "584556a8-72e0-55b6-829d-35547abb2f60",
      "x": 150,
-     "y": 500,
+     "y": 515,
      "zOrder": 11,
      "numberProperties": [],
      "stringProperties": [],
@@ -1493,9 +1834,9 @@
      "layer": "UI",
      "locked": false,
      "name": "RestartText",
-     "persistentUuid": "f19dc126-3ee3-5234-965f-6073b2dde14e",
+     "persistentUuid": "5cddb8fd-c613-5d7d-8a2a-b4e5845c7db5",
      "x": 205,
-     "y": 518,
+     "y": 533,
      "zOrder": 12,
      "numberProperties": [],
      "stringProperties": [],
@@ -1876,6 +2217,11 @@
        "value": 0
       },
       {
+       "name": "Gem",
+       "type": "number",
+       "value": 0
+      },
+      {
        "name": "SliceX",
        "type": "number",
        "value": 0
@@ -1962,6 +2308,274 @@
        ]
       }
      ]
+    },
+    {
+     "assetStoreId": "",
+     "name": "Gem",
+     "persistentUuid": "55b9a6a5-bde3-568c-a5e2-fcaa2f713304",
+     "type": "Sprite",
+     "variables": [
+      {
+       "name": "Type",
+       "type": "number",
+       "value": 1
+      },
+      {
+       "name": "Value",
+       "type": "number",
+       "value": 1
+      },
+      {
+       "name": "VX",
+       "type": "number",
+       "value": 0
+      },
+      {
+       "name": "VY",
+       "type": "number",
+       "value": 0
+      },
+      {
+       "name": "Magnet",
+       "type": "number",
+       "value": 0
+      },
+      {
+       "name": "Speed",
+       "type": "number",
+       "value": 0
+      }
+     ],
+     "effects": [],
+     "behaviors": [],
+     "adaptCollisionMaskAutomatically": false,
+     "updateIfNotVisible": false,
+     "animations": [
+      {
+       "name": "Common",
+       "useMultipleDirections": false,
+       "directions": [
+        {
+         "looping": false,
+         "timeBetweenFrames": 1,
+         "sprites": [
+          {
+           "hasCustomCollisionMask": false,
+           "image": "gem_common.png",
+           "points": [],
+           "originPoint": {
+            "name": "origine",
+            "x": 6,
+            "y": 6
+           },
+           "centerPoint": {
+            "automatic": true,
+            "name": "centre",
+            "x": 0,
+            "y": 0
+           },
+           "customCollisionMask": []
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "name": "Rare",
+       "useMultipleDirections": false,
+       "directions": [
+        {
+         "looping": false,
+         "timeBetweenFrames": 1,
+         "sprites": [
+          {
+           "hasCustomCollisionMask": false,
+           "image": "gem_rare.png",
+           "points": [],
+           "originPoint": {
+            "name": "origine",
+            "x": 6,
+            "y": 6
+           },
+           "centerPoint": {
+            "automatic": true,
+            "name": "centre",
+            "x": 0,
+            "y": 0
+           },
+           "customCollisionMask": []
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "name": "Legendary",
+       "useMultipleDirections": false,
+       "directions": [
+        {
+         "looping": false,
+         "timeBetweenFrames": 1,
+         "sprites": [
+          {
+           "hasCustomCollisionMask": false,
+           "image": "gem_legendary.png",
+           "points": [],
+           "originPoint": {
+            "name": "origine",
+            "x": 6,
+            "y": 6
+           },
+           "centerPoint": {
+            "automatic": true,
+            "name": "centre",
+            "x": 0,
+            "y": 0
+           },
+           "customCollisionMask": []
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "assetStoreId": "",
+     "name": "GemMark",
+     "persistentUuid": "52a5df02-8978-5b74-8f9b-1cc5a5c64078",
+     "type": "Sprite",
+     "variables": [],
+     "effects": [],
+     "behaviors": [],
+     "adaptCollisionMaskAutomatically": false,
+     "updateIfNotVisible": false,
+     "animations": [
+      {
+       "name": "Common",
+       "useMultipleDirections": false,
+       "directions": [
+        {
+         "looping": false,
+         "timeBetweenFrames": 1,
+         "sprites": [
+          {
+           "hasCustomCollisionMask": false,
+           "image": "gem_mark_common.png",
+           "points": [],
+           "originPoint": {
+            "name": "origine",
+            "x": 0,
+            "y": 0
+           },
+           "centerPoint": {
+            "automatic": true,
+            "name": "centre",
+            "x": 0,
+            "y": 0
+           },
+           "customCollisionMask": []
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "name": "Rare",
+       "useMultipleDirections": false,
+       "directions": [
+        {
+         "looping": false,
+         "timeBetweenFrames": 1,
+         "sprites": [
+          {
+           "hasCustomCollisionMask": false,
+           "image": "gem_mark_rare.png",
+           "points": [],
+           "originPoint": {
+            "name": "origine",
+            "x": 0,
+            "y": 0
+           },
+           "centerPoint": {
+            "automatic": true,
+            "name": "centre",
+            "x": 0,
+            "y": 0
+           },
+           "customCollisionMask": []
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "name": "Legendary",
+       "useMultipleDirections": false,
+       "directions": [
+        {
+         "looping": false,
+         "timeBetweenFrames": 1,
+         "sprites": [
+          {
+           "hasCustomCollisionMask": false,
+           "image": "gem_mark_legendary.png",
+           "points": [],
+           "originPoint": {
+            "name": "origine",
+            "x": 0,
+            "y": 0
+           },
+           "centerPoint": {
+            "automatic": true,
+            "name": "centre",
+            "x": 0,
+            "y": 0
+           },
+           "customCollisionMask": []
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "assetStoreId": "",
+     "name": "GemPopup",
+     "persistentUuid": "2ebc53e0-1e39-529d-94b7-03ab48c143a6",
+     "type": "TextObject::Text",
+     "variables": [
+      {
+       "name": "Life",
+       "type": "number",
+       "value": 0
+      }
+     ],
+     "effects": [],
+     "behaviors": [],
+     "content": {
+      "bold": true,
+      "isOutlineEnabled": true,
+      "isShadowEnabled": false,
+      "italic": false,
+      "outlineColor": "20;16;24",
+      "outlineThickness": 3,
+      "shadowAngle": 90,
+      "shadowBlurRadius": 0,
+      "shadowColor": "0;0;0",
+      "shadowDistance": 3,
+      "shadowOpacity": 160,
+      "smoothed": true,
+      "underlined": false,
+      "text": "+1",
+      "font": "",
+      "textAlignment": "left",
+      "verticalTextAlignment": "top",
+      "characterSize": 24,
+      "lineHeight": 0,
+      "color": "120;230;255"
+     }
     },
     {
      "assetStoreId": "",
@@ -2348,6 +2962,68 @@
     },
     {
      "assetStoreId": "",
+     "name": "GemText",
+     "persistentUuid": "6526f0e1-e97f-52dd-9840-4ea782b98bfb",
+     "type": "TextObject::Text",
+     "variables": [],
+     "effects": [],
+     "behaviors": [],
+     "content": {
+      "bold": true,
+      "isOutlineEnabled": true,
+      "isShadowEnabled": false,
+      "italic": false,
+      "outlineColor": "20;16;24",
+      "outlineThickness": 3,
+      "shadowAngle": 90,
+      "shadowBlurRadius": 0,
+      "shadowColor": "0;0;0",
+      "shadowDistance": 3,
+      "shadowOpacity": 160,
+      "smoothed": true,
+      "underlined": false,
+      "text": "GEMS 0",
+      "font": "",
+      "textAlignment": "left",
+      "verticalTextAlignment": "top",
+      "characterSize": 20,
+      "lineHeight": 0,
+      "color": "120;230;255"
+     }
+    },
+    {
+     "assetStoreId": "",
+     "name": "GemsResultText",
+     "persistentUuid": "b10becd8-5228-5cca-be57-17ab3db9045b",
+     "type": "TextObject::Text",
+     "variables": [],
+     "effects": [],
+     "behaviors": [],
+     "content": {
+      "bold": true,
+      "isOutlineEnabled": true,
+      "isShadowEnabled": false,
+      "italic": false,
+      "outlineColor": "20;16;24",
+      "outlineThickness": 3,
+      "shadowAngle": 90,
+      "shadowBlurRadius": 0,
+      "shadowColor": "0;0;0",
+      "shadowDistance": 3,
+      "shadowOpacity": 160,
+      "smoothed": true,
+      "underlined": false,
+      "text": "GEMS +0",
+      "font": "",
+      "textAlignment": "left",
+      "verticalTextAlignment": "top",
+      "characterSize": 22,
+      "lineHeight": 0,
+      "color": "120;230;255"
+     }
+    },
+    {
+     "assetStoreId": "",
      "name": "OffsetButton",
      "persistentUuid": "f23f0f7e-b3be-5a09-ba30-de0579276e6d",
      "type": "Sprite",
@@ -2723,6 +3399,15 @@
       "objectName": "Crack"
      },
      {
+      "objectName": "Gem"
+     },
+     {
+      "objectName": "GemMark"
+     },
+     {
+      "objectName": "GemPopup"
+     },
+     {
       "objectName": "Debris"
      },
      {
@@ -2751,6 +3436,12 @@
      },
      {
       "objectName": "GasText"
+     },
+     {
+      "objectName": "GemText"
+     },
+     {
+      "objectName": "GemsResultText"
      },
      {
       "objectName": "OffsetButton"
@@ -2838,6 +3529,13 @@
       "includeConfig": 0
      },
      "target": "ObstacleGrid"
+    },
+    {
+     "type": "BuiltinCommonInstructions::Link",
+     "include": {
+      "includeConfig": 0
+     },
+     "target": "GemSystem"
     },
     {
      "type": "BuiltinCommonInstructions::Link",
@@ -3630,7 +4328,7 @@
          "parameters": [
           "FormationIndex",
           "=",
-          "RandomInRange(GlobalVariable(Tuning.IntroFormations), GlobalVariableChildCount(Formations) - 1)"
+          "GlobalVariable(FormationDeck[RandomInRange(0, GlobalVariableChildCount(FormationDeck) - 1)])"
          ]
         }
        ],
@@ -3645,7 +4343,7 @@
           "textG": 0,
           "textR": 0
          },
-         "comment": "The first formations are always the intro ones, in order (Gate, then Cave)."
+         "comment": "FormationDeck lists every formation as many times as its Weight (art/formations/<name>.json {\"weight\": 2}). The first Tuning.EasyStart formations of a run come from EasyDeck (lane cost up to Tuning.EasyLaneShots shots). The same formation never comes twice in a row."
         },
         {
          "type": "BuiltinCommonInstructions::Standard",
@@ -3658,7 +4356,18 @@
            "parameters": [
             "Variable(FormationCount)",
             "<",
-            "GlobalVariable(Tuning.IntroFormations)"
+            "GlobalVariable(Tuning.EasyStart)"
+           ]
+          },
+          {
+           "type": {
+            "inverted": false,
+            "value": "BuiltinCommonInstructions::CompareNumbers"
+           },
+           "parameters": [
+            "GlobalVariableChildCount(EasyDeck)",
+            ">",
+            "0"
            ]
           }
          ],
@@ -3671,11 +4380,123 @@
            "parameters": [
             "FormationIndex",
             "=",
-            "Variable(FormationCount)"
+            "GlobalVariable(EasyDeck[RandomInRange(0, GlobalVariableChildCount(EasyDeck) - 1)])"
            ]
           }
          ],
          "events": []
+        },
+        {
+         "type": "BuiltinCommonInstructions::Repeat",
+         "repeatExpression": "6",
+         "conditions": [],
+         "actions": [],
+         "events": [
+          {
+           "type": "BuiltinCommonInstructions::Standard",
+           "conditions": [
+            {
+             "type": {
+              "inverted": false,
+              "value": "BuiltinCommonInstructions::CompareNumbers"
+             },
+             "parameters": [
+              "Variable(FormationIndex)",
+              "=",
+              "Variable(LastFormation)"
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "BuiltinCommonInstructions::CompareNumbers"
+             },
+             "parameters": [
+              "Variable(FormationCount)",
+              ">=",
+              "GlobalVariable(Tuning.EasyStart)"
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "BuiltinCommonInstructions::CompareNumbers"
+             },
+             "parameters": [
+              "GlobalVariableChildCount(Formations)",
+              ">",
+              "1"
+             ]
+            }
+           ],
+           "actions": [
+            {
+             "type": {
+              "inverted": false,
+              "value": "SetNumberVariable"
+             },
+             "parameters": [
+              "FormationIndex",
+              "=",
+              "GlobalVariable(FormationDeck[RandomInRange(0, GlobalVariableChildCount(FormationDeck) - 1)])"
+             ]
+            }
+           ],
+           "events": []
+          },
+          {
+           "type": "BuiltinCommonInstructions::Standard",
+           "conditions": [
+            {
+             "type": {
+              "inverted": false,
+              "value": "BuiltinCommonInstructions::CompareNumbers"
+             },
+             "parameters": [
+              "Variable(FormationIndex)",
+              "=",
+              "Variable(LastFormation)"
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "BuiltinCommonInstructions::CompareNumbers"
+             },
+             "parameters": [
+              "Variable(FormationCount)",
+              "<",
+              "GlobalVariable(Tuning.EasyStart)"
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "BuiltinCommonInstructions::CompareNumbers"
+             },
+             "parameters": [
+              "GlobalVariableChildCount(EasyDeck)",
+              ">",
+              "1"
+             ]
+            }
+           ],
+           "actions": [
+            {
+             "type": {
+              "inverted": false,
+              "value": "SetNumberVariable"
+             },
+             "parameters": [
+              "FormationIndex",
+              "=",
+              "GlobalVariable(EasyDeck[RandomInRange(0, GlobalVariableChildCount(EasyDeck) - 1)])"
+             ]
+            }
+           ],
+           "events": []
+          }
+         ]
         },
         {
          "type": "BuiltinCommonInstructions::Comment",
@@ -6467,6 +7288,461 @@
          ]
         },
         {
+         "type": "BuiltinCommonInstructions::Group",
+         "name": "Embed gems in some of the new cells",
+         "source": "",
+         "folded": false,
+         "colorR": 74,
+         "colorG": 112,
+         "colorB": 150,
+         "creationTime": 0,
+         "events": [
+          {
+           "type": "BuiltinCommonInstructions::Comment",
+           "color": {
+            "b": 109,
+            "g": 230,
+            "r": 255,
+            "textB": 0,
+            "textG": 0,
+            "textR": 0
+           },
+           "comment": "GEMS (Phase 2): with chance Tuning.GemChance a new formation hides GemsMin..GemsMax gems. A gem goes in a cell above the tower's lane with chance GemAboveLaneChance (more time to dig it out), else anywhere in the formation. The type is drawn by the Weight of each entry in the global Gems."
+          },
+          {
+           "type": "BuiltinCommonInstructions::Standard",
+           "conditions": [
+            {
+             "type": {
+              "inverted": false,
+              "value": "BuiltinCommonInstructions::CompareNumbers"
+             },
+             "parameters": [
+              "RandomFloat(1)",
+              "<",
+              "GlobalVariable(Tuning.GemChance)"
+             ]
+            }
+           ],
+           "actions": [
+            {
+             "type": {
+              "inverted": false,
+              "value": "SetNumberVariable"
+             },
+             "parameters": [
+              "GemsToPlace",
+              "=",
+              "RandomInRange(GlobalVariable(Tuning.GemsMin), GlobalVariable(Tuning.GemsMax))"
+             ]
+            }
+           ],
+           "events": [
+            {
+             "type": "BuiltinCommonInstructions::Repeat",
+             "repeatExpression": "Variable(GemsToPlace)",
+             "conditions": [],
+             "actions": [
+              {
+               "type": {
+                "inverted": false,
+                "value": "SetNumberVariable"
+               },
+               "parameters": [
+                "GemPlaced",
+                "=",
+                "0"
+               ]
+              },
+              {
+               "type": {
+                "inverted": false,
+                "value": "SetNumberVariable"
+               },
+               "parameters": [
+                "GemRoll",
+                "=",
+                "RandomFloat(100)"
+               ]
+              }
+             ],
+             "events": [
+              {
+               "type": "BuiltinCommonInstructions::Standard",
+               "conditions": [
+                {
+                 "type": {
+                  "inverted": false,
+                  "value": "NumberVariable"
+                 },
+                 "parameters": [
+                  "GemRoll",
+                  ">=",
+                  "0.0"
+                 ]
+                },
+                {
+                 "type": {
+                  "inverted": false,
+                  "value": "NumberVariable"
+                 },
+                 "parameters": [
+                  "GemRoll",
+                  "<",
+                  "70.0"
+                 ]
+                }
+               ],
+               "actions": [
+                {
+                 "type": {
+                  "inverted": false,
+                  "value": "SetNumberVariable"
+                 },
+                 "parameters": [
+                  "GemType",
+                  "=",
+                  "1"
+                 ]
+                }
+               ],
+               "events": []
+              },
+              {
+               "type": "BuiltinCommonInstructions::Standard",
+               "conditions": [
+                {
+                 "type": {
+                  "inverted": false,
+                  "value": "NumberVariable"
+                 },
+                 "parameters": [
+                  "GemRoll",
+                  ">=",
+                  "70.0"
+                 ]
+                },
+                {
+                 "type": {
+                  "inverted": false,
+                  "value": "NumberVariable"
+                 },
+                 "parameters": [
+                  "GemRoll",
+                  "<",
+                  "95.0"
+                 ]
+                }
+               ],
+               "actions": [
+                {
+                 "type": {
+                  "inverted": false,
+                  "value": "SetNumberVariable"
+                 },
+                 "parameters": [
+                  "GemType",
+                  "=",
+                  "2"
+                 ]
+                }
+               ],
+               "events": []
+              },
+              {
+               "type": "BuiltinCommonInstructions::Standard",
+               "conditions": [
+                {
+                 "type": {
+                  "inverted": false,
+                  "value": "NumberVariable"
+                 },
+                 "parameters": [
+                  "GemRoll",
+                  ">=",
+                  "95.0"
+                 ]
+                }
+               ],
+               "actions": [
+                {
+                 "type": {
+                  "inverted": false,
+                  "value": "SetNumberVariable"
+                 },
+                 "parameters": [
+                  "GemType",
+                  "=",
+                  "3"
+                 ]
+                }
+               ],
+               "events": []
+              },
+              {
+               "type": "BuiltinCommonInstructions::Standard",
+               "conditions": [
+                {
+                 "type": {
+                  "inverted": false,
+                  "value": "BuiltinCommonInstructions::CompareNumbers"
+                 },
+                 "parameters": [
+                  "RandomFloat(1)",
+                  "<",
+                  "GlobalVariable(Tuning.GemAboveLaneChance)"
+                 ]
+                },
+                {
+                 "type": {
+                  "inverted": false,
+                  "value": "NumberObjectVariable"
+                 },
+                 "parameters": [
+                  "Cell",
+                  "Batch",
+                  "=",
+                  "Variable(FormationCount)"
+                 ]
+                },
+                {
+                 "type": {
+                  "inverted": false,
+                  "value": "NumberObjectVariable"
+                 },
+                 "parameters": [
+                  "Cell",
+                  "Gem",
+                  "=",
+                  "0"
+                 ]
+                },
+                {
+                 "type": {
+                  "inverted": false,
+                  "value": "PosY"
+                 },
+                 "parameters": [
+                  "Cell",
+                  "<=",
+                  "GlobalVariable(Tuning.GroundY) - 96"
+                 ]
+                }
+               ],
+               "actions": [
+                {
+                 "type": {
+                  "inverted": false,
+                  "value": "PickRandomInstance"
+                 },
+                 "parameters": [
+                  "",
+                  "Cell"
+                 ]
+                },
+                {
+                 "type": {
+                  "inverted": false,
+                  "value": "SetNumberObjectVariable"
+                 },
+                 "parameters": [
+                  "Cell",
+                  "Gem",
+                  "=",
+                  "Variable(GemType)"
+                 ]
+                },
+                {
+                 "type": {
+                  "inverted": false,
+                  "value": "Create"
+                 },
+                 "parameters": [
+                  "",
+                  "GemMark",
+                  "Cell.X() + 2",
+                  "Cell.Y() + 2",
+                  "\"\""
+                 ]
+                },
+                {
+                 "type": {
+                  "inverted": false,
+                  "value": "SetZOrder"
+                 },
+                 "parameters": [
+                  "GemMark",
+                  "=",
+                  "12"
+                 ]
+                },
+                {
+                 "type": {
+                  "inverted": false,
+                  "value": "AnimatableCapability::AnimatableBehavior::SetIndex"
+                 },
+                 "parameters": [
+                  "GemMark",
+                  "Animation",
+                  "=",
+                  "Variable(GemType) - 1"
+                 ]
+                },
+                {
+                 "type": {
+                  "inverted": false,
+                  "value": "LinkedObjects::LinkObjects"
+                 },
+                 "parameters": [
+                  "",
+                  "Cell",
+                  "GemMark"
+                 ]
+                },
+                {
+                 "type": {
+                  "inverted": false,
+                  "value": "SetNumberVariable"
+                 },
+                 "parameters": [
+                  "GemPlaced",
+                  "=",
+                  "1"
+                 ]
+                }
+               ],
+               "events": []
+              },
+              {
+               "type": "BuiltinCommonInstructions::Standard",
+               "conditions": [
+                {
+                 "type": {
+                  "inverted": false,
+                  "value": "NumberVariable"
+                 },
+                 "parameters": [
+                  "GemPlaced",
+                  "=",
+                  "0"
+                 ]
+                },
+                {
+                 "type": {
+                  "inverted": false,
+                  "value": "NumberObjectVariable"
+                 },
+                 "parameters": [
+                  "Cell",
+                  "Batch",
+                  "=",
+                  "Variable(FormationCount)"
+                 ]
+                },
+                {
+                 "type": {
+                  "inverted": false,
+                  "value": "NumberObjectVariable"
+                 },
+                 "parameters": [
+                  "Cell",
+                  "Gem",
+                  "=",
+                  "0"
+                 ]
+                }
+               ],
+               "actions": [
+                {
+                 "type": {
+                  "inverted": false,
+                  "value": "PickRandomInstance"
+                 },
+                 "parameters": [
+                  "",
+                  "Cell"
+                 ]
+                },
+                {
+                 "type": {
+                  "inverted": false,
+                  "value": "SetNumberObjectVariable"
+                 },
+                 "parameters": [
+                  "Cell",
+                  "Gem",
+                  "=",
+                  "Variable(GemType)"
+                 ]
+                },
+                {
+                 "type": {
+                  "inverted": false,
+                  "value": "Create"
+                 },
+                 "parameters": [
+                  "",
+                  "GemMark",
+                  "Cell.X() + 2",
+                  "Cell.Y() + 2",
+                  "\"\""
+                 ]
+                },
+                {
+                 "type": {
+                  "inverted": false,
+                  "value": "SetZOrder"
+                 },
+                 "parameters": [
+                  "GemMark",
+                  "=",
+                  "12"
+                 ]
+                },
+                {
+                 "type": {
+                  "inverted": false,
+                  "value": "AnimatableCapability::AnimatableBehavior::SetIndex"
+                 },
+                 "parameters": [
+                  "GemMark",
+                  "Animation",
+                  "=",
+                  "Variable(GemType) - 1"
+                 ]
+                },
+                {
+                 "type": {
+                  "inverted": false,
+                  "value": "LinkedObjects::LinkObjects"
+                 },
+                 "parameters": [
+                  "",
+                  "Cell",
+                  "GemMark"
+                 ]
+                },
+                {
+                 "type": {
+                  "inverted": false,
+                  "value": "SetNumberVariable"
+                 },
+                 "parameters": [
+                  "GemPlaced",
+                  "=",
+                  "1"
+                 ]
+                }
+               ],
+               "events": []
+              }
+             ]
+            }
+           ]
+          }
+         ]
+        },
+        {
          "type": "BuiltinCommonInstructions::Standard",
          "conditions": [],
          "actions": [
@@ -6487,13 +7763,67 @@
             "value": "SetNumberVariable"
            },
            "parameters": [
+            "LastFormation",
+            "=",
+            "Variable(FormationIndex)"
+           ]
+          },
+          {
+           "type": {
+            "inverted": false,
+            "value": "SetNumberVariable"
+           },
+           "parameters": [
             "FormationCount",
             "+",
             "1"
            ]
           }
          ],
-         "events": []
+         "events": [
+          {
+           "type": "BuiltinCommonInstructions::Comment",
+           "color": {
+            "b": 109,
+            "g": 230,
+            "r": 255,
+            "textB": 0,
+            "textG": 0,
+            "textR": 0
+           },
+           "comment": "Sometimes the next formation follows right behind (a cluster)."
+          },
+          {
+           "type": "BuiltinCommonInstructions::Standard",
+           "conditions": [
+            {
+             "type": {
+              "inverted": false,
+              "value": "BuiltinCommonInstructions::CompareNumbers"
+             },
+             "parameters": [
+              "RandomFloat(1)",
+              "<",
+              "GlobalVariable(Tuning.ClusterChance)"
+             ]
+            }
+           ],
+           "actions": [
+            {
+             "type": {
+              "inverted": false,
+              "value": "SetNumberVariable"
+             },
+             "parameters": [
+              "NextFormationX",
+              "=",
+              "Variable(SpawnX) + Variable(ShapeW) * GlobalVariable(Tuning.CellSize) + RandomInRange(GlobalVariable(Tuning.ClusterGapMin), GlobalVariable(Tuning.ClusterGapMax))"
+             ]
+            }
+           ],
+           "events": []
+          }
+         ]
         }
        ]
       }
@@ -6573,6 +7903,35 @@
          },
          "parameters": [
           "Crack",
+          ""
+         ]
+        }
+       ],
+       "events": []
+      },
+      {
+       "type": "BuiltinCommonInstructions::Standard",
+       "conditions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "PosX"
+         },
+         "parameters": [
+          "GemMark",
+          "<",
+          "CameraX(\"\", 0) - 330"
+         ]
+        }
+       ],
+       "actions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "Delete"
+         },
+         "parameters": [
+          "GemMark",
           ""
          ]
         }
@@ -7969,6 +9328,248 @@
            "events": []
           },
           {
+           "type": "BuiltinCommonInstructions::Comment",
+           "color": {
+            "b": 109,
+            "g": 230,
+            "r": 255,
+            "textB": 0,
+            "textG": 0,
+            "textR": 0
+           },
+           "comment": "A gem is released only when the cell holding it breaks; GemSystem takes it from here."
+          },
+          {
+           "type": "BuiltinCommonInstructions::Standard",
+           "conditions": [
+            {
+             "type": {
+              "inverted": false,
+              "value": "NumberObjectVariable"
+             },
+             "parameters": [
+              "Cell",
+              "Gem",
+              ">",
+              "0"
+             ]
+            }
+           ],
+           "actions": [
+            {
+             "type": {
+              "inverted": false,
+              "value": "Create"
+             },
+             "parameters": [
+              "",
+              "Gem",
+              "Cell.CenterX()",
+              "Cell.CenterY()",
+              "\"\""
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "SetNumberObjectVariable"
+             },
+             "parameters": [
+              "Gem",
+              "Type",
+              "=",
+              "Cell.Variable(Gem)"
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "SetNumberObjectVariable"
+             },
+             "parameters": [
+              "Gem",
+              "VX",
+              "=",
+              "RandomFloatInRange(-40, 90)"
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "SetNumberObjectVariable"
+             },
+             "parameters": [
+              "Gem",
+              "VY",
+              "=",
+              "RandomFloatInRange(-280, -170)"
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "SetZOrder"
+             },
+             "parameters": [
+              "Gem",
+              "=",
+              "27"
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "AnimatableCapability::AnimatableBehavior::SetIndex"
+             },
+             "parameters": [
+              "Gem",
+              "Animation",
+              "=",
+              "Gem.Variable(Type) - 1"
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "SetNumberVariable"
+             },
+             "parameters": [
+              "GemsReleased",
+              "+",
+              "1"
+             ]
+            }
+           ],
+           "events": [
+            {
+             "type": "BuiltinCommonInstructions::Standard",
+             "conditions": [
+              {
+               "type": {
+                "inverted": false,
+                "value": "LinkedObjects::PickObjectsLinkedTo"
+               },
+               "parameters": [
+                "",
+                "GemMark",
+                "Cell",
+                ""
+               ]
+              }
+             ],
+             "actions": [
+              {
+               "type": {
+                "inverted": false,
+                "value": "Delete"
+               },
+               "parameters": [
+                "GemMark",
+                ""
+               ]
+              }
+             ],
+             "events": []
+            },
+            {
+             "type": "BuiltinCommonInstructions::Standard",
+             "conditions": [
+              {
+               "type": {
+                "inverted": false,
+                "value": "NumberObjectVariable"
+               },
+               "parameters": [
+                "Gem",
+                "Type",
+                "=",
+                "1"
+               ]
+              }
+             ],
+             "actions": [
+              {
+               "type": {
+                "inverted": false,
+                "value": "SetNumberObjectVariable"
+               },
+               "parameters": [
+                "Gem",
+                "Value",
+                "=",
+                "GlobalVariable(Gems.Common.Value)"
+               ]
+              }
+             ],
+             "events": []
+            },
+            {
+             "type": "BuiltinCommonInstructions::Standard",
+             "conditions": [
+              {
+               "type": {
+                "inverted": false,
+                "value": "NumberObjectVariable"
+               },
+               "parameters": [
+                "Gem",
+                "Type",
+                "=",
+                "2"
+               ]
+              }
+             ],
+             "actions": [
+              {
+               "type": {
+                "inverted": false,
+                "value": "SetNumberObjectVariable"
+               },
+               "parameters": [
+                "Gem",
+                "Value",
+                "=",
+                "GlobalVariable(Gems.Rare.Value)"
+               ]
+              }
+             ],
+             "events": []
+            },
+            {
+             "type": "BuiltinCommonInstructions::Standard",
+             "conditions": [
+              {
+               "type": {
+                "inverted": false,
+                "value": "NumberObjectVariable"
+               },
+               "parameters": [
+                "Gem",
+                "Type",
+                "=",
+                "3"
+               ]
+              }
+             ],
+             "actions": [
+              {
+               "type": {
+                "inverted": false,
+                "value": "SetNumberObjectVariable"
+               },
+               "parameters": [
+                "Gem",
+                "Value",
+                "=",
+                "GlobalVariable(Gems.Legendary.Value)"
+               ]
+              }
+             ],
+             "events": []
+            }
+           ]
+          },
+          {
            "type": "BuiltinCommonInstructions::Repeat",
            "repeatExpression": "3",
            "conditions": [],
@@ -8688,6 +10289,710 @@
   {
    "associatedLayout": "Game",
    "lastChangeTimeStamp": 0,
+   "name": "GemSystem",
+   "events": [
+    {
+     "type": "BuiltinCommonInstructions::Comment",
+     "color": {
+      "b": 109,
+      "g": 230,
+      "r": 255,
+      "textB": 0,
+      "textG": 0,
+      "textR": 0
+     },
+     "comment": "GEM SYSTEM - owns: RunGems, TotalGems, GemsCollected, GemsLost, GemsSaved, GemDX/DY/Dist/Step and the Gem / GemPopup objects once a gem is released (ProjectileSystem creates it when its cell breaks).\nA released gem pops out, falls and bounces on the ground. Once within Tuning.PickupRadius of the tower's centre it flies to the tower and its value is added to the run (no tapping). Gems left behind the screen are lost. At game over the run's gems are added to TotalGems (storage)."
+    },
+    {
+     "type": "BuiltinCommonInstructions::Standard",
+     "conditions": [
+      {
+       "type": {
+        "inverted": false,
+        "value": "SceneJustBegins"
+       },
+       "parameters": [
+        ""
+       ]
+      }
+     ],
+     "actions": [],
+     "events": [
+      {
+       "type": "BuiltinCommonInstructions::Standard",
+       "conditions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "GroupExists"
+         },
+         "parameters": [
+          "\"TowerRush\"",
+          "\"TotalGems\""
+         ]
+        }
+       ],
+       "actions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "ReadNumberFromStorage"
+         },
+         "parameters": [
+          "\"TowerRush\"",
+          "\"TotalGems\"",
+          "",
+          "TotalGems"
+         ]
+        }
+       ],
+       "events": []
+      }
+     ]
+    },
+    {
+     "type": "BuiltinCommonInstructions::ForEach",
+     "object": "Gem",
+     "conditions": [],
+     "actions": [],
+     "events": [
+      {
+       "type": "BuiltinCommonInstructions::Standard",
+       "conditions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "NumberObjectVariable"
+         },
+         "parameters": [
+          "Gem",
+          "Magnet",
+          "=",
+          "0"
+         ]
+        }
+       ],
+       "actions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "SetNumberObjectVariable"
+         },
+         "parameters": [
+          "Gem",
+          "VY",
+          "+",
+          "GlobalVariable(Tuning.GemGravity) * Variable(Dt)"
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "SetXY"
+         },
+         "parameters": [
+          "Gem",
+          "=",
+          "Gem.X() + Gem.Variable(VX) * Variable(Dt)",
+          "=",
+          "Gem.Y() + Gem.Variable(VY) * Variable(Dt)"
+         ]
+        }
+       ],
+       "events": [
+        {
+         "type": "BuiltinCommonInstructions::Standard",
+         "conditions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "PosY"
+           },
+           "parameters": [
+            "Gem",
+            ">",
+            "GlobalVariable(Tuning.GroundY) - 6"
+           ]
+          }
+         ],
+         "actions": [
+          {
+           "type": {
+            "inverted": false,
+            "value": "SetXY"
+           },
+           "parameters": [
+            "Gem",
+            "=",
+            "Gem.X()",
+            "=",
+            "GlobalVariable(Tuning.GroundY) - 6"
+           ]
+          },
+          {
+           "type": {
+            "inverted": false,
+            "value": "SetNumberObjectVariable"
+           },
+           "parameters": [
+            "Gem",
+            "VY",
+            "=",
+            "-Gem.Variable(VY) * GlobalVariable(Tuning.GemBounce)"
+           ]
+          },
+          {
+           "type": {
+            "inverted": false,
+            "value": "SetNumberObjectVariable"
+           },
+           "parameters": [
+            "Gem",
+            "VX",
+            "*",
+            "0.7"
+           ]
+          }
+         ],
+         "events": [
+          {
+           "type": "BuiltinCommonInstructions::Standard",
+           "conditions": [
+            {
+             "type": {
+              "inverted": false,
+              "value": "BuiltinCommonInstructions::CompareNumbers"
+             },
+             "parameters": [
+              "abs(Gem.Variable(VY))",
+              "<",
+              "60"
+             ]
+            }
+           ],
+           "actions": [
+            {
+             "type": {
+              "inverted": false,
+              "value": "SetNumberObjectVariable"
+             },
+             "parameters": [
+              "Gem",
+              "VY",
+              "=",
+              "0"
+             ]
+            },
+            {
+             "type": {
+              "inverted": false,
+              "value": "SetNumberObjectVariable"
+             },
+             "parameters": [
+              "Gem",
+              "VX",
+              "=",
+              "0"
+             ]
+            }
+           ],
+           "events": []
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "type": "BuiltinCommonInstructions::Standard",
+       "conditions": [],
+       "actions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "SetNumberVariable"
+         },
+         "parameters": [
+          "GemDX",
+          "=",
+          "Tower.X() - Gem.X()"
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "SetNumberVariable"
+         },
+         "parameters": [
+          "GemDY",
+          "=",
+          "Tower.Y() - 48 - Gem.Y()"
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "SetNumberVariable"
+         },
+         "parameters": [
+          "GemDist",
+          "=",
+          "sqrt(Variable(GemDX) * Variable(GemDX) + Variable(GemDY) * Variable(GemDY))"
+         ]
+        }
+       ],
+       "events": []
+      },
+      {
+       "type": "BuiltinCommonInstructions::Standard",
+       "conditions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "NumberObjectVariable"
+         },
+         "parameters": [
+          "Gem",
+          "Magnet",
+          "=",
+          "0"
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "NumberVariable"
+         },
+         "parameters": [
+          "GemDist",
+          "<",
+          "GlobalVariable(Tuning.PickupRadius)"
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "StringVariable"
+         },
+         "parameters": [
+          "State",
+          "=",
+          "\"Run\""
+         ]
+        }
+       ],
+       "actions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "SetNumberObjectVariable"
+         },
+         "parameters": [
+          "Gem",
+          "Magnet",
+          "=",
+          "1"
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "SetNumberObjectVariable"
+         },
+         "parameters": [
+          "Gem",
+          "Speed",
+          "=",
+          "GlobalVariable(Tuning.GemMagnetSpeed)"
+         ]
+        }
+       ],
+       "events": []
+      },
+      {
+       "type": "BuiltinCommonInstructions::Standard",
+       "conditions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "NumberObjectVariable"
+         },
+         "parameters": [
+          "Gem",
+          "Magnet",
+          "=",
+          "1"
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "NumberVariable"
+         },
+         "parameters": [
+          "GemDist",
+          "<",
+          "14"
+         ]
+        }
+       ],
+       "actions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "SetNumberVariable"
+         },
+         "parameters": [
+          "RunGems",
+          "+",
+          "Gem.Variable(Value)"
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "SetNumberVariable"
+         },
+         "parameters": [
+          "GemsCollected",
+          "+",
+          "1"
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "Create"
+         },
+         "parameters": [
+          "",
+          "GemPopup",
+          "Tower.X() - 10",
+          "Tower.Y() - 120",
+          "\"\""
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "TextContainerCapability::TextContainerBehavior::SetValue"
+         },
+         "parameters": [
+          "GemPopup",
+          "Text",
+          "=",
+          "\"+\" + ToString(Gem.Variable(Value))"
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "SetZOrder"
+         },
+         "parameters": [
+          "GemPopup",
+          "=",
+          "60"
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "Delete"
+         },
+         "parameters": [
+          "Gem",
+          ""
+         ]
+        }
+       ],
+       "events": []
+      },
+      {
+       "type": "BuiltinCommonInstructions::Standard",
+       "conditions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "NumberObjectVariable"
+         },
+         "parameters": [
+          "Gem",
+          "Magnet",
+          "=",
+          "1"
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "NumberVariable"
+         },
+         "parameters": [
+          "GemDist",
+          ">=",
+          "14"
+         ]
+        }
+       ],
+       "actions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "SetNumberObjectVariable"
+         },
+         "parameters": [
+          "Gem",
+          "Speed",
+          "+",
+          "GlobalVariable(Tuning.GemMagnetAccel) * Variable(Dt)"
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "SetNumberVariable"
+         },
+         "parameters": [
+          "GemStep",
+          "=",
+          "min(Variable(GemDist), Gem.Variable(Speed) * Variable(Dt))"
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "SetXY"
+         },
+         "parameters": [
+          "Gem",
+          "=",
+          "Gem.X() + Variable(GemDX) / Variable(GemDist) * Variable(GemStep)",
+          "=",
+          "Gem.Y() + Variable(GemDY) / Variable(GemDist) * Variable(GemStep)"
+         ]
+        }
+       ],
+       "events": []
+      }
+     ]
+    },
+    {
+     "type": "BuiltinCommonInstructions::Standard",
+     "conditions": [
+      {
+       "type": {
+        "inverted": false,
+        "value": "PosX"
+       },
+       "parameters": [
+        "Gem",
+        "<",
+        "CameraX(\"\", 0) - 330"
+       ]
+      }
+     ],
+     "actions": [
+      {
+       "type": {
+        "inverted": false,
+        "value": "SetNumberVariable"
+       },
+       "parameters": [
+        "GemsLost",
+        "+",
+        "1"
+       ]
+      },
+      {
+       "type": {
+        "inverted": false,
+        "value": "Delete"
+       },
+       "parameters": [
+        "Gem",
+        ""
+       ]
+      }
+     ],
+     "events": []
+    },
+    {
+     "type": "BuiltinCommonInstructions::Group",
+     "name": "Gem popups",
+     "source": "",
+     "folded": false,
+     "colorR": 74,
+     "colorG": 112,
+     "colorB": 150,
+     "creationTime": 0,
+     "events": [
+      {
+       "type": "BuiltinCommonInstructions::Standard",
+       "conditions": [],
+       "actions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "SetNumberObjectVariable"
+         },
+         "parameters": [
+          "GemPopup",
+          "Life",
+          "+",
+          "Variable(Dt)"
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "SetXY"
+         },
+         "parameters": [
+          "GemPopup",
+          "=",
+          "GemPopup.X()",
+          "=",
+          "GemPopup.Y() - 50 * Variable(Dt)"
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "TextObject::Opacity"
+         },
+         "parameters": [
+          "GemPopup",
+          "=",
+          "255 * (1 - GemPopup.Variable(Life) / 0.8)"
+         ]
+        }
+       ],
+       "events": []
+      },
+      {
+       "type": "BuiltinCommonInstructions::Standard",
+       "conditions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "NumberObjectVariable"
+         },
+         "parameters": [
+          "GemPopup",
+          "Life",
+          ">",
+          "0.8"
+         ]
+        }
+       ],
+       "actions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "Delete"
+         },
+         "parameters": [
+          "GemPopup",
+          ""
+         ]
+        }
+       ],
+       "events": []
+      }
+     ]
+    },
+    {
+     "type": "BuiltinCommonInstructions::Group",
+     "name": "Bank the run's gems at game over",
+     "source": "",
+     "folded": false,
+     "colorR": 74,
+     "colorG": 112,
+     "colorB": 150,
+     "creationTime": 0,
+     "events": [
+      {
+       "type": "BuiltinCommonInstructions::Standard",
+       "conditions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "StringVariable"
+         },
+         "parameters": [
+          "State",
+          "=",
+          "\"Over\""
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "NumberVariable"
+         },
+         "parameters": [
+          "GemsSaved",
+          "=",
+          "0"
+         ]
+        }
+       ],
+       "actions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "SetNumberVariable"
+         },
+         "parameters": [
+          "TotalGems",
+          "+",
+          "Variable(RunGems)"
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "EcrireFichierExp"
+         },
+         "parameters": [
+          "\"TowerRush\"",
+          "\"TotalGems\"",
+          "Variable(TotalGems)"
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "SetNumberVariable"
+         },
+         "parameters": [
+          "GemsSaved",
+          "=",
+          "1"
+         ]
+        },
+        {
+         "type": {
+          "inverted": false,
+          "value": "TextContainerCapability::TextContainerBehavior::SetValue"
+         },
+         "parameters": [
+          "GemsResultText",
+          "Text",
+          "=",
+          "\"GEMS  +\" + ToString(Variable(RunGems)) + \"   (TOTAL \" + ToString(Variable(TotalGems)) + \")\""
+         ]
+        }
+       ],
+       "events": []
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "associatedLayout": "Game",
+   "lastChangeTimeStamp": 0,
    "name": "CloudController",
    "events": [
     {
@@ -9093,6 +11398,25 @@
           "Opacity",
           "=",
           "clamp((GlobalVariable(Tuning.WarningDistance) - Variable(CloudGap)) / GlobalVariable(Tuning.WarningDistance), 0, 1) * (190 + 65 * sin(TimeFromStart() * 14))"
+         ]
+        }
+       ],
+       "events": []
+      },
+      {
+       "type": "BuiltinCommonInstructions::Standard",
+       "conditions": [],
+       "actions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "TextContainerCapability::TextContainerBehavior::SetValue"
+         },
+         "parameters": [
+          "GemText",
+          "Text",
+          "=",
+          "\"GEMS \" + ToString(Variable(RunGems))"
          ]
         }
        ],

@@ -191,7 +191,7 @@ def import_one(path, min_cover, palette, ref):
     if lane_hp > 40:
         report += "  <-- slow to clear (over ~7 s of shooting)"
     print(report)
-    return {"Name": name, "Texture": texture, "Rows": grid, "Intro": bool(opts.get("intro", False))}
+    return {"Name": name, "Texture": texture, "Rows": grid, "Weight": opts.get("weight", 1)}
 
 
 def main():

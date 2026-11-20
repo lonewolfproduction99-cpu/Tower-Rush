@@ -269,6 +269,23 @@ def hills():
     return im
 
 
+GEM_COLORS = {"common": ((90, 220, 110), (40, 120, 60)), "rare": ((80, 170, 255), (30, 70, 160)),
+              "legendary": ((255, 214, 80), (170, 100, 20))}
+
+
+def gem(kind, size):
+    """A faceted gem: 12 x 12 loose, 8 x 8 embedded (the mark shown on the cell that holds it)."""
+    light, dark = GEM_COLORS[kind]
+    im = rgba(size, size)
+    d = ImageDraw.Draw(im)
+    m = size - 1
+    d.polygon([(m // 2, 0), (m, m // 2 - 1), (m // 2, m), (0, m // 2 - 1)], fill=light, outline=(20, 20, 24))
+    d.polygon([(m // 2, 0), (m, m // 2 - 1), (m // 2, m // 2)], fill=tuple(min(255, c + 50) for c in light))
+    d.polygon([(0, m // 2 - 1), (m // 2, m), (m // 2, m // 2)], fill=dark)
+    d.point((m // 2 - 1, 2), fill=(255, 255, 255))
+    return im
+
+
 def sky():
     """540 x 960, does not scroll: a dusty gradient."""
     im = Image.new("RGBA", (540, 960))
@@ -323,6 +340,9 @@ def main():
         save(cloud(f), "cloud_%d.png" % f)
     save(ground(), "ground.png")
     save(sky(), "sky.png")
+    for k in GEM_COLORS:
+        save(gem(k, 12), "gem_%s.png" % k)
+        save(gem(k, 8), "gem_mark_%s.png" % k)
     save(hills(), "hills.png")
     save(button(240, 72, (230, 170, 60, 255), (110, 70, 20, 255)), "button.png")
     save(button(150, 50, (60, 70, 90, 220), (20, 24, 34, 255)), "button_small.png")

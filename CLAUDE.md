@@ -1,6 +1,6 @@
 # Tower Rush: notes for Claude sessions
 
-Portrait (540×960) GDevelop 5 arcade game: a tracked tower auto-drives right, the player shoots paths through cell-grid formations, a gas cloud pursues. The owner's brief has 5 phases; **Phase 1 is done** (see README.md for the full layout).
+Portrait (540×960) GDevelop 5 arcade game: a tracked tower auto-drives right, the player shoots paths through cell-grid formations, a gas cloud pursues. The owner's brief has 5 phases; **Phases 1 and 2 are done** (gems: README "Gems") (see README.md for the full layout).
 
 ## Rules from the brief
 
@@ -35,6 +35,13 @@ Portrait (540×960) GDevelop 5 arcade game: a tracked tower auto-drives right, t
 - Cracks: a `Crack` sprite (Crack1/Crack2) linked with LinkedObjects to its cell. It is deleted with the cell or when behind the camera.
 - Test: `node tools/test/play.js docs <out> art` (it patches `Tuning.TestFormation` in data.js through `page.route`).
 - Owner's provenance rule (as in Retro Knight): no generative AI in shipped art. Placeholders are code-drawn and named `placeholder_*`.
+
+## Gems and generation
+
+- `Cell.Gem` (0 / 1..3) plus a linked `GemMark`; ProjectileSystem creates the `Gem` object when the cell breaks; GemSystem owns it after that.
+- Decks are built at build time: `FormationDeck` (indices × weight), `EasyDeck` (lane cost ≤ EasyLaneShots). The build's `lane_cost()` and the importer's lane count must agree (partial pieces = PartialHP).
+- Tests: `gems` scenario (9 checks); the main run patches Tuning through `openGame(..., tuning)`.
+- Owner decisions: keep the game hard (gas 450 / 60), progression via points → upgrades. See DESIGN_NOTES.md.
 
 ## Gotchas
 

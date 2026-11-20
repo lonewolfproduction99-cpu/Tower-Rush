@@ -20,7 +20,6 @@
     "CameraLead": 140,
     "SpawnAhead": 320,
     "FirstFormationAt": 360,
-    "IntroFormations": 0,
     "GapMin": 240,
     "GapMax": 380,
     "MinSpawnAheadOfTower": 200,
@@ -28,7 +27,21 @@
     "MaxFrameTime": 0.05,
     "TestFormation": -1,
     "ShowFarLayer": 0,
-    "PartialHP": 1
+    "PartialHP": 1,
+    "EasyStart": 2,
+    "EasyLaneShots": 40,
+    "ClusterChance": 0.2,
+    "ClusterGapMin": 36,
+    "ClusterGapMax": 72,
+    "GemChance": 0.75,
+    "GemsMin": 1,
+    "GemsMax": 2,
+    "GemAboveLaneChance": 0.7,
+    "PickupRadius": 90,
+    "GemGravity": 900,
+    "GemBounce": 0.45,
+    "GemMagnetSpeed": 260,
+    "GemMagnetAccel": 1400
   },
   "Materials": {
     "Stone": {
@@ -82,5 +95,19 @@
       10
     ],
     "TrackFrameTime": 0.0235
+  },
+  "Gems": {
+    "Common": {
+      "Value": 1,
+      "Weight": 70
+    },
+    "Rare": {
+      "Value": 5,
+      "Weight": 25
+    },
+    "Legendary": {
+      "Value": 25,
+      "Weight": 5
+    }
   }
 }

@@ -423,6 +423,12 @@ def upgrade_manager():
                 "TowerSpeed, PickupRadius (read by the other systems).\n"
                 "Levels are bought in the Shop scene and saved in storage TowerRush / Up_<Upgrade>. Each stat is "
                 "the global Upgrades.<Upgrade>.Values[level]; prices are Upgrades.<Upgrade>.Costs[level]."),
+        comment("Playtest mode: with Tuning.SaveProgress = 0 nothing is kept between sessions. The first scene of "
+                "a session wipes the storage TowerRush (upgrades, gems, best distance, aim offset); within the "
+                "session the shop and restarts work as usual. Set SaveProgress to 1 to keep progress."),
+        ev([C("SceneJustBegins"), isv("SessionStarted", "=", "0")], [setv("SessionStarted", "=", "1")], [
+            ev([cmp(tune("SaveProgress"), "=", "0")], [A("DeleteFichier", q("TowerRush"))]),
+        ]),
         ev([C("SceneJustBegins")], [], load),
     ]
 
@@ -1335,7 +1341,8 @@ def global_variables():
             if lane_cost(f) <= T.get("EasyLaneShots", 40) and int(f.get("Weight", 1)) > 0]
     return [var("Tuning", T), var("Materials", DATA["Materials"]), var("Formations", forms),
             var("FormationDeck", deck), var("EasyDeck", easy), var("Gems", DATA["Gems"]),
-            var("Upgrades", DATA["Upgrades"]), var("PowerUps", DATA["PowerUps"]), var("Regions", DATA["Regions"])]
+            var("Upgrades", DATA["Upgrades"]), var("PowerUps", DATA["PowerUps"]), var("Regions", DATA["Regions"]),
+            var("SessionStarted", 0)]
 
 
 def scene_json(name, objects, instances, events, layers, variables, groups, bg=(0, 0, 0)):

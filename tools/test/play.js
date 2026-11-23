@@ -10,7 +10,7 @@ const fs = require('fs');
 
 const DOCS = path.resolve(process.argv[2] || 'docs');
 const OUT = path.resolve(process.argv[3] || 'test-output');
-const SCENARIO = process.argv[4] || 'phase1'; // phase1 | art | gems | shop | power | phase4
+const SCENARIO = process.argv[4] || 'phase1'; // phase1 | art | gems | shop | power | phase4 | nosave
 const PORT = 8790 + Math.floor(Math.random() * 100);
 fs.mkdirSync(OUT, { recursive: true });
 
@@ -282,7 +282,7 @@ async function shopScenario(browser) {
   const d = JSON.parse(fs.readFileSync(path.join(DOCS, '..', 'data', 'art_formations.json'), 'utf8'));
   const up = JSON.parse(fs.readFileSync(path.join(DOCS, '..', 'data', 'game_data.json'), 'utf8')).Upgrades;
   const idx = artIndex('owner_rubble_01');
-  const { ctx, page, errors } = await openGame(browser, {}, idx, 250, { ClusterChance: 0, GemChance: 0 },
+  const { ctx, page, errors } = await openGame(browser, {}, idx, 250, { ClusterChance: 0, GemChance: 0, SaveProgress: 1 },
     { TotalGems: { value: 300 } });
   const scene = () => page.evaluate(() => { const s = window.__scene; if (!s) return null;
     const v = (n) => s.getVariables().has(n) ? s.getVariables().get(n).getAsNumber() : null;
@@ -565,6 +565,37 @@ async function phase4Scenario(browser) {
   }
 }
 
+// Playtest mode (Tuning.SaveProgress 0): saved progress is wiped at the start of a session, kept within it.
+async function noSaveScenario(browser) {
+  const { ctx, page, errors } = await openGame(browser, {}, artIndex('owner_rubble_01'), 60, { ClusterChance: 0 },
+    { TotalGems: { value: 500 }, Up_Damage: { value: 3 }, Best: { value: 999 }, AimOffset: { value: 160 } });
+  const st = () => page.evaluate(() => { const s = window.__scene, v = (n) => s.getVariables().get(n).getAsNumber();
+    return { lv: v('Lv_Damage'), dmg: v('Damage'), gems: v('TotalGems'), best: v('BestDistance'), offset: v('AimOffset'),
+      state: s.getVariables().get('State').getAsString(), storage: localStorage.getItem('GDJS_TowerRush') }; });
+  await wait(500);
+  const a = await st();
+  check('N1', 'Saved upgrades, gems, best distance and aim offset are ignored and wiped at the start',
+    a.lv === 0 && a.dmg === 1 && a.gems === 0 && a.best === 0 && a.offset === 80 && (!a.storage || a.storage.indexOf('999') < 0),
+    `damage level ${a.lv} (damage ${a.dmg}), gems ${a.gems}, best ${a.best}, aim offset ${a.offset}; storage now ${a.storage}`);
+  await waitFor(page, (s) => s.state === 'Over', 40000, 250);
+  await wait(800);
+  const b = await st();
+  await page.mouse.move(160, 547); await page.mouse.down(); await wait(80); await page.mouse.up();
+  await waitFor(page, (s) => s && s.state === 'Run' && s.time < 2, 5000);
+  await wait(300);
+  const c = await st();
+  check('N2', 'Within the session, a restart keeps the best distance', b.best > 0 && c.best === b.best,
+    `best after the run ${b.best}, after restart ${c.best}`);
+  await page.reload();
+  await waitFor(page, (s) => s && s.frames > 5, 30000);
+  await wait(400);
+  const d = await st();
+  check('N3', 'A new session (page reload) starts from nothing again', d.best === 0 && d.gems === 0,
+    `after reload: best ${d.best}, gems ${d.gems}`);
+  check('N4', 'No script errors (playtest mode)', errors.length === 0, errors.slice(0, 3).join(' | '));
+  await ctx.close();
+}
+
 // Whole-object pixel art formations (tools/import_formations.py): pictures sliced into cells.
 async function artScenario(browser) {
   const names = await (async () => {
@@ -655,6 +686,7 @@ async function artScenario(browser) {
     else if (SCENARIO === 'shop') await shopScenario(browser);
     else if (SCENARIO === 'power') await powerScenario(browser);
     else if (SCENARIO === 'phase4') await phase4Scenario(browser);
+    else if (SCENARIO === 'nosave') await noSaveScenario(browser);
     else { await aimChecks(browser); await phase1(browser); }
   } catch (e) {
     console.error(e);

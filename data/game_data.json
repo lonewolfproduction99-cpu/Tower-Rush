@@ -41,7 +41,8 @@
     "ExplosionRadius": 40,
     "ExplosionDamage": 6,
     "FractureReach": 30,
-    "RegrowTime": 3
+    "RegrowTime": 3,
+    "SaveProgress": 0
   },
   "Materials": {
     "Stone": {

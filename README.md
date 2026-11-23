@@ -189,3 +189,7 @@ Not handled yet: tapping a power button with a second finger while the first hol
 - **Not yet:** a different obstacle set per region. That needs more art and region tags on formations.
 
 **Not done in Phase 4:** general collapse, meaning any floating piece falling when everything under it is shot away. Fracture points give controlled collapse. Full support checking would be costly in native events, so it's left for a later decision.
+
+## Playtest mode (no saving)
+
+`Tuning.SaveProgress` is **0** for now. The first scene of a session wipes the storage `TowerRush`: upgrades, gems, best distance and aim offset. Within the session, restarts and the shop work as usual; after a reload everything starts fresh. Set it to 1 to keep progress between sessions. Test: `node tools/test/play.js docs out nosave` (4 checks); the shop test sets SaveProgress 1 because it seeds saved gems.

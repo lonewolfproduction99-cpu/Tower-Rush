@@ -750,6 +750,11 @@
      "name": "RegrowTime",
      "type": "number",
      "value": 3
+    },
+    {
+     "name": "SaveProgress",
+     "type": "number",
+     "value": 0
     }
    ]
   },
@@ -2199,6 +2204,11 @@
      ]
     }
    ]
+  },
+  {
+   "name": "SessionStarted",
+   "type": "number",
+   "value": 0
   }
  ],
  "layouts": [
@@ -6873,6 +6883,86 @@
       "textR": 0
      },
      "comment": "UPGRADE MANAGER - owns: the upgrade levels Lv_<Upgrade> and the stats Damage, FireRate, Spread, TowerSpeed, PickupRadius (read by the other systems).\nLevels are bought in the Shop scene and saved in storage TowerRush / Up_<Upgrade>. Each stat is the global Upgrades.<Upgrade>.Values[level]; prices are Upgrades.<Upgrade>.Costs[level]."
+    },
+    {
+     "type": "BuiltinCommonInstructions::Comment",
+     "color": {
+      "b": 109,
+      "g": 230,
+      "r": 255,
+      "textB": 0,
+      "textG": 0,
+      "textR": 0
+     },
+     "comment": "Playtest mode: with Tuning.SaveProgress = 0 nothing is kept between sessions. The first scene of a session wipes the storage TowerRush (upgrades, gems, best distance, aim offset); within the session the shop and restarts work as usual. Set SaveProgress to 1 to keep progress."
+    },
+    {
+     "type": "BuiltinCommonInstructions::Standard",
+     "conditions": [
+      {
+       "type": {
+        "inverted": false,
+        "value": "SceneJustBegins"
+       },
+       "parameters": [
+        ""
+       ]
+      },
+      {
+       "type": {
+        "inverted": false,
+        "value": "NumberVariable"
+       },
+       "parameters": [
+        "SessionStarted",
+        "=",
+        "0"
+       ]
+      }
+     ],
+     "actions": [
+      {
+       "type": {
+        "inverted": false,
+        "value": "SetNumberVariable"
+       },
+       "parameters": [
+        "SessionStarted",
+        "=",
+        "1"
+       ]
+      }
+     ],
+     "events": [
+      {
+       "type": "BuiltinCommonInstructions::Standard",
+       "conditions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "BuiltinCommonInstructions::CompareNumbers"
+         },
+         "parameters": [
+          "GlobalVariable(Tuning.SaveProgress)",
+          "=",
+          "0"
+         ]
+        }
+       ],
+       "actions": [
+        {
+         "type": {
+          "inverted": false,
+          "value": "DeleteFichier"
+         },
+         "parameters": [
+          "\"TowerRush\""
+         ]
+        }
+       ],
+       "events": []
+      }
+     ]
     },
     {
      "type": "BuiltinCommonInstructions::Standard",
